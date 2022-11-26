@@ -11441,7 +11441,7 @@ const TankDefinitions = JSON.parse(`[
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
-            "canClaimPentagons" = true,
+            "canClaimPentagons": true,
             "devOnly": false
         },
         "visibilityRateShooting": 0.23,
