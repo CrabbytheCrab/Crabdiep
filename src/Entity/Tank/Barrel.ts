@@ -43,6 +43,7 @@ import Drone2 from "./Projectile/Drone2";
 import AutoTrap from "./Projectile/AutoTrap";
 import Launrocket from "./Projectile/Launrocket";
 import MegaMinion from "./Projectile/MegaMinion";
+import NecromancerTriangle from "./Projectile/NecromancerTriangle";
 /**
  * Class that determines when barrels can shoot, and when they can't.
  */
@@ -67,7 +68,7 @@ export class ShootCycle {
             this.reloadTime = reloadTime;
         }
 
-        const alwaysShoot = (this.barrelEntity.definition.forceFire) || (this.barrelEntity.definition.bullet.type === 'megaminion') || (this.barrelEntity.definition.bullet.type === 'miniminion') || (this.barrelEntity.definition.bullet.type === 'minion') || (this.barrelEntity.definition.bullet.type === 'drone') || (this.barrelEntity.definition.bullet.type === 'necrodrone') || (this.barrelEntity.definition.bullet.type === 'necropentadrone');
+        const alwaysShoot = (this.barrelEntity.definition.forceFire) || (this.barrelEntity.definition.bullet.type === 'megaminion') || (this.barrelEntity.definition.bullet.type === 'miniminion') || (this.barrelEntity.definition.bullet.type === 'minion') || (this.barrelEntity.definition.bullet.type === 'drone') || (this.barrelEntity.definition.bullet.type === 'necrodrone') || (this.barrelEntity.definition.bullet.type === 'necropentadrone') || (this.barrelEntity.definition.bullet.type === 'necrotriangledrone');
 
         if (this.pos >= reloadTime) {
             // When its not shooting dont shoot, unless its a drone
@@ -216,6 +217,9 @@ export default class Barrel extends ObjectEntity {
                 break;
             case 'necropentadrone':
                 new NecromancerPentagon(this, this.tank, tankDefinition, angle);
+                break;
+            case 'necrotriangledrone':
+                new NecromancerTriangle(this, this.tank, tankDefinition, angle);
                 break;
             case 'flame':
                 new Flame(this, this.tank, tankDefinition, angle);

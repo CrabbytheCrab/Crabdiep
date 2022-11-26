@@ -707,27 +707,25 @@ class AutoRocketAddon extends Addon {
         const base = new AutoTurret(owner, {
             angle: 0,
             offset: 0,
-            size: 40,
-            width: 26.25,
+            size: 65,
+            width: 42 * 0.7,
             delay: 0,
-            reload: 2,
-            recoil: 0.75,
-            isTrapezoid: true,
-            trapezoidDirection: 3.141592653589793,
+            reload: 4,
+            recoil: 0,
+            isTrapezoid: false,
+            trapezoidDirection: 0,
             addon: null,
             bullet: {
-                type: "rocket",
+                type: "bullet",
                 sizeRatio: 1,
-                health: 2.5,
-                damage: 0.5,
-                speed: 0.3,
-                scatterRate: 1,
-                lifeLength: 0.75,
+                health: 1,
+                damage: 1.25,
+                speed: 1.5,
+                scatterRate: 0.3,
+                lifeLength: 1,
                 absorbtionFactor: 0.1
             }
         });
-
-        new LauncherAddon(base);
 
         base.turret.style.zIndex += 2;
     }

@@ -36,6 +36,8 @@ import { getTankById, TankDefinition } from "../../Const/TankDefinitions";
 import { DevTank } from "../../Const/DevTankDefinitions";
 import { Inputs } from "../AI";
 import AbstractBoss from "../Boss/AbstractBoss";
+import Triangle from "../Shape/Triangle";
+import NecromancerTriangle from "./Projectile/NecromancerTriangle";
 
 /**
  * Abstract type of entity which barrels can connect to.
@@ -181,9 +183,29 @@ export default class TankBody extends LivingEntity implements BarrelBase {
 
         // TODO(ABC):
         // This is actually not how necromancers claim squares.
+
+
+        if (entity instanceof Triangle && this.definition.flags.canClaimTriangles && this.barrels.length) {
+                // If can claim, pick a random barrel that has drones it can still shoot, then shoot
+                const MAX_DRONES_PER_BARREL = 3 + this.cameraEntity.camera.values.statLevels.values[Stat.Reload];
+                const barrelsToShoot = this.barrels.filter((e) => e.definition.bullet.type === "necrotriangledrone" && e.droneCount < MAX_DRONES_PER_BARREL);
+
+                if (barrelsToShoot.length) {
+                    const barrelToShoot = barrelsToShoot[~~(Math.random()*barrelsToShoot.length)];
+
+                    // No destroy it on the next tick to make it look more like the way diep does it.
+                    entity.destroy(true);
+                    if (entity.deletionAnimation) {
+                        entity.deletionAnimation.frame = 0;
+                        entity.style.opacity = 1;
+                    }
+
+                    const dorito = NecromancerTriangle.fromShape(barrelToShoot, this, this.definition, entity);
+            }
+        }
             if (entity instanceof Pentagon && this.definition.flags.canClaimPentagons && this.barrels.length) {
                 // If can claim, pick a random barrel that has drones it can still shoot, then shoot
-                const MAX_DRONES_PER_BARREL = 3 + (this.cameraEntity.camera.values.statLevels.values[Stat.Reload] * 0.275);
+                const MAX_DRONES_PER_BARREL = 5;
                 const barrelsToShoot = this.barrels.filter((e) => e.definition.bullet.type === "necropentadrone" && e.droneCount < MAX_DRONES_PER_BARREL);
 
                 if (barrelsToShoot.length) {
