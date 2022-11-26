@@ -181,10 +181,28 @@ export default class TankBody extends LivingEntity implements BarrelBase {
 
         // TODO(ABC):
         // This is actually not how necromancers claim squares.
+            if (entity instanceof Pentagon && this.definition.flags.canClaimPentagons && this.barrels.length) {
+                // If can claim, pick a random barrel that has drones it can still shoot, then shoot
+                const MAX_DRONES_PER_BARREL = 3 + (this.cameraEntity.camera.values.statLevels.values[Stat.Reload] * 0.275);
+                const barrelsToShoot = this.barrels.filter((e) => e.definition.bullet.type === "necropentadrone" && e.droneCount < MAX_DRONES_PER_BARREL);
+
+                if (barrelsToShoot.length) {
+                    const barrelToShoot = barrelsToShoot[~~(Math.random()*barrelsToShoot.length)];
+
+                    // No destroy it on the next tick to make it look more like the way diep does it.
+                    entity.destroy(true);
+                    if (entity.deletionAnimation) {
+                        entity.deletionAnimation.frame = 0;
+                        entity.style.opacity = 1;
+                    }
+
+                    const chip = NecromancerPentagon.fromShape(barrelToShoot, this, this.definition, entity);
+            }
+        }
         if (entity instanceof Square && this.definition.flags.canClaimSquares && this.barrels.length) {
             if (this._currentTank === Tank.Caster || Tank.Maleficitor){
                 // If can claim, pick a random barrel that has drones it can still shoot, then shoot
-                const MAX_DRONES_PER_BARREL = 7 + this.cameraEntity.camera.values.statLevels.values[Stat.Reload];
+                const MAX_DRONES_PER_BARREL = 9 + this.cameraEntity.camera.values.statLevels.values[Stat.Reload];
                 const barrelsToShoot = this.barrels.filter((e) => e.definition.bullet.type === "necrodrone" && e.droneCount < MAX_DRONES_PER_BARREL);
 
                 if (barrelsToShoot.length) {
@@ -201,7 +219,7 @@ export default class TankBody extends LivingEntity implements BarrelBase {
                 }
             } else {
                 // If can claim, pick a random barrel that has drones it can still shoot, then shoot
-                const MAX_DRONES_PER_BARREL = 12 + (this.cameraEntity.camera.values.statLevels.values[Stat.Reload]/7 * 8);
+                const MAX_DRONES_PER_BARREL = 9 + (this.cameraEntity.camera.values.statLevels.values[Stat.Reload]);
                 const barrelsToShoot = this.barrels.filter((e) => e.definition.bullet.type === "necrodrone" && e.droneCount < MAX_DRONES_PER_BARREL);
 
                 if (barrelsToShoot.length) {
@@ -215,24 +233,6 @@ export default class TankBody extends LivingEntity implements BarrelBase {
                     }
 
                     const sunchip = NecromancerSquare.fromShape(barrelToShoot, this, this.definition, entity);
-                }
-            }
-            if (entity instanceof Pentagon && this.definition.flags.canClaimPentagons && this.barrels.length) {
-                    // If can claim, pick a random barrel that has drones it can still shoot, then shoot
-                    const MAX_DRONES_PER_BARREL = 3 + (this.cameraEntity.camera.values.statLevels.values[Stat.Reload]/7 * 3.5);
-                    const barrelsToShoot = this.barrels.filter((e) => e.definition.bullet.type === "necropentadrone" && e.droneCount < MAX_DRONES_PER_BARREL);
-    
-                    if (barrelsToShoot.length) {
-                        const barrelToShoot = barrelsToShoot[~~(Math.random()*barrelsToShoot.length)];
-    
-                        // No destroy it on the next tick to make it look more like the way diep does it.
-                        entity.destroy(true);
-                        if (entity.deletionAnimation) {
-                            entity.deletionAnimation.frame = 0;
-                            entity.style.opacity = 1;
-                        }
-    
-                        const chip = NecromancerPentagon.fromShape(barrelToShoot, this, this.definition, entity);
                 }
             }
         }  

@@ -34,7 +34,7 @@ export const AutoTurretDefinition: BarrelDefinition = {
     width: 42 * 0.7,
     delay: 0.01,
     reload: 1,
-    recoil: 0.3,
+    recoil: 0,
     isTrapezoid: false,
     trapezoidDirection: 0,
     addon: null,
