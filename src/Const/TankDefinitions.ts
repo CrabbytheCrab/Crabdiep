@@ -3376,7 +3376,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Sepulcher",
         "upgradeMessage": "Kill squares to possess them",
         "levelRequirement": 30,
-        "upgrades": [72, 77],
+        "upgrades": [72, 77, 100],
         "flags": {
             "invisibility": false,
             "canClaimSquares": true,
@@ -11441,7 +11441,7 @@ const TankDefinitions = JSON.parse(`[
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
-            "canClaimPentagons" = true
+            "canClaimPentagons" = true,
             "devOnly": false
         },
         "visibilityRateShooting": 0.23,
@@ -11459,7 +11459,7 @@ const TankDefinitions = JSON.parse(`[
             {
                 "angle": 0.6283185307179586,
                 "offset": 0,
-                "size": 70,
+                "size": 80,
                 "width": 42,
                 "delay": 1,
                 "reload": 18,
@@ -11483,7 +11483,7 @@ const TankDefinitions = JSON.parse(`[
             {
                 "angle": -0.6283185307179586,
                 "offset": 0,
-                "size": 70,
+                "size": 80,
                 "width": 42,
                 "delay": 1,
                 "reload": 18,
@@ -11507,7 +11507,7 @@ const TankDefinitions = JSON.parse(`[
             {
                 "angle": 1.8849555921538759,
                 "offset": 0,
-                "size": 70,
+                "size": 80,
                 "width": 42,
                 "delay": 0.5,
                 "reload": 18,
@@ -11531,7 +11531,7 @@ const TankDefinitions = JSON.parse(`[
             {
                 "angle": -1.8849555921538759,
                 "offset": 0,
-                "size": 70,
+                "size": 80,
                 "width": 42,
                 "delay": 0.5,
                 "reload": 18,
@@ -11557,7 +11557,7 @@ const TankDefinitions = JSON.parse(`[
                 "offset": 0,
                 "size": 70,
                 "width": 42,
-                "delay": 0.5,
+                "delay": 1,
                 "reload": 18,
                 "recoil": 1,
                 "isTrapezoid": true,
