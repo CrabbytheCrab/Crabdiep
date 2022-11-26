@@ -219,7 +219,7 @@ export default class TankBody extends LivingEntity implements BarrelBase {
             }
             if (entity instanceof Pentagon && this.definition.flags.canClaimPentagons && this.barrels.length) {
                     // If can claim, pick a random barrel that has drones it can still shoot, then shoot
-                    const MAX_DRONES_PER_BARREL = 5 + (this.cameraEntity.camera.values.statLevels.values[Stat.Reload]/7 * 5);
+                    const MAX_DRONES_PER_BARREL = 3 + (this.cameraEntity.camera.values.statLevels.values[Stat.Reload]/7 * 3.5);
                     const barrelsToShoot = this.barrels.filter((e) => e.definition.bullet.type === "necropentadrone" && e.droneCount < MAX_DRONES_PER_BARREL);
     
                     if (barrelsToShoot.length) {

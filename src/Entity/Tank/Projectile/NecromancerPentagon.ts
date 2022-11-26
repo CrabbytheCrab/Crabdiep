@@ -43,7 +43,7 @@ export default class NecromancerPentagon extends Drone {
         // this.physics.values.size = 55 * Math.SQRT1_2 * bulletDefinition.sizeRatio;
 
         // if (shape.isShiny) this.health.values.maxHealth = this.health.values.health *= 10
-        this.style.values.color = tank.relations.values.team?.team?.values.teamColor || Colors.NecromancerPentagon;
+        this.style.values.color = tank.relations.values.team?.team?.values.teamColor || Colors.NecromancerSquare;
         if (this.physics.values.objectFlags & ObjectFlags.noOwnTeamCollision) this.physics.values.objectFlags ^= ObjectFlags.noOwnTeamCollision;
         this.physics.values.objectFlags |= ObjectFlags.onlySameOwnerCollision;
 
