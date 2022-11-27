@@ -718,7 +718,7 @@ class AutoRocketAddon extends Addon {
             bullet: {
                 type: "bullet",
                 sizeRatio: 1,
-                health: 1,
+                health: 0.85,
                 damage: 1.25,
                 speed: 1.5,
                 scatterRate: 0.3,

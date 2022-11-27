@@ -187,7 +187,7 @@ export default class TankBody extends LivingEntity implements BarrelBase {
 
         if (entity instanceof Triangle && this.definition.flags.canClaimTriangles && this.barrels.length) {
                 // If can claim, pick a random barrel that has drones it can still shoot, then shoot
-                const MAX_DRONES_PER_BARREL = 3 + this.cameraEntity.camera.values.statLevels.values[Stat.Reload];
+                const MAX_DRONES_PER_BARREL = 2 + (this.cameraEntity.camera.values.statLevels.values[Stat.Reload]/1.85);
                 const barrelsToShoot = this.barrels.filter((e) => e.definition.bullet.type === "necrotriangledrone" && e.droneCount < MAX_DRONES_PER_BARREL);
 
                 if (barrelsToShoot.length) {

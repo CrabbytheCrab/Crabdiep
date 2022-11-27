@@ -3237,7 +3237,7 @@ const TankDefinitions = JSON.parse(`[
                 "angle": 0,
                 "offset": 0,
                 "size": 60,
-                "width": 48.3,
+                "width": 54.6,
                 "delay": 0,
                 "reload": 3,
                 "recoil": 1,
@@ -3246,13 +3246,13 @@ const TankDefinitions = JSON.parse(`[
                 "addon": "trapLauncher",
                 "bullet": {
                     "type": "trap",
-                    "sizeRatio": 0.8,
+                    "sizeRatio": 1,
                     "health": 2.5,
                     "damage": 1.3,
                     "speed": 2,
                     "scatterRate": 1,
-                    "lifeLength": 8,
-                    "absorbtionFactor": 1
+                    "lifeLength": 6,
+                    "absorbtionFactor": 0.6
                 }
             }
         ],
@@ -7812,7 +7812,7 @@ const TankDefinitions = JSON.parse(`[
                 "angle": 0,
                 "offset": 0,
                 "size": 60,
-                "width": 48.3,
+                "width": 54.6,
                 "delay": 0,
                 "reload": 3,
                 "recoil": 1,
@@ -7821,13 +7821,13 @@ const TankDefinitions = JSON.parse(`[
                 "addon": "trapLauncher",
                 "bullet": {
                     "type": "trap",
-                    "sizeRatio": 0.8,
+                    "sizeRatio": 1,
                     "health": 2.5,
                     "damage": 1.3,
                     "speed": 2,
                     "scatterRate": 1,
-                    "lifeLength": 8,
-                    "absorbtionFactor": 1
+                    "lifeLength": 6,
+                    "absorbtionFactor": 0.6
                 }
             }
         ],
@@ -9523,14 +9523,14 @@ const TankDefinitions = JSON.parse(`[
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
                 "addon": "minionLauncher",
-                "droneCount": 4,
-                "canControlDrones": true,
+                "droneCount": 3,
+                "canControlDrones": false,
                 "bullet": {
                     "type": "miniminion",
                     "sizeRatio": 1,
                     "health": 1.5,
-                    "damage": 0.7,
-                    "speed": 0.56,
+                    "damage": 1,
+                    "speed": 0.7,
                     "scatterRate": 0,
                     "lifeLength": -1,
                     "absorbtionFactor": 1
@@ -9547,14 +9547,14 @@ const TankDefinitions = JSON.parse(`[
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
                 "addon": "minionLauncher",
-                "droneCount": 4,
+                "droneCount": 3,
                 "canControlDrones": false,
                 "bullet": {
                     "type": "miniminion",
                     "sizeRatio": 1,
                     "health": 1.5,
-                    "damage": 0.7,
-                    "speed": 0.56,
+                    "damage": 1,
+                    "speed": 0.7,
                     "scatterRate": 0,
                     "lifeLength": -1,
                     "absorbtionFactor": 1
@@ -9571,14 +9571,14 @@ const TankDefinitions = JSON.parse(`[
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
                 "addon": "minionLauncher",
-                "droneCount": 4,
+                "droneCount": 3,
                 "canControlDrones": false,
                 "bullet": {
                     "type": "miniminion",
                     "sizeRatio": 1,
                     "health": 1.5,
-                    "damage": 0.7,
-                    "speed": 0.56,
+                    "damage": 1,
+                    "speed": 0.7,
                     "scatterRate": 0,
                     "lifeLength": -1,
                     "absorbtionFactor": 1
@@ -9875,7 +9875,7 @@ const TankDefinitions = JSON.parse(`[
                 "angle": 0,
                 "offset": 0,
                 "size": 60,
-                "width": 54.6,
+                "width": 69.888,
                 "delay": 0,
                 "reload": 4,
                 "recoil": 1,
@@ -9884,13 +9884,13 @@ const TankDefinitions = JSON.parse(`[
                 "addon": "trapLauncher",
                 "bullet": {
                     "type": "trap",
-                    "sizeRatio": 1.28,
+                    "sizeRatio": 1,
                     "health": 4,
                     "damage": 2.5,
-                    "speed": 2,
+                    "speed": 1.5,
                     "scatterRate": 1,
-                    "lifeLength": 8,
-                    "absorbtionFactor": 1
+                    "lifeLength": 5,
+                    "absorbtionFactor": 0.3
                 }
             }
         ],
@@ -9956,22 +9956,22 @@ const TankDefinitions = JSON.parse(`[
                 "angle": 0,
                 "offset": 0,
                 "size": 80,
-                "width": 48.3,
+                "width": 54.6,
                 "delay": 0,
-                "reload": 4,
+                "reload": 5,
                 "recoil": 1,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
                 "addon": "engitrapLauncher",
                 "bullet": {
                     "type": "autotrap",
-                    "sizeRatio": 0.8,
+                    "sizeRatio": 1,
                     "health": 2.5,
                     "damage": 1.3,
                     "speed": 1.5,
                     "scatterRate": 1,
                     "lifeLength": 3,
-                    "absorbtionFactor": 1
+                    "absorbtionFactor": 0.6
                 }
             }
         ],
@@ -10037,7 +10037,7 @@ const TankDefinitions = JSON.parse(`[
                 "angle": 0,
                 "offset": 0,
                 "size": 60,
-                "width": 48.3,
+                "width": 54.6,
                 "delay": 0,
                 "reload": 3,
                 "recoil": 1,
@@ -10046,13 +10046,13 @@ const TankDefinitions = JSON.parse(`[
                 "addon": "trapLauncher",
                 "bullet": {
                     "type": "trap",
-                    "sizeRatio": 0.8,
+                    "sizeRatio": 1,
                     "health": 2.5,
                     "damage": 1.3,
                     "speed": 2,
                     "scatterRate": 1,
-                    "lifeLength": 8,
-                    "absorbtionFactor": 1
+                    "lifeLength": 6,
+                    "absorbtionFactor": 0.6
                 }
             },
             {
@@ -10060,14 +10060,14 @@ const TankDefinitions = JSON.parse(`[
                 "offset": 0,
                 "size": 70,
                 "width": 42,
-                "delay": 0,
+                "delay": 0.375,
                 "reload": 6,
                 "recoil": 1,
                 "isTrapezoid": true,
                 "trapezoidDirection": 0,
                 "addon": null,
                 "droneCount": 2,
-                "canControlDrones": false,
+                "canControlDrones": true,
                 "bullet": {
                     "type": "drone",
                     "sizeRatio": 1,
@@ -10084,14 +10084,14 @@ const TankDefinitions = JSON.parse(`[
                 "offset": 0,
                 "size": 70,
                 "width": 42,
-                "delay": 0,
+                "delay": 0.375,
                 "reload": 6,
                 "recoil": 1,
                 "isTrapezoid": true,
                 "trapezoidDirection": 0,
                 "addon": null,
                 "droneCount": 2,
-                "canControlDrones": false,
+                "canControlDrones": true,
                 "bullet": {
                     "type": "drone",
                     "sizeRatio": 1,
@@ -11616,7 +11616,7 @@ const TankDefinitions = JSON.parse(`[
     {
         "id": 101,
         "name": "Animator",
-        "upgradeMessage": "",
+        "upgradeMessage": "Kill triangles to possess them",
         "levelRequirement": 45,
         "upgrades": [],
         "flags": {
@@ -11656,7 +11656,32 @@ const TankDefinitions = JSON.parse(`[
                     "sizeRatio": 1,
                     "health": 2,
                     "damage": 0.62,
-                    "speed": 0.62,
+                    "speed": 0.8,
+                    "scatterRate": 0,
+                    "lifeLength": -1,
+                    "absorbtionFactor": 1
+                } 
+            },
+            {
+                "angle": -1.0471975511965976,
+                "offset": 0,
+                "size": 65,
+                "width": 42,
+                "delay": 0.5,
+                "reload": 10,
+                "recoil": 1,
+                "isTrapezoid": true,
+                "trapezoidDirection": 0,
+                "addon": null,
+                "droneCount": 0,
+                "canControlDrones": true,
+                 
+                "bullet": {
+                    "type": "necrotriangledrone",
+                    "sizeRatio": 1,
+                    "health": 2,
+                    "damage": 0.62,
+                    "speed": 0.8,
                     "scatterRate": 0,
                     "lifeLength": -1,
                     "absorbtionFactor": 1
@@ -11685,31 +11710,6 @@ const TankDefinitions = JSON.parse(`[
                     "lifeLength": -1,
                     "absorbtionFactor": 1
                 }
-            },
-            {
-                "angle": -1.0471975511965976,
-                "offset": 0,
-                "size": 65,
-                "width": 42,
-                "delay": 0.5,
-                "reload": 10,
-                "recoil": 1,
-                "isTrapezoid": true,
-                "trapezoidDirection": 0,
-                "addon": null,
-                "droneCount": 0,
-                "canControlDrones": true,
-                 
-                "bullet": {
-                    "type": "drone",
-                    "sizeRatio": 1,
-                    "health": 2,
-                    "damage": 0.62,
-                    "speed": 0.62,
-                    "scatterRate": 0,
-                    "lifeLength": -1,
-                    "absorbtionFactor": 1
-                } 
             }
         ],
         "stats": [
