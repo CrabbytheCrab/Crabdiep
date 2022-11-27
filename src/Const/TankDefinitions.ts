@@ -847,7 +847,7 @@ const TankDefinitions = JSON.parse(`[
                 "max": 7
             },
             {
-                "name": "Trap Penetration",
+                "name": "Trap Health",
                 "max": 7
             },
             {
@@ -3189,7 +3189,7 @@ const TankDefinitions = JSON.parse(`[
                 "max": 7
             },
             {
-                "name": "Trap Penetration",
+                "name": "Trap Health",
                 "max": 7
             },
             {
@@ -3270,7 +3270,7 @@ const TankDefinitions = JSON.parse(`[
                 "max": 7
             },
             {
-                "name": "Trap Penetration",
+                "name": "Trap Health",
                 "max": 7
             },
             {
@@ -3351,7 +3351,7 @@ const TankDefinitions = JSON.parse(`[
                 "max": 7
             },
             {
-                "name": "Trap Penetration",
+                "name": "Trap Health",
                 "max": 7
             },
             {
@@ -4001,7 +4001,7 @@ const TankDefinitions = JSON.parse(`[
                 "max": 7
             },
             {
-                "name": "Trap Penetration",
+                "name": "Trap Health",
                 "max": 7
             },
             {
@@ -7845,7 +7845,7 @@ const TankDefinitions = JSON.parse(`[
                 "max": 7
             },
             {
-                "name": "Trap Penetration",
+                "name": "Trap Health",
                 "max": 7
             },
             {
@@ -9724,7 +9724,7 @@ const TankDefinitions = JSON.parse(`[
                 "max": 7
             },
             {
-                "name": "Trap Penetration",
+                "name": "Trap Health",
                 "max": 7
             },
             {
@@ -9827,7 +9827,7 @@ const TankDefinitions = JSON.parse(`[
                 "max": 7
             },
             {
-                "name": "Trap Penetration",
+                "name": "Trap Health",
                 "max": 7
             },
             {
@@ -9908,7 +9908,7 @@ const TankDefinitions = JSON.parse(`[
                 "max": 7
             },
             {
-                "name": "Trap Penetration",
+                "name": "Trap Health",
                 "max": 7
             },
             {
@@ -9989,7 +9989,7 @@ const TankDefinitions = JSON.parse(`[
                 "max": 7
             },
             {
-                "name": "Trap Penetration",
+                "name": "Trap Health",
                 "max": 7
             },
             {
@@ -10036,7 +10036,7 @@ const TankDefinitions = JSON.parse(`[
             {
                 "angle": 0,
                 "offset": 0,
-                "size": 60,
+                "size": 55,
                 "width": 54.6,
                 "delay": 0,
                 "reload": 3,
@@ -10118,7 +10118,7 @@ const TankDefinitions = JSON.parse(`[
                 "max": 7
             },
             {
-                "name": "Weapon Penetration",
+                "name": "Weapon Health",
                 "max": 7
             },
             {
@@ -11022,7 +11022,7 @@ const TankDefinitions = JSON.parse(`[
                 "max": 7
             },
             {
-                "name": "Trap Penetration",
+                "name": "Trap Health",
                 "max": 7
             },
             {
@@ -11408,15 +11408,15 @@ const TankDefinitions = JSON.parse(`[
                 "max": 7
             },
             {
-                "name": "Bullet Damage",
+                "name": "Trap Damage",
                 "max": 7
             },
             {
-                "name": "Bullet Penetration",
+                "name": "Trap Health",
                 "max": 7
             },
             {
-                "name": "Bullet Speed",
+                "name": "Trap Speed",
                 "max": 7
             },
             {
@@ -11588,15 +11588,15 @@ const TankDefinitions = JSON.parse(`[
                 "max": 7
             },
             {
-                "name": "Drone Damage",
+                "name": "Weapon Damage",
                 "max": 7
             },
             {
-                "name": "Drone Health",
+                "name": "Weapon Penetration",
                 "max": 7
             },
             {
-                "name": "Drone Speed",
+                "name": "Weapon Speed",
                 "max": 7
             },
             {
