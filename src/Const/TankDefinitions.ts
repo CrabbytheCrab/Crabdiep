@@ -2387,7 +2387,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Auto 3",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [39, 60, 62,63, 70, 73, 76, 99],
+        "upgrades": [39, 60, 62,63, 70, 73, 76],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -9649,7 +9649,7 @@ const TankDefinitions = JSON.parse(`[
                 "size": 60,
                 "width": 42,
                 "delay": 0,
-                "reload": 1.5,
+                "reload": 3,
                 "recoil": 1,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
@@ -9661,7 +9661,7 @@ const TankDefinitions = JSON.parse(`[
                     "damage": 1,
                     "speed": 2,
                     "scatterRate": 1,
-                    "lifeLength": 3.2,
+                    "lifeLength": 8,
                     "absorbtionFactor": 1
                 }
             },
@@ -9671,7 +9671,7 @@ const TankDefinitions = JSON.parse(`[
                 "size": 60,
                 "width": 42,
                 "delay": 0,
-                "reload": 1.5,
+                "reload": 3,
                 "recoil": 1,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
@@ -9683,7 +9683,7 @@ const TankDefinitions = JSON.parse(`[
                     "damage": 1,
                     "speed": 2,
                     "scatterRate": 1,
-                    "lifeLength": 3.2,
+                    "lifeLength": 8,
                     "absorbtionFactor": 1
                 }
             },
@@ -9693,7 +9693,7 @@ const TankDefinitions = JSON.parse(`[
                 "size": 60,
                 "width": 42,
                 "delay": 0,
-                "reload": 1.5,
+                "reload": 3,
                 "recoil": 1,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
@@ -9705,7 +9705,7 @@ const TankDefinitions = JSON.parse(`[
                     "damage": 1,
                     "speed": 2,
                     "scatterRate": 1,
-                    "lifeLength": 3.2,
+                    "lifeLength": 8,
                     "absorbtionFactor": 1
                 }
             }
@@ -9774,7 +9774,7 @@ const TankDefinitions = JSON.parse(`[
                 "size": 80,
                 "width": 42,
                 "delay": 0,
-                "reload": 2,
+                "reload": 1.5,
                 "recoil": 0.75,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
@@ -9782,12 +9782,12 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "trap",
                     "sizeRatio": 0.8,
-                    "health": 1.5,
-                    "damage": 1,
-                    "speed": 2,
+                    "health": 0.75,
+                    "damage": 1.25,
+                    "speed": 2.5,
                     "scatterRate": 1,
-                    "lifeLength": 3,
-                    "absorbtionFactor": 1
+                    "lifeLength": 1.5,
+                    "absorbtionFactor": 0.5
                 }
             },
             {
@@ -9796,7 +9796,7 @@ const TankDefinitions = JSON.parse(`[
                 "size": 60,
                 "width": 42,
                 "delay": 0.5,
-                "reload": 2,
+                "reload": 1.5,
                 "recoil": 0.75,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
@@ -9804,12 +9804,12 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "trap",
                     "sizeRatio": 0.8,
-                    "health": 1.5,
-                    "damage": 1,
-                    "speed": 2,
+                    "health": 0.75,
+                    "damage": 1.25,
+                    "speed": 2.5,
                     "scatterRate": 0,
-                    "lifeLength": 3,
-                    "absorbtionFactor": 1
+                    "lifeLength": 1.5,
+                    "absorbtionFactor": 0.5
                 }
             }
         ],
@@ -11377,7 +11377,7 @@ const TankDefinitions = JSON.parse(`[
     },
     {
         "id": 99,
-        "name": "Auto 4",
+        "name": "Builder",
         "upgradeMessage": "",
         "levelRequirement": 45,
         "upgrades": [],

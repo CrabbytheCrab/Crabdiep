@@ -340,7 +340,7 @@ export default class TankBody extends LivingEntity implements BarrelBase {
             }
 
             // Regen
-            this.regenPerTick = (this.health.values.maxHealth * 4 * this.cameraEntity.camera.values.statLevels.values[Stat.HealthRegen] + this.health.values.maxHealth) / 20000;
+            this.regenPerTick = (this.health.values.maxHealth * 4 * (this.cameraEntity.camera.values.statLevels.values[Stat.HealthRegen] * 1.25)+ this.health.values.maxHealth) / 25000;
 
             // Reload
             this.reloadTime = 15 * Math.pow(0.914, this.cameraEntity.camera.values.statLevels.values[Stat.Reload]);

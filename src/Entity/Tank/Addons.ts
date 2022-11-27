@@ -126,7 +126,7 @@ export class Addon {
         for (let i = 0; i < count; ++i) {
             const base = new AutoTurret(rotator, AutoTurretStalkDefinition);
             base.influencedByOwnerInputs = true;
-
+            base.ai.viewRange = 2000
             const angle = base.ai.inputs.mouse.angle = PI2 * (i / count);
             base.ai.passiveRotation = rotPerTick;
             base.ai.targetFilter = (targetPos) => {
@@ -163,7 +163,7 @@ export class Addon {
 
     protected createAutoTrapTurrets(count: number) {
         const rotPerTick = AI.PASSIVE_ROTATION;
-        const MAX_ANGLE_RANGE = PI2 / 4; // keep within 90º each side
+        const MAX_ANGLE_RANGE = PI2 / 3; // keep within 90º each side
 
         const rotator = this.createGuard(1, .1, 0, rotPerTick) as GuardObject & { turrets: AutoTurret[] };
         rotator.turrets = [];
@@ -173,7 +173,8 @@ export class Addon {
         if (rotator.style.values.styleFlags & StyleFlags.visible) rotator.style.values.styleFlags ^= StyleFlags.visible;
 
         for (let i = 0; i < count; ++i) {
-            const base = new AutoTurret(rotator, AutoTurretTrapDefinition);
+            const base = new AutoTurret(rotator, AutoTurretTrapDefinition); 
+            base.ai.viewRange = 0
             base.influencedByOwnerInputs = true;
 
             const angle = base.ai.inputs.mouse.angle = PI2 * (i / count);
@@ -297,7 +298,7 @@ const AutoTurretStalkDefinition: BarrelDefinition = {
         type: "bullet",
         health: 1,
         damage: 0.4,
-        speed: 1.7,
+        speed: 1.5,
         scatterRate: 0.3,
         lifeLength: 1.2,
         sizeRatio: 1,
@@ -331,21 +332,21 @@ const AutoTurretMegaDefinition: BarrelDefinition = {
 const AutoTurretTrapDefinition: BarrelDefinition = {
     angle: 0,
     offset: 0,
-    size: 40,
+    size: 43,
     width: 45 * 0.7,
     delay: 0.01,
-    reload: 1.5,
+    reload: 3,
     recoil: 0,
     isTrapezoid: false,
     trapezoidDirection: 0,
     addon: "trapLauncher",
     bullet: {
         type: "trap",
-        health: 1.25,
-        damage: 0.75,
+        health: 1.5,
+        damage: 1,
         speed: 2.5,
         scatterRate: 1,
-        lifeLength: 1.25,
+        lifeLength: 2,
         sizeRatio: 0.8,
         absorbtionFactor: 0.75
     }
