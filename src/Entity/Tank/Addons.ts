@@ -574,20 +574,20 @@ class AutoSmasherAddon extends Addon {
             size: 60,
             width: 26.25,
             delay: 0,
-            reload: 2,
-            recoil: 0.75,
+            reload: 1.5,
+            recoil: 0,
             isTrapezoid: false,
             trapezoidDirection: 0,
             addon: null,
             bullet: {
                 type: "bullet",
                 health: 1,
-                damage: 0.6,
+                damage: 0.8,
                 speed: 1.2,
                 scatterRate: 1,
                 lifeLength: 1,
                 sizeRatio: 1,
-                absorbtionFactor: 1
+                absorbtionFactor: 0.5
             }
         });
     }

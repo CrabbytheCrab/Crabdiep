@@ -26,6 +26,7 @@ import { BarrelBase } from "../TankBody";
 import { DevTank } from "../../../Const/DevTankDefinitions";
 import AutoTurret from "../AutoTurret";
 import { Entity } from "../../../Native/Entity";
+import { normalizeAngle } from "../../../util";
 /**
  * The trap class represents the trap (projectile) entity in diep.
  */
@@ -71,7 +72,6 @@ export default class Trap extends Bullet implements BarrelBase {
         //atuo.ai.passiveRotation = this.movementAngle
         atuo.style.values.styleFlags |= StyleFlags.aboveParent;
         atuo.ai.viewRange = 640
-
         this.baseSpeed = (barrel.bulletAccel / 2) + 30 - Math.random() * barrel.definition.bullet.scatterRate;
         this.baseAccel = 0;
         this.physics.values.sides = 3;
