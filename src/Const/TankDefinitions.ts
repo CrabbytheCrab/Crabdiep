@@ -2284,7 +2284,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Trap Guard",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [54,57,61,98],
+        "upgrades": [54,57,61,98,85],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -3215,7 +3215,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Big Trapper",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [83, 84, 85, 63],
+        "upgrades": [83, 84, 63],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -8867,7 +8867,7 @@ const TankDefinitions = JSON.parse(`[
         "upgrades": [],
         "flags": {
             "invisibility": false,
-            "zoomAbility": true,
+            "zoomAbility": false,
             "devOnly": false
         },
         "visibilityRateShooting": 0.23,
@@ -10036,23 +10036,23 @@ const TankDefinitions = JSON.parse(`[
             {
                 "angle": 0,
                 "offset": 0,
-                "size": 55,
-                "width": 54.6,
+                "size": 60,
+                "width": 42,
                 "delay": 0,
-                "reload": 3,
+                "reload": 2.25,
                 "recoil": 1,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
                 "addon": "trapLauncher",
                 "bullet": {
                     "type": "trap",
-                    "sizeRatio": 1,
-                    "health": 2.5,
-                    "damage": 1.3,
+                    "sizeRatio": 0.8,
+                    "health": 2,
+                    "damage": 1,
                     "speed": 2,
                     "scatterRate": 1,
-                    "lifeLength": 6,
-                    "absorbtionFactor": 0.6
+                    "lifeLength": 8,
+                    "absorbtionFactor": 1
                 }
             },
             {
