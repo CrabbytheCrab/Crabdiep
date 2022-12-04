@@ -2445,7 +2445,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Destroyer",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [64, 59 , 65, 75, 94],
+        "upgrades": [64, 59 ,68, 65, 75, 94],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -8387,11 +8387,11 @@ const TankDefinitions = JSON.parse(`[
                 "trapezoidDirection": 0,
                 "addon": null,
                 "bullet": {
-                    "type": "skimmer",
+                    "type": "croc",
                     "sizeRatio": 1,
                     "health": 3,
                     "damage": 1,
-                    "speed": 0.5,
+                    "speed": 0.4,
                     "scatterRate": 0.3,
                     "lifeLength": 1.3,
                     "absorbtionFactor": 0.1

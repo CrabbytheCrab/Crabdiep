@@ -29,23 +29,23 @@ import { BarrelBase } from "../TankBody";
  * Barrel definition for the skimmer skimmer's barrel.
  */
 const CrocSkimmerBarrelDefinition: BarrelDefinition = {
-    angle: Math.PI / 2,
+    angle: 2.6179938779914944,
     offset: 0,
     size: 70,
     width: 42,
     delay: 0,
     reload: 0.5,
-    recoil: 0,
+    recoil: 4.5,
     isTrapezoid: false,
     trapezoidDirection: 0,
     addon: null,
     bullet: {
         type: "bullet",
-        health: 0.3,
+        health: 0.4,
         damage: 3 / 5,
-        speed: .2,
+        speed: 1,
         scatterRate: 1,
-        lifeLength: 0.25,
+        lifeLength: 0.4,
         sizeRatio: 1,
         absorbtionFactor: 1
     }
@@ -63,7 +63,7 @@ export default class CrocSkimmer extends Bullet implements BarrelBase {
     /** The camera entity (used as team) of the croc skimmer. */
     public cameraEntity: Entity;
     /** The reload time of the skimmer's barrel. */
-    public reloadTime = 15;
+    public reloadTime = 1;
     /** The inputs for when to shoot or not. (croc skimmer) */
     public inputs: Inputs;
 
@@ -79,7 +79,7 @@ export default class CrocSkimmer extends Bullet implements BarrelBase {
 
         const s1 = new Barrel(this, {...CrocSkimmerBarrelDefinition});
         const s2Definition = {...CrocSkimmerBarrelDefinition};
-        s2Definition.angle += Math.PI
+        s2Definition.angle = 3.665191429188092
         const s2 = new Barrel(this, s2Definition);
 
         s1.styleData.values.color = this.styleData.values.color;
