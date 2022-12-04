@@ -101,6 +101,3 @@ export const defaultAccessLevel: AccessLevel = AccessLevel.BetaAccess;
 export const devTokens: Record<string, AccessLevel> = {
     "*": defaultAccessLevel
 }
-
-/** Should always be set to the url (UNNECESSARY UNLESS DISCORD INTEGRATION) */
-export const origin: string = process.env.ORIGIN_URL || "http://localhost:8080";

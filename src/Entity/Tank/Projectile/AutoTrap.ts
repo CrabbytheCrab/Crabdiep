@@ -20,7 +20,7 @@ import Barrel from "../Barrel";
 import Bullet from "./Bullet";
 import { Inputs } from "../../AI";
 import { InputFlags } from "../../../Const/Enums";
-import { ObjectFlags, StyleFlags } from "../../../Const/Enums";
+import { PhysicsFlags, StyleFlags } from "../../../Const/Enums";
 import {BarrelDefinition, TankDefinition } from "../../../Const/TankDefinitions";
 import { BarrelBase } from "../TankBody";
 import { DevTank } from "../../../Const/DevTankDefinitions";
@@ -45,7 +45,7 @@ export default class Trap extends Bullet implements BarrelBase {
 
         this.cameraEntity = tank.cameraEntity;
 
-        this.sizeFactor = this.physics.values.size / 50;
+        this.sizeFactor = this.physicsData.values.size / 50;
         const atuo = this.turreta = new AutoTurret(this, {
             angle: 0,
             offset: 0,
@@ -68,32 +68,32 @@ export default class Trap extends Bullet implements BarrelBase {
                 absorbtionFactor: 0.1
             }
         });
-        atuo.position.values.angle = shootAngle
+        atuo.positionData.values.angle = shootAngle
         //atuo.ai.passiveRotation = this.movementAngle
-        atuo.style.values.styleFlags |= StyleFlags.aboveParent;
+        atuo.styleData.values.flags |= StyleFlags.showsAboveParent;
         atuo.ai.viewRange = 640
         this.baseSpeed = (barrel.bulletAccel / 2) + 30 - Math.random() * barrel.definition.bullet.scatterRate;
         this.baseAccel = 0;
-        this.physics.values.sides = 3;
-        if (this.physics.values.objectFlags & ObjectFlags.noOwnTeamCollision) this.physics.values.objectFlags ^= ObjectFlags.noOwnTeamCollision;
-        this.physics.values.objectFlags |= ObjectFlags.onlySameOwnerCollision;
-        this.style.values.styleFlags |=  StyleFlags.star;
-        this.style.values.styleFlags &= ~StyleFlags.noDmgIndicator;
+        this.physicsData.values.sides = 3;
+        if (this.physicsData.values.flags & PhysicsFlags.noOwnTeamCollision) this.physicsData.values.flags ^= PhysicsFlags.noOwnTeamCollision;
+        this.physicsData.values.flags |= PhysicsFlags.onlySameOwnerCollision;
+        this.styleData.values.flags |=  StyleFlags.isStar;
+        this.styleData.values.flags &= ~StyleFlags.hasNoDmgIndicator;
 
         this.collisionEnd = this.lifeLength >> 3;
         this.lifeLength = (600 * barrel.definition.bullet.lifeLength) >> 3;
         if (tankDefinition && tankDefinition.id === DevTank.Bouncy) this.collisionEnd = this.lifeLength - 1;
         
         // Check this?
-        this.position.values.angle = Math.random() * Math.PI * 2;
+        this.positionData.values.angle = Math.random() * Math.PI * 2;
     }
 
     public tick(tick: number) {
         super.tick(tick);
         this.reloadTime = this.tank.reloadTime;
         if (tick - this.spawnTick === this.collisionEnd) {
-            if (this.physics.values.objectFlags & ObjectFlags.onlySameOwnerCollision) this.physics.objectFlags ^= ObjectFlags.onlySameOwnerCollision;
-            this.physics.values.objectFlags |= ObjectFlags.noOwnTeamCollision;
+            if (this.physicsData.values.flags & PhysicsFlags.onlySameOwnerCollision) this.physicsData.flags ^= PhysicsFlags.onlySameOwnerCollision;
+            this.physicsData.values.flags |= PhysicsFlags.noOwnTeamCollision;
         }
     }
 }

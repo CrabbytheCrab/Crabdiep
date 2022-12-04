@@ -20,13 +20,11 @@ import ArenaEntity from "../../Native/Arena";
 import GameServer from "../../Game";
 
 import Crasher from "./Crasher";
-import { Sentry } from "./Sentry";
 import Pentagon from "./Pentagon";
 import Triangle from "./Triangle";
 import Square from "./Square";
 import AbstractShape from "./AbstractShape";
-import Guardian from "../../Entity/Boss/Guardian";
-import AbstractBoss from "../Boss/AbstractBoss";
+import { Sentry } from "./Sentry";
 
 /**
  * Used to balance out shape count in the arena, as well
@@ -37,13 +35,7 @@ export default class ShapeManager {
     protected game: GameServer;
     /** Arena whose shapes are being managed */
     protected arena: ArenaEntity;
-	public boss: AbstractBoss | null = null;
-    public spawnBoss() {
-        const TBoss = [Guardian]
-            [~~(Math.random() * 1)];
-        
-        this.boss = new TBoss(this.game);
-    }
+
     public constructor(arena: ArenaEntity) {
         this.arena = arena;
         this.game = arena.game;
@@ -55,60 +47,61 @@ export default class ShapeManager {
      */
     protected spawnShape(): AbstractShape {
         let shape: AbstractShape;
-        let boss: AbstractBoss;
         const {x, y} = this.arena.findSpawnLocation();
-        const rightX = this.arena.arena.values.rightX;
-        const leftX = this.arena.arena.values.leftX;
+        const rightX = this.arena.arenaData.values.rightX;
+        const leftX = this.arena.arenaData.values.leftX;
         if (Math.max(x, y) < rightX / 10 && Math.min(x, y) > leftX / 10) {
             // Pentagon Nest
             shape = new Pentagon(this.game, Math.random() <= 0.05);
 
-            shape.position.values.x = x;
-            shape.position.values.y = y;
-            shape.relations.values.owner = shape.relations.values.team = this.arena;
+            shape.positionData.values.x = x;
+            shape.positionData.values.y = y;
+            shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;
         } else if (Math.max(x, y) < rightX / 5 && Math.min(x, y) > leftX / 5) {
             const rand = Math.random();
             // Crasher Zone
             if (rand < .1){
                 const isBig = true;
                 shape = new Sentry(this.game, isBig);            
-                shape.position.values.x = x;
-                shape.position.values.y = y;
-                shape.relations.values.owner = shape.relations.values.team = this.arena;
+                shape.positionData.values.x = x;
+                shape.positionData.values.y = y;
+                shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;
                 }
             else{
             const isBig = Math.random() < .2;
             shape = new Crasher(this.game, isBig);            
-            shape.position.values.x = x;
-            shape.position.values.y = y;
-            shape.relations.values.owner = shape.relations.values.team = this.arena;
+            shape.positionData.values.x = x;
+            shape.positionData.values.y = y;
+            shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;
             }
-
         } else {
             // Fields of Shapes
             const rand = Math.random();
             if (rand < .04) {
                 shape = new Pentagon(this.game);
 
-                shape.position.values.x = x;
-                shape.position.values.y = y;
-                shape.relations.values.owner = shape.relations.values.team = this.arena;
+                shape.positionData.values.x = x;
+                shape.positionData.values.y = y;
+                shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;
             } else if (rand < .20) { // < 16%
                 shape = new Triangle(this.game);
 
-                shape.position.values.x = x;
-                shape.position.values.y = y;
-                shape.relations.values.owner = shape.relations.values.team = this.arena;
+                shape.positionData.values.x = x;
+                shape.positionData.values.y = y;
+                shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;
             } else { // if rand < 80%
                 shape = new Square(this.game);
 
-                shape.position.values.x = x;
-                shape.position.values.y = y;
-                shape.relations.values.owner = shape.relations.values.team = this.arena;
+                shape.positionData.values.x = x;
+                shape.positionData.values.y = y;
+                shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;
             }
         }
 
+        shape.scoreReward *= this.arena.shapeScoreRewardMultiplier;
+
         return shape;
+        // this.shapeCount += 1;
     }
 
     /** Kills all shapes in the arena */
