@@ -22,14 +22,12 @@ import Client from "../Client";
 
 import TeamBase from "../Entity/Misc/TeamBase";
 import TankBody from "../Entity/Tank/TankBody";
-import Dominator from "../Entity/Misc/Dominator";
 
 import { TeamEntity } from "../Entity/Misc/TeamEntity";
-import { Colors } from "../Const/Enums";
+import { Color } from "../Const/Enums";
 
  const arenaSize = 11150;
  const baseWidth = 2007;
- const domBaseSize = baseWidth / 2;
 // const arenaSize = 2000;
 // const baseWidth = 407;
 
@@ -38,42 +36,37 @@ import { Colors } from "../Const/Enums";
  */
 export default class Teams2Arena extends ArenaEntity {
     /** Blue Team entity */
-    public blueTeam: TeamEntity = new TeamEntity(this.game, Colors.TeamBlue);
+    public blueTeamBase: TeamBase;
     /** Red Team entity */
-    public redTeam: TeamEntity = new TeamEntity(this.game, Colors.TeamRed);
+    public redTeamBase: TeamBase;
     // /** Limits shape count 100 */
     //     protected shapes: ShapeManager = new class extends ShapeManager {
     //     protected get wantedShapes() {
     //         return 64;
     //     }
     // }(this);
+
+    /** Maps clients to their teams */
+    public playerTeamMap: Map<Client, TeamBase> = new Map();
     
     public constructor(game: GameServer) {
         super(game);
-        const rightX = this.arena.values.rightX;
-        const leftX = this.arena.values.leftX;
         this.updateBounds(arenaSize * 2, arenaSize * 2);
-        new TeamBase(game, this.blueTeam, -arenaSize + baseWidth / 2, 0, arenaSize * 2, baseWidth);
-        new TeamBase(game, this.redTeam, arenaSize - baseWidth / 2, 0, arenaSize * 2, baseWidth);
-        new Dominator(this, new TeamBase(game, this, leftX/4, arenaSize/4, domBaseSize, domBaseSize, false));
-        new Dominator(this, new TeamBase(game, this, rightX/4, -arenaSize/4, domBaseSize, domBaseSize, false));
+        this.blueTeamBase = new TeamBase(game, new TeamEntity(this.game, Color.TeamBlue), -arenaSize + baseWidth / 2, 0, arenaSize * 2, baseWidth);
+        this.redTeamBase = new TeamBase(game, new TeamEntity(this.game, Color.TeamRed), arenaSize - baseWidth / 2, 0, arenaSize * 2, baseWidth);
     }
 
     public spawnPlayer(tank: TankBody, client: Client) {
-        tank.position.values.y = arenaSize * Math.random() - arenaSize;
+        tank.positionData.values.y = arenaSize * Math.random() - arenaSize;
 
-        const x = Math.random() * baseWidth;
+        const xOffset = (Math.random() - 0.5) * baseWidth;
         
-        if (Math.random() < 0.5) {
-            tank.relations.values.team = this.blueTeam;
-            tank.style.values.color = this.blueTeam.team.values.teamColor;
-            tank.position.values.x = -arenaSize + x;
-        } else {
-            tank.relations.values.team = this.redTeam;
-            tank.style.values.color = this.redTeam.team.values.teamColor;
-            tank.position.values.x = arenaSize - x;
-        }
+        const base = this.playerTeamMap.get(client) || [this.blueTeamBase, this.redTeamBase][0|Math.random()*2];
+        tank.relationsData.values.team = base.relationsData.values.team;
+        tank.styleData.values.color = base.styleData.values.color;
+        tank.positionData.values.x = base.positionData.values.x + xOffset;
+        this.playerTeamMap.set(client, base);
 
-        if (client.camera) client.camera.relations.team = tank.relations.values.team;
+        if (client.camera) client.camera.relationsData.team = tank.relationsData.values.team;
     }
 }

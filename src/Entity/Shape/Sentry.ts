@@ -20,7 +20,7 @@ import GameServer from "../../Game";
 import LivingEntity from "../Live";
 import AbstractShape from "./AbstractShape";
 
-import { Colors, MotionFlags } from "../../Const/Enums";
+import { Color, PositionFlags } from "../../Const/Enums";
 import { AI, AIState } from "../AI";
 import { BarrelBase } from "../Tank/TankBody";
 import Crasher from "./Crasher";
@@ -64,7 +64,7 @@ import Barrel from "../Tank/Barrel";
     public constructor(game: GameServer, large=false) {
         super(game, large);
 
-        this.sizeFactor = this.physics.values.size / 50;
+        this.sizeFactor = this.physicsData.values.size / 50;
         this.inputs = this.ai.inputs;
         this.isLarge = true
         const rand = Math.random();
@@ -241,15 +241,15 @@ import Barrel from "../Tank/Barrel";
         }
 
         //this.barsss = new Barrel(this, GuardianSpawnerDefinition2);
-        this.position.values.motion |= MotionFlags.canMoveThroughWalls;
-        this.health.values.health = this.health.values.maxHealth = 500;
-        this.physics.values.size =  85 * Math.SQRT1_2;
-        this.physics.values.sides = 3;
-        this.physics.values.absorbtionFactor = 0.1;
-        this.physics.values.pushFactor =  18;
+        this.positionData.values.flags |= PositionFlags.canMoveThroughWalls;
+        this.healthData.values.health = this.healthData.values.maxHealth = 500;
+        this.physicsData.values.size =  85 * Math.SQRT1_2;
+        this.physicsData.values.sides = 3;
+        this.physicsData.values.absorbtionFactor = 0.1;
+        this.physicsData.values.pushFactor =  18;
        
         this.targettingSpeed = 1.4;
-        this.style.values.color = Colors.EnemyCrasher;
+        this.styleData.values.color = Color.EnemyCrasher;
 
         this.scoreReward = 500;
         this.damagePerTick = 20;

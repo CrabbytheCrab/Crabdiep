@@ -75,15 +75,15 @@ export default class Launrocket extends Bullet implements BarrelBase {
         
         this.cameraEntity = tank.cameraEntity;
 
-        this.sizeFactor = this.physics.values.size / 50;
+        this.sizeFactor = this.physicsData.values.size / 50;
         const launrocketBarrel = this.launrocketBarrel = new Barrel(this, {...RocketBarrelDefinition});
-        launrocketBarrel.style.values.color = this.style.values.color;
+        launrocketBarrel.styleData.values.color = this.styleData.values.color;
     }
 
     public tick(tick: number) {
-        this.sizeFactor = this.physics.values.size / 50;
+        this.sizeFactor = this.physicsData.values.size / 50;
         this.reloadTime = this.tank.reloadTime;
-        if (!this.deletionAnimation && this.launrocketBarrel) this.launrocketBarrel.definition.width = ((this.barrelEntity.definition.width / 2) * RocketBarrelDefinition.width) / this.physics.values.size;
+        if (!this.deletionAnimation && this.launrocketBarrel) this.launrocketBarrel.definition.width = ((this.barrelEntity.definition.width / 2) * RocketBarrelDefinition.width) / this.physicsData.values.size;
 
         super.tick(tick);
 

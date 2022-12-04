@@ -19,7 +19,7 @@
 import Barrel from "../Barrel";
 import Bullet from "./Bullet";
 
-import { ObjectFlags, StyleFlags } from "../../../Const/Enums";
+import { PhysicsFlags, StyleFlags } from "../../../Const/Enums";
 import { getTankById, TankDefinition } from "../../../Const/TankDefinitions";
 import { Entity } from "../../../Native/Entity";
 import { AI, AIState } from "../../AI";
@@ -29,7 +29,7 @@ import { CameraEntity } from "../../../Native/Camera";
 /**
  * The drone class represents the drone (projectile) entity in diep.
  */
-export default class Drone extends Bullet {
+export default class Drone2 extends Bullet {
     /** The AI of the drone (for AI mode) */
     public ai: AI;
     public boom: boolean = false
@@ -49,17 +49,17 @@ export default class Drone extends Bullet {
         this.usePosAngle = false;
         this.ai = new AI(this);
         this.canControlDrones = typeof this.barrelEntity.definition.canControlDrones === 'boolean' && this.barrelEntity.definition.canControlDrones;
-        this.physics.values.sides = bulletDefinition.sides ?? 5;
-        if (this.physics.values.objectFlags & ObjectFlags.noOwnTeamCollision) this.physics.values.objectFlags ^= ObjectFlags.noOwnTeamCollision;
-        this.physics.values.objectFlags |= ObjectFlags.onlySameOwnerCollision;
-        this.style.values.styleFlags &= ~StyleFlags.noDmgIndicator;
+        this.physicsData.values.sides = bulletDefinition.sides ?? 5;
+        if (this.physicsData.values.flags & PhysicsFlags.noOwnTeamCollision) this.physicsData.values.flags ^= PhysicsFlags.noOwnTeamCollision;
+        this.physicsData.values.flags |= PhysicsFlags.onlySameOwnerCollision;
+        this.styleData.values.flags &= ~StyleFlags.hasNoDmgIndicator;
 
         // TOD(ABCO:
         // No hardcoded - unless it is hardcoded in diep (all signs show that it might be so far)
         this.deathAccelFactor = 1;
 
-        this.physics.values.pushFactor = 4;
-        this.physics.values.absorbtionFactor = bulletDefinition.absorbtionFactor;
+        this.physicsData.values.pushFactor = 4;
+        this.physicsData.values.absorbtionFactor = bulletDefinition.absorbtionFactor;
 
         this.baseSpeed /= 3;
 
@@ -92,7 +92,7 @@ export default class Drone extends Bullet {
                 this.boom = true
             }
         }
-        this.position.angle += 0.3
+        this.positionData.angle += 0.3
         super.tick(tick);
         // So that switch tank works, as well as on death
         if (!Entity.exists(this.barrelEntity)) this.destroy();

@@ -17,7 +17,7 @@
 */
 
 import Client from "../Client";
-import { Colors, GUIFlags } from "../Const/Enums";
+import { Color, ArenaFlags } from "../Const/Enums";
 import Dominator from "../Entity/Misc/Dominator";
 import TeamBase from "../Entity/Misc/TeamBase";
 import { TeamEntity } from "../Entity/Misc/TeamEntity";
@@ -33,20 +33,24 @@ const domBaseSize = baseSize / 2;
  * Domination Gamemode Arena
  */
 export default class DominationArena extends ArenaEntity {
-    /** Blue Team entity */
-    public blueTeam: TeamEntity = new TeamEntity(this.game, Colors.TeamBlue);
-    /** Red Team entity */
-    public redTeam: TeamEntity = new TeamEntity(this.game, Colors.TeamRed);
+    /** Blue TeamBASEentity */
+    public blueTeamBase: TeamBase;
+    /** Red TeamBASE entity */
+    public redTeamBase: TeamBase;
+
+    /** Maps clients to their teams */
+    public playerTeamMap: Map<Client, TeamBase> = new Map();
 
     public constructor(game: GameServer) {
         super(game);
+        this.shapeScoreRewardMultiplier = 2.0;
 
         this.updateBounds(arenaSize * 2, arenaSize * 2)
 
-        this.arena.values.GUI |= GUIFlags.hideScorebar;
+        this.arenaData.values.flags |= ArenaFlags.hiddenScores;
 
-        new TeamBase(game, this.blueTeam, -arenaSize + baseSize / 2,  -arenaSize + baseSize / 2, baseSize, baseSize);
-        new TeamBase(game, this.redTeam, arenaSize - baseSize / 2, arenaSize - baseSize / 2, baseSize, baseSize);
+        this.blueTeamBase = new TeamBase(game, new TeamEntity(this.game, Color.TeamBlue), -arenaSize + baseSize / 2,  -arenaSize + baseSize / 2, baseSize, baseSize);
+        this.redTeamBase = new TeamBase(game, new TeamEntity(this.game, Color.TeamRed), arenaSize - baseSize / 2, arenaSize - baseSize / 2, baseSize, baseSize);
         
         new Dominator(this, new TeamBase(game, this, arenaSize / 2.5, arenaSize / 2.5, domBaseSize, domBaseSize, false));
         new Dominator(this, new TeamBase(game, this, arenaSize / -2.5, arenaSize / 2.5, domBaseSize, domBaseSize, false));
@@ -55,25 +59,18 @@ export default class DominationArena extends ArenaEntity {
     }
 
     public spawnPlayer(tank: TankBody, client: Client) {
-        tank.position.values.y = arenaSize * Math.random() - arenaSize;
+        tank.positionData.values.y = arenaSize * Math.random() - arenaSize;
 
-        const x = Math.random() * baseSize,
-              y = Math.random() * baseSize;
-        
-        const chance = Math.random();
-        
-        if (chance < 0.5) {
-            tank.relations.values.team = this.blueTeam;
-            tank.style.values.color = this.blueTeam.team.values.teamColor;
-            tank.position.values.x = -arenaSize + x;
-            tank.position.values.y = -arenaSize + y;
-        } else {
-            tank.relations.values.team = this.redTeam;
-            tank.style.values.color = this.redTeam.team.values.teamColor;
-            tank.position.values.x = arenaSize - x;
-            tank.position.values.y = arenaSize - y;
-        }
+        const xOffset = (Math.random() - 0.5) * baseSize,
+              yOffset = (Math.random() - 0.5) * baseSize;
 
-        if (client.camera) client.camera.relations.team = tank.relations.values.team;
+        const base = this.playerTeamMap.get(client) || [this.blueTeamBase, this.redTeamBase][0|Math.random()*2];
+        tank.relationsData.values.team = base.relationsData.values.team;
+        tank.styleData.values.color = base.styleData.values.color;
+        tank.positionData.values.x = base.positionData.values.x + xOffset;
+        tank.positionData.values.y = base.positionData.values.y + yOffset;
+        this.playerTeamMap.set(client, base);
+
+        if (client.camera) client.camera.relationsData.team = tank.relationsData.values.team;
     }
 }

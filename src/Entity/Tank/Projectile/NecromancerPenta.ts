@@ -19,7 +19,7 @@
 import Barrel from "../Barrel";
 import Drone from "./Drone";
 
-import { Colors, ObjectFlags, Tank } from "../../../Const/Enums";
+import { Color, PhysicsFlags, Tank } from "../../../Const/Enums";
 import { TankDefinition } from "../../../Const/TankDefinitions";
 import { AI } from "../../AI";
 import { BarrelBase } from "../TankBody";
@@ -38,14 +38,14 @@ export default class NecromancerPentagon extends Drone {
         this.ai = new AI(this);
         this.ai.viewRange = 1200;
 
-        this.physics.values.sides = 5;
-        this.physics.values.size = 75 * Math.SQRT1_2;
-        // this.physics.values.size = 55 * Math.SQRT1_2 * bulletDefinition.sizeRatio;
+        this.physicsData.values.sides = 5;
+        this.physicsData.values.size = 75 * Math.SQRT1_2;
+        // this.physicsData.values.size = 55 * Math.SQRT1_2 * bulletDefinition.sizeRatio;
 
-        // if (shape.isShiny) this.health.values.maxHealth = this.health.values.health *= 10
-        this.style.values.color = tank.relations.values.team?.team?.values.teamColor || Colors.NecromancerSquare;
-        if (this.physics.values.objectFlags & ObjectFlags.noOwnTeamCollision) this.physics.values.objectFlags ^= ObjectFlags.noOwnTeamCollision;
-        this.physics.values.objectFlags |= ObjectFlags.onlySameOwnerCollision;
+        // if (shape.isShiny) this.healthData.values.maxHealth = this.healthData.values.health *= 10
+        this.styleData.values.color = tank.relationsData.values.team?.teamData?.values.teamColor || Color.NecromancerSquare;
+        if (this.physicsData.values.flags & PhysicsFlags.noOwnTeamCollision) this.physicsData.values.flags ^= PhysicsFlags.noOwnTeamCollision;
+        this.physicsData.values.flags |= PhysicsFlags.onlySameOwnerCollision;
 
         // TODO(ABC):
         // No hardcoded - unless it is hardcoded in diep (all signs show that it might be so far)
@@ -53,30 +53,30 @@ export default class NecromancerPentagon extends Drone {
             this.lifeLength = 88;
         } else {
             this.lifeLength = Infinity;
-            if (this.physics.values.objectFlags & ObjectFlags.canEscapeArena) this.physics.values.objectFlags ^= ObjectFlags.canEscapeArena;
+            if (this.physicsData.values.flags & PhysicsFlags.canEscapeArena) this.physicsData.values.flags ^= PhysicsFlags.canEscapeArena;
         }
         this.deathAccelFactor = 1;
 
-        this.physics.values.pushFactor = 4;
-        this.physics.values.absorbtionFactor = bulletDefinition.absorbtionFactor;
+        this.physicsData.values.pushFactor = 4;
+        this.physicsData.values.absorbtionFactor = bulletDefinition.absorbtionFactor;
 
         this.baseSpeed = 0;
     }
 
     /** Given a shape, it will create a necromancer square using stats from the shape */
     public static fromShape(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shape: LivingEntity): NecromancerPentagon {
-        const chip = new NecromancerPentagon(barrel, tank, tankDefinition, shape.position.values.angle);
-        chip.physics.values.sides = shape.physics.values.sides;
-        chip.physics.values.size = shape.physics.values.size;
-        chip.position.values.x = shape.position.values.x;
-        chip.position.values.y = shape.position.values.y;
-        chip.position.values.angle = shape.position.values.angle;
+        const chip = new NecromancerPentagon(barrel, tank, tankDefinition, shape.positionData.values.angle);
+        chip.physicsData.values.sides = shape.physicsData.values.sides;
+        chip.physicsData.values.size = shape.physicsData.values.size;
+        chip.positionData.values.x = shape.positionData.values.x;
+        chip.positionData.values.y = shape.positionData.values.y;
+        chip.positionData.values.angle = shape.positionData.values.angle;
         
         /** @ts-ignore */
         const shapeDamagePerTick: number = shape.damagePerTick;
 
         chip.damagePerTick *= shapeDamagePerTick / 8;
-        chip.health.values.maxHealth = (chip.health.values.health *= (shapeDamagePerTick / 8));
+        chip.healthData.values.maxHealth = (chip.healthData.values.health *= (shapeDamagePerTick / 8));
         return chip;
     }
 }

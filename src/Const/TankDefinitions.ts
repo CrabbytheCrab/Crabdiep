@@ -17,18 +17,18 @@
 */
 
 import DevTankDefinitions, { DevTank } from "./DevTankDefinitions";
-import { Tank, Colors } from "./Enums";
+import { Tank, Color } from "./Enums";
 
 /** The types of post addons that exist in the game, by their id. */
-export type postAddonId = "dompronounced" | "auto5" | "auto3" | "autosmasher" | "spike" | "pronounced" | "smasher" | "landmine" | "autoturret" | "weirdspike" | "auto2" | "auto7" | "autorocket" | "spiesk" | "saw" | "megasmasher" | "mega3" | "stalker3" | "auto4" 
+export type postAddonId = "dompronounced" | "auto5" | "auto3" | "autosmasher" | "spike" | "pronounced" | "smasher" | "landmine" | "autoturret" | "weirdspike" | "auto2" | "auto7" | "autorocket" | "spiesk" | "saw" | "megasmasher" | "mega3" | "stalker3" | "auto4";
 
 /** The types of post addons that exist in the game, by their id. */
-export type preAddonId = "dombase" | "launcher" | "laucher2"
+export type preAddonId = "dombase" | "launcher" | "laucher2";
 /** A joint list of all post addon ids and pre addon ids. */
 export type addonId = preAddonId | postAddonId;
 
 /** The types of projectiles in the game */
-export type projectileId = "bullet" | "drone" | "trap" | "necrotriangledrone" | "necropentadrone" | "necrodrone" | "minion" | "skimmer" | "rocket" | "swarm" | "flame" | "wall" | "croc" | "launrocket" | "autotrap" | "megaminion" | "miniminion" | "drone2" ;
+export type projectileId = "bullet" | "drone" | "trap" | "necrotriangledrone" | "necropentadrone" | "necrodrone" | "minion" | "skimmer" | "rocket" | "swarm" | "flame" | "wall" | "croc" | "launrocket" | "autotrap" | "megaminion" | "miniminion" | "drone2";
 
 /** The types of barrel addons that exist in the game */
 export type barrelAddonId = "trapLauncher" | "minionLauncher" | "engitrapLauncher";
@@ -57,7 +57,7 @@ export interface BulletDefinition {
     /** Knockback factor field of the bullet */
     absorbtionFactor: number;
     /** Projectile color - by default this is set to parent's body color. */
-    color?: Colors;
+    color?: Color;
     /** Overrides number of sides for projectile. */
     sides?: number;
 }
@@ -9200,7 +9200,6 @@ const TankDefinitions = JSON.parse(`[
             "invisibility": true,
             "zoomAbility": false,
             "canClaimSquares": true,
-
             "devOnly": false
         },
         "visibilityRateShooting": 0.23,
@@ -11132,7 +11131,6 @@ const TankDefinitions = JSON.parse(`[
                     "absorbtionFactor": 1
                 }
             }
-
         ],
         "stats": [
             {
