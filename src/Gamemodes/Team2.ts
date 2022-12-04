@@ -25,9 +25,11 @@ import TankBody from "../Entity/Tank/TankBody";
 
 import { TeamEntity } from "../Entity/Misc/TeamEntity";
 import { Color } from "../Const/Enums";
+import Dominator from "../Entity/Misc/Dominator";
 
  const arenaSize = 11150;
  const baseWidth = 2007;
+ const domBaseSize = baseWidth / 2;
 // const arenaSize = 2000;
 // const baseWidth = 407;
 
@@ -54,6 +56,8 @@ export default class Teams2Arena extends ArenaEntity {
         this.updateBounds(arenaSize * 2, arenaSize * 2);
         this.blueTeamBase = new TeamBase(game, new TeamEntity(this.game, Color.TeamBlue), -arenaSize + baseWidth / 2, 0, arenaSize * 2, baseWidth);
         this.redTeamBase = new TeamBase(game, new TeamEntity(this.game, Color.TeamRed), arenaSize - baseWidth / 2, 0, arenaSize * 2, baseWidth);
+        new Dominator(this, new TeamBase(game, this, arenaSize/4, arenaSize/4, domBaseSize, domBaseSize, false));
+        new Dominator(this, new TeamBase(game, this, -arenaSize/4, -arenaSize/4, domBaseSize, domBaseSize, false));
     }
 
     public spawnPlayer(tank: TankBody, client: Client) {
