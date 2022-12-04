@@ -54,7 +54,7 @@ import { BarrelBase } from "../TankBody";
 /**
  * The drone class represents the minion (projectile) entity in diep.
  */
-export default class Minion extends Drone implements BarrelBase {
+export default class MiniMinion extends Drone implements BarrelBase {
     /** Size of the focus the minions orbit. */
     public static FOCUS_RADIUS = 500 ** 2;
 
@@ -107,9 +107,9 @@ export default class Minion extends Drone implements BarrelBase {
 
             const dist = inputs.mouse.distanceToSQ(this.positionData.values);
 
-            if (dist < Minion.FOCUS_RADIUS / 4) { // Half
+            if (dist < MiniMinion.FOCUS_RADIUS / 4) { // Half
                 this.movementAngle = this.positionData.values.angle + Math.PI;
-            } else if (dist < Minion.FOCUS_RADIUS) {
+            } else if (dist < MiniMinion.FOCUS_RADIUS) {
                 this.movementAngle = this.positionData.values.angle + Math.PI / 2;
             } else this.movementAngle = this.positionData.values.angle;
         }

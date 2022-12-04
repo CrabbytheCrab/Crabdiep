@@ -29,7 +29,7 @@ import { CameraEntity } from "../../../Native/Camera";
 /**
  * The drone class represents the drone (projectile) entity in diep.
  */
-export default class Drone extends Bullet {
+export default class Drone2 extends Bullet {
     /** The AI of the drone (for AI mode) */
     public ai: AI;
     public boom: boolean = false

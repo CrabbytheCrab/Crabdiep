@@ -37,6 +37,13 @@ import CrocSkimmer from "./Projectile/CrocSkimmer";
 import { BarrelAddon, BarrelAddonById } from "./BarrelAddons";
 import { Swarm } from "./Projectile/Swarm";
 import NecromancerSquare from "./Projectile/NecromancerSquare";
+import MiniMinion from "./Projectile/MiniMinion";
+import MegaMinion from "./Projectile/MegaMinion";
+import Launrocket from "./Projectile/Launrocket";
+import Drone2 from "./Projectile/Drone2";
+import AutoTrap from "./Projectile/AutoTrap";
+import NecromancerPentagon from "./Projectile/NecromancerPenta";
+import NecromancerTriangle from "./Projectile/NecromancerTriangle";
 /**
  * Class that determines when barrels can shoot, and when they can't.
  */

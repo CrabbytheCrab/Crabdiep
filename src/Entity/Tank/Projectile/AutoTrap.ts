@@ -30,7 +30,7 @@ import { normalizeAngle } from "../../../util";
 /**
  * The trap class represents the trap (projectile) entity in diep.
  */
-export default class Trap extends Bullet implements BarrelBase {
+export default class AutoTrap extends Bullet implements BarrelBase {
     private turreta: AutoTurret;
     public sizeFactor: number;
     public cameraEntity: Entity;
