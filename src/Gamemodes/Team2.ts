@@ -56,8 +56,8 @@ export default class Teams2Arena extends ArenaEntity {
         this.updateBounds(arenaSize * 2, arenaSize * 2);
         this.blueTeamBase = new TeamBase(game, new TeamEntity(this.game, Color.TeamBlue), -arenaSize + baseWidth / 2, 0, arenaSize * 2, baseWidth);
         this.redTeamBase = new TeamBase(game, new TeamEntity(this.game, Color.TeamRed), arenaSize - baseWidth / 2, 0, arenaSize * 2, baseWidth);
-        new Dominator(this, new TeamBase(game, this, arenaSize/6, arenaSize/6, domBaseSize, domBaseSize, false));
-        new Dominator(this, new TeamBase(game, this, -arenaSize/6, -arenaSize/6, domBaseSize, domBaseSize, false));
+        new Dominator(this, new TeamBase(game, this, arenaSize/8, arenaSize/8, domBaseSize, domBaseSize, false));
+        new Dominator(this, new TeamBase(game, this, -arenaSize/8, -arenaSize/8, domBaseSize, domBaseSize, false));
     }
 
     public spawnPlayer(tank: TankBody, client: Client) {
