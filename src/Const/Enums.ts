@@ -130,7 +130,7 @@ export const enum Tank {
     Fighter       = 56,
     Wake          = 57,
     SpreadShot    = 58,
-    TripleDestroyer = 59,
+    TriDestroyer  = 59,
     mega3         = 60,
     Bushwaker     = 61,
     AutoGunner    = 62,
@@ -176,7 +176,9 @@ export const enum Tank {
     DominatorD    = 91,
     DominatorG    = 92,
     DominatorT    = 93,
-    ArenaCloser   = 203,
+    ArenaCloser   = 105,
+    DominatorC    = 106,
+    DominatorF    = 107,
     Mothership    = 204
 }
 

@@ -26,6 +26,7 @@ import Spinner from "./Projectile/Skimmer";
 import Spinner4 from "./Projectile/Spinner4";
 import Skimmer from "./Projectile/Skimrocket";
 import Minion from "./Projectile/Minion";
+import DomMinion from "./Projectile/DomMinion";
 import ObjectEntity from "../Object";
 import TankBody, { BarrelBase } from "./TankBody";
 
@@ -71,7 +72,7 @@ export class ShootCycle {
             this.reloadTime = reloadTime;
         }
 
-        const alwaysShoot = (this.barrelEntity.definition.forceFire) || (this.barrelEntity.definition.bullet.type === 'megaminion') || (this.barrelEntity.definition.bullet.type === 'miniminion') || (this.barrelEntity.definition.bullet.type === 'minion') || (this.barrelEntity.definition.bullet.type === 'drone') || (this.barrelEntity.definition.bullet.type === 'necrodrone') || (this.barrelEntity.definition.bullet.type === 'necropentadrone') || (this.barrelEntity.definition.bullet.type === 'necrotriangledrone');
+        const alwaysShoot = (this.barrelEntity.definition.forceFire) || (this.barrelEntity.definition.bullet.type === 'domminion') || (this.barrelEntity.definition.bullet.type === 'megaminion') || (this.barrelEntity.definition.bullet.type === 'miniminion') || (this.barrelEntity.definition.bullet.type === 'minion') || (this.barrelEntity.definition.bullet.type === 'drone') || (this.barrelEntity.definition.bullet.type === 'necrodrone') || (this.barrelEntity.definition.bullet.type === 'necropentadrone') || (this.barrelEntity.definition.bullet.type === 'necrotriangledrone');
 
         if (this.pos >= reloadTime) {
             // When its not shooting dont shoot, unless its a drone
@@ -227,6 +228,9 @@ export default class Barrel extends ObjectEntity {
                 }, 60 * 1000);
                 break;
             }
+            case 'domminion':
+                new DomMinion(this, this.tank, tankDefinition, angle);
+                break;
             case 'miniminion':
                 new MiniMinion(this, this.tank, tankDefinition, angle);
                 break;

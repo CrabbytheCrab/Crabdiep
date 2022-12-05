@@ -41,7 +41,7 @@ export default class Crasher extends AbstractShape {
 
         this.nameData.values.name = "Crasher";
 
-        this.positionData.values.flags |= PositionFlags.canMoveThroughWalls;
+       // this.positionData.values.flags |= PositionFlags.canMoveThroughWalls;
         this.healthData.values.health = this.healthData.values.maxHealth = large ? 30 : 10;
         this.physicsData.values.size = (large ? 55 : 35) * Math.SQRT1_2;
         this.physicsData.values.sides = 3;

@@ -26,16 +26,29 @@ import TankBody from "../Entity/Tank/TankBody";
 import { TeamEntity } from "../Entity/Misc/TeamEntity";
 import { Color } from "../Const/Enums";
 import Dominator from "../Entity/Misc/Dominator";
+import MazeWall from "../Entity/Misc/MazeWall";
+import ShapeManager from "../Entity/Shape/Manager";
 
  const arenaSize = 11150;
- const baseWidth = 2007;
+ const baseWidth = 2230;
  const domBaseSize = baseWidth / 2;
+ const CELL_SIZE = 635;
+const GRID_SIZE = 40;
+const ARENA_SIZE = CELL_SIZE * GRID_SIZE;
 // const arenaSize = 2000;
 // const baseWidth = 407;
 
 /**
  * Teams2 Gamemode Arena
  */
+
+ export class Chaoschance extends ShapeManager {
+      constructor(arena: ArenaEntity) {
+        super(arena);
+        this.sentrychance = 0
+    }
+}
+
 export default class Teams2Arena extends ArenaEntity {
     /** Blue Team entity */
     public blueTeamBase: TeamBase;
@@ -50,14 +63,23 @@ export default class Teams2Arena extends ArenaEntity {
 
     /** Maps clients to their teams */
     public playerTeamMap: Map<Client, TeamBase> = new Map();
-    
     public constructor(game: GameServer) {
         super(game);
         this.updateBounds(arenaSize * 2, arenaSize * 2);
         this.blueTeamBase = new TeamBase(game, new TeamEntity(this.game, Color.TeamBlue), -arenaSize + baseWidth / 2, 0, arenaSize * 2, baseWidth);
         this.redTeamBase = new TeamBase(game, new TeamEntity(this.game, Color.TeamRed), arenaSize - baseWidth / 2, 0, arenaSize * 2, baseWidth);
-        new Dominator(this, new TeamBase(game, this, arenaSize/3.75, arenaSize/3.75, domBaseSize, domBaseSize, false));
-        new Dominator(this, new TeamBase(game, this, -arenaSize/3.75, -arenaSize/3.75, domBaseSize, domBaseSize, false));
+        new Dominator(this, new TeamBase(game, this, arenaSize/2.5, 0, domBaseSize, domBaseSize, false));
+        new Dominator(this, new TeamBase(game, this, -arenaSize/2.5, 0, domBaseSize, domBaseSize, false));
+
+        new MazeWall(this.game, -arenaSize/2.5, -arenaSize/5, domBaseSize * 3, domBaseSize);
+        new MazeWall(this.game, arenaSize/2.5, -arenaSize/5, domBaseSize * 3, domBaseSize);
+
+        new MazeWall(this.game, -arenaSize/2.5, arenaSize/5, domBaseSize * 3, domBaseSize);
+        new MazeWall(this.game, arenaSize/2.5,  arenaSize/5, domBaseSize * 3, domBaseSize);
+
+        new MazeWall(this.game, -arenaSize/5 + 2230 ,  -arenaSize/2.5, domBaseSize, domBaseSize * 7);
+        new MazeWall(this.game, -arenaSize/5 + 2230 ,  arenaSize/2.5, domBaseSize, domBaseSize * 7);
+
     }
 
     public spawnPlayer(tank: TankBody, client: Client) {

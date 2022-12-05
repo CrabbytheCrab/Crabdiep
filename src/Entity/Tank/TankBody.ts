@@ -39,6 +39,7 @@ import NecromancerPentagon from "./Projectile/NecromancerPenta";
 import Pentagon from "../Shape/Pentagon";
 import NecromancerTriangle from "./Projectile/NecromancerTriangle";
 import Triangle from "../Shape/Triangle";
+import WepSquare from "../Shape/WepSquare";
 
 /**
  * Abstract type of entity which barrels can connect to.
