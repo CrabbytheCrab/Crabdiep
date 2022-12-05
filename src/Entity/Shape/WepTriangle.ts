@@ -66,7 +66,7 @@ export default class WepTriangle extends Triangle implements BarrelBase {
             size: 90,
             width: 47,
             delay: 0,
-            reload: 3,
+            reload: 6,
             recoil: 0,
             isTrapezoid: true,
             trapezoidDirection: 3.141592653589793,
@@ -80,7 +80,7 @@ export default class WepTriangle extends Triangle implements BarrelBase {
                 damage: 1,
                 speed: 1.8,
                 scatterRate: 0,
-                lifeLength: 0.75,
+                lifeLength: 1.5,
                 absorbtionFactor: 0.5
             }
         };
@@ -90,7 +90,7 @@ export default class WepTriangle extends Triangle implements BarrelBase {
             size: 90,
             width: 47,
             delay: 0,
-            reload: 3,
+            reload: 6,
             recoil: 0,
             isTrapezoid: true,
             trapezoidDirection: 3.141592653589793,
@@ -104,7 +104,7 @@ export default class WepTriangle extends Triangle implements BarrelBase {
                 damage: 1,
                 speed: 1.8,
                 scatterRate: 0,
-                lifeLength: 0.75,
+                lifeLength: 1.5,
                 absorbtionFactor: 0.5
             }
         };
@@ -114,7 +114,7 @@ export default class WepTriangle extends Triangle implements BarrelBase {
             size: 90,
             width: 47,
             delay: 0,
-            reload: 3,
+            reload: 6,
             recoil: 0,
             isTrapezoid: true,
             trapezoidDirection: 3.141592653589793,
@@ -128,7 +128,7 @@ export default class WepTriangle extends Triangle implements BarrelBase {
                 damage: 1,
                 speed: 1.8,
                 scatterRate: 0,
-                lifeLength: 0.75,
+                lifeLength: 1.5,
                 absorbtionFactor: 0.5
             }
         };
