@@ -32,9 +32,9 @@ const SkimmerBarrelDefinition: BarrelDefinition = {
     angle: Math.PI / 2,
     offset: 0,
     size: 70,
-    width: 31,
+    width: 42,
     delay: 0,
-    reload: 0.25,
+    reload: 0.35,
     recoil: 0,
     isTrapezoid: false,
     trapezoidDirection: 0,
@@ -42,8 +42,8 @@ const SkimmerBarrelDefinition: BarrelDefinition = {
     bullet: {
         type: "bullet",
         health: 0.3,
-        damage: 2 / 5,
-        speed: 0.8,
+        damage: 3 / 5,
+        speed: 1.1,
         scatterRate: 1,
         lifeLength: 0.25,
         sizeRatio: 1,
@@ -56,7 +56,7 @@ const SkimmerBarrelDefinition: BarrelDefinition = {
  */
 export default class Skimmer extends Bullet implements BarrelBase {
     /** Default speed the skimmer spins */
-    public static BASE_ROTATION = 0.2;
+    public static BASE_ROTATION = 0.1;
 
     /** The skimmer's barrels */
     private skimmerBarrels: Barrel[];

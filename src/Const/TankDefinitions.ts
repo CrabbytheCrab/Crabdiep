@@ -28,7 +28,7 @@ export type preAddonId = "dombase" | "launcher" | "laucher2";
 export type addonId = preAddonId | postAddonId;
 
 /** The types of projectiles in the game */
-export type projectileId = "bullet" | "drone" | "trap" | "necrotriangledrone" | "necropentadrone" | "necrodrone" | "minion" | "skimmer" | "rocket" | "swarm" | "flame" | "wall" | "croc" | "launrocket" | "autotrap" | "megaminion" | "miniminion" | "drone2";
+export type projectileId = "bullet" | "drone" | "trap" | "necrotriangledrone" | "necropentadrone" | "necrodrone" | "minion" | "spinner" | "spinner4" | "megaspinner" | "skimmer" | "rocket" | "swarm" | "flame" | "wall" | "croc" | "launrocket" | "autotrap" | "megaminion" | "miniminion" | "drone2";
 
 /** The types of barrel addons that exist in the game */
 export type barrelAddonId = "trapLauncher" | "minionLauncher" | "engitrapLauncher";
@@ -711,7 +711,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Single",
         "upgradeMessage": "",
         "levelRequirement": 15,
-        "upgrades": [22, 23 ,19, 25,30, 24],
+        "upgrades": [22, 23 ,19, 25,102,30, 24],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -964,7 +964,7 @@ const TankDefinitions = JSON.parse(`[
                     "type": "bullet",
                     "sizeRatio": 1,
                     "health": 1,
-                    "damage": 0.7,
+                    "damage": 0.6,
                     "speed": 1,
                     "scatterRate": 1,
                     "lifeLength": 1,
@@ -986,7 +986,7 @@ const TankDefinitions = JSON.parse(`[
                     "type": "bullet",
                     "sizeRatio": 1,
                     "health": 1,
-                    "damage": 0.7,
+                    "damage": 0.6,
                     "speed": 1,
                     "scatterRate": 1,
                     "lifeLength": 1,
@@ -1008,7 +1008,7 @@ const TankDefinitions = JSON.parse(`[
                     "type": "bullet",
                     "sizeRatio": 1,
                     "health": 1,
-                    "damage": 0.7,
+                    "damage": 0.6,
                     "speed": 1,
                     "scatterRate": 1,
                     "lifeLength": 1,
@@ -1806,7 +1806,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Spewer",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [96, 49,98],
+        "upgrades": [96, 49,98, 104],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -2445,7 +2445,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Destroyer",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [64, 59 ,68, 65, 75, 94],
+        "upgrades": [64, 59 ,68,103, 65, 75, 94],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -3788,7 +3788,7 @@ const TankDefinitions = JSON.parse(`[
                     "type": "bullet",
                     "sizeRatio": 1,
                     "health": 1,
-                    "damage": 0.55,
+                    "damage": 0.5,
                     "speed": 1,
                     "scatterRate": 1,
                     "lifeLength": 1,
@@ -3810,7 +3810,7 @@ const TankDefinitions = JSON.parse(`[
                     "type": "bullet",
                     "sizeRatio": 1,
                     "health": 1,
-                    "damage": 0.55,
+                    "damage": 0.5,
                     "speed": 1,
                     "scatterRate": 1,
                     "lifeLength": 1,
@@ -3832,7 +3832,7 @@ const TankDefinitions = JSON.parse(`[
                     "type": "bullet",
                     "sizeRatio": 1,
                     "health": 1,
-                    "damage": 0.55,
+                    "damage": 0.5,
                     "speed": 1,
                     "scatterRate": 1,
                     "lifeLength": 1,
@@ -3854,7 +3854,7 @@ const TankDefinitions = JSON.parse(`[
                     "type": "bullet",
                     "sizeRatio": 1,
                     "health": 1,
-                    "damage": 0.55,
+                    "damage": 0.5,
                     "speed": 1,
                     "scatterRate": 1,
                     "lifeLength": 1,
@@ -3876,7 +3876,7 @@ const TankDefinitions = JSON.parse(`[
                     "type": "bullet",
                     "sizeRatio": 1,
                     "health": 1,
-                    "damage": 0.55,
+                    "damage": 0.5,
                     "speed": 1,
                     "scatterRate": 1,
                     "lifeLength": 1,
@@ -3898,7 +3898,7 @@ const TankDefinitions = JSON.parse(`[
                     "type": "bullet",
                     "sizeRatio": 1,
                     "health": 1,
-                    "damage": 0.55,
+                    "damage": 0.5,
                     "speed": 1,
                     "scatterRate": 1,
                     "lifeLength": 1,
@@ -4882,7 +4882,7 @@ const TankDefinitions = JSON.parse(`[
                 "width": 42,
                 "delay": 0,
                 "reload": 1,
-                "recoil": 1,
+                "recoil": 0.8,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
                 "addon": null,
@@ -4904,7 +4904,7 @@ const TankDefinitions = JSON.parse(`[
                 "width": 42,
                 "delay": 0.5,
                 "reload": 1,
-                "recoil": 1,
+                "recoil": 0.8,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
                 "addon": null,
@@ -8387,7 +8387,7 @@ const TankDefinitions = JSON.parse(`[
                 "trapezoidDirection": 0,
                 "addon": null,
                 "bullet": {
-                    "type": "croc",
+                    "type": "skimmer",
                     "sizeRatio": 1,
                     "health": 3,
                     "damage": 1,
@@ -11729,6 +11729,249 @@ const TankDefinitions = JSON.parse(`[
             },
             {
                 "name": "Drone Speed",
+                "max": 7
+            },
+            {
+                "name": "Body Damage",
+                "max": 7
+            },
+            {
+                "name": "Max Health",
+                "max": 7
+            },
+            {
+                "name": "Health Regen",
+                "max": 7
+            }
+        ]
+    },
+    {
+        "id": 102,
+        "name": "Spinner",
+        "upgradeMessage": "Hold right click to reverse rotation",
+        "levelRequirement": 30,
+        "upgrades": [103, 104],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 0.9,
+        "absorbtionFactor": 1,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": null,
+        "postAddon": "pronounced",
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 100,
+                "width": 52,
+                "delay": 0,
+                "reload": 2.5,
+                "recoil": 3,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": null,
+                "bullet": {
+                    "type": "spinner",
+                    "sizeRatio": 1,
+                    "health": 1.5,
+                    "damage": 0.8,
+                    "speed": 0.35,
+                    "scatterRate": 0.3,
+                    "lifeLength": 1,
+                    "absorbtionFactor": 0.25
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 7
+            },
+            {
+                "name": "Reload",
+                "max": 7
+            },
+            {
+                "name": "Spinner Damage",
+                "max": 7
+            },
+            {
+                "name": "Spinner Penetration",
+                "max": 7
+            },
+            {
+                "name": "Bullet Speed",
+                "max": 7
+            },
+            {
+                "name": "Body Damage",
+                "max": 7
+            },
+            {
+                "name": "Max Health",
+                "max": 7
+            },
+            {
+                "name": "Health Regen",
+                "max": 7
+            }
+        ]
+    },
+    {
+        "id": 103,
+        "name": "Rotater",
+        "upgradeMessage": "",
+        "levelRequirement": 45,
+        "upgrades": [],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 0.9,
+        "absorbtionFactor": 1,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": null,
+        "postAddon": "pronounced",
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 100,
+                "width": 71.4,
+                "delay": 0,
+                "reload": 4,
+                "recoil": 8,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": null,
+                "bullet": {
+                    "type": "megaspinner",
+                    "sizeRatio": 1,
+                    "health": 4,
+                    "damage": 1.3,
+                    "speed": 0.35,
+                    "scatterRate": 0.3,
+                    "lifeLength": 1,
+                    "absorbtionFactor": 0.1
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 7
+            },
+            {
+                "name": "Reload",
+                "max": 7
+            },
+            {
+                "name": "Spinner Damage",
+                "max": 7
+            },
+            {
+                "name": "Spinner Penetration",
+                "max": 7
+            },
+            {
+                "name": "Bullet Speed",
+                "max": 7
+            },
+            {
+                "name": "Body Damage",
+                "max": 7
+            },
+            {
+                "name": "Max Health",
+                "max": 7
+            },
+            {
+                "name": "Health Regen",
+                "max": 7
+            }
+        ]
+    },
+    {
+        "id": 104,
+        "name": "Twister",
+        "upgradeMessage": "",
+        "levelRequirement": 45,
+        "upgrades": [],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 0.9,
+        "absorbtionFactor": 1,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": null,
+        "postAddon": "pronounced",
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 100,
+                "width": 41.6,
+                "delay": 0,
+                "reload": 3,
+                "recoil": 3,
+                "isTrapezoid": true,
+                "trapezoidDirection": 0,
+                "addon": null,
+                "bullet": {
+                    "type": "spinner4",
+                    "sizeRatio": 1.25,
+                    "health": 1.5,
+                    "damage": 0.8,
+                    "speed": 0.35,
+                    "scatterRate": 0.3,
+                    "lifeLength": 1,
+                    "absorbtionFactor": 0.25
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 7
+            },
+            {
+                "name": "Reload",
+                "max": 7
+            },
+            {
+                "name": "Spinner Damage",
+                "max": 7
+            },
+            {
+                "name": "Spinner Penetration",
+                "max": 7
+            },
+            {
+                "name": "Bullet Speed",
                 "max": 7
             },
             {

@@ -22,7 +22,9 @@ import Bullet from "./Projectile/Bullet";
 import Trap from "./Projectile/Trap";
 import Drone from "./Projectile/Drone";
 import Rocket from "./Projectile/Rocket";
-import Skimmer from "./Projectile/Skimmer";
+import Spinner from "./Projectile/Skimmer";
+import Spinner4 from "./Projectile/Spinner4";
+import Skimmer from "./Projectile/Skimrocket";
 import Minion from "./Projectile/Minion";
 import ObjectEntity from "../Object";
 import TankBody, { BarrelBase } from "./TankBody";
@@ -44,6 +46,7 @@ import Drone2 from "./Projectile/Drone2";
 import AutoTrap from "./Projectile/AutoTrap";
 import NecromancerPentagon from "./Projectile/NecromancerPenta";
 import NecromancerTriangle from "./Projectile/NecromancerTriangle";
+import MegaSpinner from "./Projectile/MegaSpinner";
 /**
  * Class that determines when barrels can shoot, and when they can't.
  */
@@ -149,8 +152,13 @@ export default class Barrel extends ObjectEntity {
 
         this.barrelData.values.trapezoidDirection = barrelDefinition.trapezoidDirection;
         this.shootCycle = new ShootCycle(this);
-
+        const iseffectedbyspeed = (this.definition.bullet.type === 'spinner' || this.definition.bullet.type === 'spinner4' || this.definition.bullet.type === 'megaspinner')
+        if(!iseffectedbyspeed){
         this.bulletAccel = (20 + (owner.cameraEntity.cameraData?.values.statLevels.values[Stat.BulletSpeed] || 0) * 3) * barrelDefinition.bullet.speed;
+        }
+        else{
+            this.bulletAccel = (20 * 3) * barrelDefinition.bullet.speed;
+        }
     }
 
     /** Shoots a bullet from the barrel. */
@@ -173,11 +181,20 @@ export default class Barrel extends ObjectEntity {
 
 
         switch (this.definition.bullet.type) {
-            case "skimmer":
-                new Skimmer(this, this.tank, tankDefinition, angle, this.tank.inputs.attemptingRepel() ? -Skimmer.BASE_ROTATION : Skimmer.BASE_ROTATION);
+            case "spinner":
+                new Spinner(this, this.tank, tankDefinition, angle, this.tank.inputs.attemptingRepel() ? -Spinner.BASE_ROTATION : Spinner.BASE_ROTATION);
+                break;
+            case "spinner4":
+                new Spinner4(this, this.tank, tankDefinition, angle, this.tank.inputs.attemptingRepel() ? -Spinner.BASE_ROTATION : Spinner.BASE_ROTATION);
+                break;
+            case "megaspinner":
+                new MegaSpinner(this, this.tank, tankDefinition, angle, this.tank.inputs.attemptingRepel() ? -Spinner.BASE_ROTATION : Spinner.BASE_ROTATION);
                 break;
             case "rocket":
                 new Rocket(this, this.tank, tankDefinition, angle);
+                break;
+            case "skimmer":
+                new Skimmer(this, this.tank, tankDefinition, angle);
                 break;
             case 'bullet': {
                 const bullet = new Bullet(this, this.tank, tankDefinition, angle);
@@ -253,7 +270,13 @@ export default class Barrel extends ObjectEntity {
         this.positionData.y = Math.sin(this.definition.angle) * size / 2 + Math.cos(this.definition.angle) * this.definition.offset * sizeFactor;
 
         // Updates bullet accel too
+        const iseffectedbyspeed = (this.definition.bullet.type === 'spinner' || this.definition.bullet.type === 'spinner4' || this.definition.bullet.type === 'megaspinner')
+        if(!iseffectedbyspeed){
         this.bulletAccel = (20 + (this.tank.cameraEntity.cameraData?.values.statLevels.values[Stat.BulletSpeed] || 0) * 3) * this.definition.bullet.speed;
+        }
+        else{
+            this.bulletAccel = (20 * 3) * this.definition.bullet.speed;
+        }
     }
 
     public tick(tick: number) {

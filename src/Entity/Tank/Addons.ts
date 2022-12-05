@@ -489,8 +489,8 @@ class LauncherAddon2 extends Addon {
         super(owner);
 
         const launcher2 = new ObjectEntity(this.game);
-        const sizeRatio = 65.5 * Math.SQRT2 / 50;
-        const widthRatio = 1.2;
+        const sizeRatio = 50 * Math.SQRT2 / 50;
+        const widthRatio = 1.4;
         const size = this.owner.physicsData.values.size;
 
         launcher2.setParent(this.owner);

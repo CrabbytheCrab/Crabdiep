@@ -31,19 +31,19 @@ import { BarrelBase } from "../TankBody";
 const SkimmerBarrelDefinition: BarrelDefinition = {
     angle: Math.PI / 2,
     offset: 0,
-    size: 70,
-    width: 31,
+    size: 75,
+    width: 32,
     delay: 0,
-    reload: 0.25,
+    reload: 0.2,
     recoil: 0,
-    isTrapezoid: false,
+    isTrapezoid: true,
     trapezoidDirection: 0,
     addon: null,
     bullet: {
         type: "bullet",
         health: 0.3,
         damage: 2 / 5,
-        speed: 0.8,
+        speed: 1.1,
         scatterRate: 1,
         lifeLength: 0.25,
         sizeRatio: 1,
@@ -56,7 +56,7 @@ const SkimmerBarrelDefinition: BarrelDefinition = {
  */
 export default class Skimmer extends Bullet implements BarrelBase {
     /** Default speed the skimmer spins */
-    public static BASE_ROTATION = 0.2;
+    public static BASE_ROTATION = 0.4;
 
     /** The skimmer's barrels */
     private skimmerBarrels: Barrel[];
@@ -103,10 +103,35 @@ export default class Skimmer extends Bullet implements BarrelBase {
             }
         }(this, s2Definition);
 
+
+
+
+        const s3Definition = {...SkimmerBarrelDefinition};
+        s3Definition.angle += Math.PI/2
+        const s3 = new class extends Barrel {
+            // Keep the width constant
+            protected resize() {
+                super.resize();
+                this.physicsData.width = this.definition.width
+            }
+        }(this, s3Definition);
+
+
+        const s4Definition = {...SkimmerBarrelDefinition};
+        s4Definition.angle -= Math.PI/2
+        const s4 = new class extends Barrel {
+            // Keep the width constant
+            protected resize() {
+                super.resize();
+                this.physicsData.width = this.definition.width
+            }
+        }(this, s4Definition);
         s1.styleData.values.color = this.styleData.values.color;
         s2.styleData.values.color = this.styleData.values.color;
+        s3.styleData.values.color = this.styleData.values.color;
+        s4.styleData.values.color = this.styleData.values.color;
 
-        skimmerBarrels.push(s1, s2);
+        skimmerBarrels.push(s1, s2, s3, s4);
 
         this.inputs = new Inputs();
         this.inputs.flags |= InputFlags.leftclick;
