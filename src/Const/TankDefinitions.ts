@@ -7903,8 +7903,8 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "bullet",
                     "sizeRatio": 1,
-                    "health": 3,
-                    "damage": 4.5,
+                    "health": 4,
+                    "damage": 3,
                     "speed": 0.7,
                     "scatterRate": 1,
                     "lifeLength": 1,
