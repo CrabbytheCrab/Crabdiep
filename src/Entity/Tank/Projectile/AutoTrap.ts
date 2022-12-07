@@ -52,7 +52,7 @@ export default class AutoTrap extends Bullet implements BarrelBase {
             size: 50,
             width: 26.25,
             delay: 0,
-            reload: 2,
+            reload: 1.75,
             recoil: 0,
             isTrapezoid: false,
             trapezoidDirection: 0,
@@ -63,7 +63,7 @@ export default class AutoTrap extends Bullet implements BarrelBase {
                 health: 0.75,
                 damage: 0.5,
                 speed: 0.8,
-                scatterRate: 0,
+                scatterRate: 1,
                 lifeLength: 0.75,
                 absorbtionFactor: 0.1
             }

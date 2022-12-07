@@ -139,7 +139,7 @@ import Barrel from "../Tank/Barrel";
                     damage: 0.5,
                     speed: 2,
                     scatterRate: 0,
-                    lifeLength: 1.5,
+                    lifeLength: -1,
                     absorbtionFactor: 1
                 }
             };

@@ -44,7 +44,7 @@ const GuardianSpawnerDefinition: BarrelDefinition = {
         damage: 0.5,
         speed: 1.7,
         scatterRate: 1,
-        lifeLength: 1.5,
+        lifeLength: -1,
         absorbtionFactor: 1
     }
 };

@@ -693,7 +693,7 @@ class AutoRocketAddon extends Addon {
             }
         });
 
-        base.turret.styleData.zIndex += 2;
+        base.turret[0].styleData.zIndex += 2;
         new LauncherAddon(base);
     }
 }

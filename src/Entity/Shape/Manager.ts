@@ -27,6 +27,7 @@ import AbstractShape from "./AbstractShape";
 import { Sentry } from "./Sentry";
 import  WepTriangle from "./WepTriangle";
 import  WepSquare from "./WepSquare";
+import WepPentagon from "./WepPentagon";
 
 /**
  * Used to balance out shape count in the arena, as well
@@ -50,16 +51,25 @@ export default class ShapeManager {
      */
     protected spawnShape(): AbstractShape {
         let shape: AbstractShape;
+        const rand2 = Math.random();
         const {x, y} = this.arena.findSpawnLocation();
         const rightX = this.arena.arenaData.values.rightX;
         const leftX = this.arena.arenaData.values.leftX;
         if (Math.max(x, y) < rightX / 10 && Math.min(x, y) > leftX / 10) {
             // Pentagon Nest
+            if(rand2 < this.weaponchance * 1.25){
+                shape = new WepPentagon(this.game, Math.random() <= 0.05);
+
+                shape.positionData.values.x = x;
+                shape.positionData.values.y = y;
+                shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;
+            }
+            else{
             shape = new Pentagon(this.game, Math.random() <= 0.05);
 
             shape.positionData.values.x = x;
             shape.positionData.values.y = y;
-            shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;
+            shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;}
         } else if (Math.max(x, y) < rightX / 5 && Math.min(x, y) > leftX / 5) {
             const rand = Math.random();
             // Crasher Zone
@@ -80,13 +90,20 @@ export default class ShapeManager {
         } else {
             // Fields of Shapes
             const rand = Math.random();
-            const rand2 = Math.random();
             if (rand < .04) {
+                if(rand2 < this.weaponchance){
+                    shape = new WepPentagon(this.game);
+
+                    shape.positionData.values.x = x;
+                    shape.positionData.values.y = y;
+                    shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;
+                }
+                else{
                 shape = new Pentagon(this.game);
 
                 shape.positionData.values.x = x;
                 shape.positionData.values.y = y;
-                shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;
+                shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;}
             } else if (rand < .20) { // < 16%
                 if(rand2 < this.weaponchance){
                 shape = new WepTriangle(this.game);

@@ -26,6 +26,7 @@ import { Entity } from "../../Native/Entity";
 import { BarrelDefinition } from "../../Const/TankDefinitions";
 import { AI } from "../AI";
 import { tps } from "../../config";
+import AbstractShape from "./AbstractShape";
 
 export default class WepSquare extends Square implements BarrelBase {
     public sizeFactor: number;
@@ -43,7 +44,7 @@ export default class WepSquare extends Square implements BarrelBase {
         this.inputs = this.ai.inputs;
         this.nameData.values.name = "Weaponized Square";
         this.healthData.values.health = this.healthData.values.maxHealth = 100;
-        this.physicsData.values.size = 55 * Math.SQRT1_2;
+        this.physicsData.values.size = 68.75 * Math.SQRT1_2;
         this.physicsData.values.sides = 4;
         this.styleData.values.color = shiny ? Color.Shiny : Color.EnemySquare;
 
@@ -78,7 +79,8 @@ export default class WepSquare extends Square implements BarrelBase {
                 speed: 1,
                 scatterRate: 1,
                 lifeLength: 1,
-                absorbtionFactor: 1
+                absorbtionFactor: 1,
+                color: Color.Neutral
             }
         };
         let GuardianSpawnerDefinition2: BarrelDefinition = {
@@ -122,7 +124,8 @@ export default class WepSquare extends Square implements BarrelBase {
                 speed: 1,
                 scatterRate: 1,
                 lifeLength: 1,
-                absorbtionFactor: 1
+                absorbtionFactor: 1,
+                color: Color.Neutral
             }
         };
         let GuardianSpawnerDefinition4: BarrelDefinition = {
@@ -144,7 +147,8 @@ export default class WepSquare extends Square implements BarrelBase {
                 speed: 1,
                 scatterRate: 1,
                 lifeLength: 1,
-                absorbtionFactor: 1
+                absorbtionFactor: 1,
+                color: Color.Neutral
             }
         };
         barsss = new Barrel(this, GuardianSpawnerDefinition);

@@ -26,6 +26,7 @@ import { Entity } from "../../Native/Entity";
 import { BarrelDefinition } from "../../Const/TankDefinitions";
 import { AI } from "../AI";
 import { tps } from "../../config";
+import AbstractShape from "./AbstractShape";
 
 export default class WepTriangle extends Triangle implements BarrelBase {
     public sizeFactor: number;
@@ -44,7 +45,7 @@ export default class WepTriangle extends Triangle implements BarrelBase {
         this.inputs = this.ai.inputs;
         this.nameData.values.name = "Weaponized Triangle";
         this.healthData.values.health = this.healthData.values.maxHealth = 210;
-        this.physicsData.values.size = 55 * Math.SQRT1_2;
+        this.physicsData.values.size = 68.75 * Math.SQRT1_2;
         this.physicsData.values.sides = 3;
         this.styleData.values.color = shiny ? Color.Shiny : Color.EnemyTriangle;
 
@@ -81,7 +82,8 @@ export default class WepTriangle extends Triangle implements BarrelBase {
                 speed: 1.8,
                 scatterRate: 0,
                 lifeLength: 1.5,
-                absorbtionFactor: 0.5
+                absorbtionFactor: 0.5,
+                color: Color.Neutral
             }
         };
         let GuardianSpawnerDefinition2: BarrelDefinition = {
@@ -105,7 +107,8 @@ export default class WepTriangle extends Triangle implements BarrelBase {
                 speed: 1.8,
                 scatterRate: 0,
                 lifeLength: 1.5,
-                absorbtionFactor: 0.5
+                absorbtionFactor: 0.5,
+                color: Color.Neutral
             }
         };
         let GuardianSpawnerDefinition3: BarrelDefinition = {
@@ -129,7 +132,8 @@ export default class WepTriangle extends Triangle implements BarrelBase {
                 speed: 1.8,
                 scatterRate: 0,
                 lifeLength: 1.5,
-                absorbtionFactor: 0.5
+                absorbtionFactor: 0.5, 
+                color: Color.Neutral
             }
         };
         barsss = new Barrel(this, GuardianSpawnerDefinition);
