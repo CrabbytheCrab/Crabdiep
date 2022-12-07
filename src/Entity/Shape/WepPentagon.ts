@@ -37,7 +37,7 @@ const GuardianSpawnerDefinition: BarrelDefinition = {
     size: 80,
     width: 65,
     delay: 0,
-    reload: 6,
+    reload: 8,
     recoil: 0,
     isTrapezoid: false,
     trapezoidDirection: 0,
@@ -46,11 +46,11 @@ const GuardianSpawnerDefinition: BarrelDefinition = {
     bullet: {
         type: "trap",
         sizeRatio:0.8,
-        health: 3,
+        health: 5,
         damage: 1.25,
         speed: 2,
         scatterRate: 1,
-        lifeLength: 2,
+        lifeLength: 1,
         absorbtionFactor: 1,
         color: Color.Neutral
     }
@@ -62,7 +62,7 @@ const GuardianSpawnerDefinition2: BarrelDefinition = {
     size: 150,
     width: 120,
     delay: 0,
-    reload: 6,
+    reload: 8,
     recoil: 0,
     isTrapezoid: false,
     trapezoidDirection: 0,
@@ -71,11 +71,11 @@ const GuardianSpawnerDefinition2: BarrelDefinition = {
     bullet: {
         type: "trap",
         sizeRatio:0.8,
-        health: 4,
-        damage: 3,
+        health: 10,
+        damage: 5,
         speed: 2,
         scatterRate: 1,
-        lifeLength: 2,
+        lifeLength: 1,
         absorbtionFactor: 0.1,
         color: Color.Neutral
     }
@@ -85,8 +85,8 @@ const GuardianSpawnerDefinition3: BarrelDefinition = {
     offset: 0,
     size: 300,
     width: 120,
-    delay: 0,
-    reload: 4,
+    delay: 0.5,
+    reload: 8,
     recoil: 0,
     isTrapezoid: false,
     trapezoidDirection: 0,
@@ -146,7 +146,7 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
         super(game);
         this.sizeFactor = this.physicsData.values.size/50;
         this.ai = new AI(this);
-        this.ai.viewRange = 800;
+        this.ai.viewRange = 1200;
         this.ai.aimSpeed = (this.ai.movementSpeed);
         this.ai['_findTargetInterval'] = tps;
         this.inputs = this.ai.inputs;       
@@ -175,7 +175,7 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
                 color: Color.Neutral
             }
         });
-        atuo.ai.viewRange = 800;
+        atuo.ai.viewRange = 1200;
         //atuo.ai.passiveRotation = this.movementAngle
         atuo.styleData.values.flags |= StyleFlags.showsAboveParent;
         const MAX_ANGLE_RANGE = PI2 / 4; // keep within 90º each side
@@ -184,7 +184,7 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
              const base  = [new AutoTurret(this, GuardianSpawnerDefinition2)];
              base[0].influencedByOwnerInputs = true;
              base[0].baseSize = 100;
-             base[0].ai.viewRange = 800;
+             base[0].ai.viewRange = 1200;
             const angle = base[0].ai.inputs.mouse.angle = PI2 * (i / 5);
             base[0].ai.passiveRotation = AI.PASSIVE_ROTATION;
             base[0].positionData.values.y = this.physicsData.values.size * Math.sin(angle) * 1.1;

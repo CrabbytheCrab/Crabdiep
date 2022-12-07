@@ -62,7 +62,7 @@ export default class AutoTurret extends ObjectEntity {
     /** Barrel's owner (Tank-like object). */
     private owner: BarrelBase;
     /** Actual turret / barrel. */
-    public turret: Barrel[] = [];
+    public turret: Barrel;
     /** The AI controlling the turret. */
     public ai: AI;
     /** The AI's inputs, for determining whether to shoot or not. */
@@ -78,8 +78,7 @@ export default class AutoTurret extends ObjectEntity {
     /** The size of the auto turret base */
     public baseSize: number;
 
-    public constructor(owner: BarrelBase, barrelDefinition: BarrelDefinition[] | BarrelDefinition = AutoTurretDefinition, baseSize: number = 25)
-    {
+    public constructor(owner: BarrelBase, turretDefinition: BarrelDefinition = AutoTurretDefinition, baseSize: number = 25) {
         super(owner.game);
 
         this.cameraEntity = owner.cameraEntity;
@@ -106,12 +105,8 @@ export default class AutoTurret extends ObjectEntity {
         this.nameData.values.name = "Mounted Turret";
         this.nameData.values.flags |= NameFlags.hiddenName;
 
-        if (!(barrelDefinition instanceof Array)) barrelDefinition = [barrelDefinition];
-        for (const def of barrelDefinition ) { 
-            this.turret = [new Barrel(this, def)];
-            this.turret[0].physicsData.values.flags |= PhysicsFlags._unknown;
-        }
-        
+        this.turret = new Barrel(this, turretDefinition);
+        this.turret.physicsData.values.flags |= PhysicsFlags._unknown;
     }
     
     /**
@@ -137,7 +132,7 @@ export default class AutoTurret extends ObjectEntity {
 
         this.physicsData.size = this.baseSize * this.sizeFactor;
 
-        this.ai.aimSpeed = this.turret[0].bulletAccel;
+        this.ai.aimSpeed = this.turret.bulletAccel;
         // Top Speed
         this.ai.movementSpeed = 0;
 
@@ -160,7 +155,7 @@ export default class AutoTurret extends ObjectEntity {
         if (useAI) {
             if (this.ai.state === AIState.idle) {
                 this.positionData.angle += this.ai.passiveRotation;
-                this.turret[0].attemptingShot = false;
+                this.turret.attemptingShot = false;
             } else {
                 // Uh. Yeah
                 const {x, y} = this.getWorldPosition();

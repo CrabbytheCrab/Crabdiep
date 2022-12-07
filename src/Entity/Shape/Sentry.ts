@@ -160,11 +160,11 @@ import Barrel from "../Tank/Barrel";
                 bullet: {
                     type: "trap",
                     sizeRatio:0.8,
-                    health: 3,
-                    damage: 1,
+                    health: 8,
+                    damage: 3,
                     speed: 2,
                     scatterRate: 1,
-                    lifeLength: 5,
+                    lifeLength: 1,
                     absorbtionFactor: 1
                 }
             };
