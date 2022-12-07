@@ -72,16 +72,16 @@ export default class WepTriangle extends Triangle implements BarrelBase {
             isTrapezoid: true,
             trapezoidDirection: 3.141592653589793,
             addon: null,
-            droneCount: 6,
+            droneCount: 3,
             canControlDrones: true,
             bullet: {
                 type: "drone",
                 sizeRatio:1,
                 health: 1,
-                damage: 1,
+                damage: 2,
                 speed: 1.8,
                 scatterRate: 0,
-                lifeLength: 1.5,
+                lifeLength: -1,
                 absorbtionFactor: 0.5,
                 color: Color.Neutral
             }
@@ -97,16 +97,16 @@ export default class WepTriangle extends Triangle implements BarrelBase {
             isTrapezoid: true,
             trapezoidDirection: 3.141592653589793,
             addon: null,
-            droneCount: 6,
+            droneCount: 3,
             canControlDrones: true,
             bullet: {
                 type: "drone",
                 sizeRatio:1,
                 health: 1,
-                damage: 1,
+                damage: 2,
                 speed: 1.8,
                 scatterRate: 0,
-                lifeLength: 1.5,
+                lifeLength: -1,
                 absorbtionFactor: 0.5,
                 color: Color.Neutral
             }
@@ -122,16 +122,16 @@ export default class WepTriangle extends Triangle implements BarrelBase {
             isTrapezoid: true,
             trapezoidDirection: 3.141592653589793,
             addon: null,
-            droneCount: 6,
+            droneCount: 3,
             canControlDrones: true,
             bullet: {
                 type: "drone",
                 sizeRatio:1,
                 health: 1,
-                damage: 1,
+                damage: 2,
                 speed: 1.8,
                 scatterRate: 0,
-                lifeLength: 1.5,
+                lifeLength: -1,
                 absorbtionFactor: 0.5, 
                 color: Color.Neutral
             }
