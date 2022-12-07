@@ -58,7 +58,7 @@ export default class ShapeManager {
         if (Math.max(x, y) < rightX / 10 && Math.min(x, y) > leftX / 10) {
             // Pentagon Nest
             if(rand2 < this.weaponchance * 1.25){
-                shape = new WepPentagon(this.game, Math.random() <= 0.05);
+                shape = new WepPentagon(this.game, Math.random() <= 0.2);
 
                 shape.positionData.values.x = x;
                 shape.positionData.values.y = y;

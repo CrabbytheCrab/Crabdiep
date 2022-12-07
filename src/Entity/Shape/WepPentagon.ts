@@ -59,8 +59,8 @@ const GuardianSpawnerDefinition: BarrelDefinition = {
 const GuardianSpawnerDefinition2: BarrelDefinition = {
     angle: 0,
     offset: 0,
-    size: 240,
-    width: 95,
+    size: 150,
+    width: 120,
     delay: 0,
     reload: 6,
     recoil: 0,
@@ -82,31 +82,31 @@ const GuardianSpawnerDefinition2: BarrelDefinition = {
 };
 const GuardianSpawnerDefinition3: BarrelDefinition = {
     angle: 0,
-    offset: -30,
-    size: 140,
-    width: 40,
+    offset: 0,
+    size: 300,
+    width: 120,
     delay: 0,
-    reload: 1,
+    reload: 4,
     recoil: 0,
     isTrapezoid: false,
     trapezoidDirection: 0,
-    addon: null,
+    addon: "minionLauncher",
+    droneCount: 1,
     bullet: {
-        type: "bullet",
+        type: "pentadrone",
         sizeRatio:1,
-        health: 1,
-        damage: 1.25,
-        speed: 2,
-        scatterRate: 1,
-        lifeLength: 2,
+        health: 5,
+        damage: 4,
+        speed: 3,
+        scatterRate: 0,
+        lifeLength: -1,
         absorbtionFactor: 1,
-        color: Color.Neutral
     }
 };
 const GuardianSpawnerDefinition4: BarrelDefinition = {
     angle: 0,
     offset: 30,
-    size: 140,
+    size: 180,
     width: 40,
     delay: 0,
     reload: 1,
@@ -181,12 +181,7 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
         const MAX_ANGLE_RANGE = PI2 / 4; // keep within 90º each side
         atuo.baseSize = 100;
         for (let i = 0; i < 5; ++i) {
-            // Add trap launcher
-            this.trappers.push(new Barrel(this, {
-                ...GuardianSpawnerDefinition2,
-                angle: PI2 * ((i / 5) - 1 / 10)
-            }));
-             const base  = [new AutoTurret(this, [GuardianSpawnerDefinition3, GuardianSpawnerDefinition4])];
+             const base  = [new AutoTurret(this, GuardianSpawnerDefinition2)];
              base[0].influencedByOwnerInputs = true;
              base[0].baseSize = 100;
              base[0].ai.viewRange = 800;
@@ -212,6 +207,13 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
                 if (base[0].ai.state === AIState.idle) base[0].positionData.angle = angle + this.positionData.values.angle
                 tickBase.call(base[0], tick);
             }
+        }
+        for (let i = 0; i < 5; ++i) {
+            // Add trap launcher
+            this.trappers.push(new Barrel(this, {
+                ...GuardianSpawnerDefinition3,
+                angle: PI2 * ((i / 5) - 1 / 10)
+            }));
         }
     }
         if(!isAlpha){

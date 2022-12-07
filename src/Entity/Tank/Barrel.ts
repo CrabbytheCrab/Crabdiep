@@ -46,6 +46,7 @@ import Launrocket from "./Projectile/Launrocket";
 import Drone2 from "./Projectile/Drone2";
 import AutoTrap from "./Projectile/AutoTrap";
 import NecromancerPentagon from "./Projectile/NecromancerPenta";
+import Pentagon from "./Projectile/PentaDrone";
 import NecromancerTriangle from "./Projectile/NecromancerTriangle";
 import MegaSpinner from "./Projectile/MegaSpinner";
 /**
@@ -72,7 +73,7 @@ export class ShootCycle {
             this.reloadTime = reloadTime;
         }
 
-        const alwaysShoot = (this.barrelEntity.definition.forceFire) || (this.barrelEntity.definition.bullet.type === 'domminion') || (this.barrelEntity.definition.bullet.type === 'megaminion') || (this.barrelEntity.definition.bullet.type === 'miniminion') || (this.barrelEntity.definition.bullet.type === 'minion') || (this.barrelEntity.definition.bullet.type === 'drone') || (this.barrelEntity.definition.bullet.type === 'necrodrone') || (this.barrelEntity.definition.bullet.type === 'necropentadrone') || (this.barrelEntity.definition.bullet.type === 'necrotriangledrone');
+        const alwaysShoot = (this.barrelEntity.definition.forceFire) || (this.barrelEntity.definition.bullet.type === 'pentadrone') || (this.barrelEntity.definition.bullet.type === 'domminion') || (this.barrelEntity.definition.bullet.type === 'megaminion') || (this.barrelEntity.definition.bullet.type === 'miniminion') || (this.barrelEntity.definition.bullet.type === 'minion') || (this.barrelEntity.definition.bullet.type === 'drone') || (this.barrelEntity.definition.bullet.type === 'necrodrone') || (this.barrelEntity.definition.bullet.type === 'necropentadrone') || (this.barrelEntity.definition.bullet.type === 'necrotriangledrone');
 
         if (this.pos >= reloadTime) {
             // When its not shooting dont shoot, unless its a drone
@@ -208,6 +209,9 @@ export default class Barrel extends ObjectEntity {
                 break;
             case 'drone':
                 new Drone(this, this.tank, tankDefinition, angle);
+                break;
+            case 'pentadrone':
+                new Pentagon(this, this.tank, tankDefinition, angle);
                 break;
             case 'necrodrone':
                 new NecromancerSquare(this, this.tank, tankDefinition, angle);

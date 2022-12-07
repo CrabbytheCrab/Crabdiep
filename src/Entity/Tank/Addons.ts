@@ -214,7 +214,6 @@ export class Addon {
 
         const rotator = this.createGuard(1, .1, 0, rotPerTick) as GuardObject & { turrets: AutoTurret[] };
         rotator.turrets = [];
-
         const ROT_OFFSET = 0.8;
 
         if (rotator.styleData.values.flags & StyleFlags.isVisible) rotator.styleData.values.flags ^= StyleFlags.isVisible;
@@ -222,7 +221,7 @@ export class Addon {
         for (let i = 0; i < count; ++i) {
             const base = new AutoTurret(rotator, AutoTurretMegaDefinition);
             base.influencedByOwnerInputs = true;
-
+            base.baseSize *= 1.25
             const angle = base.ai.inputs.mouse.angle = PI2 * (i / count);
             base.ai.passiveRotation = rotPerTick;
             base.ai.targetFilter = (targetPos) => {
@@ -285,8 +284,8 @@ const AutoTurretStalkDefinition: BarrelDefinition = {
 const AutoTurretMegaDefinition: BarrelDefinition = {
     angle: 0,
     offset: 0,
-    size: 55,
-    width: 56 * 0.7,
+    size: 65,
+    width: 70 * 0.7,
     delay: 0.01,
     reload: 2.5,
     recoil: 0,
@@ -296,8 +295,8 @@ const AutoTurretMegaDefinition: BarrelDefinition = {
     bullet: {
         type: "bullet",
         health: 1.5,
-        damage: 0.8,
-        speed: 1,
+        damage: 1.2,
+        speed: 0.85,
         scatterRate: 1,
         lifeLength: 1,
         sizeRatio: 1,
