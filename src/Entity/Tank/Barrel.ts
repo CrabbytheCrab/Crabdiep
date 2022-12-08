@@ -199,7 +199,7 @@ export default class Barrel extends ObjectEntity {
                 new Skimmer(this, this.tank, tankDefinition, angle);
                 break;
             case 'bullet': {
-                const bullet = new Bullet(this, this.tank, tankDefinition, angle);
+                const bullet = new Bullet(this, this.tank, tankDefinition, angle, this.rootParent);
 
                 if (tankDefinition && (tankDefinition.id === Tank.ArenaCloser || tankDefinition.id === DevTank.Squirrel)) bullet.positionData.flags |= PositionFlags.canMoveThroughWalls;
                 break;
