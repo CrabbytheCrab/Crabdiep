@@ -27,15 +27,66 @@ import { BarrelDefinition } from "../../Const/TankDefinitions";
 import { AI } from "../AI";
 import { tps } from "../../config";
 import AbstractShape from "./AbstractShape";
+import { PI2 } from "../../util";
+const GuardianSpawnerDefinition: BarrelDefinition = {
+    angle: Math.PI,
+    offset: 0,
+    size: 90,
+    width: 57,
+    delay: 0,
+    reload: 2,
+    recoil: 0,
+    isTrapezoid: false,
+    trapezoidDirection: 0,
+    addon: null,
+    bullet: {
+        type: "bullet",
+        sizeRatio:1,
+        health: 1.5,
+        damage: 1.5,
+        speed: 1,
+        scatterRate: 1,
+        lifeLength: 1,
+        absorbtionFactor: 1,
+        color: Color.Neutral
+    }
+};
 
+const GuardianSpawnerDefinition2: BarrelDefinition = {
+    angle: Math.PI,
+    offset: 0,
+    size: 90,
+    width: 60,
+    delay: 0,
+    reload: 2,
+    recoil: 0,
+    isTrapezoid: true,
+    trapezoidDirection: 0,
+    addon: null,
+    droneCount: 1,
+    bullet: {
+        type: "drone",
+        sizeRatio:1,
+        health: 2,
+        damage: 1.5,
+        speed: 1.5,
+        scatterRate: 0,
+        lifeLength: -1,
+        absorbtionFactor: 1,
+        sides: 4,
+        color: Color.NecromancerSquare
+    }
+};
 export default class WepSquare extends Square implements BarrelBase {
     public sizeFactor: number;
     public cameraEntity: Entity = this;
     public inputs;
     public reloadTime = 4;
+    barrel: Barrel[] = []
     ai: AI;
     public constructor(game: GameServer, shiny=Math.random() < 0.000001) {
         super(game);
+        const rand = Math.random();
         this.sizeFactor = this.physicsData.values.size / 50;
         this.ai = new AI(this);
         this.ai.viewRange = 800;
@@ -59,101 +110,22 @@ export default class WepSquare extends Square implements BarrelBase {
 
 
 
-        let barsss: Barrel;
-        let GuardianSpawnerDefinition: BarrelDefinition = {
-            angle: Math.PI,
-            offset: 0,
-            size: 90,
-            width: 57,
-            delay: 0,
-            reload: 2,
-            recoil: 0,
-            isTrapezoid: false,
-            trapezoidDirection: 0,
-            addon: null,
-            bullet: {
-                type: "bullet",
-                sizeRatio:1,
-                health: 1,
-                damage: 1,
-                speed: 1,
-                scatterRate: 1,
-                lifeLength: 1,
-                absorbtionFactor: 1,
-                color: Color.Neutral
+        if(rand < 0.5){
+            for (let i = 0; i < 4; ++i) {
+                // Add trap launcher
+                this.barrel.push(new Barrel(this, {
+                    ...GuardianSpawnerDefinition,
+                    angle: PI2 * ((i / 4))
+                }));
             }
-        };
-        let GuardianSpawnerDefinition2: BarrelDefinition = {
-            angle: Math.PI/2,
-            offset: 0,
-            size: 90,
-            width: 57,
-            delay: 0,
-            reload: 2,
-            recoil: 0,
-            isTrapezoid: false,
-            trapezoidDirection: 0,
-            addon: null,
-            bullet: {
-                type: "bullet",
-                sizeRatio:1,
-                health: 1,
-                damage: 1,
-                speed: 1,
-                scatterRate: 1,
-                lifeLength: 1,
-                absorbtionFactor: 1
+        }else{
+            for (let i = 0; i < 4; ++i) {
+                // Add trap launcher
+                this.barrel.push(new Barrel(this, {
+                    ...GuardianSpawnerDefinition2,
+                    angle: PI2 * ((i / 4))
+                }));
             }
-        };
-        let GuardianSpawnerDefinition3: BarrelDefinition = {
-            angle: Math.PI/-2,
-            offset: 0,
-            size: 90,
-            width: 57,
-            delay: 0,
-            reload: 2,
-            recoil: 0,
-            isTrapezoid: false,
-            trapezoidDirection: 0,
-            addon: null,
-            bullet: {
-                type: "bullet",
-                sizeRatio:1,
-                health: 1,
-                damage: 1,
-                speed: 1,
-                scatterRate: 1,
-                lifeLength: 1,
-                absorbtionFactor: 1,
-                color: Color.Neutral
-            }
-        };
-        let GuardianSpawnerDefinition4: BarrelDefinition = {
-            angle: 0,
-            offset: 0,
-            size: 90,
-            width: 57,
-            delay: 0,
-            reload: 2,
-            recoil: 0,
-            isTrapezoid: false,
-            trapezoidDirection: 0,
-            addon: null,
-            bullet: {
-                type: "bullet",
-                sizeRatio:1,
-                health: 1,
-                damage: 1,
-                speed: 1,
-                scatterRate: 1,
-                lifeLength: 1,
-                absorbtionFactor: 1,
-                color: Color.Neutral
-            }
-        };
-        barsss = new Barrel(this, GuardianSpawnerDefinition);
-        barsss = new Barrel(this, GuardianSpawnerDefinition2);
-        barsss = new Barrel(this, GuardianSpawnerDefinition3);
-        barsss = new Barrel(this, GuardianSpawnerDefinition4);
+        }
     }
 }

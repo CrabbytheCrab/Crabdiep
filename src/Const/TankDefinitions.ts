@@ -20,7 +20,7 @@ import DevTankDefinitions, { DevTank } from "./DevTankDefinitions";
 import { Tank, Color } from "./Enums";
 
 /** The types of post addons that exist in the game, by their id. */
-export type postAddonId = "dompronounced" | "auto5" | "auto3" | "autosmasher" | "spike" | "pronounced" | "smasher" | "landmine" | "autoturret" | "weirdspike" | "auto2" | "auto7" | "autorocket" | "spiesk" | "saw" | "megasmasher" | "mega3" | "stalker3" | "auto4";
+export type postAddonId = "dompronounced" | "auto5" | "auto3" | "autosmasher" | "spike" | "pronounced"  | "bumper"| "smasher" | "landmine" | "autoturret" | "weirdspike" | "auto2" | "auto7" | "autorocket" | "spiesk" | "saw" | "megasmasher" | "mega3" | "stalker3" | "auto4";
 
 /** The types of post addons that exist in the game, by their id. */
 export type preAddonId = "dombase" | "launcher" | "laucher2";
@@ -90,10 +90,12 @@ export interface BarrelDefinition {
     droneCount?: number;
     /** Whether or not the drones are controllable - only present if `bullet.type` === 'drone'. */
     canControlDrones?: boolean;
+    megaturret?: boolean;
     /** Whether or not the barrel should always shoot (Trapper Dominator, Defender). */
     forceFire?: boolean;
     /** The definition of the bullet that is shot from the barrel. */
     bullet: BulletDefinition;
+
 }
 /**
  * Format that the game stores stat definitions in its memory.
@@ -873,7 +875,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Smasher",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [86, 87,88,89,90],
+        "upgrades": [86, 87,88,89,90, 108],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -9959,6 +9961,7 @@ const TankDefinitions = JSON.parse(`[
                 "delay": 0,
                 "reload": 5,
                 "recoil": 1,
+                "megaturret": true,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
                 "addon": "engitrapLauncher",
@@ -12329,6 +12332,86 @@ const TankDefinitions = JSON.parse(`[
             {
                 "name": "Health Regen",
                 "max": 0
+            }
+        ]
+    },
+    {
+        "id": 108,
+        "name": "Rammer",
+        "upgradeMessage": "",
+        "levelRequirement": 45,
+        "upgrades": [],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 0.9,
+        "absorbtionFactor": 0.8,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": null,
+        "postAddon": "bumper",
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+            "angle": 3.141592653589793,
+            "offset": 0,
+            "size": 80,
+            "width": 65,
+            "delay": 0,
+            "reload": 2.5,
+            "recoil": 6,
+            "isTrapezoid": false,
+            "trapezoidDirection": 0,
+            "addon": null,
+            "bullet": {
+                "type": "bullet",
+                "sizeRatio": 1,
+                "health": 5,
+                "damage": 0,
+                "speed": 0.85,
+                "scatterRate": 1,
+                "lifeLength": 1,
+                "absorbtionFactor": 0.4
+            }
+        }],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 10
+            },
+            {
+                "name": "Reload",
+                "max": 10
+            },
+            {
+                "name": "Bullet Damage",
+                "max": 0
+            },
+            {
+                "name": "Bullet Penetration",
+                "max": 0
+            },
+            {
+                "name": "Bullet Speed",
+                "max": 0
+            },
+            {
+                "name": "Body Damage",
+                "max": 10
+            },
+            {
+                "name": "Max Health",
+                "max": 10
+            },
+            {
+                "name": "Health Regen",
+                "max": 10
             }
         ]
     }

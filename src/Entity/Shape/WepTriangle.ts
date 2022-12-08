@@ -27,16 +27,72 @@ import { BarrelDefinition } from "../../Const/TankDefinitions";
 import { AI } from "../AI";
 import { tps } from "../../config";
 import AbstractShape from "./AbstractShape";
+import { PI2 } from "../../util";
+import { TrapLauncher } from "../Tank/BarrelAddons";
+import AutoTurret from "../Tank/AutoTurret";
 
+const GuardianSpawnerDefinition: BarrelDefinition = {
+    angle: Math.PI,
+    offset: 0,
+    size: 90,
+    width: 47,
+    delay: 0,
+    reload: 6,
+    recoil: 0,
+    isTrapezoid: true,
+    trapezoidDirection: 3.141592653589793,
+    addon: null,
+    droneCount: 3,
+    canControlDrones: true,
+    bullet: {
+        type: "drone",
+        sizeRatio:1,
+        health: 1,
+        damage: 2,
+        speed: 1.8,
+        scatterRate: 0,
+        lifeLength: -1,
+        absorbtionFactor: 0.5,
+        color: Color.Neutral
+    }
+};
+
+const GuardianSpawnerDefinition2: BarrelDefinition = {
+    angle: Math.PI,
+    offset: 0,
+    size: 70,
+    width: 62,
+    delay: 0,
+    reload: 4.5,
+    recoil: 0,
+    isTrapezoid: false,
+    trapezoidDirection: 0,
+    forceFire: true,
+    addon: "trapLauncher",
+    canControlDrones: true,
+    bullet: {
+        type: "trap",
+        sizeRatio:1,
+        health: 1,
+        damage: 2,
+        speed: 1,
+        scatterRate: 1,
+        lifeLength: 1,
+        absorbtionFactor: 0.5,
+        color: Color.Neutral
+    }
+};
 export default class WepTriangle extends Triangle implements BarrelBase {
     public sizeFactor: number;
     public cameraEntity: Entity = this;
     public inputs;
     public reloadTime = 4;
     ai: AI;
+    barrel: Barrel[] = []
     public constructor(game: GameServer, shiny=Math.random() < 0.000001) {
         super(game);
-        
+        const rand = Math.random();
+    
         this.sizeFactor = this.physicsData.values.size / 50;
         this.ai = new AI(this);
         this.ai.viewRange = 800;
@@ -59,85 +115,47 @@ export default class WepTriangle extends Triangle implements BarrelBase {
         }
 
 
-
-        let barsss: Barrel;
-        let GuardianSpawnerDefinition: BarrelDefinition = {
-            angle: Math.PI,
-            offset: 0,
-            size: 90,
-            width: 47,
-            delay: 0,
-            reload: 6,
-            recoil: 0,
-            isTrapezoid: true,
-            trapezoidDirection: 3.141592653589793,
-            addon: null,
-            droneCount: 3,
-            canControlDrones: true,
-            bullet: {
-                type: "drone",
-                sizeRatio:1,
-                health: 1,
-                damage: 2,
-                speed: 1.8,
-                scatterRate: 0,
-                lifeLength: -1,
-                absorbtionFactor: 0.5,
-                color: Color.Neutral
+        if(rand < 0.5){
+            for (let i = 0; i < 3; ++i) {
+                // Add trap launcher
+                this.barrel.push(new Barrel(this, {
+                    ...GuardianSpawnerDefinition,
+                    angle: PI2 * ((i / 3) - 1 / 6)
+                }));
             }
-        };
-        let GuardianSpawnerDefinition2: BarrelDefinition = {
-            angle: Math.PI/3,
-            offset: 0,
-            size: 90,
-            width: 47,
-            delay: 0,
-            reload: 6,
-            recoil: 0,
-            isTrapezoid: true,
-            trapezoidDirection: 3.141592653589793,
-            addon: null,
-            droneCount: 3,
-            canControlDrones: true,
-            bullet: {
-                type: "drone",
-                sizeRatio:1,
-                health: 1,
-                damage: 2,
-                speed: 1.8,
-                scatterRate: 0,
-                lifeLength: -1,
-                absorbtionFactor: 0.5,
-                color: Color.Neutral
+        }else{
+            const atuo = new AutoTurret(this, {
+                angle: 0,
+                offset: 0,
+                size: 70,
+                width: 40,
+                delay: 0,
+                reload: 1,
+                recoil: 0,
+                isTrapezoid: false,
+                trapezoidDirection: 0,
+                addon: null,
+                bullet: {
+                    type: "bullet",
+                    sizeRatio: 1,
+                    health: 1,
+                    damage: 1,
+                    speed: 1.5,
+                    scatterRate: 0.3,
+                    lifeLength: 1,
+                    absorbtionFactor: 0.1,
+                    color: Color.Neutral
+                }
+            });
+            atuo.ai.viewRange = 800;
+            atuo.baseSize *= 1.125
+            for (let i = 0; i < 3; ++i) {
+                // Add trap launcher
+                this.barrel.push(new Barrel(this, {
+                    ...GuardianSpawnerDefinition2,
+                    angle: PI2 * ((i / 3) - 1 / 6)
+                }));
             }
-        };
-        let GuardianSpawnerDefinition3: BarrelDefinition = {
-            angle: Math.PI/-3,
-            offset: 0,
-            size: 90,
-            width: 47,
-            delay: 0,
-            reload: 6,
-            recoil: 0,
-            isTrapezoid: true,
-            trapezoidDirection: 3.141592653589793,
-            addon: null,
-            droneCount: 3,
-            canControlDrones: true,
-            bullet: {
-                type: "drone",
-                sizeRatio:1,
-                health: 1,
-                damage: 2,
-                speed: 1.8,
-                scatterRate: 0,
-                lifeLength: -1,
-                absorbtionFactor: 0.5, 
-                color: Color.Neutral
-            }
-        };
-        barsss = new Barrel(this, GuardianSpawnerDefinition);
-        barsss = new Barrel(this, GuardianSpawnerDefinition2);
-        barsss = new Barrel(this, GuardianSpawnerDefinition3);
+        }
     }
 }

@@ -26,6 +26,7 @@ import { AI, AIState, Inputs } from "../AI";
 import { Entity } from "../../Native/Entity";
 import { NameGroup } from "../../Native/FieldGroups";
 import LivingEntity from "../Live";
+import { CameraEntity } from "../../Native/Camera";
 
 export const AutoTurretDefinition: BarrelDefinition = {
     angle: 0,

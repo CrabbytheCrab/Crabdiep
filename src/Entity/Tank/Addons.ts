@@ -43,7 +43,7 @@ export class Addon {
     /** The current game server */
     protected game: GameServer;
     /** Helps the class determine size ratio as well as who is the owner */
-    protected owner: BarrelBase;
+    public owner: BarrelBase;
 
     public constructor(owner: BarrelBase) {
         this.owner = owner;
@@ -55,15 +55,17 @@ export class Addon {
      * Read (addons.md on diepindepth)[https://github.com/ABCxFF/diepindepth/blob/main/extras/addons.md]
      * for more details and examples.
      */
-    protected createGuard(sides: number, sizeRatio: number, offsetAngle: number, radiansPerTick: number): GuardObject {
+    public createGuard(sides: number, sizeRatio: number, offsetAngle: number, radiansPerTick: number): GuardObject {
         return new GuardObject(this.game, this.owner, sides, sizeRatio, offsetAngle, radiansPerTick);
     }
-
+    public createGuard2(): OverdriveAddon {
+        return new OverdriveAddon(1.15, this.owner);
+    }
     /**
      * `createAutoTurrets` method builds `count` auto turrets around the current
      * tank's body. 
      */
-    protected createAutoTurrets(count: number) {
+     protected createAutoTurrets(count: number) {
         const rotPerTick = AI.PASSIVE_ROTATION;
         const MAX_ANGLE_RANGE = PI2 / 4; // keep within 90º each side
 
@@ -355,6 +357,37 @@ const AutoTurretMiniDefinition: BarrelDefinition = {
  * Read (addons.md on diepindepth)[https://github.com/ABCxFF/diepindepth/blob/main/extras/addons.md]
  * for more details and examples.
  */
+
+
+ class OverdriveAddon extends Addon {
+    public sizeRatio: number;
+    public constructor(sizeRatio: number, owner: BarrelBase) {
+        super(owner);
+        sizeRatio *= Math.SQRT1_2
+        this.sizeRatio = sizeRatio;
+        const oversquare = new ObjectEntity(this.game);
+        const offsetRatio = 0;
+        const size = this.owner.physicsData.values.size;
+
+        oversquare.setParent(this.owner);
+        oversquare.relationsData.values.owner = this.owner;
+        oversquare.relationsData.values.team = this.owner.relationsData.values.team
+
+        oversquare.physicsData.values.size = sizeRatio * size;
+        oversquare.positionData.values.x = offsetRatio * size;
+        oversquare.positionData.values.angle = 0;
+        
+        oversquare.styleData.values.color = Color.Border;
+        oversquare.physicsData.values.sides = 6;
+
+        oversquare.tick = () => {
+            const size = this.owner.physicsData.values.size;
+            oversquare.styleData.opacity = this.owner.styleData.opacity;
+            oversquare.physicsData.size = sizeRatio * size;
+            oversquare.positionData.x = offsetRatio * size;
+        }
+    }
+}
 export class GuardObject extends ObjectEntity implements BarrelBase {
     /***** From BarrelBase *****/
     public inputs: Inputs;
@@ -391,6 +424,7 @@ export class GuardObject extends ObjectEntity implements BarrelBase {
         this.physicsData.values.size = owner.physicsData.values.size * sizeRatio;
     }
 
+    
     /**
      * Size factor, used for calculation of the turret and base size.
      */
@@ -746,7 +780,13 @@ class SawAddon extends Addon {
         this.createGuard(4, 1.5, 0, .1);
     }
 }
-
+class BumperAddon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+        //owner.positionData.values.angle
+        this.createGuard2();
+    }
+}
 /**
  * All addons in the game by their ID.
  */
@@ -774,4 +814,5 @@ export const AddonById: Record<addonId, typeof Addon | null> = {
     mega3: Mega3Addon,
     stalker3 : Stalker3Addon,
     auto4    : Auto4Addon,
+    bumper   : BumperAddon
 }

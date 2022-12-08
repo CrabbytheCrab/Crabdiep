@@ -30,6 +30,7 @@ import LivingEntity from "../../Live";
  * The drone class represents the drone (projectile) entity in diep.
  */
 export default class NecromancerPentagon extends Drone {
+    
     public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number) {
         super(barrel, tank, tankDefinition, shootAngle);
 

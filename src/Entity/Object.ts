@@ -24,6 +24,7 @@ import Vector from "../Physics/Vector";
 import { PhysicsGroup, PositionGroup, RelationsGroup, StyleGroup } from "../Native/FieldGroups";
 import { Entity } from "../Native/Entity";
 import { PositionFlags, PhysicsFlags } from "../Const/Enums";
+import LivingEntity from "./Live";
 
 /**
  * The animator for how entities delete (the opacity and size fade out).
@@ -76,7 +77,7 @@ export default class ObjectEntity extends Entity {
     public positionData: PositionGroup = new PositionGroup(this);
     /** Always existant style field group. Present in all objects. */
     public styleData: StyleGroup = new StyleGroup(this);
-
+    public onKill(entity: LivingEntity) {}
     /** Animator used for deletion animation */
     public deletionAnimation: DeletionAnimation | null = null;
 

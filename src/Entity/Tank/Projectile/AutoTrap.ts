@@ -19,7 +19,7 @@
 import Barrel from "../Barrel";
 import Bullet from "./Bullet";
 import { Inputs } from "../../AI";
-import { InputFlags } from "../../../Const/Enums";
+import { InputFlags, Tank } from "../../../Const/Enums";
 import { PhysicsFlags, StyleFlags } from "../../../Const/Enums";
 import {BarrelDefinition, TankDefinition } from "../../../Const/TankDefinitions";
 import { BarrelBase } from "../TankBody";
@@ -31,9 +31,10 @@ import { normalizeAngle } from "../../../util";
  * The trap class represents the trap (projectile) entity in diep.
  */
 export default class AutoTrap extends Bullet implements BarrelBase {
-    private turreta: AutoTurret;
     public sizeFactor: number;
     public cameraEntity: Entity;
+    private _currentTank: Tank | DevTank = Tank.Basic;
+    protected megaturret: boolean;
     public inputs = new Inputs();
     /** Number of ticks before the trap cant collide with its own team. */
     protected collisionEnd = 0;
@@ -44,13 +45,45 @@ export default class AutoTrap extends Bullet implements BarrelBase {
 
 
         this.cameraEntity = tank.cameraEntity;
+        this.megaturret = typeof this.barrelEntity.definition.megaturret === 'boolean' && this.barrelEntity.definition.megaturret;
 
         this.sizeFactor = this.physicsData.values.size / 50;
-        const atuo = this.turreta = new AutoTurret(this, {
+        if ( this.megaturret){
+
+            const atuo = new AutoTurret(this, {
+                angle: 0,
+                offset: 0,
+                size: 80,
+                width: 45,
+                delay: 0,
+                reload: 4,
+                recoil: 0,
+                isTrapezoid: false,
+                trapezoidDirection: 0,
+                addon: null,
+                bullet: {
+                    type: "bullet",
+                    sizeRatio: 1,
+                    health: 0.8,
+                    damage: 1.5,
+                    speed: 1.3,
+                    scatterRate: 0.3,
+                    lifeLength: 1,
+                    absorbtionFactor: 0.1
+                }
+            });
+                atuo.baseSize *= 1.35
+                atuo.positionData.values.angle = shootAngle
+            //atuo.ai.passiveRotation = this.movementAngle
+            atuo.styleData.values.flags |= StyleFlags.showsAboveParent;
+            atuo.ai.viewRange = 1500
+        }
+        else{
+        const atuo = new AutoTurret(this, {
             angle: 0,
             offset: 0,
-            size: 50,
-            width: 26.25,
+            size: 65,
+            width: 35,
             delay: 0,
             reload: 1.75,
             recoil: 0,
@@ -68,10 +101,12 @@ export default class AutoTrap extends Bullet implements BarrelBase {
                 absorbtionFactor: 0.1
             }
         });
-        atuo.positionData.values.angle = shootAngle
+            atuo.baseSize *= 1.25
+            atuo.positionData.values.angle = shootAngle
         //atuo.ai.passiveRotation = this.movementAngle
         atuo.styleData.values.flags |= StyleFlags.showsAboveParent;
         atuo.ai.viewRange = 640
+    }
         this.baseSpeed = (barrel.bulletAccel / 2) + 30 - Math.random() * barrel.definition.bullet.scatterRate;
         this.baseAccel = 0;
         this.physicsData.values.sides = 3;
