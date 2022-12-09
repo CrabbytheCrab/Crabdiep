@@ -1843,7 +1843,7 @@ const TankDefinitions = JSON.parse(`[
                     "health": 1,
                     "damage": 0.5,
                     "speed": 1,
-                    "scatterRate": 3.5,
+                    "scatterRate": 3,
                     "lifeLength": 1,
                     "absorbtionFactor": 1
                 }
@@ -2389,7 +2389,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Auto 3",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [39, 60, 62,63, 70, 73, 76],
+        "upgrades": [39, 60, 62,63, 70, 73, 76, 99],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -11378,7 +11378,7 @@ const TankDefinitions = JSON.parse(`[
     },
     {
         "id": 99,
-        "name": "Builder",
+        "name": "Auto 4",
         "upgradeMessage": "",
         "levelRequirement": 45,
         "upgrades": [],
