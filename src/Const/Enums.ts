@@ -180,7 +180,7 @@ export const enum Tank {
     DominatorC    = 106,
     DominatorF    = 107,
     Bumper        = 108,
-    
+    Autotank      = 109,
     Mothership    = 204
 }
 
