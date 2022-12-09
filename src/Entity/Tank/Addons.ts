@@ -741,7 +741,39 @@ class SpieskAddon extends Addon {
     }
 }
 
+class THEBIGONE extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
 
+        const base = new AutoTurret(owner, {
+            angle: 0,
+            offset: 0,
+            size: 100,
+            width: 76 * 0.7,
+            delay: 0,
+            reload: 6,
+            recoil: 0,
+            isTrapezoid: false,
+            trapezoidDirection: 0,
+            addon: null,
+            bullet: {
+                type: "bullet",
+                sizeRatio: 1,
+                health: 1.85,
+                damage: 1.25,
+                speed: 1.5,
+                scatterRate: 0.3,
+                lifeLength: 1,
+                absorbtionFactor: 0.1
+            }
+        });
+
+        base.turret.styleData.zIndex += 2;
+        base.baseSize *= 1.5;
+        base.ai.viewRange = 1500
+        new LauncherAddon(base);
+    }
+}
 class Mega3Addon extends Addon {
     public constructor(owner: BarrelBase) {
         super(owner);
@@ -814,5 +846,6 @@ export const AddonById: Record<addonId, typeof Addon | null> = {
     mega3: Mega3Addon,
     stalker3 : Stalker3Addon,
     auto4    : Auto4Addon,
-    bumper   : BumperAddon
+    bumper   : BumperAddon,
+    bigautoturret: THEBIGONE,
 }
