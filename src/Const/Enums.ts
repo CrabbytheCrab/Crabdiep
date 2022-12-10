@@ -183,6 +183,9 @@ export const enum Tank {
     Autotank      = 109,
     Bombard       = 110,
     Joint3        = 111,
+    autodirector  = 112,
+    Banshee       = 113,
+    FieldGun      = 114,
     Mothership    = 204
 }
 
