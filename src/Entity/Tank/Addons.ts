@@ -27,6 +27,7 @@ import { AI, AIState, Inputs } from "../AI";
 import { Entity } from "../../Native/Entity";
 import LivingEntity from "../Live";
 import { normalizeAngle, PI2 } from "../../util";
+import Barrel from "./Barrel";
 
 /**
  * Abstract class to represent an addon in game.
@@ -108,6 +109,88 @@ export class Addon {
             }
 
             rotator.turrets.push(base);
+        }
+
+        return rotator;
+    }
+    protected createAutoTurretsDisconnected(count: number) {
+        const rotPerTick = AI.PASSIVE_ROTATION;
+        const MAX_ANGLE_RANGE = PI2; // keep within 90º each side
+
+        const rotator = this.createGuard(1, .1, 0, rotPerTick) as GuardObject & { turrets: AutoTurret[]};
+        rotator.turrets = [];
+        //rotator.joints = [];
+
+        const ROT_OFFSET = 1.8;
+
+        if (rotator.styleData.values.flags & StyleFlags.isVisible) rotator.styleData.values.flags ^= StyleFlags.isVisible;
+
+        for (let i = 0; i < count; ++i) {
+            const base = new AutoTurret(rotator, AutoTurretMiniDefinition);
+            base.influencedByOwnerInputs = true;
+
+            const angle = base.ai.inputs.mouse.angle = PI2 * (i / count);
+            base.ai.passiveRotation = rotPerTick;
+            base.ai.targetFilter = (targetPos) => {
+                const pos = base.getWorldPosition();
+                const angleToTarget = Math.atan2(targetPos.y - pos.y, targetPos.x - pos.x);
+                
+                const deltaAngle = normalizeAngle(angleToTarget - ((angle + rotator.positionData.values.angle)));
+
+                return deltaAngle < MAX_ANGLE_RANGE || deltaAngle > (PI2 - MAX_ANGLE_RANGE);
+            }
+
+            base.positionData.values.y = this.owner.physicsData.values.size * Math.sin(angle) * ROT_OFFSET;
+            base.positionData.values.x = this.owner.physicsData.values.size * Math.cos(angle) * ROT_OFFSET;
+
+            if (base.styleData.values.flags & StyleFlags.showsAboveParent) base.styleData.values.flags ^= StyleFlags.showsAboveParent;
+            base.physicsData.values.flags |= PositionFlags.absoluteRotation;
+
+            const tickBase = base.tick;
+            base.tick = (tick: number) => {
+                base.positionData.y = this.owner.physicsData.values.size * Math.sin(angle) * ROT_OFFSET;
+                base.positionData.x = this.owner.physicsData.values.size * Math.cos(angle) * ROT_OFFSET;
+
+                tickBase.call(base, tick);
+
+                if (base.ai.state === AIState.idle) base.positionData.angle = angle + rotator.positionData.values.angle;
+            }
+
+            rotator.turrets.push(base)
+        }
+
+        return rotator;
+    }
+
+
+    protected createJoints(count: number) {
+        const rotPerTick = AI.PASSIVE_ROTATION;
+        const MAX_ANGLE_RANGE = PI2; // keep within 90º each side
+
+        const rotator = this.createGuard(1, .1, 0, 0.01) as GuardObject & { joints: Barrel[]};
+        rotator.joints = [];
+        //rotator.joints = [];
+
+        const ROT_OFFSET = 1.8;
+
+        if (rotator.styleData.values.flags & StyleFlags.isVisible) rotator.styleData.values.flags ^= StyleFlags.isVisible;
+
+        for (let i = 0; i < count; ++i) {
+
+            const barr = new Barrel(this.owner, {...jointpart, angle: PI2 * ((i / count) - 1 / (count * 2))})
+            const tickBase2 = barr.tick;
+
+            barr.positionData.values.y += rotator.physicsData.values.size * Math.sin(MAX_ANGLE_RANGE)
+            barr.positionData.values.x += rotator.physicsData.values.size * Math.cos(MAX_ANGLE_RANGE);
+            barr.tick = (tick: number) => {
+                barr.positionData.y += rotator.physicsData.values.size * Math.sin(MAX_ANGLE_RANGE);
+                barr.positionData.x += rotator.physicsData.values.size * Math.cos(MAX_ANGLE_RANGE);
+
+                tickBase2.call(barr, tick);
+
+                //barr.positionData.values.angle = angle + rotator.positionData.values.angle;
+            }
+            rotator.joints.push(barr);
         }
 
         return rotator;
@@ -258,14 +341,36 @@ export class Addon {
     }
 
 }
-
+const jointpart: BarrelDefinition = {
+    angle: 0,
+    offset: 0,
+    size: 100,
+    width: 24,
+    delay: 0,
+    reload: 8,
+    recoil: 0,
+    isTrapezoid: false,
+    trapezoidDirection: 0,
+    addon: null,
+    droneCount: 0,
+    bullet: {
+        type: "pentadrone",
+        sizeRatio:1,
+        health: 5,
+        damage: 4,
+        speed: 3,
+        scatterRate: 0,
+        lifeLength: -1,
+        absorbtionFactor: 1,
+    }
+};
 const AutoTurretStalkDefinition: BarrelDefinition = {
     angle: 0,
     offset: 0,
     size: 55,
     width: 38 * 0.7,
     delay: 0.01,
-    reload: 1.5,
+    reload: 1.25,
     recoil: 0,
     isTrapezoid: true,
     trapezoidDirection: 3.141592653589793,
@@ -336,7 +441,7 @@ const AutoTurretMiniDefinition: BarrelDefinition = {
     width: 42 * 0.7,
     delay: 0.01,
     reload: 1,
-    recoil: 0.3,
+    recoil: 0,
     isTrapezoid: false,
     trapezoidDirection: 0,
     addon: null,
@@ -606,6 +711,13 @@ class Auto3Addon extends Addon {
         this.createAutoTurrets(3);
     }
 }
+class Joint3Addon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+        this.createJoints(3)
+        this.createAutoTurretsDisconnected(3);
+    }
+}
 /** The thing above ranger's barrel. */
 class PronouncedAddon extends Addon {
     public constructor(owner: BarrelBase) {
@@ -748,8 +860,8 @@ class THEBIGONE extends Addon {
         const base = new AutoTurret(owner, {
             angle: 0,
             offset: 0,
-            size: 100,
-            width: 76 * 0.7,
+            size: 96,
+            width: 74 * 0.7,
             delay: 0,
             reload: 6,
             recoil: 0,
@@ -770,7 +882,7 @@ class THEBIGONE extends Addon {
 
         base.turret.styleData.zIndex += 2;
         base.baseSize *= 1.5;
-        base.ai.viewRange = 1500
+        base.ai.viewRange = 1800
         new LauncherAddon(base);
     }
 }
@@ -848,4 +960,5 @@ export const AddonById: Record<addonId, typeof Addon | null> = {
     auto4    : Auto4Addon,
     bumper   : BumperAddon,
     bigautoturret: THEBIGONE,
+    joint3 : Joint3Addon
 }
