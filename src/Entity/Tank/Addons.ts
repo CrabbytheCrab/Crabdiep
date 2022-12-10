@@ -125,7 +125,9 @@ export class Addon {
         for (let i = 0; i < count; ++i) {
             const base = new AutoTurret(rotator, AutoTurretMiniDefinition);
             base.influencedByOwnerInputs = true;
-            base.relationsData.parent = rotator.rootParent;
+            base.turret.styleData.zIndex = this.owner.styleData.zIndex + 2
+            base.relationsData.owner = this.owner;
+            base.styleData.values.flags |= StyleFlags.showsAboveParent;
 
             const angle = base.ai.inputs.mouse.angle = PI2 * (i / count);
             base.ai.passiveRotation = rotPerTick;
@@ -141,7 +143,7 @@ export class Addon {
             base.positionData.values.y = this.owner.physicsData.values.size * Math.sin(angle) * ROT_OFFSET;
             base.positionData.values.x = this.owner.physicsData.values.size * Math.cos(angle) * ROT_OFFSET;
 
-            if (base.styleData.values.flags & StyleFlags.showsAboveParent) base.styleData.values.flags ^= StyleFlags.showsAboveParent;
+        // if (base.styleData.values.flags & StyleFlags.showsAboveParent) base.styleData.values.flags ^= StyleFlags.showsAboveParent;
             base.physicsData.values.flags |= PositionFlags.absoluteRotation;
 
             const tickBase = base.tick;
