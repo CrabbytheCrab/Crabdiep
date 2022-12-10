@@ -344,8 +344,8 @@ export class Addon {
 const jointpart: BarrelDefinition = {
     angle: 0,
     offset: 0,
-    size: 100,
-    width: 24,
+    size: 24,
+    width: 100,
     delay: 0,
     reload: 8,
     recoil: 0,
