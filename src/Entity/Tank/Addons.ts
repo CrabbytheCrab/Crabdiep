@@ -177,7 +177,7 @@ export class Addon {
 
         for (let i = 0; i < count; ++i) {
 
-            const barr = new Barrel(this.owner, {...jointpart, angle: PI2 * ((i / count) - 1 / (count * 2))})
+            const barr = new Barrel(rotator, {...jointpart, angle: PI2 * ((i / count) - 1 / (count * 2))})
             const tickBase2 = barr.tick;
 
             barr.positionData.values.y += rotator.physicsData.values.size * Math.sin(MAX_ANGLE_RANGE)
