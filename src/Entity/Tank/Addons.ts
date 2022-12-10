@@ -128,6 +128,7 @@ export class Addon {
         for (let i = 0; i < count; ++i) {
             const base = new AutoTurret(rotator, AutoTurretMiniDefinition);
             base.influencedByOwnerInputs = true;
+            base.relationsData.parent = rotator.rootParent;
 
             const angle = base.ai.inputs.mouse.angle = PI2 * (i / count);
             base.ai.passiveRotation = rotPerTick;
