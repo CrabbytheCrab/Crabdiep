@@ -180,11 +180,11 @@ export class Addon {
             const barr = new Barrel(rotator, {...jointpart, angle: PI2 * ((i / count) - 1 / (count * 2))})
             const tickBase2 = barr.tick;
 
-            barr.positionData.values.y += 2 * rotator.physicsData.values.size * Math.sin(MAX_ANGLE_RANGE)
-            barr.positionData.values.x += 2 * rotator.physicsData.values.size * Math.cos(MAX_ANGLE_RANGE);
+            barr.positionData.values.y += rotator.physicsData.values.size * Math.sin(MAX_ANGLE_RANGE)
+            barr.positionData.values.x += rotator.physicsData.values.size * Math.cos(MAX_ANGLE_RANGE);
             barr.tick = (tick: number) => {
-                barr.positionData.y += 2 * rotator.physicsData.values.size * Math.sin(MAX_ANGLE_RANGE);
-                barr.positionData.x += 2 * rotator.physicsData.values.size * Math.cos(MAX_ANGLE_RANGE);
+                barr.positionData.y += rotator.physicsData.values.size * Math.sin(MAX_ANGLE_RANGE);
+                barr.positionData.x += rotator.physicsData.values.size * Math.cos(MAX_ANGLE_RANGE);
 
                 tickBase2.call(barr, tick);
 
@@ -344,8 +344,8 @@ export class Addon {
 const jointpart: BarrelDefinition = {
     angle: 0,
     offset: 0,
-    size: 24,
-    width: 100,
+    size: 100,
+    width: 24,
     delay: 0,
     reload: 8,
     recoil: 0,
