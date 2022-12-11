@@ -59,6 +59,9 @@ export class Addon {
     public createGuard2(): OverdriveAddon {
         return new OverdriveAddon(1.15, this.owner);
     }
+    public createGuard3(): OverdriveAddon {
+        return new RingAddon(1.25, this.owner);
+    }
     /**
      * `createAutoTurrets` method builds `count` auto turrets around the current
      * tank's body. 
@@ -166,7 +169,7 @@ export class Addon {
         rotator.turrets = [];
         //rotator.joints = [];
 
-        const ROT_OFFSET = 1.8;
+        const ROT_OFFSET = 2.3;
 
         if (rotator.styleData.values.flags & StyleFlags.isVisible) rotator.styleData.values.flags ^= StyleFlags.isVisible;
 
@@ -279,9 +282,9 @@ export class Addon {
         const rotPerTick = AI.PASSIVE_ROTATION;
         const MAX_ANGLE_RANGE = PI2 / 4; // keep within 90º each side
 
-        const rotator = this.createGuard(1, .1, 0, rotPerTick) as GuardObject & { turrets: AutoTurret[] };
+        const rotator = this.createGuard(1, 1.5, 0, rotPerTick) as GuardObject & { turrets: AutoTurret[] };
         rotator.turrets = [];
-
+        rotator.styleData.values.color = Color.Barrel
         const ROT_OFFSET = 0.8;
 
         if (rotator.styleData.values.flags & StyleFlags.isVisible) rotator.styleData.values.flags ^= StyleFlags.isVisible;
@@ -586,6 +589,36 @@ const AutoTurretMiniDefinition: BarrelDefinition = {
         oversquare.positionData.values.angle = 0;
         
         oversquare.styleData.values.color = Color.Border;
+        oversquare.physicsData.values.sides = 6;
+
+        oversquare.tick = () => {
+            const size = this.owner.physicsData.values.size;
+            oversquare.styleData.opacity = this.owner.styleData.opacity;
+            oversquare.physicsData.size = sizeRatio * size;
+            oversquare.positionData.x = offsetRatio * size;
+        }
+    }
+}
+
+class RingAddon extends Addon {
+    public sizeRatio: number;
+    public constructor(sizeRatio: number, owner: BarrelBase) {
+        super(owner);
+        sizeRatio *= Math.SQRT1_2
+        this.sizeRatio = sizeRatio;
+        const oversquare = new ObjectEntity(this.game);
+        const offsetRatio = 0;
+        const size = this.owner.physicsData.values.size;
+
+        oversquare.setParent(this.owner);
+        oversquare.relationsData.values.owner = this.owner;
+        oversquare.relationsData.values.team = this.owner.relationsData.values.team
+
+        oversquare.physicsData.values.size = sizeRatio * size;
+        oversquare.positionData.values.x = offsetRatio * size;
+        oversquare.positionData.values.angle = 0;
+        
+        oversquare.styleData.values.color = Color.Barrel;
         oversquare.physicsData.values.sides = 6;
 
         oversquare.tick = () => {
