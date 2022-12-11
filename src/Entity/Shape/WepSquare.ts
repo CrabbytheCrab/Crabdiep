@@ -99,7 +99,7 @@ export default class WepSquare extends Square implements BarrelBase {
         this.physicsData.values.sides = 4;
         this.styleData.values.color = shiny ? Color.Shiny : Color.EnemySquare;
         this.physicsData.values.absorbtionFactor = 0.1;
-        this.physicsData.values.pushFactor = 120;
+        this.physicsData.values.pushFactor = 2;
         this.damagePerTick = 12;
         this.scoreReward = 100;
         this.isShiny = shiny;

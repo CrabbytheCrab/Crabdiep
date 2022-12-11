@@ -105,7 +105,7 @@ export default class WepTriangle extends Triangle implements BarrelBase {
         this.physicsData.values.sides = 3;
         this.styleData.values.color = shiny ? Color.Shiny : Color.EnemyTriangle;
         this.physicsData.values.absorbtionFactor = 0.1;
-        this.physicsData.values.pushFactor = 120;
+        this.physicsData.values.pushFactor = 2;
         this.damagePerTick = 14;
         this.scoreReward = 250;
         this.isShiny = shiny;
