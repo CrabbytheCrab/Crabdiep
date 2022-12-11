@@ -101,4 +101,4 @@ export const defaultAccessLevel: AccessLevel = AccessLevel.BetaAccess;
 export const devTokens: Record<string, AccessLevel> = {
     "*": defaultAccessLevel
 }
-export const maxPlayerLevel = 51;
+export const maxPlayerLevel = 75;
