@@ -1,17 +1,14 @@
 /*
     DiepCustom - custom tank game server that shares diep.io's WebSocket protocol
     Copyright (C) 2022 ABCxFF (github.com/ABCxFF)
-
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
     by the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU Affero General Public License for more details.
-
     You should have received a copy of the GNU Affero General Public License
     along with this program. If not, see <https://www.gnu.org/licenses/>
 */
@@ -29,6 +26,7 @@ import { getTankById } from "../Const/TankDefinitions";
 import { removeFast } from "../util";
 
 import { compileCreation, compileUpdate } from "./UpcreateCompiler";
+import { maxPlayerLevel } from "../config";
 
 /**
  * Represents any entity with a camera field group.
@@ -45,8 +43,8 @@ export class CameraEntity extends Entity {
         const previousLevel = this.cameraData.values.level;
         this.cameraData.level = level;
         this.sizeFactor = Math.pow(1.01, level - 1);
-        this.cameraData.levelbarMax = level < 45 ? 1 : 0; // quick hack, not correct values
-        if (level <= 45) {
+        this.cameraData.levelbarMax = level < maxPlayerLevel ? 1 : 0; // quick hack, not correct values
+        if (level <= maxPlayerLevel) {
             this.cameraData.score = levelToScore(level);
 
             const player = this.cameraData.values.player;

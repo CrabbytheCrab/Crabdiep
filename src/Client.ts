@@ -1,17 +1,14 @@
 /*
     DiepCustom - custom tank game server that shares diep.io's WebSocket protocol
     Copyright (C) 2022 ABCxFF (github.com/ABCxFF)
-
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
     by the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU Affero General Public License for more details.
-
     You should have received a copy of the GNU Affero General Public License
     along with this program. If not, see <https://www.gnu.org/licenses/>
 */
@@ -40,6 +37,7 @@ import { CameraFlags, ClientBound, ArenaFlags, InputFlags, NameFlags, ServerBoun
 import { AI, AIState, Inputs } from "./Entity/AI";
 import AbstractBoss from "./Entity/Boss/AbstractBoss";
 import { executeCommand } from "./Const/Commands";
+import LivingEntity from "./Entity/Live";
 
 /** XORed onto the tank id in the Tank Upgrade packet. */
 const TANK_XOR = config.magicNum % TankCount;
@@ -130,7 +128,7 @@ export default class Client {
     public ipAddressHash: string;
 
     /** Whether or not the player has used in game dev cheats before (such as level up or godmode). */
-    private devCheatsUsed = 0;
+    private devCheatsUsed: boolean = false;
     /** Wether or not the player is in godmode. */
     public isInvulnerable: boolean = false;
     /** Used to restore the damage reduction value on the tankbody after godmode is toggled off. */
@@ -307,14 +305,12 @@ export default class Client {
                 
                 if ((flags & InputFlags.godmode)) {
                     if (this.accessLevel >= config.AccessLevel.BetaAccess) {
-                        player.nameData.flags |= NameFlags.highlightedName;
-                        this.devCheatsUsed = 1;
+                        this.setHasCheated(true);
                         player.setTank(player.currentTank < 0 ? Tank.Basic : DevTank.Developer);
                     } else if (this.game.arena.arenaData.values.flags & ArenaFlags.canUseCheats) {
                         // only allow devs to go into godmode when players > 1
                         if (this.accessLevel === config.AccessLevel.FullAccess || (this.game.clients.size === 1 && this.game.arena.state === ArenaState.OPEN)) {
-                            player.nameData.flags |= NameFlags.highlightedName;
-                            this.devCheatsUsed = 1;
+                            this.setHasCheated(true);
 
                             player.setInvulnerability(!player.isInvulnerable);
                             
@@ -331,8 +327,7 @@ export default class Client {
                 }
                 if ((flags & InputFlags.switchtank) && !(previousFlags & InputFlags.switchtank)) {
                     if (this.accessLevel >= config.AccessLevel.BetaAccess || (this.game.arena.arenaData.values.flags & ArenaFlags.canUseCheats)) {
-                        player.nameData.flags |= NameFlags.highlightedName;
-                        this.devCheatsUsed = 1;
+                        this.setHasCheated(true);
                         
                         let tank = player.currentTank;
                         if (tank >= 0) {
@@ -356,18 +351,16 @@ export default class Client {
                     }
                 }
                 if (flags & InputFlags.levelup) {
-                    // If full access, or if the game allows cheating and lvl is < 45, or if the player is a BT access level and lvl is < 45
-                    if ((this.accessLevel === config.AccessLevel.FullAccess) || (camera.cameraData.values.level < 45 && ((this.game.arena.arenaData.values.flags & ArenaFlags.canUseCheats) || (this.accessLevel === config.AccessLevel.BetaAccess)))) {
-                        player.nameData.flags |= NameFlags.highlightedName;
-                        this.devCheatsUsed = 1;
+                    // If full access, or if the game allows cheating and lvl is < maxLevel, or if the player is a BT access level and lvl is < maxLevel
+                    if ((this.accessLevel === config.AccessLevel.FullAccess) || (camera.cameraData.values.level < config.maxPlayerLevel && ((this.game.arena.arenaData.values.flags & ArenaFlags.canUseCheats) || (this.accessLevel === config.AccessLevel.BetaAccess)))) {
+                        this.setHasCheated(true);
                         
                         camera.setLevel(camera.cameraData.values.level + 1);
                     }
                 }
                 if ((flags & InputFlags.suicide) && (!player.deletionAnimation || !player.deletionAnimation)) {
                     if (this.accessLevel >= config.AccessLevel.BetaAccess || (this.game.arena.arenaData.values.flags & ArenaFlags.canUseCheats)) {
-                        player.nameData.flags |= NameFlags.highlightedName;
-                        this.devCheatsUsed = 1;
+                        this.setHasCheated(true);
                         
                         this.notify("You've killed " + (player.nameData.values.name === "" ? "an unnamed tank" : player.nameData.values.name));
                         camera.cameraData.killedBy = player.nameData.values.name;
@@ -396,7 +389,7 @@ export default class Client {
                 camera.setLevel(camera.cameraData.values.respawnLevel);
 
                 tank.nameData.values.name = name;
-                if (this.devCheatsUsed) tank.nameData.values.flags |= NameFlags.highlightedName;
+                if (this.hasCheated()) this.setHasCheated(true);
 
                 // Force-send a creation to the client - Only if it is not new
                 camera.entityState = EntityStateFlags.needsCreate | EntityStateFlags.needsDelete;
@@ -457,7 +450,6 @@ export default class Client {
                     // if (Entity.exists(camera.camera.values.player)) this.notify("Someone has already taken that tank", 0x000000, 5000, "cant_claim_info");
                     const player = camera.camera.values.player;
                     if (!Entity.exists(player) || !player.relations || !player.style) return;
-
                     if (player.relations.team === this.game.arena) {
                         player.relations.team = camera;
                         player.style.color = Colors.Tank;
@@ -510,6 +502,23 @@ export default class Client {
                 return this.ban();
         }
     }
+
+    /** Defines whether the player used cheats or not. This also defines whether the name is highlighted or not. */
+    public setHasCheated(value: boolean) {
+        const player = this.camera?.cameraData.values.player;
+        if (player && player.nameData) {
+            if (value) player.nameData.flags |= NameFlags.highlightedName;
+            else player.nameData.flags &= ~NameFlags.highlightedName;
+        }
+
+        this.devCheatsUsed = value;
+    }
+
+    /** Exposes devCheatsUsed */
+    public hasCheated(): boolean {
+        return this.devCheatsUsed;
+    }
+
     
     /** Attempts possession of an AI */
     public possess(ai: AI) {
@@ -550,10 +559,10 @@ export default class Client {
             for (let i = 0; i < StatCount; ++i) this.camera.cameraData.statLimits[i as Stat] = ai.owner.cameraEntity.cameraData.statLimits.values[i];
             for (let i = 0; i < StatCount; ++i) this.camera.cameraData.statNames[i as Stat] = ai.owner.cameraEntity.cameraData.statNames.values[i];
 
-            this.camera.cameraData.FOV = 0.35;
+            this.camera.cameraData.FOV = ai.owner.cameraEntity.cameraData.FOV;
         } else if (ai.owner instanceof AbstractBoss) {
             this.camera.setLevel(75);
-            this.camera.cameraData.FOV = 0.25;
+            this.camera.cameraData.FOV = 0.35;
         } else {
             this.camera.setLevel(30);
         }

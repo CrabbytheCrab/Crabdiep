@@ -40,6 +40,7 @@ import Pentagon from "../Shape/Pentagon";
 import NecromancerTriangle from "./Projectile/NecromancerTriangle";
 import Triangle from "../Shape/Triangle";
 import WepSquare from "../Shape/WepSquare";
+import { maxPlayerLevel } from "../../config";
 
 /**
  * Abstract type of entity which barrels can connect to.
@@ -180,7 +181,7 @@ export default class TankBody extends LivingEntity implements BarrelBase {
     public onKill(entity: LivingEntity) {
         this.scoreData.score = this.cameraEntity.cameraData.score += entity.scoreReward;
 
-        if (entity instanceof TankBody && entity.scoreReward && Math.max(this.cameraEntity.cameraData.values.level, 45) - entity.cameraEntity.cameraData.values.level <= 20 || entity instanceof AbstractBoss) {
+        if (entity instanceof TankBody && entity.scoreReward && Math.max(this.cameraEntity.cameraData.values.level, maxPlayerLevel) - entity.cameraEntity.cameraData.values.level <= 20 || entity instanceof AbstractBoss) {
             if (this.cameraEntity instanceof ClientCamera) this.cameraEntity.client.notify("You've killed " + (entity.nameData.values.name || "an unnamed tank"));
         }
 
@@ -362,12 +363,13 @@ export default class TankBody extends LivingEntity implements BarrelBase {
             // Damage
             this.damagePerTick = this.cameraEntity.cameraData.statLevels[Stat.BodyDamage] * 6 + 20;
             if (this._currentTank === Tank.Spike) this.damagePerTick *= 1.5;
-            if (this._currentTank === Tank.autosmasher) this.damagePerTick *= 1.5;
+            if (this._currentTank === Tank.autosmasher) this.damagePerTick *= 1.1;
 
             // Max Health
             const maxHealthCache = this.healthData.values.maxHealth;
 
             this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth] * 20;
+            if (this._currentTank === Tank.MegaSmasher) this.healthData.maxHealth *= 1.25;
             if (this.healthData.values.health === maxHealthCache) this.healthData.health = this.healthData.maxHealth; // just in case
             else if (this.healthData.values.maxHealth !== maxHealthCache) {
                 this.healthData.health *= this.healthData.values.maxHealth / maxHealthCache
