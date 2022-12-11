@@ -257,13 +257,13 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
         this.physicsData.values.sides = 5;
         this.styleData.values.color = shiny ? Color.Shiny : Color.EnemyPentagon;
 
-        this.physicsData.values.absorbtionFactor = isAlpha ? 0.05 : 0.5;
-        this.physicsData.values.pushFactor = 11;
+        this.physicsData.values.absorbtionFactor = isAlpha ? 0 : 0.1;
+        this.physicsData.values.pushFactor = 120;
 
         this.isAlpha = isAlpha;
         this.isShiny = shiny;
 
-        this.damagePerTick = isAlpha ? 20 : 12;
+        this.damagePerTick = isAlpha ? 40 : 16;
         this.scoreReward = isAlpha ? 20000 : 2000;
         
         if (shiny) {

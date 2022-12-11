@@ -241,7 +241,7 @@ import Barrel from "../Tank/Barrel";
         }
 
         //this.barsss = new Barrel(this, GuardianSpawnerDefinition2);
-        this.positionData.values.flags |= PositionFlags.canMoveThroughWalls;
+        //this.positionData.values.flags |= PositionFlags.canMoveThroughWalls;
         this.healthData.values.health = this.healthData.values.maxHealth = 500;
         this.physicsData.values.size =  85 * Math.SQRT1_2;
         this.physicsData.values.sides = 3;
