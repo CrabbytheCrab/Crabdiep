@@ -29,7 +29,7 @@ export const mspt: number = 40;
 export const tps: number = 1000 / mspt;
 
 /** Max connections per ip. -1 = no limit */
-export const connectionsPerIp: number = 2;
+export const connectionsPerIp: number = 4;
 
 /** Max incoming packet size (HARD LIMIT), not the max read / write size */
 export const wssMaxMessageSize: number = 4096; // 4 kb
@@ -95,10 +95,10 @@ export const enum AccessLevel {
 export const unbannableLevelMinimum: AccessLevel = AccessLevel.FullAccess;
 
 /** Default access level, client's without valid password's will get set to this */
-export const defaultAccessLevel: AccessLevel = AccessLevel.BetaAccess;
+export const defaultAccessLevel: AccessLevel = AccessLevel.kReserved;
 
 /** The developer tokens by role (UNNECESSARY UNLESS DISCORD INTEGRATION) */
 export const devTokens: Record<string, AccessLevel> = {
     "*": defaultAccessLevel
 }
-export const maxPlayerLevel = 75;
+export const maxPlayerLevel = 45;
