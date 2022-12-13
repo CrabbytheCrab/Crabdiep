@@ -116,7 +116,7 @@ export class Addon {
 
     protected createAutoTurretsWeak(count: number) {
         const rotPerTick = AI.PASSIVE_ROTATION;
-        const MAX_ANGLE_RANGE = PI2 / 6; // keep within 90º each side
+        const MAX_ANGLE_RANGE = PI2 / 4; // keep within 90º each side
 
         const rotator = this.createGuard(1, .1, 0, rotPerTick) as GuardObject & { turrets: AutoTurret[] };
         rotator.turrets = [];
@@ -127,7 +127,7 @@ export class Addon {
 
         for (let i = 0; i < count; ++i) {
             const base = new AutoTurret(rotator, {...AutoTurretMiniDefinition});
-            base.influencedByOwnerInputs = false;
+            base.influencedByOwnerInputs = true;
 
             const angle = base.ai.inputs.mouse.angle = PI2 * (i / count);
             base.ai.passiveRotation = rotPerTick;
@@ -449,24 +449,24 @@ const jointpart: BarrelDefinition = {
 const dronebarrel: BarrelDefinition = {
     angle: 0,
     offset: 0,
-    size: 70,
+    size: 95,
     width: 42,
-    delay: 0.25,
+    delay: 0,
     reload: 6,
     recoil: 0,
-    isTrapezoid: true,
+    isTrapezoid: false,
     trapezoidDirection: 0,
     addon: null,
     droneCount: 2,
     canControlDrones: true,
     bullet: {
-        type: "drone",
+        type: "bullet",
         sizeRatio:1,
-        health: 1.8,
-        damage: 0.7,
-        speed: 0.8,
-        scatterRate: 0,
-        lifeLength: -1,
+        health: 1,
+        damage: 1,
+        speed: 1,
+        scatterRate: 1,
+        lifeLength: 1,
         absorbtionFactor: 1,
     }
 };
