@@ -457,8 +457,6 @@ const dronebarrel: BarrelDefinition = {
     isTrapezoid: false,
     trapezoidDirection: 0,
     addon: null,
-    droneCount: 2,
-    canControlDrones: true,
     bullet: {
         type: "bullet",
         sizeRatio:1,
