@@ -1058,7 +1058,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Quad Tank",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [37, 38, 39],
+        "upgrades": [37, 38, 39,113],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -2817,7 +2817,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Overseer",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [71,72,113, 85, 74,101],
+        "upgrades": [71,72, 85, 74,101],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -12720,7 +12720,7 @@ const TankDefinitions = JSON.parse(`[
     },
     {
         "id": 113,
-        "name": "Banshee",
+        "name": "Switcher",
         "upgradeMessage": "",
         "levelRequirement": 45,
         "upgrades": [],
