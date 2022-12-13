@@ -452,7 +452,7 @@ const dronebarrel: BarrelDefinition = {
     size: 95,
     width: 42,
     delay: 0,
-    reload: 6,
+    reload: 1,
     recoil: 0,
     isTrapezoid: false,
     trapezoidDirection: 0,
