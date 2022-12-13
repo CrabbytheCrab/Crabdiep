@@ -368,8 +368,9 @@ export default class TankBody extends LivingEntity implements BarrelBase {
             // Max Health
             const maxHealthCache = this.healthData.values.maxHealth;
 
+            
+                       if (this._currentTank === Tank.MegaSmasher) maxHealthCache  *= 1.25;
             this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth] * 20;
-            if (this._currentTank === Tank.MegaSmasher) this.damageReduction = 0.1;
             if (this.healthData.values.health === maxHealthCache) this.healthData.health = this.healthData.maxHealth; // just in case
             else if (this.healthData.values.maxHealth !== maxHealthCache) {
                 this.healthData.health *= this.healthData.values.maxHealth / maxHealthCache
