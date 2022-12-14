@@ -164,7 +164,7 @@ export class Addon {
     protected createAutoTurretsDisconnected(count: number) {
         const rotPerTick = AI.PASSIVE_ROTATION;
         const MAX_ANGLE_RANGE = PI2; // keep within 90º each side
-
+        const MAX_ANGLE_RANGE2 = PI2; // keep within 90º each side
         const rotator = this.createGuard(1, .1, 0, rotPerTick) as GuardObject & { turrets: AutoTurret[]};
         rotator.turrets = [];
         //rotator.joints = [];
@@ -175,7 +175,7 @@ export class Addon {
 
         for (let i = 0; i < count; ++i) {
             const base = new AutoTurret(this.owner, AutoTurretMiniDefinition);
-                    base.styleData.zIndex += 200;
+                    base.styleData.zIndex += 2;
             base.influencedByOwnerInputs = true;
             base.turret.styleData.zIndex = this.owner.styleData.zIndex + 2
             base.relationsData.owner = this.owner;
@@ -192,8 +192,8 @@ export class Addon {
                 return deltaAngle < MAX_ANGLE_RANGE || deltaAngle > (PI2 - MAX_ANGLE_RANGE);
             }
 
-            base.positionData.values.y += rotator.physicsData.values.size * Math.sin(MAX_ANGLE_RANGE)
-            base.positionData.values.x += rotator.physicsData.values.size * Math.cos(MAX_ANGLE_RANGE);
+            base.positionData.values.y += rotator.physicsData.values.size * Math.sin(MAX_ANGLE_RANGE2)  * ROT_OFFSET
+            base.positionData.values.x += rotator.physicsData.values.size * Math.cos(MAX_ANGLE_RANGE2)  * ROT_OFFSET;
 
 
         // if (base.styleData.values.flags & StyleFlags.showsAboveParent) base.styleData.values.flags ^= StyleFlags.showsAboveParent;
@@ -201,8 +201,8 @@ export class Addon {
 
             const tickBase = base.tick;
             base.tick = (tick: number) => {
-            base.positionData.values.y += rotator.physicsData.values.size * Math.sin(MAX_ANGLE_RANGE)
-            base.positionData.values.x += rotator.physicsData.values.size * Math.cos(MAX_ANGLE_RANGE);
+            base.positionData.values.y += rotator.physicsData.values.size * Math.sin(MAX_ANGLE_RANGE2)  * ROT_OFFSET
+            base.positionData.values.x += rotator.physicsData.values.size * Math.cos(MAX_ANGLE_RANGE2)  * ROT_OFFSET;
 
                 tickBase.call(base, tick);
 
