@@ -174,8 +174,8 @@ export class Addon {
         if (rotator.styleData.values.flags & StyleFlags.isVisible) rotator.styleData.values.flags ^= StyleFlags.isVisible;
 
         for (let i = 0; i < count; ++i) {
-            const base = new AutoTurret(rotator, AutoTurretMiniDefinition);
-                    base.styleData.zIndex += 2;
+            const base = new AutoTurret(this.owner, AutoTurretMiniDefinition);
+                    base.styleData.zIndex += 200;
             base.influencedByOwnerInputs = true;
             base.turret.styleData.zIndex = this.owner.styleData.zIndex + 2
             base.relationsData.owner = this.owner;
