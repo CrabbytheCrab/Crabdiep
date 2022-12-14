@@ -170,7 +170,7 @@ export class Addon {
         rotator.turrets = [];
         //rotator.joints = [];
 
-        const ROT_OFFSET = 2.3;
+        const ROT_OFFSET = 1.8;
 
         if (rotator.styleData.values.flags & StyleFlags.isVisible) rotator.styleData.values.flags ^= StyleFlags.isVisible;
 
