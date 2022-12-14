@@ -192,8 +192,8 @@ export class Addon {
                 return deltaAngle < MAX_ANGLE_RANGE || deltaAngle > (PI2 - MAX_ANGLE_RANGE);
             }
 
-            base.positionData.values.y += rotator.physicsData.values.size * Math.sin(MAX_ANGLE_RANGE2)  * ROT_OFFSET
-            base.positionData.values.x += rotator.physicsData.values.size * Math.cos(MAX_ANGLE_RANGE2)  * ROT_OFFSET;
+            base.positionData.values.y = this.owner.physicsData.values.size * Math.sin(MAX_ANGLE_RANGE2) * ROT_OFFSET;
+            base.positionData.values.x = this.owner.physicsData.values.size * Math.cos(MAX_ANGLE_RANGE2) * ROT_OFFSET;
 
 
         // if (base.styleData.values.flags & StyleFlags.showsAboveParent) base.styleData.values.flags ^= StyleFlags.showsAboveParent;
@@ -201,8 +201,10 @@ export class Addon {
 
             const tickBase = base.tick;
             base.tick = (tick: number) => {
-            base.positionData.values.y += rotator.physicsData.values.size * Math.sin(MAX_ANGLE_RANGE2)  * ROT_OFFSET
-            base.positionData.values.x += rotator.physicsData.values.size * Math.cos(MAX_ANGLE_RANGE2)  * ROT_OFFSET;
+            
+            base.positionData.y = rotator.physicsData.values.size * Math.sin(MAX_ANGLE_RANGE2) * ROT_OFFSET;
+            base.positionData.x = rotator.physicsData.values.size * Math.cos(MAX_ANGLE_RANGE2) * ROT_OFFSET;
+            //base.positionData.values.x += rotator.physicsData.values.size * Math.cos(MAX_ANGLE_RANGE2)  * ROT_OFFSET;
 
                 tickBase.call(base, tick);
 
