@@ -119,6 +119,7 @@ export class Addon {
         const MAX_ANGLE_RANGE = PI2 / 4; // keep within 90º each side
 
         const rotator = this.createGuard(1, .1, 0, rotPerTick) as GuardObject & { turrets: AutoTurret[] };
+        rotator.styleData.zIndex += 2;
         rotator.turrets = [];
 
         const ROT_OFFSET = 0.8;
