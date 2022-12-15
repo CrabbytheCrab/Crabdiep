@@ -52,7 +52,15 @@ export default class Trap extends Bullet {
         // Check this?
         this.positionData.values.angle = Math.random() * PI2;
     }
-
+    public onKill(killedEntity: LivingEntity) {
+        // TODO(ABC):
+        // Make this, work differently
+        /** @ts-ignore */
+        if (typeof this.tank.onKill === 'function') {
+            //if (this.tank instanceof Addon) this.tank.owner.onKill(killedEntity);
+            this.tank.onKill(killedEntity);
+        }    
+    }
     public tick(tick: number) {
         super.tick(tick);
 
