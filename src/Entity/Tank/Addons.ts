@@ -153,7 +153,7 @@ export class Addon {
 
                 tickBase.call(base, tick);
 
-                if (base.ai.state === AIState.idle) base.positionData.angle = angle;
+                if (base.ai.state === AIState.idle) base.positionData.angle = angle + this.owner.positionData.values.angle;
             }
 
             rotator.turrets.push(base);
