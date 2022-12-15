@@ -126,7 +126,7 @@ export class Addon {
         if (rotator.styleData.values.flags & StyleFlags.isVisible) rotator.styleData.values.flags ^= StyleFlags.isVisible;
 
         for (let i = 0; i < count; ++i) {
-            const base = new AutoTurret(this.owner, {...AutoTurretMiniDefinition});
+                       const base = new AutoTurret(rotator, {...AutoTurretMiniDefinition, reload:1.5, delay:0.25});
             base.influencedByOwnerInputs = true;
 
             const angle = base.ai.inputs.mouse.angle = PI2 * ((i / count) - 1 / (count * 2));
