@@ -55,12 +55,7 @@ export default class Trap extends Bullet {
     public onKill(killedEntity: LivingEntity) {
         // TODO(ABC):
         // Make this, work differently
-        /** @ts-ignore */
-        if (typeof this.tank.onKill === 'function') {
-            if (this.tank instanceof Addon) this.owner.onKill(killedEntity); {
-            this.tank.onKill(killedEntity);
-            }
-        }    
+        this.parent.onKill(killedEntity); 
     }
     public tick(tick: number) {
         super.tick(tick);
