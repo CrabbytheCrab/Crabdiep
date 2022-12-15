@@ -129,7 +129,7 @@ export class Addon {
             const base = new AutoTurret(this.owner, {...AutoTurretMiniDefinition});
             base.influencedByOwnerInputs = true;
 
-            const angle = base.ai.inputs.mouse.angle = PI2 * (i / count);
+            const angle = base.ai.inputs.mouse.angle = PI2 * ((i / count) - 1 / (count * 2));
             base.ai.passiveRotation = rotPerTick;
             base.ai.targetFilter = (targetPos) => {
                 const pos = base.getWorldPosition();
@@ -165,7 +165,7 @@ export class Addon {
         const rotPerTick = AI.PASSIVE_ROTATION;
         const MAX_ANGLE_RANGE = PI2; // keep within 90º each side
         const MAX_ANGLE_RANGE2 = PI2; // keep within 90º each side
-        const rotator = this.createGuard(1, .1, 0, rotPerTick) as GuardObject & { turrets: AutoTurret[]};
+        const rotator = this.createGuard2() as OverdriveAddon & { turrets: AutoTurret[]};
         rotator.turrets = [];
         //rotator.joints = [];
                 rotator.styleData.zIndex += 2;
@@ -264,7 +264,7 @@ export class Addon {
 
         for (let i = 0; i < count; ++i) {
 
-            const barr = new Barrel(this.owner, {...dronebarrel, angle: PI2 * ((i / count) - 1 / (count * 2))})
+            const barr = new Barrel(this.owner, {...dronebarrel, angle: PI2 * ((i / count))})
             const tickBase2 = barr.tick;
 
             barr.positionData.values.y += rotator.physicsData.values.size * Math.sin(MAX_ANGLE_RANGE)
