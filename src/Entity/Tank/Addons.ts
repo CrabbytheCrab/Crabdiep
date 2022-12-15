@@ -135,7 +135,7 @@ export class Addon {
                 const pos = base.getWorldPosition();
                 const angleToTarget = Math.atan2(targetPos.y - pos.y, targetPos.x - pos.x);
                 
-                const deltaAngle = normalizeAngle(angleToTarget - ((angle + rotator.positionData.values.angle)));
+                const deltaAngle = normalizeAngle(angleToTarget - ((angle + this.owner.positionData.values.angle)));
 
                 return deltaAngle < MAX_ANGLE_RANGE || deltaAngle > (PI2 - MAX_ANGLE_RANGE);
             }
@@ -153,7 +153,7 @@ export class Addon {
 
                 tickBase.call(base, tick);
 
-                if (base.ai.state === AIState.idle) base.positionData.angle = angle + this.owner.positionData.values.angle;
+                if (base.ai.state === AIState.idle) base.positionData.angle = angle;
             }
 
             rotator.turrets.push(base);
