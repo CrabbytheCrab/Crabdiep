@@ -177,7 +177,7 @@ export class Addon {
             const base = new AutoTurret(rotator, {...AutoTurretMiniDefinition, reload:1.2});
                     base.styleData.zIndex += 2;
             base.influencedByOwnerInputs = true;
-            base.relationsData.owner = rotator.owner;
+            base.relationsData.owner = rotator;
             base.turret.styleData.zIndex = this.owner.styleData.zIndex + 2
             base.relationsData.owner = this.owner;
             base.styleData.values.flags |= StyleFlags.showsAboveParent;
