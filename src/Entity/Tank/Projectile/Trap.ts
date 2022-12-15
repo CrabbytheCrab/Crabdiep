@@ -24,7 +24,7 @@ import { TankDefinition } from "../../../Const/TankDefinitions";
 import { BarrelBase } from "../TankBody";
 import { DevTank } from "../../../Const/DevTankDefinitions";
 import { PI2 } from "../../../util";
-
+import { Addon } from "../Addons";
 /**
  * The trap class represents the trap (projectile) entity in diep.
  */
@@ -34,7 +34,7 @@ export default class Trap extends Bullet {
 
     public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number) {
         super(barrel, tank, tankDefinition, shootAngle);
-
+        this.tank = tank;
         const bulletDefinition = barrel.definition.bullet;
 
         this.baseSpeed = (barrel.bulletAccel / 2) + 30 - Math.random() * barrel.definition.bullet.scatterRate;
@@ -57,7 +57,7 @@ export default class Trap extends Bullet {
         // Make this, work differently
         /** @ts-ignore */
         if (typeof this.tank.onKill === 'function') {
-            if (this.tank instanceof Addon) this.tank.owner.onKill(killedEntity); {
+            if (this.tank instanceof Addon) this.owner.onKill(killedEntity); {
             this.tank.onKill(killedEntity);
             }
         }    
