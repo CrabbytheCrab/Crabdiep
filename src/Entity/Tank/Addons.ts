@@ -165,7 +165,7 @@ export class Addon {
         const rotPerTick = AI.PASSIVE_ROTATION;
         const MAX_ANGLE_RANGE = PI2; // keep within 90º each side
         const MAX_ANGLE_RANGE2 = PI2; // keep within 90º each side
-        const rotator = this.createGuard2() as OverdriveAddon & { turrets: AutoTurret[]};
+        const rotator = this.createGuard(1, .1, 0, rotPerTick) as GuardObject & { turrets: AutoTurret[] };
         rotator.turrets = [];
         //rotator.joints = [];
                 rotator.styleData.zIndex += 2;
