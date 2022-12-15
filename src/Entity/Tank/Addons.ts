@@ -126,7 +126,7 @@ export class Addon {
         if (rotator.styleData.values.flags & StyleFlags.isVisible) rotator.styleData.values.flags ^= StyleFlags.isVisible;
 
         for (let i = 0; i < count; ++i) {
-            const base = new AutoTurret(rotator, {...AutoTurretMiniDefinition});
+            const base = new AutoTurret(this.owner, {...AutoTurretMiniDefinition});
             base.influencedByOwnerInputs = true;
 
             const angle = base.ai.inputs.mouse.angle = PI2 * (i / count);
@@ -153,7 +153,7 @@ export class Addon {
 
                 tickBase.call(base, tick);
 
-                if (base.ai.state === AIState.idle) base.positionData.angle = angle + rotator.positionData.values.angle;
+                if (base.ai.state === AIState.idle) base.positionData.angle = angle + this.owner.positionData.values.angle;
             }
 
             rotator.turrets.push(base);
@@ -264,7 +264,7 @@ export class Addon {
 
         for (let i = 0; i < count; ++i) {
 
-            const barr = new Barrel(rotator, {...dronebarrel, angle: PI2 * ((i / count) - 1 / (count * 2))})
+            const barr = new Barrel(this.owner, {...dronebarrel, angle: PI2 * ((i / count) - 1 / (count * 2))})
             const tickBase2 = barr.tick;
 
             barr.positionData.values.y += rotator.physicsData.values.size * Math.sin(MAX_ANGLE_RANGE)
