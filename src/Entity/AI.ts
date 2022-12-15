@@ -218,7 +218,7 @@ export class AI {
 
             const unitDistancePerp = {
                 x: delta.y / dist,
-                y: delta.x / dist
+                y: - delta.x / dist
             }
 
             let entPerpComponent = unitDistancePerp.x * target.velocity.x + unitDistancePerp.y * target.velocity.y;
