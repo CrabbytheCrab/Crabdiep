@@ -170,11 +170,11 @@ export class Addon {
         //rotator.joints = [];
                 rotator.styleData.zIndex += 2;
         const ROT_OFFSET = 1.8;
-
-        if (rotator.styleData.values.flags & StyleFlags.isVisible) rotator.styleData.values.flags ^= StyleFlags.isVisible;
-
+            rotator.styleData.values.flags |= StyleFlags.showsAboveParent;
+        if (rotator.styleData.values.flags & StyleFlags.isVisible) rotator.styleData.values.flags |= StyleFlags.isVisible;
+        if (rotator.styleData.values.flags & StyleFlags.showsAboveParent) rotator.styleData.values.flags |= StyleFlags.showsAboveParent;
         for (let i = 0; i < count; ++i) {
-            const base = new AutoTurret(this.owner, AutoTurretMiniDefinition);
+            const base = new AutoTurret(rotator, AutoTurretMiniDefinition);
                     base.styleData.zIndex += 2;
             base.influencedByOwnerInputs = true;
             base.turret.styleData.zIndex = this.owner.styleData.zIndex + 2
