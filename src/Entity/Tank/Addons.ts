@@ -126,11 +126,11 @@ export class Addon {
         if (rotator.styleData.values.flags & StyleFlags.isVisible) rotator.styleData.values.flags ^= StyleFlags.isVisible;
 
         for (let i = 0; i < count; ++i) {
-                       const base = new AutoTurret(rotator, {...AutoTurretMiniDefinition, reload:1.5, delay:0.25});
+                       const base = new AutoTurret(this.owner, {...AutoTurretMiniDefinition, reload:1.5, delay:0.25});
             base.influencedByOwnerInputs = true;
 
             const angle = base.ai.inputs.mouse.angle = PI2 * ((i / count) - 1 / (count * 2));
-            base.ai.passiveRotation = rotPerTick;
+            //base.ai.passiveRotation = rotPerTick;
             base.ai.targetFilter = (targetPos) => {
                 const pos = base.getWorldPosition();
                 const angleToTarget = Math.atan2(targetPos.y - pos.y, targetPos.x - pos.x);
