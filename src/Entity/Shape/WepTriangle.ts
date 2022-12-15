@@ -43,7 +43,6 @@ const GuardianSpawnerDefinition: BarrelDefinition = {
     trapezoidDirection: 3.141592653589793,
     addon: null,
     droneCount: 3,
-    canControlDrones: true,
     bullet: {
         type: "drone",
         sizeRatio:1,
