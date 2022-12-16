@@ -189,6 +189,7 @@ export const enum Tank {
     FieldGun      = 114,
     Swarmer       = 115,
     Hivemind      = 116,
+    DominatorF2   = 117,
     Mothership    = 204
 }
 
