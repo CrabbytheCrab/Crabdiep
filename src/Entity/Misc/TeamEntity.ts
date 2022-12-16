@@ -43,6 +43,7 @@ export const ColorsTeamName: Record<Color, string> = {
     [Color.EnemyTank]: "ENEMY",
     [Color.NecromancerSquare]: "SUNCHIP",
     [Color.Fallen]: "FALLEN",
+        [Color.NecromancerPentagon]: "Chip",
     [Color.kMaxColors]: "UNKNOWN"
 }
 
