@@ -10440,7 +10440,7 @@ const TankDefinitions = JSON.parse(`[
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
-            "devOnly": false
+            "devOnly": true
         },
         "visibilityRateShooting": 0.23,
         "visibilityRateMoving": 0.08,
@@ -10521,7 +10521,7 @@ const TankDefinitions = JSON.parse(`[
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
-            "devOnly": false
+            "devOnly": true
         },
         "visibilityRateShooting": 0.23,
         "visibilityRateMoving": 0.08,
@@ -12029,12 +12029,12 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "bullet",
                     "sizeRatio": 1,
-                    "health": 300,
-                    "damage": 7,
+                    "health": 5,
+                    "damage": 5,
                     "speed": 2,
                     "scatterRate": 1,
-                    "lifeLength": 1,
-                    "absorbtionFactor": 1
+                    "lifeLength": 5,
+                    "absorbtionFactor": -1
                 }
             }
         ],
@@ -12082,7 +12082,7 @@ const TankDefinitions = JSON.parse(`[
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
-            "devOnly": false
+            "devOnly": true
         },
         "visibilityRateShooting": 0.23,
         "visibilityRateMoving": 0.08,
@@ -12232,14 +12232,14 @@ const TankDefinitions = JSON.parse(`[
                 "offset": 0,
                 "size": 80,
                 "width": 38,
-                "delay": 0,
+                "delay": 0.25,
                 "reload": 7,
                 "recoil": 1,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
                 "addon": "minionLauncher",
-                "droneCount": 2,
-                "canControlDrones": false,
+                "droneCount": 3,
+                "canControlDrones": true,
                 "bullet": {
                     "type": "domminion",
                     "sizeRatio": 1,
@@ -12256,14 +12256,14 @@ const TankDefinitions = JSON.parse(`[
                 "offset": 0,
                 "size": 80,
                 "width": 38,
-                "delay": 0,
+                "delay": 0.25,
                 "reload": 7,
                 "recoil": 1,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
                 "addon": "minionLauncher",
-                "droneCount": 2,
-                "canControlDrones": false,
+                "droneCount": 3,
+                "canControlDrones": true,
                 "bullet": {
                     "type": "domminion",
                     "sizeRatio": 1,
@@ -12280,14 +12280,14 @@ const TankDefinitions = JSON.parse(`[
                 "offset": 0,
                 "size": 80,
                 "width": 38,
-                "delay": 0,
+                "delay": 0.25,
                 "reload": 7,
                 "recoil": 1,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
                 "addon": "minionLauncher",
-                "droneCount": 2,
-                "canControlDrones": false,
+                "droneCount": 3,
+                "canControlDrones": true,
                 "bullet": {
                     "type": "domminion",
                     "sizeRatio": 1,
