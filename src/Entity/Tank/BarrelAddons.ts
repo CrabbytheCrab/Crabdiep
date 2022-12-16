@@ -258,12 +258,56 @@ export class EngiTrapLauncherAddon extends BarrelAddon {
         this.launcherEntity = new EngiTrapLauncher2(owner);
     }
 }
+export class SwarmLauncher extends ObjectEntity {
+    /** The barrel that this trap launcher is placed on. */
+    public barrelEntity: Barrel;
 
+    /** Resizes the trap launcher; when its barrel owner gets bigger, the trap launcher must as well. */
+    public constructor(barrel: Barrel) {
+        super(barrel.game);
+
+        this.barrelEntity = barrel;
+        this.setParent(barrel);
+        this.relationsData.values.team = barrel;
+        this.physicsData.values.flags = PhysicsFlags.isTrapezoid | PhysicsFlags._unknown;
+        this.styleData.values.color = Color.Barrel;
+        this.styleData.values.flags|= StyleFlags.showsAboveParent;
+
+        this.physicsData.values.sides = 2;
+        this.physicsData.values.width = barrel.physicsData.values.width;
+        this.physicsData.values.size = barrel.physicsData.values.size * (7 / 50);
+        this.positionData.values.x = (barrel.physicsData.values.size - this.physicsData.values.size) / 2;
+    }
+
+    public resize() {
+        this.physicsData.sides = 2;
+        this.physicsData.width = this.barrelEntity.physicsData.values.width;
+        this.physicsData.size = this.barrelEntity.physicsData.values.size * (7 / 50);
+        this.positionData.x = (this.barrelEntity.physicsData.values.size - this.physicsData.values.size) / 2;
+    }
+
+
+    public tick(tick: number) {
+        super.tick(tick);
+
+        this.resize();
+    }
+}
+export class SwarmLauncherAddon extends BarrelAddon {
+    /** The actual trap launcher entity */
+    public launcherEntity: SwarmLauncher;
+
+    public constructor(owner: Barrel) {
+        super(owner);
+        this.launcherEntity = new SwarmLauncher(owner);
+    }
+}
 /**
  * All barrel addons in the game by their ID.
  */
  export const BarrelAddonById: Record<barrelAddonId, typeof BarrelAddon | null> = {
     minionLauncher: MinionLauncherAddon,
     engitrapLauncher : EngiTrapLauncherAddon,
-    trapLauncher: TrapLauncherAddon
+    trapLauncher: TrapLauncherAddon,
+    swarmLauncher: SwarmLauncherAddon
 }
