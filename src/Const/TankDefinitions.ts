@@ -13132,7 +13132,7 @@ const TankDefinitions = JSON.parse(`[
                     "absorbtionFactor": 1,
                     "sides": 4
                 }
-            }
+            },
             {
                 "angle": 1.0471975511965976,
                 "offset": 0,
