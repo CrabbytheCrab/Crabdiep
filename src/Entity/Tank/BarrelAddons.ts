@@ -275,7 +275,7 @@ export class SwarmLauncher extends ObjectEntity {
 
         this.physicsData.values.sides = 2;
         this.physicsData.values.width = barrel.physicsData.values.width;
-        this.physicsData.values.size = barrel.physicsData.values.size * (7 / 50);
+        this.physicsData.values.size = barrel.physicsData.values.size * (9 / 50);
         this.positionData.values.x = 0;
         this.positionData.values.angle = Math.PI;
     }
@@ -283,9 +283,9 @@ export class SwarmLauncher extends ObjectEntity {
     public resize() {
         this.physicsData.sides = 2;
         this.physicsData.width = this.barrelEntity.physicsData.values.width;
-        this.physicsData.size = this.barrelEntity.physicsData.values.size * (7 / 50);
+        this.physicsData.size = this.barrelEntity.physicsData.values.size * (9 / 50);
         this.positionData.x = 0;
-        this.positionData.angle = Math.PI;
+        this.positionData.angle += Math.PI;
     }
 
 
