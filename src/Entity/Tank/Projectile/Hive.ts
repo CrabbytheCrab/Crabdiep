@@ -93,9 +93,6 @@ export default class Hive extends Bullet {
             if (!Entity.exists(this.barrelEntity)) this.destroy();
 
             this.tickMixin(tick);
-
-            this.baseAccel = base;
-            this.positionData.angle = Math.atan2(inputs.mouse.y - this.positionData.values.y, inputs.mouse.x - this.positionData.values.x);
             this.restCycle = false
 
 
