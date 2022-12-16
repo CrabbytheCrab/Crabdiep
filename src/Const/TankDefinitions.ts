@@ -3007,7 +3007,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Cruiser",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [41, 78, 67],
+        "upgrades": [41, 78],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -3084,15 +3084,15 @@ const TankDefinitions = JSON.parse(`[
                 "max": 7
             },
             {
-                "name": "Swarm Damage",
+                "name": "Drone Damage",
                 "max": 7
             },
             {
-                "name": "Swarm Amount",
+                "name": "Drone Amount",
                 "max": 7
             },
             {
-                "name": "Swarm Speed",
+                "name": "Drone Speed",
                 "max": 7
             },
             {
@@ -4829,15 +4829,15 @@ const TankDefinitions = JSON.parse(`[
                 "max": 7
             },
             {
-                "name": "Bullet Damage",
+                "name": "Drone Damage",
                 "max": 7
             },
             {
-                "name": "Bullet Penetration",
+                "name": "Drone Amount",
                 "max": 7
             },
             {
-                "name": "Bullet Speed",
+                "name": "Drone Speed",
                 "max": 7
             },
             {
@@ -9382,15 +9382,15 @@ const TankDefinitions = JSON.parse(`[
                 "max": 7
             },
             {
-                "name": "Swarm Damage",
+                "name": "Drone Damage",
                 "max": 7
             },
             {
-                "name": "Swarm Amount",
+                "name": "Drone Amount",
                 "max": 7
             },
             {
-                "name": "Swarm Speed",
+                "name": "Drone Speed",
                 "max": 7
             },
             {
@@ -12906,7 +12906,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Swarmer",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [116, 67],
+        "upgrades": [116, 67,80],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
