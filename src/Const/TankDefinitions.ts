@@ -10646,7 +10646,7 @@ const TankDefinitions = JSON.parse(`[
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
-            "devOnly": false
+            "devOnly": true
         },
         "visibilityRateShooting": 0.23,
         "visibilityRateMoving": 0.08,
@@ -12213,7 +12213,7 @@ const TankDefinitions = JSON.parse(`[
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
-            "devOnly": false
+            "devOnly": true
         },
         "visibilityRateShooting": 0.23,
         "visibilityRateMoving": 0.08,
@@ -13228,6 +13228,137 @@ const TankDefinitions = JSON.parse(`[
             },
             {
                 "name": "Swarm Speed",
+                "max": 7
+            },
+            {
+                "name": "Body Damage",
+                "max": 7
+            },
+            {
+                "name": "Max Health",
+                "max": 7
+            },
+            {
+                "name": "Health Regen",
+                "max": 7
+            }
+        ]
+    },
+    {
+        "id": 117,
+        "name": "Dominator",
+        "upgradeMessage": "",
+        "levelRequirement": 0,
+        "upgrades": [],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 1,
+        "absorbtionFactor": 1,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": "dombase",
+        "postAddon": null,
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 80,
+                "width": 38,
+                "delay": 0.25,
+                "reload": 7,
+                "recoil": 1,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": "minionLauncher",
+                "droneCount": 3,
+                "canControlDrones": true,
+                "bullet": {
+                    "type": "domminion",
+                    "sizeRatio": 1,
+                    "health": 1.5,
+                    "damage": 1,
+                    "speed": 1.2,
+                    "scatterRate": 0,
+                    "lifeLength": -1,
+                    "absorbtionFactor": 1
+                }
+            },
+            {
+                "angle": 2.0943951023931953,
+                "offset": 0,
+                "size": 80,
+                "width": 38,
+                "delay": 0.25,
+                "reload": 7,
+                "recoil": 1,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": "minionLauncher",
+                "droneCount": 3,
+                "canControlDrones": true,
+                "bullet": {
+                    "type": "domminion",
+                    "sizeRatio": 1,
+                    "health": 1.5,
+                    "damage": 1,
+                    "speed": 1.2,
+                    "scatterRate": 0,
+                    "lifeLength": -1,
+                    "absorbtionFactor": 1
+                }
+            },
+            {
+                "angle": -2.0943951023931953,
+                "offset": 0,
+                "size": 80,
+                "width": 38,
+                "delay": 0.25,
+                "reload": 7,
+                "recoil": 1,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": "minionLauncher",
+                "droneCount": 3,
+                "canControlDrones": true,
+                "bullet": {
+                    "type": "domminion",
+                    "sizeRatio": 1,
+                    "health": 1.5,
+                    "damage": 1,
+                    "speed": 1.2,
+                    "scatterRate": 0,
+                    "lifeLength": -1,
+                    "absorbtionFactor": 1
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 7
+            },
+            {
+                "name": "Reload",
+                "max": 7
+            },
+            {
+                "name": "Minion Damage",
+                "max": 7
+            },
+            {
+                "name": "Minion Penetration",
+                "max": 7
+            },
+            {
+                "name": "Minion Speed",
                 "max": 7
             },
             {
