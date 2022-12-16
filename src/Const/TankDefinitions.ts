@@ -13270,8 +13270,8 @@ const TankDefinitions = JSON.parse(`[
             {
                 "angle": 0.39269908169872414,
                 "offset": 0,
-                "size": 70,
-                "width": 38,
+                "size": 80,
+                "width": 42,
                 "delay": 0.25,
                 "reload": 7,
                 "recoil": 1,
@@ -13295,8 +13295,8 @@ const TankDefinitions = JSON.parse(`[
             {
                 "angle": -0.39269908169872414,
                 "offset": 0,
-                "size": 70,
-                "width": 38,
+                "size": 80,
+                "width": 42,
                 "delay": 0.25,
                 "megaturret": true,
                 "reload": 7,
@@ -13320,8 +13320,8 @@ const TankDefinitions = JSON.parse(`[
             {
                 "angle": 0,
                 "offset": 0,
-                "size": 80,
-                "width": 38,
+                "size": 90,
+                "width": 42,
                 "delay": 0.25,
                 "reload": 7,
                 "megaturret": true,
