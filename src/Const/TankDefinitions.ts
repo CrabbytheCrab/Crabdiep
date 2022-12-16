@@ -13034,6 +13034,215 @@ const TankDefinitions = JSON.parse(`[
                 "max": 7
             }
         ]
+    },
+    {
+        "id": 116,
+        "name": "Hivemind",
+        "upgradeMessage": "",
+        "levelRequirement": 45,
+        "upgrades": [],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 1,
+        "absorbtionFactor": 1,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": null,
+        "postAddon": null,
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle": 2.0943951023931953,
+                "offset": 0,
+                "size": 85,
+                "width": 29.4,
+                "delay": 0,
+                "reload": 3.25,
+                "recoil": 1,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": "swarmLauncher",
+                "droneCount": 4294967295,
+                "canControlDrones": false,
+                "bullet": {
+                    "type": "hive",
+                    "sizeRatio": 0.7,
+                    "health": 1,
+                    "damage": 0.15,
+                    "speed": 2,
+                    "scatterRate": 1,
+                    "lifeLength": 0.5,
+                    "absorbtionFactor": 1,
+                    "sides": 4
+                }
+            },
+            {
+                "angle": -2.0943951023931953,
+                "offset": 0,
+                "size": 85,
+                "width": 29.4,
+                "delay": 0,
+                "reload": 3.25,
+                "recoil": 1,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": "swarmLauncher",
+                "droneCount": 4294967295,
+                "canControlDrones": false,
+                "bullet": {
+                    "type": "hive",
+                    "sizeRatio": 0.7,
+                    "health": 1,
+                    "damage": 0.15,
+                    "speed": 2,
+                    "scatterRate": 1,
+                    "lifeLength": 0.5,
+                    "absorbtionFactor": 1,
+                    "sides": 4
+                }
+            },
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 85,
+                "width": 29.4,
+                "delay": 0,
+                "reload": 3.25,
+                "recoil": 1,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": "swarmLauncher",
+                "droneCount": 4294967295,
+                "canControlDrones": false,
+                "bullet": {
+                    "type": "hive",
+                    "sizeRatio": 0.7,
+                    "health": 1,
+                    "damage": 0.15,
+                    "speed": 2,
+                    "scatterRate": 1,
+                    "lifeLength": 0.5,
+                    "absorbtionFactor": 1,
+                    "sides": 4
+                }
+            }
+            {
+                "angle": 1.0471975511965976,
+                "offset": 0,
+                "size": 85,
+                "width": 29.4,
+                "delay": 0.5,
+                "reload": 3.25,
+                "recoil": 1,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": "swarmLauncher",
+                "droneCount": 4294967295,
+                "canControlDrones": false,
+                "bullet": {
+                    "type": "hive",
+                    "sizeRatio": 0.7,
+                    "health": 1,
+                    "damage": 0.15,
+                    "speed": 2,
+                    "scatterRate": 1,
+                    "lifeLength": 0.5,
+                    "absorbtionFactor": 1,
+                    "sides": 4
+                }
+            },
+            {
+                "angle": -1.0471975511965976,
+                "offset": 0,
+                "size": 85,
+                "width": 29.4,
+                "delay": 0.5,
+                "reload": 3.25,
+                "recoil": 1,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": "swarmLauncher",
+                "droneCount": 4294967295,
+                "canControlDrones": false,
+                "bullet": {
+                    "type": "hive",
+                    "sizeRatio": 0.7,
+                    "health": 1,
+                    "damage": 0.15,
+                    "speed": 2,
+                    "scatterRate": 1,
+                    "lifeLength": 0.5,
+                    "absorbtionFactor": 1,
+                    "sides": 4
+                }
+            },
+            {
+                "angle": 3.141592653589793,
+                "offset": 0,
+                "size": 85,
+                "width": 29.4,
+                "delay": 0.5,
+                "reload": 3.25,
+                "recoil": 1,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": "swarmLauncher",
+                "droneCount": 4294967295,
+                "canControlDrones": false,
+                "bullet": {
+                    "type": "hive",
+                    "sizeRatio": 0.7,
+                    "health": 1,
+                    "damage": 0.15,
+                    "speed": 2,
+                    "scatterRate": 1,
+                    "lifeLength": 0.5,
+                    "absorbtionFactor": 1,
+                    "sides": 4
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 7
+            },
+            {
+                "name": "Reload",
+                "max": 7
+            },
+            {
+                "name": "Swarm Damage",
+                "max": 7
+            },
+            {
+                "name": "Swarm Health",
+                "max": 7
+            },
+            {
+                "name": "Swarm Speed",
+                "max": 7
+            },
+            {
+                "name": "Body Damage",
+                "max": 7
+            },
+            {
+                "name": "Max Health",
+                "max": 7
+            },
+            {
+                "name": "Health Regen",
+                "max": 7
+            }
+        ]
     }
 ]`) as (TankDefinition | null)[] & Record<Tank, TankDefinition>;
 
