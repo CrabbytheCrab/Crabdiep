@@ -170,7 +170,7 @@ const MinionBarrelDefinition6: BarrelDefinition = {
  */
 export default class Minion extends Drone implements BarrelBase {
     /** Size of the focus the minions orbit. */
-    public static FOCUS_RADIUS = 1000 ** 2;
+    public static FOCUS_RADIUS = 850 ** 2;
 
     /** The minion's barrel */
     private minionBarrel: Barrel;
@@ -190,7 +190,7 @@ export default class Minion extends Drone implements BarrelBase {
         const bulletDefinition = barrel.definition.bullet;
 
         this.inputs = this.ai.inputs;
-        this.ai.viewRange = 2500;
+        this.ai.viewRange = 900;
         this.usePosAngle = false;
 
         this.physicsData.values.sides = bulletDefinition.sides ?? 1;
