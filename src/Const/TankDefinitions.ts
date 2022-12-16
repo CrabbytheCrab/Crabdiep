@@ -31,7 +31,7 @@ export type addonId = preAddonId | postAddonId;
 export type projectileId = "bullet" | "drone" | "trap"| "pentadrone"  | "necrotriangledrone" | "necropentadrone" | "necrodrone" | "minion" | "spinner" | "spinner4" | "megaspinner" | "skimmer" | "rocket" | "swarm" | "flame" | "wall" | "croc" | "launrocket" | "autotrap"| "domminion" | "megaminion" | "miniminion" | "drone2" | "hive";
 
 /** The types of barrel addons that exist in the game */
-export type barrelAddonId = "trapLauncher" | "minionLauncher" | "engitrapLauncher";
+export type barrelAddonId = "trapLauncher" | "minionLauncher" | "engitrapLauncher" | "swarmLauncher";
 
 /** Increase in opacity when taking damage. */
 export const visibilityRateDamage = 0.2;
@@ -8247,16 +8247,16 @@ const TankDefinitions = JSON.parse(`[
         "borderWidth": 15,
         "barrels": [
             {
-                "angle": 0.26179938779,
-                "offset": 10,
-                "size": 75,
+                "angle": 0.17453292519943295,
+                "offset": 20,
+                "size": 68,
                 "width": 29.4,
                 "delay": 0.3333,
                 "reload": 2.5,
                 "recoil": 1,
-                "isTrapezoid": true,
-                "trapezoidDirection": 3.141592653589793,
-                "addon": null,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": "swarmLauncher",
                 "droneCount": 4294967295,
                 "canControlDrones": false,
                 "bullet": {
@@ -8272,16 +8272,16 @@ const TankDefinitions = JSON.parse(`[
                 }
             },
             {
-                "angle": -0.26179938779,
-                "offset": -10,
-                "size": 75,
+                "angle": -0.17453292519943295,
+                "offset": -20,
+                "size": 68,
                 "width": 29.4,
                 "delay": 0.6666,
                 "reload": 2.5,
                 "recoil": 1,
-                "isTrapezoid": true,
-                "trapezoidDirection": 3.141592653589793,
-                "addon": null,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": "swarmLauncher",
                 "droneCount": 4294967295,
                 "canControlDrones": false,
                 "bullet": {
