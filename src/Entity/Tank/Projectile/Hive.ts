@@ -49,7 +49,7 @@ export default class Hive extends Bullet {
         this.usePosAngle = true;
         
         this.ai = new AI(this);
-        this.ai.viewRange = 450 * tank.sizeFactor;
+        this.ai.viewRange = 850 * tank.sizeFactor;
         this.ai.targetFilter = (targetPos) => (targetPos.x - this.tank.positionData.values.x) ** 2 + (targetPos.y - this.tank.positionData.values.y) ** 2 <= this.ai.viewRange ** 2; // (1000 ** 2) 1000 radius
         this.canControlDrones = typeof this.barrelEntity.definition.canControlDrones === 'boolean' && this.barrelEntity.definition.canControlDrones;
         this.physicsData.values.sides = bulletDefinition.sides ?? 4;
@@ -91,7 +91,7 @@ export default class Hive extends Bullet {
         const usingAI = !this.canControlDrones || this.tank.inputs.deleted || (!this.tank.inputs.attemptingShot() && !this.tank.inputs.attemptingRepel());
         const inputs = !usingAI ? this.tank.inputs : this.ai.inputs;
 
-        if (usingAI && this.ai.state === AIState.idle) {
+        if (usingAI) {
             const delta = {
                 x: this.positionData.values.x - this.tank.positionData.values.x,
                 y: this.positionData.values.y - this.tank.positionData.values.y
