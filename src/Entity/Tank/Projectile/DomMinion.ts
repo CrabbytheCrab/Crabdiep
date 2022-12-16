@@ -96,6 +96,75 @@ const MinionBarrelDefinition3: BarrelDefinition = {
         absorbtionFactor: 1
     }
 };
+
+ const MinionBarrelDefinition4: BarrelDefinition = {
+    angle: 0,
+    offset: 0,
+    size: 95,
+    width: 42,
+    delay: 0,
+    reload: 1,
+    recoil: 1.35,
+    isTrapezoid: false,
+    trapezoidDirection: 0,
+    addon: null,
+    bullet: {
+        type: "bullet",
+        health: 0.4,
+        damage: 0.3,
+        speed: 1,
+        scatterRate: 1,
+        lifeLength: 1,
+        sizeRatio: 1,
+        absorbtionFactor: 1
+    }
+};
+
+const MinionBarrelDefinition5: BarrelDefinition = {
+    angle: -0.39269908169872414,
+    offset: 0,
+    size: 85,
+    width: 42,
+    delay: 0.5,
+    reload: 1,
+    recoil: 1.35,
+    isTrapezoid: false,
+    trapezoidDirection: 0,
+    addon: null,
+    bullet: {
+        type: "bullet",
+        health: 0.4,
+        damage: 0.3,
+        speed: 1,
+        scatterRate: 1,
+        lifeLength: 1,
+        sizeRatio: 1,
+        absorbtionFactor: 1
+    }
+};
+
+const MinionBarrelDefinition6: BarrelDefinition = {
+    angle: 0.39269908169872414,
+    offset: 0,
+    size: 85,
+    width: 42,
+    delay: 0.5,
+    reload: 1,
+    recoil: 1.35,
+    isTrapezoid: false,
+    trapezoidDirection: 0,
+    addon: null,
+    bullet: {
+        type: "bullet",
+        health: 0.4,
+        damage: 0.3,
+        speed: 1,
+        scatterRate: 1,
+        lifeLength: 1,
+        sizeRatio: 1,
+        absorbtionFactor: 1
+    }
+};
 /**
  * The drone class represents the minion (projectile) entity in diep.
  */
@@ -114,7 +183,7 @@ export default class Minion extends Drone implements BarrelBase {
     public reloadTime = 1;
     /** The inputs for when to shoot or not. (Rocket) */
     public inputs = new Inputs();
-
+    protected megaturret: boolean;
     public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number) {
         super(barrel, tank, tankDefinition, shootAngle);
 
@@ -131,12 +200,17 @@ export default class Minion extends Drone implements BarrelBase {
         if (this.physicsData.values.flags & PhysicsFlags.canEscapeArena) this.physicsData.values.flags ^= PhysicsFlags.canEscapeArena;
 
         this.physicsData.values.flags |= PhysicsFlags.onlySameOwnerCollision;
-
+        this.megaturret = typeof this.barrelEntity.definition.megaturret === 'boolean' && this.barrelEntity.definition.megaturret;
         this.sizeFactor = this.physicsData.values.size / 50;
         this.cameraEntity = tank.cameraEntity;
+        if ( this.megaturret){
+                    this.minionBarrel = new Barrel(this, MinionBarrelDefinition6);
+            this.minionBarrel = new Barrel(this, MinionBarrelDefinition5);
+            this.minionBarrel = new Barrel(this, MinionBarrelDefinitio4);
+        }else{
         this.minionBarrel = new Barrel(this, MinionBarrelDefinition3);
         this.minionBarrel = new Barrel(this, MinionBarrelDefinition2);
-        this.minionBarrel = new Barrel(this, MinionBarrelDefinition);
+        this.minionBarrel = new Barrel(this, MinionBarrelDefinition);}
         this.ai.movementSpeed = this.ai.aimSpeed = this.baseAccel;
     }
 
