@@ -206,7 +206,7 @@ export default class Minion extends Drone implements BarrelBase {
         if ( this.megaturret){
                     this.minionBarrel = new Barrel(this, MinionBarrelDefinition6);
             this.minionBarrel = new Barrel(this, MinionBarrelDefinition5);
-            this.minionBarrel = new Barrel(this, MinionBarrelDefinitio4);
+            this.minionBarrel = new Barrel(this, MinionBarrelDefinition4);
         }else{
         this.minionBarrel = new Barrel(this, MinionBarrelDefinition3);
         this.minionBarrel = new Barrel(this, MinionBarrelDefinition2);
