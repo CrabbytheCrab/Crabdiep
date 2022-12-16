@@ -11302,7 +11302,7 @@ const TankDefinitions = JSON.parse(`[
                 "size": 80,
                 "width": 47,
                 "delay": 0,
-                "reload": 4,
+                "reload": 3,
                 "recoil": 1,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
