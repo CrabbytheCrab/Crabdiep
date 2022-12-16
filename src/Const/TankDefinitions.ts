@@ -28,7 +28,7 @@ export type preAddonId = "dombase" | "launcher" | "laucher2";
 export type addonId = preAddonId | postAddonId;
 
 /** The types of projectiles in the game */
-export type projectileId = "bullet" | "drone" | "trap"| "pentadrone"  | "necrotriangledrone" | "necropentadrone" | "necrodrone" | "minion" | "spinner" | "spinner4" | "megaspinner" | "skimmer" | "rocket" | "swarm" | "flame" | "wall" | "croc" | "launrocket" | "autotrap"| "domminion" | "megaminion" | "miniminion" | "drone2";
+export type projectileId = "bullet" | "drone" | "trap"| "pentadrone"  | "necrotriangledrone" | "necropentadrone" | "necrodrone" | "minion" | "spinner" | "spinner4" | "megaspinner" | "skimmer" | "rocket" | "swarm" | "flame" | "wall" | "croc" | "launrocket" | "autotrap"| "domminion" | "megaminion" | "miniminion" | "drone2" | "hive";
 
 /** The types of barrel addons that exist in the game */
 export type barrelAddonId = "trapLauncher" | "minionLauncher" | "engitrapLauncher";
@@ -8260,7 +8260,7 @@ const TankDefinitions = JSON.parse(`[
                 "droneCount": 4294967295,
                 "canControlDrones": false,
                 "bullet": {
-                    "type": "swarm",
+                    "type": "hive",
                     "sizeRatio": 0.7,
                     "health": 1,
                     "damage": 0.15,
@@ -8285,7 +8285,7 @@ const TankDefinitions = JSON.parse(`[
                 "droneCount": 4294967295,
                 "canControlDrones": false,
                 "bullet": {
-                    "type": "swarm",
+                    "type": "hive",
                     "sizeRatio": 0.7,
                     "health": 1,
                     "damage": 0.15,
