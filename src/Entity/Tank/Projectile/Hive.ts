@@ -28,7 +28,7 @@ import { BarrelBase } from "../TankBody";
 /**
  * The drone class represents the drone (projectile) entity in diep.
  */
-export default class Drone extends Bullet {
+export default class Hive extends Bullet {
     /** The AI of the drone (for AI mode) */
     public ai: AI;
 
@@ -91,7 +91,7 @@ export default class Drone extends Bullet {
         const usingAI = !this.canControlDrones || this.tank.inputs.deleted || (!this.tank.inputs.attemptingShot() && !this.tank.inputs.attemptingRepel());
         const inputs = !usingAI ? this.tank.inputs : this.ai.inputs;
 
-        if (usingAI && this.ai.state === AIState.idle) {
+        /*if (usingAI && this.ai.state === AIState.idle) {
             const delta = {
                 x: this.positionData.values.x - this.tank.positionData.values.x,
                 y: this.positionData.values.y - this.tank.positionData.values.y
@@ -110,7 +110,7 @@ export default class Drone extends Bullet {
                 this.positionData.angle = Math.atan2(delta.y, delta.x);
                 if (unitDist < 0.5) this.baseAccel /= 3;
                 this.restCycle = (delta.x ** 2 + delta.y ** 2) <= 4 * (this.tank.physicsData.values.size ** 2);
-            }
+            }*/
 
             if (!Entity.exists(this.barrelEntity)) this.destroy();
 
