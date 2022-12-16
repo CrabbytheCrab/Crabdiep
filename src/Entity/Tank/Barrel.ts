@@ -18,6 +18,7 @@ import * as util from "../../util";
 import Bullet from "./Projectile/Bullet";
 import Trap from "./Projectile/Trap";
 import Drone from "./Projectile/Drone";
+import Hive from "./Projectile/Hive";
 import Rocket from "./Projectile/Rocket";
 import Spinner from "./Projectile/Skimmer";
 import Spinner4 from "./Projectile/Spinner4";
@@ -249,6 +250,9 @@ export default class Barrel extends ObjectEntity {
                 break;
             case 'necropentadrone':
                 new NecromancerPentagon(this, this.tank, tankDefinition, angle);
+                break;
+            case 'hive':
+                new Hive(this, this.tank, tankDefinition, angle);
                 break;
             case 'necrotriangledrone':
                 new NecromancerTriangle(this, this.tank, tankDefinition, angle);
