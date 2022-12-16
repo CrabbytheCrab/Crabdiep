@@ -10921,7 +10921,7 @@ const TankDefinitions = JSON.parse(`[
                     "sizeRatio": 1,
                     "health": 8,
                     "damage": 1.4,
-                    "speed": 0.43,
+                    "speed": 0.475,
                     "scatterRate": 0,
                     "lifeLength": -1,
                     "absorbtionFactor": 1
