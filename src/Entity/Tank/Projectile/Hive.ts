@@ -99,8 +99,8 @@ export default class Hive extends Bullet {
             const base = this.baseAccel;
 
             // still a bit inaccurate, works though
-            let unitDist = (delta.x ** 2 + delta.y ** 2) / Drone.MAX_RESTING_RADIUS;
-           /* if (unitDist <= 1 && this.restCycle) {
+            /*let unitDist = (delta.x ** 2 + delta.y ** 2) / Drone.MAX_RESTING_RADIUS;
+           if (unitDist <= 1 && this.restCycle) {
                 this.baseAccel /= 6;
                 this.positionData.angle += 0.01 + 0.012 * unitDist;
             } else {
