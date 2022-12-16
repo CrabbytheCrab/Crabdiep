@@ -145,14 +145,14 @@ export class MinionLauncher2 extends ObjectEntity {
 
         this.physicsData.values.sides = 2;
         this.physicsData.values.width = barrel.physicsData.values.width* 1.25;
-        this.physicsData.values.size = barrel.physicsData.values.size * (20 / 50);
+        this.physicsData.values.size = barrel.physicsData.values.size * (30 / 50);
         this.positionData.values.x = 0;
     }
 
     public resize() {
         this.physicsData.sides = 2;
         this.physicsData.width = this.barrelEntity.physicsData.values.width * 1.25;
-        this.physicsData.size = this.barrelEntity.physicsData.values.size * (20 / 50);
+        this.physicsData.size = this.barrelEntity.physicsData.values.size * (30 / 50);
         this.positionData.x = 0;
     }
 
