@@ -1808,7 +1808,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Spewer",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [96, 49,98, 104],
+        "upgrades": [96, 49, 104],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -3114,7 +3114,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Flank Trapper",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [81 , 82, 99],
+        "upgrades": [81 , 82, 99,98],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -11302,7 +11302,7 @@ const TankDefinitions = JSON.parse(`[
                 "size": 70,
                 "width": 47,
                 "delay": 0,
-                "reload": 4,
+                "reload": 4.5,
                 "recoil": 1,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
@@ -11310,37 +11310,37 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "autotrap",
                     "sizeRatio": 0.8,
-                    "health": 1.25,
+                    "health": 1.5,
                     "damage": 0.8,
                     "speed": 1.5,
                     "scatterRate": 1,
-                    "lifeLength": 3,
+                    "lifeLength": 2.5,
                     "absorbtionFactor": 1
                 }
             },
             {
                 "angle": 0,
                 "offset": 0,
-                "size": 95,
-                "width": 42,
+                "size": 80,
+                "width": 47,
                 "delay": 0,
-                "reload": 0.5,
+                "reload": 4.5,
                 "recoil": 1,
-                "isTrapezoid": true,
+                "isTrapezoid": false,
                 "trapezoidDirection": 0,
-                "addon": null,
+                "addon": "engitrapLauncher",
                 "bullet": {
-                    "type": "bullet",
-                    "sizeRatio": 1,
-                    "health": 1,
-                    "damage": 0.575,
-                    "speed": 1,
-                    "scatterRate": 3,
-                    "lifeLength": 1,
+                    "type": "autotrap",
+                    "sizeRatio": 0.8,
+                    "health": 1.5,
+                    "damage": 0.8,
+                    "speed": 1.5,
+                    "scatterRate": 1,
+                    "lifeLength": 2.5,
                     "absorbtionFactor": 1
                 }
             }
-        ],
+         ],
         "stats": [
             {
                 "name": "Movement Speed",
@@ -11351,15 +11351,15 @@ const TankDefinitions = JSON.parse(`[
                 "max": 7
             },
             {
-                "name": "Weapon Damage",
+                "name": "Trap Damage",
                 "max": 7
             },
             {
-                "name": "Weapon Penetration",
+                "name": "Trap Health",
                 "max": 7
             },
             {
-                "name": "Weapon Speed",
+                "name": "Trap Speed",
                 "max": 7
             },
             {
