@@ -1808,7 +1808,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Spewer",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [96, 49, 104],
+        "upgrades": [96, 49, 104, 118],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
