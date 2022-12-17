@@ -8263,7 +8263,7 @@ const TankDefinitions = JSON.parse(`[
                     "type": "hive",
                     "sizeRatio": 0.7,
                     "health": 1,
-                    "damage": 0.15,
+                    "damage": 0.45,
                     "speed": 2,
                     "scatterRate": 1,
                     "lifeLength": 0.5,
@@ -8288,7 +8288,7 @@ const TankDefinitions = JSON.parse(`[
                     "type": "hive",
                     "sizeRatio": 0.7,
                     "health": 1,
-                    "damage": 0.15,
+                    "damage": 0.45,
                     "speed": 2,
                     "scatterRate": 1,
                     "lifeLength": 0.5,
@@ -12930,7 +12930,7 @@ const TankDefinitions = JSON.parse(`[
                 "size": 85,
                 "width": 29.4,
                 "delay": 0,
-                "reload": 2.5,
+                "reload": 1.25,
                 "recoil": 1,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
@@ -12945,8 +12945,7 @@ const TankDefinitions = JSON.parse(`[
                     "speed": 2,
                     "scatterRate": 1,
                     "lifeLength": 0.5,
-                    "absorbtionFactor": 1,
-                    "sides": 4
+                    "absorbtionFactor": 1
                 }
             },
             {
@@ -12955,7 +12954,7 @@ const TankDefinitions = JSON.parse(`[
                 "size": 85,
                 "width": 29.4,
                 "delay": 0,
-                "reload": 2.5,
+                "reload": 1.25,
                 "recoil": 1,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
@@ -12970,8 +12969,7 @@ const TankDefinitions = JSON.parse(`[
                     "speed": 2,
                     "scatterRate": 1,
                     "lifeLength": 0.5,
-                    "absorbtionFactor": 1,
-                    "sides": 4
+                    "absorbtionFactor": 1
                 }
             },
             {
@@ -12980,7 +12978,7 @@ const TankDefinitions = JSON.parse(`[
                 "size": 85,
                 "width": 29.4,
                 "delay": 0,
-                "reload": 2.5,
+                "reload": 1.25,
                 "recoil": 1,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
@@ -12995,8 +12993,7 @@ const TankDefinitions = JSON.parse(`[
                     "speed": 2,
                     "scatterRate": 1,
                     "lifeLength": 0.5,
-                    "absorbtionFactor": 1,
-                    "sides": 4
+                    "absorbtionFactor": 1
                 }
             }
         ],
@@ -13064,7 +13061,7 @@ const TankDefinitions = JSON.parse(`[
                 "size": 85,
                 "width": 29.4,
                 "delay": 0,
-                "reload": 3.25,
+                "reload": 1.625,
                 "recoil": 1,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
@@ -13079,8 +13076,7 @@ const TankDefinitions = JSON.parse(`[
                     "speed": 2,
                     "scatterRate": 1,
                     "lifeLength": 0.5,
-                    "absorbtionFactor": 1,
-                    "sides": 4
+                    "absorbtionFactor": 1
                 }
             },
             {
@@ -13089,7 +13085,7 @@ const TankDefinitions = JSON.parse(`[
                 "size": 85,
                 "width": 29.4,
                 "delay": 0,
-                "reload": 3.25,
+                "reload": 1.625,
                 "recoil": 1,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
@@ -13104,8 +13100,7 @@ const TankDefinitions = JSON.parse(`[
                     "speed": 2,
                     "scatterRate": 1,
                     "lifeLength": 0.5,
-                    "absorbtionFactor": 1,
-                    "sides": 4
+                    "absorbtionFactor": 1
                 }
             },
             {
@@ -13114,7 +13109,7 @@ const TankDefinitions = JSON.parse(`[
                 "size": 85,
                 "width": 29.4,
                 "delay": 0,
-                "reload": 3.25,
+                "reload": 1.625,
                 "recoil": 1,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
@@ -13129,8 +13124,7 @@ const TankDefinitions = JSON.parse(`[
                     "speed": 2,
                     "scatterRate": 1,
                     "lifeLength": 0.5,
-                    "absorbtionFactor": 1,
-                    "sides": 4
+                    "absorbtionFactor": 1
                 }
             },
             {
@@ -13139,7 +13133,7 @@ const TankDefinitions = JSON.parse(`[
                 "size": 85,
                 "width": 29.4,
                 "delay": 0.5,
-                "reload": 3.25,
+                "reload": 1.625,
                 "recoil": 1,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
@@ -13154,8 +13148,7 @@ const TankDefinitions = JSON.parse(`[
                     "speed": 2,
                     "scatterRate": 1,
                     "lifeLength": 0.5,
-                    "absorbtionFactor": 1,
-                    "sides": 4
+                    "absorbtionFactor": 1
                 }
             },
             {
@@ -13164,7 +13157,7 @@ const TankDefinitions = JSON.parse(`[
                 "size": 85,
                 "width": 29.4,
                 "delay": 0.5,
-                "reload": 3.25,
+                "reload": 1.625,
                 "recoil": 1,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
@@ -13179,8 +13172,7 @@ const TankDefinitions = JSON.parse(`[
                     "speed": 2,
                     "scatterRate": 1,
                     "lifeLength": 0.5,
-                    "absorbtionFactor": 1,
-                    "sides": 4
+                    "absorbtionFactor": 1
                 }
             },
             {
@@ -13189,7 +13181,7 @@ const TankDefinitions = JSON.parse(`[
                 "size": 85,
                 "width": 29.4,
                 "delay": 0.5,
-                "reload": 3.25,
+                "reload": 1.625,
                 "recoil": 1,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
@@ -13204,8 +13196,7 @@ const TankDefinitions = JSON.parse(`[
                     "speed": 2,
                     "scatterRate": 1,
                     "lifeLength": 0.5,
-                    "absorbtionFactor": 1,
-                    "sides": 4
+                    "absorbtionFactor": 1
                 }
             }
         ],
