@@ -52,7 +52,7 @@ export default class Hive extends Bullet {
         this.ai.viewRange = 600 * tank.sizeFactor;
         this.ai.targetFilter = (targetPos) => (targetPos.x - this.positionData.values.x) ** 2 + (targetPos.y - this.positionData.values.y) ** 2 <= this.ai.viewRange ** 2; // (1000 ** 2) 1000 radius
         this.canControlDrones = typeof this.barrelEntity.definition.canControlDrones === 'boolean' && this.barrelEntity.definition.canControlDrones;
-        this.physicsData.values.sides = bulletDefinition.sides ?? 4;
+        this.physicsData.values.sides = bulletDefinition.sides ?? 3;
         if (this.physicsData.values.flags & PhysicsFlags.noOwnTeamCollision) this.physicsData.values.flags ^= PhysicsFlags.noOwnTeamCollision;
         this.physicsData.values.flags |= PhysicsFlags.onlySameOwnerCollision;
         this.styleData.values.flags &= ~StyleFlags.hasNoDmgIndicator;
