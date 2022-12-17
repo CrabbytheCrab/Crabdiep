@@ -190,6 +190,7 @@ export const enum Tank {
     Swarmer       = 115,
     Hivemind      = 116,
     DominatorF2   = 117,
+    Constructor   = 118,
     Mothership    = 204
 }
 
