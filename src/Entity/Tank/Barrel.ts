@@ -203,7 +203,7 @@ export default class Barrel extends ObjectEntity {
                 break;
             }
             case 'trap':
-                new Trap(this, this.tank, tankDefinition, angle);
+                new Trap(this, this.tank, tankDefinition, angle, this.rootParent);
                 break;
             case 'drone':
                 new Drone(this, this.tank, tankDefinition, angle);

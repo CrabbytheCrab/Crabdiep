@@ -91,6 +91,7 @@ export interface BarrelDefinition {
     /** Whether or not the drones are controllable - only present if `bullet.type` === 'drone'. */
     canControlDrones?: boolean;
     megaturret?: boolean;
+    invisibile?: boolean;
     /** Whether or not the barrel should always shoot (Trapper Dominator, Defender). */
     forceFire?: boolean;
     /** The definition of the bullet that is shot from the barrel. */
@@ -445,7 +446,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Machine Gun",
         "upgradeMessage": "",
         "levelRequirement": 15,
-        "upgrades": [16,52, 17],
+        "upgrades": [16,52, 17,119],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -1593,7 +1594,7 @@ const TankDefinitions = JSON.parse(`[
                     "health": 0.8,
                     "damage": 0.2,
                     "speed": 1.5,
-                    "scatterRate": 1,
+                    "scatterRate": 0.3,
                     "lifeLength": 1,
                     "absorbtionFactor": 1
                 }
@@ -1615,7 +1616,7 @@ const TankDefinitions = JSON.parse(`[
                     "health": 0.8,
                     "damage": 0.2,
                     "speed": 1.5,
-                    "scatterRate": 1,
+                    "scatterRate": 0.3,
                     "lifeLength": 1,
                     "absorbtionFactor": 1
                 }
@@ -1637,7 +1638,7 @@ const TankDefinitions = JSON.parse(`[
                     "health": 0.8,
                     "damage": 0.2,
                     "speed": 1.5,
-                    "scatterRate": 1,
+                    "scatterRate": 0.3,
                     "lifeLength": 1,
                     "absorbtionFactor": 1
                 }
@@ -1808,7 +1809,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Spewer",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [96, 49, 104, 118],
+        "upgrades": [96, 104, 118],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -5269,7 +5270,7 @@ const TankDefinitions = JSON.parse(`[
                     "health": 0.8,
                     "damage": 0.35,
                     "speed": 1.5,
-                    "scatterRate": 1,
+                    "scatterRate": 0.3,
                     "lifeLength": 1,
                     "absorbtionFactor": 1
                 }
@@ -5291,7 +5292,7 @@ const TankDefinitions = JSON.parse(`[
                     "health": 0.8,
                     "damage": 0.35,
                     "speed": 1.5,
-                    "scatterRate": 1,
+                    "scatterRate": 0.3,
                     "lifeLength": 1,
                     "absorbtionFactor": 1
                 }
@@ -5313,7 +5314,7 @@ const TankDefinitions = JSON.parse(`[
                     "health": 0.8,
                     "damage": 0.35,
                     "speed": 1.5,
-                    "scatterRate": 1,
+                    "scatterRate": 0.3,
                     "lifeLength": 1,
                     "absorbtionFactor": 1
                 }
@@ -6265,7 +6266,7 @@ const TankDefinitions = JSON.parse(`[
         "visibilityRateShooting": 0.23,
         "visibilityRateMoving": 0.08,
         "invisibilityRate": 0.03,
-        "fieldFactor": 1,
+        "fieldFactor": 0.875,
         "absorbtionFactor": 1,
         "speed": 1,
         "maxHealth": 50,
@@ -6279,7 +6280,7 @@ const TankDefinitions = JSON.parse(`[
                 "offset": -25,
                 "size": 65,
                 "width": 18,
-                "delay": 0.66,
+                "delay": 0.83,
                 "reload": 1,
                 "recoil": 0.2,
                 "isTrapezoid": false,
@@ -6323,7 +6324,7 @@ const TankDefinitions = JSON.parse(`[
                 "offset": -17.5,
                 "size": 85,
                 "width": 18,
-                "delay": 0.33,
+                "delay": 0.5,
                 "reload": 1,
                 "recoil": 0.2,
                 "isTrapezoid": false,
@@ -6367,7 +6368,7 @@ const TankDefinitions = JSON.parse(`[
                 "offset": -10,
                 "size": 95,
                 "width": 18,
-                "delay": 0,
+                "delay": 0.16,
                 "reload": 1,
                 "recoil": 0.2,
                 "isTrapezoid": false,
@@ -9194,11 +9195,11 @@ const TankDefinitions = JSON.parse(`[
     {
         "id": 77,
         "name": "Maleficitor",
-        "upgradeMessage": "Stand still to go invisible",
+        "upgradeMessage": "Idle necro squares go invisible",
         "levelRequirement": 45,
         "upgrades": [],
         "flags": {
-            "invisibility": true,
+            "invisibility": false,
             "zoomAbility": false,
             "canClaimSquares": true,
             "devOnly": false
@@ -9219,7 +9220,7 @@ const TankDefinitions = JSON.parse(`[
                 "angle": 0,
                 "offset": 0,
                 "size": 80,
-                "width": 51,
+                "width": 42,
                 "delay": 0.25,
                 "reload": 10,
                 "recoil": 1,
@@ -9228,12 +9229,13 @@ const TankDefinitions = JSON.parse(`[
                 "addon": null,
                 "droneCount": 0,
                 "canControlDrones": true,
+                "invisibile": true,
                 "bullet": {
                     "type": "necrodrone",
                     "sizeRatio": 1,
                     "health": 2,
                     "damage": 0.42,
-                    "speed": 0.82,
+                    "speed": 0.72,
                     "scatterRate": 0,
                     "lifeLength": -1,
                     "absorbtionFactor": 1
@@ -13455,6 +13457,88 @@ const TankDefinitions = JSON.parse(`[
             },
             {
                 "name": "Weapon Speed",
+                "max": 7
+            },
+            {
+                "name": "Body Damage",
+                "max": 7
+            },
+            {
+                "name": "Max Health",
+                "max": 7
+            },
+            {
+                "name": "Health Regen",
+                "max": 7
+            }
+        ]
+    },
+    {
+        "id": 119,
+        "name": "Burner",
+        "upgradeMessage": "",
+        "levelRequirement": 30,
+        "upgrades": [
+        ],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 1,
+        "absorbtionFactor": 1,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": null,
+        "postAddon": null,
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 105,
+                "width": 22,
+                "delay": 0,
+                "reload": 0.5,
+                "recoil": 0.3,
+                "isTrapezoid": true,
+                "trapezoidDirection": 3.141592653589793,
+                "addon": "swarmLauncher",
+                "bullet": {
+                    "type": "flame",
+                    "sizeRatio": 1,
+                    "health": 10,
+                    "damage": 0.25,
+                    "speed": 1,
+                    "scatterRate": 2,
+                    "lifeLength": 1,
+                    "absorbtionFactor": 0
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 7
+            },
+            {
+                "name": "Reload",
+                "max": 7
+            },
+            {
+                "name": "Flame Damage",
+                "max": 7
+            },
+            {
+                "name": "Flame Duration",
+                "max": 7
+            },
+            {
+                "name": "Flame Speed",
                 "max": 7
             },
             {

@@ -18,31 +18,36 @@
 
 import Barrel from "../Barrel";
 import Bullet from "./Bullet";
+import { PhysicsFlags, Stat, StyleFlags } from "../../../Const/Enums";
 
 import { TankDefinition } from "../../../Const/TankDefinitions";
 import { BarrelBase } from "../TankBody";
 
 export default class Flame extends Bullet {
+    public sized: number
     public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number) {
         super(barrel, tank, tankDefinition, shootAngle);
-
-        this.baseSpeed *= 2;
-        this.baseAccel = 0;
-        this.damageReduction = 1;
+        this.sized = this.physicsData.values.size
+        this.baseSpeed *= 0.8;
         
-        this.physicsData.values.sides = 4;
+        this.physicsData.values.sides = 1;
         this.physicsData.values.absorbtionFactor = this.physicsData.values.pushFactor = 0;
-        this.lifeLength = 25 * barrel.definition.bullet.lifeLength;
-    }
 
-    public destroy(animate?: boolean): void {
-        super.destroy(false);
+        const statLevels = tank.cameraEntity.cameraData?.values.statLevels.values;
+        const bulletDefinition = barrel.definition.bullet;
+
+        const bulletPenetration = statLevels ? statLevels[Stat.BulletPenetration] : 0;
+        this.healthData.values.health = this.healthData.values.maxHealth = bulletDefinition.health;
+        this.lifeLength = bulletDefinition.lifeLength * 6 * ((1.5 * bulletPenetration)/5 + 2);
+
     }
 
     public tick(tick: number) {
         super.tick(tick);
+        if (this.physicsData.size < this.sized * 4){
+        this.physicsData.size += this.sized/8}
 
-        this.damageReduction += 1 / 25;
-        this.styleData.opacity -= 1 / 25;
+        //this.damageReduction += 1 / 25;
+        //this.styleData.opacity -= 1 / 25;
     }
 }

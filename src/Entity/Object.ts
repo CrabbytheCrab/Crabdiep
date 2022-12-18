@@ -24,7 +24,6 @@ import Vector from "../Physics/Vector";
 import { PhysicsGroup, PositionGroup, RelationsGroup, StyleGroup } from "../Native/FieldGroups";
 import { Entity } from "../Native/Entity";
 import { PositionFlags, PhysicsFlags } from "../Const/Enums";
-import LivingEntity from "./Live";
 
 /**
  * The animator for how entities delete (the opacity and size fade out).
@@ -77,7 +76,7 @@ export default class ObjectEntity extends Entity {
     public positionData: PositionGroup = new PositionGroup(this);
     /** Always existant style field group. Present in all objects. */
     public styleData: StyleGroup = new StyleGroup(this);
-    public onKill(entity: LivingEntity) {}
+
     /** Animator used for deletion animation */
     public deletionAnimation: DeletionAnimation | null = null;
 
@@ -219,8 +218,10 @@ export default class ObjectEntity extends Entity {
         else kbAngle = Math.atan2(diffY, diffX);
 
         if ((entity.physicsData.values.flags & PhysicsFlags.isSolidWall || entity.physicsData.values.flags & PhysicsFlags.isBase) && !(this.positionData.values.flags & PositionFlags.canMoveThroughWalls))  {
-            this.accel.magnitude *= 0.3;
-            this.velocity.magnitude *= 0.3;
+            if (entity.physicsData.values.flags & PhysicsFlags.isSolidWall) {
+                this.accel.magnitude *= 0.3;
+                this.velocity.magnitude *= 0.3;
+            }
             kbMagnitude /= 0.3;
         }
         if (entity.physicsData.values.sides === 2) {

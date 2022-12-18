@@ -47,6 +47,10 @@ export class ScoreboardTable<ValueType> implements Record<ValidScoreboardIndex, 
         this.owner = owner;
     }
 
+    public wipe() {
+        this.state.fill(0);
+    }
+
     get [0]() {
         return this.values[0];
     }
@@ -167,15 +171,6 @@ export class ScoreboardTable<ValueType> implements Record<ValidScoreboardIndex, 
         this.owner.state[this.fieldId] |= 1;
         this.owner.entity.entityState |= 1;
     }
-    
-
-    findUpdate(): number[] {
-        return this.state.reduce((out: number[], v, i) => {
-            if (v) out.push(i);
-
-            return out;
-        }, []);
-    }
 }
 
 export class CameraTable<ValueType> implements Record<Stat, ValueType> {
@@ -189,6 +184,10 @@ export class CameraTable<ValueType> implements Record<Stat, ValueType> {
         this.values = Array(8).fill(defaultValue);
         this.fieldId = fieldId;
         this.owner = owner;
+    }
+
+    public wipe() {
+        this.state.fill(0);
     }
 
     get [0]() {
@@ -287,14 +286,6 @@ export class CameraTable<ValueType> implements Record<Stat, ValueType> {
         this.owner.state[this.fieldId] |= 1;
         this.owner.entity.entityState |= 1;
     }
-    
-    findUpdate(): number[] {
-        return this.state.reduce((out: number[], v, i) => {
-            if (v) out.push(i);
-
-            return out;
-        }, []);
-    }
 }
 
  /* <template> auto-generated */ 
@@ -387,7 +378,7 @@ export class HealthGroup {
 export class ArenaGroup {
     entity: Entity;
     state: Uint8Array = new Uint8Array(15);
-    values: { flags: number, leftX: number, topY: number, rightX: number, bottomY: number, scoreboardAmount: number, scoreboardNames: ScoreboardTable<string>, scoreboardScores: ScoreboardTable<number>, scoreboardColors: ScoreboardTable<number>, scoreboardSuffixes: ScoreboardTable<string>, scoreboardTanks: ScoreboardTable<Tank | DevTank>, leaderX: number, leaderY: number, playersNeeded: number, ticksUntilStart: number } = {
+    values: { flags: number, leftX: number, topY: number, rightX: number, bottomY: number, scoreboardAmount: number, scoreboardNames: ScoreboardTable<string>, scoreboardScores: ScoreboardTable<number>, scoreboardColors: ScoreboardTable<Color>, scoreboardSuffixes: ScoreboardTable<string>, scoreboardTanks: ScoreboardTable<Tank | DevTank>, leaderX: number, leaderY: number, playersNeeded: number, ticksUntilStart: number } = {
         flags: 2,
         leftX: 0,
         topY: 0,
@@ -406,7 +397,7 @@ export class ArenaGroup {
     };
 
     constructor(entity: Entity) { this.entity = entity; }
-    wipe() { this.state.fill(0); }
+    wipe() { this.state.fill(0); this.values.scoreboardNames.wipe(); this.values.scoreboardScores.wipe(); this.values.scoreboardColors.wipe(); this.values.scoreboardSuffixes.wipe(); this.values.scoreboardTanks.wipe(); }
     get flags() { return this.values.flags; }
     get leftX() { return this.values.leftX; }
     get topY() { return this.values.topY; }
@@ -478,7 +469,7 @@ export class CameraGroup {
     };
 
     constructor(entity: Entity) { this.entity = entity; }
-    wipe() { this.state.fill(0); }
+    wipe() { this.state.fill(0); this.values.statNames.wipe(); this.values.statLevels.wipe(); this.values.statLimits.wipe(); }
     get unusedClientId() { return this.values.unusedClientId; }
     get flags() { return this.values.flags; }
     get player() { return this.values.player; }

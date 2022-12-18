@@ -36,7 +36,7 @@ export default class Drone extends Bullet {
     public static MAX_RESTING_RADIUS = 400 ** 2;
 
     /** Used let the drone go back to the player in time. */
-    private restCycle = true;
+    public restCycle = true;
 
     /** Cached prop of the definition. */
     protected canControlDrones: boolean;

@@ -18,23 +18,27 @@
 
 import Barrel from "../Barrel";
 import Drone from "./Drone";
+import * as util from "../../../util";
 
 import { Color, PhysicsFlags, Tank } from "../../../Const/Enums";
 import { TankDefinition } from "../../../Const/TankDefinitions";
-import { AI } from "../../AI";
+import { AI, AIState } from "../../AI";
 import { BarrelBase } from "../TankBody";
 import AbstractShape from "../../Shape/AbstractShape";
 import LivingEntity from "../../Live";
+import ObjectEntity from "../../Object";
 
 /**
  * The drone class represents the drone (projectile) entity in diep.
  */
 export default class NecromancerSquare extends Drone {
+    protected invisibile: boolean;
+
     public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number) {
         super(barrel, tank, tankDefinition, shootAngle);
 
         const bulletDefinition = barrel.definition.bullet;
-        
+        this.invisibile = typeof this.barrelEntity.definition.invisibile === 'boolean' && this.barrelEntity.definition.invisibile;
         this.ai = new AI(this);
         this.ai.viewRange = 900;
 
@@ -76,5 +80,16 @@ export default class NecromancerSquare extends Drone {
         sunchip.damagePerTick *= shapeDamagePerTick / 8;
         sunchip.healthData.values.maxHealth = (sunchip.healthData.values.health *= (shapeDamagePerTick / 8));
         return sunchip;
+    }
+
+
+    public tick(tick: number) {
+        super.tick(tick);
+        if(this.invisibile == true){
+            //if(this.restCycle == false)this.styleData.opacity += 0.08;
+            if(this.ai.state !== AIState.idle && this.ai.target != this.tank || this.tank.inputs.attemptingShot() || this.tank.inputs.attemptingRepel())this.styleData.opacity += 0.13;
+            this.styleData.opacity -= 0.03
+            this.styleData.opacity = util.constrain(this.styleData.values.opacity, 0, 1);
+        }
     }
 }

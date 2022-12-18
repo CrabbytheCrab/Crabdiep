@@ -15,7 +15,7 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program. If not, see <https://www.gnu.org/licenses/>
 */
-import LivingEntity from "../../Live";
+
 import Barrel from "../Barrel";
 import Bullet from "./Bullet";
 
@@ -24,18 +24,22 @@ import { TankDefinition } from "../../../Const/TankDefinitions";
 import { BarrelBase } from "../TankBody";
 import { DevTank } from "../../../Const/DevTankDefinitions";
 import { PI2 } from "../../../util";
-import { Addon } from "../Addons";
+import ObjectEntity from "../../Object";
+import LivingEntity from "../../Live";
+
 /**
  * The trap class represents the trap (projectile) entity in diep.
  */
 export default class Trap extends Bullet {
     /** Number of ticks before the trap cant collide with its own team. */
     protected collisionEnd = 0;
+    protected parent: ObjectEntity;
 
-    public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number) {
+    public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number, parent?: ObjectEntity) {
         super(barrel, tank, tankDefinition, shootAngle);
-        this.tank = tank;
+
         const bulletDefinition = barrel.definition.bullet;
+        this.parent = parent ?? tank;
 
         this.baseSpeed = (barrel.bulletAccel / 2) + 30 - Math.random() * barrel.definition.bullet.scatterRate;
         this.baseAccel = 0;
@@ -55,7 +59,8 @@ export default class Trap extends Bullet {
     public onKill(killedEntity: LivingEntity) {
         // TODO(ABC):
         // Make this, work differently
-        this.parent.onKill(killedEntity); 
+        /** @ts-ignore */
+        if (typeof this.parent.onKill === 'function') this.parent.onKill(killedEntity);
     }
     public tick(tick: number) {
         super.tick(tick);

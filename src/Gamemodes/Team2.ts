@@ -68,8 +68,8 @@ export default class Teams2Arena extends ArenaEntity {
         this.updateBounds(arenaSize * 2, arenaSize * 2);
         this.blueTeamBase = new TeamBase(game, new TeamEntity(this.game, Color.TeamBlue), -arenaSize + baseWidth / 2, 0, arenaSize * 2, baseWidth);
         this.redTeamBase = new TeamBase(game, new TeamEntity(this.game, Color.TeamRed), arenaSize - baseWidth / 2, 0, arenaSize * 2, baseWidth);
-        new Dominator(this, new TeamBase(game, this, arenaSize/2.5, 0, domBaseSize/6, domBaseSize/6, false));
-        new Dominator(this, new TeamBase(game, this, -arenaSize/2.5, 0, domBaseSize/6, domBaseSize/6, false));
+        new Dominator(this, new TeamBase(game, this, arenaSize/2.5, 0, domBaseSize, domBaseSize, false));
+        new Dominator(this, new TeamBase(game, this, -arenaSize/2.5, 0, domBaseSize, domBaseSize, false));
 
         new MazeWall(this.game, -arenaSize/2.5, -arenaSize/5, domBaseSize * 3, domBaseSize);
         new MazeWall(this.game, arenaSize/2.5, -arenaSize/5, domBaseSize * 3, domBaseSize);
