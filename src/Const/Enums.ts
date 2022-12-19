@@ -195,6 +195,8 @@ export const enum Tank {
     Flamethrower  = 120,
     Pyro          = 121,
     Dualer        = 122,
+    Blunt         = 123,
+    Pounder       = 124,
     Mothership    = 204
 }
 
