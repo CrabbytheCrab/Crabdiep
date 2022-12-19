@@ -32,13 +32,12 @@ import { GuardObject } from "../Addons";
 /**
  * Represents all rocketeer rockets in game.
  */
-export default class Blunt extends Bullet{
+export default class Blunt extends Bullet implements BarrelBase{
     /** The rocket's barrel */
 
     public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number) {
         super(barrel, tank, tankDefinition, shootAngle);
         
         this.physicsData.values.pushFactor = 10;
-        new GuardObject(this.game, this, 6, 1.15, 0, .1);
     }
 }
