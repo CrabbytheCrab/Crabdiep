@@ -18,8 +18,9 @@
 import LivingEntity from "../../Live";
 import Barrel from "../Barrel";
 import Bullet from "./Bullet";
+import Trap from "./Trap";
 import { Inputs } from "../../AI";
-import { PhysicsFlags, StyleFlags } from "../../../Const/Enums";
+import { PhysicsFlags, StyleFlags, InputFlags } from "../../../Const/Enums";
 import { TankDefinition } from "../../../Const/TankDefinitions";
 import { BarrelBase } from "../TankBody";
 import { DevTank } from "../../../Const/DevTankDefinitions";
@@ -29,7 +30,7 @@ import { RingAddon } from "../Addons";
 /**
  * The trap class represents the trap (projectile) entity in diep.
  */
-export default class BounceTrap extends Trap  implements BarrelBase {
+export default class BluntTrap extends Trap  implements BarrelBase {
         public sizeFactor: number;
     /** The camera entity (used as team) of the croc skimmer. */
     public cameraEntity: Entity;
@@ -51,11 +52,6 @@ export default class BounceTrap extends Trap  implements BarrelBase {
         const bulletDefinition = barrel.definition.bullet;
 
 
-    }
-    public onKill(killedEntity: LivingEntity) {
-        // TODO(ABC):
-        // Make this, work differently
-        this.parent.onKill(killedEntity); 
     }
     public tick(tick: number) {
         super.tick(tick);
