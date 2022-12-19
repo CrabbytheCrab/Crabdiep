@@ -602,7 +602,7 @@ export class OverdriveAddon extends Addon {
     }
 }
 
-export class RingAddon extends Addon implements BarrelBase {
+export class RingAddon extends ObjectEntity implements BarrelBase {
         public inputs: Inputs;
     public cameraEntity: Entity;
     public reloadTime: number;
@@ -618,27 +618,26 @@ export class RingAddon extends Addon implements BarrelBase {
         this.cameraEntity = owner.cameraEntity;
         sizeRatio *= Math.SQRT1_2
         this.sizeRatio = sizeRatio;
-        const oversquare = new ObjectEntity(this.game);
         const offsetRatio = 0;
         const size = this.owner.physicsData.values.size;
 
         oversquare.setParent(this.owner);
-        oversquare.relationsData.values.owner = this.owner;
-        oversquare.relationsData.values.team = this.owner.relationsData.values.team
+        this.relationsData.values.owner = this.owner;
+        this.relationsData.values.team = this.owner.relationsData.values.team
 
-        oversquare.physicsData.values.size = sizeRatio * size;
-        oversquare.positionData.values.x = offsetRatio * size;
-        oversquare.positionData.values.angle = 0;
+        this.physicsData.values.size = sizeRatio * size;
+        this.positionData.values.x = offsetRatio * size;
+        this.positionData.values.angle = 0;
         
-        oversquare.styleData.values.color = Color.Border;
-        oversquare.physicsData.values.sides = -3;
+        this.styleData.values.color = Color.Border;
+        this.physicsData.values.sides = -3;
 
-        oversquare.tick = () => {
+        this.tick = () => {
             this.reloadTime = this.owner.reloadTime;
             const size = this.owner.physicsData.values.size;
-            oversquare.styleData.opacity = this.owner.styleData.opacity;
-            oversquare.physicsData.size = sizeRatio * size;
-            oversquare.positionData.x = offsetRatio * size;
+            this.styleData.opacity = this.owner.styleData.opacity;
+            this.physicsData.size = sizeRatio * size;
+            this.positionData.x = offsetRatio * size;
         }
     }
 }
