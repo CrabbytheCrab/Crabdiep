@@ -45,7 +45,7 @@ export default class Trap extends Bullet {
         this.baseAccel = 0;
         this.physicsData.values.sides = bulletDefinition.sides ?? 3;
         if (this.physicsData.values.flags & PhysicsFlags.noOwnTeamCollision) this.physicsData.values.flags ^= PhysicsFlags.noOwnTeamCollision;
-        this.physicsData.values.flags |= PhysicsFlags.onlySameOwnerCollision;
+        this.physicsData.values.flags |= PhysicsFlags.onlySameOwnerCollision2;
         this.styleData.values.flags |= StyleFlags.isTrap | StyleFlags.isStar;
         this.styleData.values.flags &= ~StyleFlags.hasNoDmgIndicator;
 
@@ -66,7 +66,7 @@ export default class Trap extends Bullet {
         super.tick(tick);
 
         if (tick - this.spawnTick === this.collisionEnd) {
-            if (this.physicsData.values.flags & PhysicsFlags.onlySameOwnerCollision) this.physicsData.flags ^= PhysicsFlags.onlySameOwnerCollision;
+            if (this.physicsData.values.flags & PhysicsFlags.onlySameOwnerCollision2) this.physicsData.flags ^= PhysicsFlags.onlySameOwnerCollision2;
             this.physicsData.values.flags |= PhysicsFlags.noOwnTeamCollision;
         }
     }
