@@ -602,42 +602,32 @@ export class OverdriveAddon extends Addon {
     }
 }
 
-export class RingAddon extends ObjectEntity implements BarrelBase {
-        public inputs: Inputs;
-    public cameraEntity: Entity;
-    public reloadTime: number;
-
-    /** Helps the class determine size ratio as well as who is the owner */
-    public owner: BarrelBase;
-    /** To store the size ratio (in compared to the owner) */
+export class RingAddon extends addon {
     public sizeRatio: number;
     public constructor(sizeRatio: number, owner: BarrelBase) {
         super(owner);
-                this.owner = owner;
-        this.inputs = owner.inputs;
-        this.cameraEntity = owner.cameraEntity;
         sizeRatio *= Math.SQRT1_2
         this.sizeRatio = sizeRatio;
+        const oversquare = new ObjectEntity(this.game);
         const offsetRatio = 0;
         const size = this.owner.physicsData.values.size;
 
         oversquare.setParent(this.owner);
-        this.relationsData.values.owner = this.owner;
-        this.relationsData.values.team = this.owner.relationsData.values.team
+        oversquare.relationsData.values.owner = this.owner;
+        oversquare.relationsData.values.team = this.owner.relationsData.values.team
 
-        this.physicsData.values.size = sizeRatio * size;
-        this.positionData.values.x = offsetRatio * size;
-        this.positionData.values.angle = 0;
+        oversquare.physicsData.values.size = sizeRatio * size;
+        oversquare.positionData.values.x = offsetRatio * size;
+        oversquare.positionData.values.angle = 0;
         
-        this.styleData.values.color = Color.Border;
-        this.physicsData.values.sides = -3;
+        oversquare.styleData.values.color = Color.Border;
+        oversquare.physicsData.values.sides = 6;
 
-        this.tick = () => {
-            this.reloadTime = this.owner.reloadTime;
+        oversquare.tick = () => {
             const size = this.owner.physicsData.values.size;
-            this.styleData.opacity = this.owner.styleData.opacity;
-            this.physicsData.size = sizeRatio * size;
-            this.positionData.x = offsetRatio * size;
+            oversquare.styleData.opacity = this.owner.styleData.opacity;
+            oversquare.physicsData.size = sizeRatio * size;
+            oversquare.positionData.x = offsetRatio * size;
         }
     }
 }
