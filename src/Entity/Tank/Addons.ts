@@ -572,7 +572,7 @@ const AutoTurretMiniDefinition: BarrelDefinition = {
  */
 
 
- class OverdriveAddon extends Addon {
+export class OverdriveAddon extends Addon {
     public sizeRatio: number;
     public constructor(sizeRatio: number, owner: BarrelBase) {
         super(owner);
@@ -602,10 +602,20 @@ const AutoTurretMiniDefinition: BarrelDefinition = {
     }
 }
 
-export class RingAddon extends Addon {
+export class RingAddon extends Addon implements BarrelBase {
+        public inputs: Inputs;
+    public cameraEntity: Entity;
+    public reloadTime: number;
+
+    /** Helps the class determine size ratio as well as who is the owner */
+    public owner: BarrelBase;
+    /** To store the size ratio (in compared to the owner) */
     public sizeRatio: number;
     public constructor(sizeRatio: number, owner: BarrelBase) {
         super(owner);
+                this.owner = owner;
+        this.inputs = owner.inputs;
+        this.cameraEntity = owner.cameraEntity;
         sizeRatio *= Math.SQRT1_2
         this.sizeRatio = sizeRatio;
         const oversquare = new ObjectEntity(this.game);
@@ -624,6 +634,7 @@ export class RingAddon extends Addon {
         oversquare.physicsData.values.sides = -3;
 
         oversquare.tick = () => {
+            this.reloadTime = this.owner.reloadTime;
             const size = this.owner.physicsData.values.size;
             oversquare.styleData.opacity = this.owner.styleData.opacity;
             oversquare.physicsData.size = sizeRatio * size;
