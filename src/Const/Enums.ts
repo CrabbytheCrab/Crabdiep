@@ -197,6 +197,9 @@ export const enum Tank {
     Dualer        = 122,
     Blunt         = 123,
     Pounder       = 124,
+    Blockade      = 125,
+    Fusion        = 126,
+    Amalgam       = 127,
     Mothership    = 204
 }
 
