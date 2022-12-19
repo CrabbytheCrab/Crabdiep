@@ -13877,7 +13877,7 @@ const TankDefinitions = JSON.parse(`[
                 "addon": null,
                 "bullet": {
                     "type": "blunt",
-                    "sizeRatio": 1,
+                    "sizeRatio": 0.85,
                     "health": 0.75,
                     "damage": 2.75,
                     "speed": 0.85,
@@ -13951,7 +13951,7 @@ const TankDefinitions = JSON.parse(`[
                 "size": 75,
                 "width": 100,
                 "delay": 0,
-                "reload": 4,
+                "reload": 3.5,
                 "recoil": 8,
                 "isTrapezoid": false,
                 "megaturret": true,
@@ -13959,13 +13959,13 @@ const TankDefinitions = JSON.parse(`[
                 "addon": null,
                 "bullet": {
                     "type": "blunt",
-                    "sizeRatio": 1,
+                    "sizeRatio": 0.8,
                     "health": 2.25,
                     "damage": 2.75,
                     "speed": 0.75,
                     "scatterRate": 1,
                     "lifeLength": 1,
-                    "absorbtionFactor": 0
+                    "absorbtionFactor": 0.1
                 }
             }
         ],
