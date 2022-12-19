@@ -18,39 +18,39 @@
 import LivingEntity from "../../Live";
 import Barrel from "../Barrel";
 import Bullet from "./Bullet";
-
+import { Inputs } from "../../AI";
 import { PhysicsFlags, StyleFlags } from "../../../Const/Enums";
 import { TankDefinition } from "../../../Const/TankDefinitions";
 import { BarrelBase } from "../TankBody";
 import { DevTank } from "../../../Const/DevTankDefinitions";
 import { PI2 } from "../../../util";
 import { Addon } from "../Addons";
+import { RingAddon } from "../Addons";
 /**
  * The trap class represents the trap (projectile) entity in diep.
  */
-export default class Trap extends Bullet {
+export default class BounceTrap extends Trap  implements BarrelBase {
+        public sizeFactor: number;
+    /** The camera entity (used as team) of the croc skimmer. */
+    public cameraEntity: Entity;
+    /** The reload time of the skimmer's barrel. */
+    public reloadTime = 15;
+    /** The inputs for when to shoot or not. (croc skimmer) */
+    public inputs: Inputs;
     /** Number of ticks before the trap cant collide with its own team. */
     protected collisionEnd = 0;
 
     public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number) {
         super(barrel, tank, tankDefinition, shootAngle);
+        this.cameraEntity = tank.cameraEntity;
+        this.inputs = new Inputs()
+        this.sizeFactor = this.physicsData.values.size / 50;
+            new RingAddon(1.15, this);
+            this.physicsData.values.pushFactor *= 25;
         this.tank = tank;
         const bulletDefinition = barrel.definition.bullet;
 
-        this.baseSpeed = (barrel.bulletAccel / 2) + 30 - Math.random() * barrel.definition.bullet.scatterRate;
-        this.baseAccel = 0;
-        this.physicsData.values.sides = bulletDefinition.sides ?? 3;
-        if (this.physicsData.values.flags & PhysicsFlags.noOwnTeamCollision) this.physicsData.values.flags ^= PhysicsFlags.noOwnTeamCollision;
-        this.physicsData.values.flags |= PhysicsFlags.onlySameOwnerCollision;
-        this.styleData.values.flags |= StyleFlags.isTrap | StyleFlags.isStar;
-        this.styleData.values.flags &= ~StyleFlags.hasNoDmgIndicator;
 
-        this.collisionEnd = this.lifeLength >> 3;
-        this.lifeLength = (600 * barrel.definition.bullet.lifeLength) >> 3;
-        if (tankDefinition && tankDefinition.id === DevTank.Bouncy) this.collisionEnd = this.lifeLength - 1;
-        
-        // Check this?
-        this.positionData.values.angle = Math.random() * PI2;
     }
     public onKill(killedEntity: LivingEntity) {
         // TODO(ABC):
