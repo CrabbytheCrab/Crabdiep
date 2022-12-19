@@ -32,7 +32,7 @@ import { BarrelBase } from "../TankBody";
 /**
  * Represents all rocketeer rockets in game.
  */
-export default class Blunt extends Bullet implements BarrelBase {
+export default class Blunt extends Bullet{
     /** The rocket's barrel */
 
     public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number) {
