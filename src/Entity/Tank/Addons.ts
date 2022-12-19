@@ -59,9 +59,6 @@ export class Addon {
     public createGuard2(): OverdriveAddon {
         return new OverdriveAddon(1.15, this.owner);
     }
-    public createGuard3(): OverdriveAddon {
-        return new RingAddon(1.25, this.owner);
-    }
     /**
      * `createAutoTurrets` method builds `count` auto turrets around the current
      * tank's body. 
@@ -573,36 +570,6 @@ const AutoTurretMiniDefinition: BarrelDefinition = {
 
 
 export class OverdriveAddon extends Addon {
-    public sizeRatio: number;
-    public constructor(sizeRatio: number, owner: BarrelBase) {
-        super(owner);
-        sizeRatio *= Math.SQRT1_2
-        this.sizeRatio = sizeRatio;
-        const oversquare = new ObjectEntity(this.game);
-        const offsetRatio = 0;
-        const size = this.owner.physicsData.values.size;
-
-        oversquare.setParent(this.owner);
-        oversquare.relationsData.values.owner = this.owner;
-        oversquare.relationsData.values.team = this.owner.relationsData.values.team
-
-        oversquare.physicsData.values.size = sizeRatio * size;
-        oversquare.positionData.values.x = offsetRatio * size;
-        oversquare.positionData.values.angle = 0;
-        
-        oversquare.styleData.values.color = Color.Border;
-        oversquare.physicsData.values.sides = 6;
-
-        oversquare.tick = () => {
-            const size = this.owner.physicsData.values.size;
-            oversquare.styleData.opacity = this.owner.styleData.opacity;
-            oversquare.physicsData.size = sizeRatio * size;
-            oversquare.positionData.x = offsetRatio * size;
-        }
-    }
-}
-
-export class RingAddon extends addon {
     public sizeRatio: number;
     public constructor(sizeRatio: number, owner: BarrelBase) {
         super(owner);
