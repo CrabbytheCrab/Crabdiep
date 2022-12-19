@@ -70,7 +70,6 @@ export interface BarrelDefinition {
     angle: number;
     /** The x offset of the barrel (think of Twin's barrels for example) at base radius (50).  */
     offset: number;
-    hight: number;
     /** The size of the barrel. Think of Sniper, the longer side is the size.  */
     size: number;
     /** The width of the barrel. Think of Sniper, the shorter side is the width. Width is used to determine bullet size */
