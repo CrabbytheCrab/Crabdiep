@@ -192,6 +192,9 @@ export const enum Tank {
     DominatorF2   = 117,
     Constructor   = 118,
     Burner        = 119,
+    Flamethrower  = 120,
+    Pyro          = 121,
+    Dualer        = 122,
     Mothership    = 204
 }
 

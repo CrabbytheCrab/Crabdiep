@@ -261,7 +261,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Twin",
         "upgradeMessage": "",
         "levelRequirement": 15,
-        "upgrades": [9, 10, 11, 17, 28],
+        "upgrades": [9, 10, 11, 17, 28, 121],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -446,7 +446,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Machine Gun",
         "upgradeMessage": "",
         "levelRequirement": 15,
-        "upgrades": [16,52, 17,119],
+        "upgrades": [16,52, 17,119,118],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -714,7 +714,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Single",
         "upgradeMessage": "",
         "levelRequirement": 15,
-        "upgrades": [22, 23 ,19, 25,102,30, 24],
+        "upgrades": [22, 23 ,19, 25,102,30, 24,108],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -795,7 +795,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Trapper",
         "upgradeMessage": "",
         "levelRequirement": 15,
-        "upgrades": [29, 30, 20, 36, 31],
+        "upgrades": [29, 30, 20, 36, 31, 85],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -1353,7 +1353,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Assassin",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [43,44,46,45,15,61,95],
+        "upgrades": [43,44,46,45,15,61,95,120],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -1809,7 +1809,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Spewer",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [96, 104, 118],
+        "upgrades": [96, 104],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -2287,7 +2287,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Trap Guard",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [54,57,61,118,85],
+        "upgrades": [54,57,61,118],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -6154,7 +6154,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Sprayer",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [97, 15],
+        "upgrades": [97, 15, 121],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -13478,8 +13478,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Burner",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [
-        ],
+        "upgrades": [120, 121, 122],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -13502,6 +13501,293 @@ const TankDefinitions = JSON.parse(`[
                 "offset": 0,
                 "size": 105,
                 "width": 22,
+                "delay": 0,
+                "reload": 0.5,
+                "recoil": 0.3,
+                "isTrapezoid": true,
+                "trapezoidDirection": 3.141592653589793,
+                "addon": "swarmLauncher",
+                "bullet": {
+                    "type": "flame",
+                    "sizeRatio": 1,
+                    "health": 10,
+                    "damage": 0.25,
+                    "speed": 1,
+                    "scatterRate": 2,
+                    "lifeLength": 1,
+                    "absorbtionFactor": 0
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 7
+            },
+            {
+                "name": "Reload",
+                "max": 7
+            },
+            {
+                "name": "Flame Damage",
+                "max": 7
+            },
+            {
+                "name": "Flame Duration",
+                "max": 7
+            },
+            {
+                "name": "Flame Speed",
+                "max": 7
+            },
+            {
+                "name": "Body Damage",
+                "max": 7
+            },
+            {
+                "name": "Max Health",
+                "max": 7
+            },
+            {
+                "name": "Health Regen",
+                "max": 7
+            }
+        ]
+    },
+    {
+        "id": 120,
+        "name": "Flamethrower",
+        "upgradeMessage": "",
+        "levelRequirement": 45,
+        "upgrades": [],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 0.9,
+        "absorbtionFactor": 1,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": null,
+        "postAddon": null,
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 125,
+                "width": 22,
+                "delay": 0,
+                "reload": 0.75,
+                "recoil": 0.3,
+                "isTrapezoid": true,
+                "trapezoidDirection": 3.141592653589793,
+                "addon": "swarmLauncher",
+                "bullet": {
+                    "type": "flame",
+                    "sizeRatio": 1,
+                    "health": 10,
+                    "damage": 0.45,
+                    "speed": 1.2,
+                    "scatterRate": 1.5,
+                    "lifeLength": 1.25,
+                    "absorbtionFactor": 0
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 7
+            },
+            {
+                "name": "Reload",
+                "max": 7
+            },
+            {
+                "name": "Flame Damage",
+                "max": 7
+            },
+            {
+                "name": "Flame Duration",
+                "max": 7
+            },
+            {
+                "name": "Flame Speed",
+                "max": 7
+            },
+            {
+                "name": "Body Damage",
+                "max": 7
+            },
+            {
+                "name": "Max Health",
+                "max": 7
+            },
+            {
+                "name": "Health Regen",
+                "max": 7
+            }
+        ]
+    },
+    {
+        "id": 121,
+        "name": "Pyro",
+        "upgradeMessage": "",
+        "levelRequirement": 45,
+        "upgrades": [],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 1,
+        "absorbtionFactor": 1,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": null,
+        "postAddon": null,
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle": 0,
+                "offset": -23,
+                "size": 105,
+                "width": 15,
+                "delay": 0,
+                "reload": 0.5,
+                "recoil": 0.3,
+                "isTrapezoid": true,
+                "trapezoidDirection": 3.141592653589793,
+                "addon": "swarmLauncher",
+                "bullet": {
+                    "type": "flame",
+                    "sizeRatio": 1,
+                    "health": 6,
+                    "damage": 0.2,
+                    "speed": 1.2,
+                    "scatterRate": 2,
+                    "lifeLength": 0.8,
+                    "absorbtionFactor": 0
+                }
+            },
+            {
+                "angle": 0,
+                "offset": 23,
+                "size": 105,
+                "width": 15,
+                "delay": 0.5,
+                "reload": 0.5,
+                "recoil": 0.3,
+                "isTrapezoid": true,
+                "trapezoidDirection": 3.141592653589793,
+                "addon": "swarmLauncher",
+                "bullet": {
+                    "type": "flame",
+                    "sizeRatio": 1,
+                    "health": 6,
+                    "damage": 0.2,
+                    "speed": 1.2,
+                    "scatterRate": 2,
+                    "lifeLength": 0.8,
+                    "absorbtionFactor": 0
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 7
+            },
+            {
+                "name": "Reload",
+                "max": 7
+            },
+            {
+                "name": "Flame Damage",
+                "max": 7
+            },
+            {
+                "name": "Flame Duration",
+                "max": 7
+            },
+            {
+                "name": "Flame Speed",
+                "max": 7
+            },
+            {
+                "name": "Body Damage",
+                "max": 7
+            },
+            {
+                "name": "Max Health",
+                "max": 7
+            },
+            {
+                "name": "Health Regen",
+                "max": 7
+            }
+        ]
+    },
+    {
+        "id": 122,
+        "name": "Dualer",
+        "upgradeMessage": "",
+        "levelRequirement": 45,
+        "upgrades": [],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 1,
+        "absorbtionFactor": 1,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": null,
+        "postAddon": null,
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 95,
+                "width": 42,
+                "delay": 0.5,
+                "reload": 1,
+                "recoil": 0.75,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": null,
+                "bullet": {
+                    "type": "bullet",
+                    "sizeRatio": 1,
+                    "health": 0.9,
+                    "damage": 0.65,
+                    "speed": 1,
+                    "scatterRate": 1,
+                    "lifeLength": 1,
+                    "absorbtionFactor": 1
+                }
+            },
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 105,
+                "width": 18,
                 "delay": 0,
                 "reload": 0.5,
                 "recoil": 0.3,
