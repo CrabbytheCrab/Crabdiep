@@ -13949,7 +13949,7 @@ const TankDefinitions = JSON.parse(`[
                 "angle": 0,
                 "offset": 0,
                 "size": 75,
-                "width": 100,
+                "width": 115,
                 "delay": 0,
                 "reload": 3.5,
                 "recoil": 8,
@@ -13959,13 +13959,13 @@ const TankDefinitions = JSON.parse(`[
                 "addon": null,
                 "bullet": {
                     "type": "blunt",
-                    "sizeRatio": 0.8,
+                    "sizeRatio": 0.75,
                     "health": 2.25,
                     "damage": 2.75,
                     "speed": 0.75,
                     "scatterRate": 1,
                     "lifeLength": 1,
-                    "absorbtionFactor": 0.1
+                    "absorbtionFactor": 0.2
                 }
             }
         ],
