@@ -33,7 +33,14 @@ import { GuardObject } from "../Addons";
  * Represents all rocketeer rockets in game.
  */
 export default class Blunt extends Bullet implements BarrelBase{
-    /** The rocket's barrel */
+    /** The size ratio of the skimmer. */
+    public sizeFactor: number;
+    /** The camera entity (used as team) of the croc skimmer. */
+    public cameraEntity: Entity;
+    /** The reload time of the skimmer's barrel. */
+    public reloadTime = 15;
+    /** The inputs for when to shoot or not. (croc skimmer) */
+    public inputs: Inputs;
 
     public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number) {
         super(barrel, tank, tankDefinition, shootAngle);
