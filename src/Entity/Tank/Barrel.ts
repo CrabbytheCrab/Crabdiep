@@ -17,6 +17,7 @@ import * as util from "../../util";
 
 import Bullet from "./Projectile/Bullet";
 import Blunt from "./Projectile/Blunt";
+import BluntTrap from "./Projectile/Blunttrap";
 import Trap from "./Projectile/Trap";
 import Drone from "./Projectile/Drone";
 import Hive from "./Projectile/Hive";
@@ -260,6 +261,9 @@ export default class Barrel extends ObjectEntity {
                 break;
             case 'blunt':
                 new Blunt(this, this.tank, tankDefinition, angle);
+                break;
+            case 'blunttrap':
+                new BluntTrap(this, this.tank, tankDefinition, angle);
                 break;
             case "croc": 
                 new CrocSkimmer(this, this.tank, tankDefinition, angle);
