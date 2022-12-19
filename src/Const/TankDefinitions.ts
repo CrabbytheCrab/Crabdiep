@@ -365,7 +365,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Sniper",
         "upgradeMessage": "",
         "levelRequirement": 15,
-        "upgrades": [12, 13, 14],
+        "upgrades": [12, 13, 14, 102],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -714,7 +714,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Single",
         "upgradeMessage": "",
         "levelRequirement": 15,
-        "upgrades": [22, 23 ,19, 25,102,30, 24,108],
+        "upgrades": [22, 23 ,19, 25,123,30, 24,108],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -13825,6 +13825,87 @@ const TankDefinitions = JSON.parse(`[
             },
             {
                 "name": "Flame Speed",
+                "max": 7
+            },
+            {
+                "name": "Body Damage",
+                "max": 7
+            },
+            {
+                "name": "Max Health",
+                "max": 7
+            },
+            {
+                "name": "Health Regen",
+                "max": 7
+            }
+        ]
+    },
+    {
+        "id": 123,
+        "name": "Blunt",
+        "upgradeMessage": "",
+        "levelRequirement": 30,
+        "upgrades": [],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 1,
+        "absorbtionFactor": 1,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": null,
+        "postAddon": null,
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 75,
+                "width": 85,
+                "delay": 0,
+                "reload": 2.5,
+                "recoil": 6,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": null,
+                "bullet": {
+                    "type": "bullet",
+                    "sizeRatio": 1,
+                    "health": 0.75,
+                    "damage": 3.5,
+                    "speed": 0.85,
+                    "scatterRate": 1,
+                    "lifeLength": 1,
+                    "absorbtionFactor": -2.5
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 7
+            },
+            {
+                "name": "Reload",
+                "max": 7
+            },
+            {
+                "name": "Bullet Damage",
+                "max": 7
+            },
+            {
+                "name": "Bullet Penetration",
+                "max": 7
+            },
+            {
+                "name": "Bullet Speed",
                 "max": 7
             },
             {
