@@ -48,7 +48,7 @@ export default class Blunt extends Bullet implements BarrelBase{
         this.inputs = new Inputs()
         this.sizeFactor = this.physicsData.values.size / 50;
         new GuardObject(this.game, this, 6, 1.15, 0, .1);
-        this.physicsData.values.pushFactor = 10;
+        this.physicsData.values.pushFactor *= 7.5;
     }
     
     public tick(tick: number) {
