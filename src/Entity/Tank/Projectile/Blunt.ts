@@ -24,7 +24,7 @@ import { BarrelDefinition, TankDefinition } from "../../../Const/TankDefinitions
 import { Entity } from "../../../Native/Entity";
 import { Inputs } from "../../AI";
 import { BarrelBase } from "../TankBody";
-import GuardObject from "../Addons";
+import { GuardObject } from "../Addons";
 /**
  * Barrel definition for the rocketeer rocket's barrel.
  */
@@ -39,6 +39,6 @@ export default class Blunt extends Bullet{
         super(barrel, tank, tankDefinition, shootAngle);
         
         this.physicsData.values.pushFactor = 10;
-        //new GuardObject(6, 1.15, 0, .1);
+        new GuardObject(6, 1.15, 0, .1);
     }
 }
