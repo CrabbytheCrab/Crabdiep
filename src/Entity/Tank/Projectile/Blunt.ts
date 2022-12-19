@@ -47,7 +47,7 @@ export default class Blunt extends Bullet implements BarrelBase{
         this.cameraEntity = tank.cameraEntity;
         this.inputs = new Inputs()
         this.sizeFactor = this.physicsData.values.size / 50;
-        new GuardObject(,this.game, this, 6, 1.15, 0, .1);
+        new GuardObject(this.game, this, 6, 1.15, 0, .1);
         this.physicsData.values.pushFactor = 10;
     }
     
