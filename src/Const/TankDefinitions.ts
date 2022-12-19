@@ -3218,7 +3218,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Big Trapper",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [83, 84, 63],
+        "upgrades": [83, 84, 63, 125],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -13846,7 +13846,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Blunt",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [124],
+        "upgrades": [124,125],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -13988,6 +13988,87 @@ const TankDefinitions = JSON.parse(`[
             },
             {
                 "name": "Bullet Speed",
+                "max": 7
+            },
+            {
+                "name": "Body Damage",
+                "max": 7
+            },
+            {
+                "name": "Max Health",
+                "max": 7
+            },
+            {
+                "name": "Health Regen",
+                "max": 7
+            }
+        ]
+    },
+    {
+        "id": 125,
+        "name": "Blockade",
+        "upgradeMessage": "",
+        "levelRequirement": 45,
+        "upgrades": [],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 0.9,
+        "absorbtionFactor": 1,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": null,
+        "postAddon": null,
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 60,
+                "width": 54.6,
+                "delay": 0,
+                "reload": 3,
+                "recoil": 1,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": "trapLauncher",
+                "bullet": {
+                    "type": "blunttrap",
+                    "sizeRatio": 1,
+                    "health": 2.5,
+                    "damage": 1.3,
+                    "speed": 2,
+                    "scatterRate": 1,
+                    "lifeLength": 6,
+                    "absorbtionFactor": 0.6
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 7
+            },
+            {
+                "name": "Reload",
+                "max": 7
+            },
+            {
+                "name": "Trap Damage",
+                "max": 7
+            },
+            {
+                "name": "Trap Health",
+                "max": 7
+            },
+            {
+                "name": "Trap Speed",
                 "max": 7
             },
             {
