@@ -602,7 +602,7 @@ const AutoTurretMiniDefinition: BarrelDefinition = {
     }
 }
 
-class RingAddon extends Addon {
+export class RingAddon extends Addon {
     public sizeRatio: number;
     public constructor(sizeRatio: number, owner: BarrelBase) {
         super(owner);
