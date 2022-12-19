@@ -13877,7 +13877,7 @@ const TankDefinitions = JSON.parse(`[
                 "addon": null,
                 "bullet": {
                     "type": "blunt",
-                    "sizeRatio": 0.8,
+                    "sizeRatio": 0.9,
                     "health": 0.75,
                     "damage": 2.75,
                     "speed": 0.85,
