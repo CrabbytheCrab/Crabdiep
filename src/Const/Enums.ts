@@ -334,7 +334,8 @@ export const enum PhysicsFlags {
     onlySameOwnerCollision  = 1 << 5,
     isBase                  = 1 << 6,
     _unknown1               = 1 << 7,
-    canEscapeArena          = 1 << 8
+    canEscapeArena          = 1 << 8,
+    onlySameOwnerCollision2  = 1 << 9
 }
 /**
  * The flag names for the barrel field group.
