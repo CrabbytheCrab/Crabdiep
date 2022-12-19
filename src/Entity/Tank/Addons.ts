@@ -638,7 +638,7 @@ export class GuardObject extends ObjectEntity implements BarrelBase {
     public reloadTime: number;
 
     /** Helps the class determine size ratio as well as who is the owner */
-    protected owner: BarrelBase;
+    public owner: BarrelBase;
     /** To store the size ratio (in compared to the owner) */
     public sizeRatio: number;
     /** Radians per tick, how many radians the guard will rotate in a tick */
