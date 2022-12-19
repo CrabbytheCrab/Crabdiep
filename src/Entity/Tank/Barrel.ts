@@ -17,7 +17,7 @@ import * as util from "../../util";
 
 import Bullet from "./Projectile/Bullet";
 import Blunt from "./Projectile/Blunt";
-import BluntTrap from "./Projectile/Blunttrap";
+import BluntTrap from "./Projectile/BluntTrap";
 import Trap from "./Projectile/Trap";
 import Drone from "./Projectile/Drone";
 import Hive from "./Projectile/Hive";
