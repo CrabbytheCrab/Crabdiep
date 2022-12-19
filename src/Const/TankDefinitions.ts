@@ -8263,7 +8263,7 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "hive",
                     "sizeRatio": 0.7,
-                    "health": 1,
+                    "health": 1.25,
                     "damage": 0.45,
                     "speed": 2,
                     "scatterRate": 1,
@@ -8287,13 +8287,12 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "hive",
                     "sizeRatio": 0.7,
-                    "health": 1,
+                    "health": 1.25,
                     "damage": 0.45,
                     "speed": 2,
                     "scatterRate": 1,
                     "lifeLength": 0.5,
-                    "absorbtionFactor": 1,
-                    "sides": 4
+                    "absorbtionFactor": 1
                 }
             },
             {
