@@ -28,68 +28,16 @@ import { BarrelBase } from "../TankBody";
 /**
  * Barrel definition for the rocketeer rocket's barrel.
  */
-const RocketBarrelDefinition: BarrelDefinition = {
-    angle: Math.PI,
-    offset: 0,
-    size: 70,
-    width: 72,
-    delay: 0,
-    reload: 0.15,
-    recoil: 3.3,
-    isTrapezoid: true,
-    trapezoidDirection: 0,
-    addon: null,
-    bullet: {
-        type: "bullet",
-        health: 0.3,
-        damage: 3 / 5,
-        speed: 1.5,
-        scatterRate: 5,
-        lifeLength: 0.1,
-        sizeRatio: 1,
-        absorbtionFactor: 1
-    }
-};
 
 /**
  * Represents all rocketeer rockets in game.
  */
-export default class Rocket extends Bullet implements BarrelBase {
+export default class Blunt extends Bullet implements BarrelBase {
     /** The rocket's barrel */
-    private rocketBarrel: Barrel;
-
-    /** The size ratio of the rocket. */
-    public sizeFactor: number;
-    /** The camera entity (used as team) of the rocket. */
-    public cameraEntity: Entity;
-    /** The reload time of the rocket's barrel. */
-    public reloadTime = 1;
-    /** The inputs for when to shoot or not. (Rocket) */
-    public inputs = new Inputs();
-
 
     public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number) {
         super(barrel, tank, tankDefinition, shootAngle);
         
-        this.cameraEntity = tank.cameraEntity;
-
-        this.sizeFactor = this.physicsData.values.size / 50;
-
-        const rocketBarrel = this.rocketBarrel = new Barrel(this, {...RocketBarrelDefinition});
-        rocketBarrel.styleData.values.color = this.styleData.values.color;
-    }
-
-    public tick(tick: number) {
-        this.sizeFactor = this.physicsData.values.size / 50;
-        this.reloadTime = this.tank.reloadTime;
-        if (!this.deletionAnimation && this.rocketBarrel) this.rocketBarrel.definition.width = ((this.barrelEntity.definition.width / 2) * RocketBarrelDefinition.width) / this.physicsData.values.size;
-
-        super.tick(tick);
-
-        if (this.deletionAnimation) return;
-        // not fully accurate
-        if (tick - this.spawnTick >= this.tank.reloadTime) this.inputs.flags |= InputFlags.leftclick;
-        // Only accurate on current version, but we dont want that
-        // if (!Entity.exists(this.barrelEntity.rootParent) && (this.inputs.flags & InputFlags.leftclick)) this.inputs.flags ^= InputFlags.leftclick; 
+        this.physicsData.values.pushFactor = 8;
     }
 }
