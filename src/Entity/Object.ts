@@ -280,6 +280,8 @@ export default class ObjectEntity extends Entity {
                 if (entity.relationsData.values.owner !== this.relationsData.values.owner) {
                     if ((entity.physicsData.values.flags & PhysicsFlags.onlySameOwnerCollision) ||
                         (this.physicsData.values.flags & PhysicsFlags.onlySameOwnerCollision)) continue;
+                    if ((entity.physicsData.values.flags & PhysicsFlags.onlySameOwnerCollision2) ||
+                        (this.physicsData.values.flags & PhysicsFlags.onlySameOwnerCollision2)) continue;
                 }
             }
             
