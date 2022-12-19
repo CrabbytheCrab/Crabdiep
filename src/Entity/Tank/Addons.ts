@@ -620,8 +620,8 @@ class RingAddon extends Addon {
         oversquare.positionData.values.x = offsetRatio * size;
         oversquare.positionData.values.angle = 0;
         
-        oversquare.styleData.values.color = Color.Barrel;
-        oversquare.physicsData.values.sides = 6;
+        oversquare.styleData.values.color = Color.Border;
+        oversquare.physicsData.values.sides = -3;
 
         oversquare.tick = () => {
             const size = this.owner.physicsData.values.size;
