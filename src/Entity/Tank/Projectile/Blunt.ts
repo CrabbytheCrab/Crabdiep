@@ -41,14 +41,20 @@ export default class Blunt extends Bullet implements BarrelBase{
     public reloadTime = 15;
     /** The inputs for when to shoot or not. (croc skimmer) */
     public inputs: Inputs;
-
+    protected megaturret: boolean;
     public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number) {
         super(barrel, tank, tankDefinition, shootAngle);
         this.cameraEntity = tank.cameraEntity;
         this.inputs = new Inputs()
         this.sizeFactor = this.physicsData.values.size / 50;
-        new GuardObject(this.game, this, 6, 1.15, 0, .1);
-        this.physicsData.values.pushFactor *= 7.5;
+        this.megaturret = typeof this.barrelEntity.definition.megaturret === 'boolean' && this.barrelEntity.definition.megaturret;
+        if ( this.megaturret){
+            new GuardObject(this.game, this, 6, 1.45, 0, .1);
+            this.physicsData.values.pushFactor *= 12.5;
+        }else{
+            new GuardObject(this.game, this, 6, 1.15, 0, .1);
+            this.physicsData.values.pushFactor *= 7.5;
+        }
     }
     
     public tick(tick: number) {
