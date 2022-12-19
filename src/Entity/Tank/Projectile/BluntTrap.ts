@@ -26,6 +26,7 @@ import { BarrelBase } from "../TankBody";
 import { DevTank } from "../../../Const/DevTankDefinitions";
 import { PI2 } from "../../../util";
 import { Addon } from "../Addons";
+import { Entity } from "../../../Native/Entity";
 import { RingAddon } from "../Addons";
 /**
  * The trap class represents the trap (projectile) entity in diep.
