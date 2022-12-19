@@ -50,10 +50,10 @@ export default class Blunt extends Bullet implements BarrelBase{
         this.megaturret = typeof this.barrelEntity.definition.megaturret === 'boolean' && this.barrelEntity.definition.megaturret;
         if ( this.megaturret){
             new GuardObject(this.game, this, 6, 1.45, 0, .1);
-            this.physicsData.values.pushFactor *= 50;
+            this.physicsData.values.pushFactor *= 25;
         }else{
             new GuardObject(this.game, this, 6, 1.15, 0, .1);
-            this.physicsData.values.pushFactor *= 25;
+            this.physicsData.values.pushFactor *= 10;
         }
     }
     
