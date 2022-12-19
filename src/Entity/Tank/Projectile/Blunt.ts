@@ -39,6 +39,6 @@ export default class Blunt extends Bullet{
         super(barrel, tank, tankDefinition, shootAngle);
         
         this.physicsData.values.pushFactor = 10;
-        new GuardObject(6, 1.15, 0, .1);
+        new GuardObject(this.game, this, 6, 1.15, 0, .1);
     }
 }
