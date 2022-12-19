@@ -44,7 +44,7 @@ export default class Flame extends Bullet {
 
     public tick(tick: number) {
         super.tick(tick);
-        if (this.physicsData.size < this.sized * 6){
+        if (this.physicsData.size < this.sized * 8){
         this.physicsData.size += this.sized/8}
 
         //this.damageReduction += 1 / 25;
