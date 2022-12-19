@@ -47,10 +47,13 @@ export default class BluntTrap extends Trap  implements BarrelBase {
         this.cameraEntity = tank.cameraEntity;
         this.inputs = new Inputs()
         this.sizeFactor = this.physicsData.values.size / 50;
-            new RingAddon(2.15, this);
+            const smash = new GuardObject(this.game, this, 6, 0.65, 0, .1);
+                        smash.styleData.zIndex += 2;
+            smash.styleData.values.flags |= StyleFlags.showsAboveParent;
             this.physicsData.values.pushFactor *= 12.5;
         this.tank = tank;
         const bulletDefinition = barrel.definition.bullet;
+        
 
 
     }
