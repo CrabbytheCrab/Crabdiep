@@ -138,6 +138,7 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
     private trappers: Barrel[] = [];
     private base: AutoTurret[] = [];
     public reloadTime = 4;
+    private hasBeenWelcomed = false;
     ai: AI;
     public constructor(game: GameServer, isAlpha=false, shiny=(Math.random() < 0.000001) && !isAlpha) {
         super(game);
@@ -150,6 +151,12 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
         this.nameData.values.name = isAlpha ? "Penta Lord" : "Weaponized Pentagon";
         if(isAlpha){
             if (this.nameData.values.flags & NameFlags.hiddenName) this.nameData.values.flags ^= NameFlags.hiddenName;
+            
+            if (!this.hasBeenWelcomed) {
+                let message = "The Penta Lord boss has spawned!"
+                //this.game.broadcast().u8(ClientBound.Notification).stringNT(message).u32(0x000000).float(10000).stringNT("").send();
+                this.hasBeenWelcomed = true;
+            }
         const atuo = new AutoTurret(this, {
             angle: 0,
             offset: 0,
