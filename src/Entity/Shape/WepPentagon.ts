@@ -1,17 +1,14 @@
 /*
     DiepCustom - custom tank game server that shares diep.io's WebSocket protocol
     Copyright (C) 2022 ABCxFF (github.com/ABCxFF)
-
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
     by the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU Affero General Public License for more details.
-
     You should have received a copy of the GNU Affero General Public License
     along with this program. If not, see <https://www.gnu.org/licenses/>
 */
@@ -19,7 +16,7 @@
 import GameServer from "../../Game";
 import AbstractShape from "./AbstractShape";
 
-import {ClientBound, Color, PositionFlags, StyleFlags, NameFlags } from "../../Const/Enums";
+import { Color, PositionFlags, StyleFlags, NameFlags } from "../../Const/Enums";
 import { BarrelBase } from "../Tank/TankBody";
 import { Entity } from "../../Native/Entity";
 import { AI, AIState, Inputs } from "../AI";
@@ -73,7 +70,7 @@ const GuardianSpawnerDefinition2: BarrelDefinition = {
         sizeRatio:0.8,
         health: 15,
         damage: 5,
-        speed: 1.5,
+        speed: 2,
         scatterRate: 1,
         lifeLength: 1,
         absorbtionFactor: 0.1,
@@ -141,7 +138,6 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
     private trappers: Barrel[] = [];
     private base: AutoTurret[] = [];
     public reloadTime = 4;
-    //private hasBeenWelcomed = false;
     ai: AI;
     public constructor(game: GameServer, isAlpha=false, shiny=(Math.random() < 0.000001) && !isAlpha) {
         super(game);
@@ -154,12 +150,6 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
         this.nameData.values.name = isAlpha ? "Penta Lord" : "Weaponized Pentagon";
         if(isAlpha){
             if (this.nameData.values.flags & NameFlags.hiddenName) this.nameData.values.flags ^= NameFlags.hiddenName;
-            
-        /* if (!this.hasBeenWelcomed) {
-            let message = "The Penta Lord has spawned!"
-            this.game.broadcast().u8(ClientBound.Notification).stringNT(message).u32(0x000000).float(10000).stringNT("").send();
-            this.hasBeenWelcomed = true;
-        }*/
         const atuo = new AutoTurret(this, {
             angle: 0,
             offset: 0,
@@ -272,7 +262,7 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
         this.isShiny = shiny;
 
         this.damagePerTick = isAlpha ? 40 : 16;
-        this.scoreReward = isAlpha ? 45000 : 3500;
+        this.scoreReward = isAlpha ? 45000 : 4000;
         
         if (shiny) {
             this.scoreReward *= 100;
