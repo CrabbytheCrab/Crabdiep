@@ -260,7 +260,7 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
                 }));
             }
             }
-        this.healthData.values.health = this.healthData.values.maxHealth = (isAlpha ? 15000 : 1700);
+        this.healthData.values.health = this.healthData.values.maxHealth = (isAlpha ? 10000 : 1700);
         this.physicsData.values.size = (isAlpha ? 300 : 93.75) * Math.SQRT1_2;
         this.physicsData.values.sides = 5;
         this.styleData.values.color = shiny ? Color.Shiny : Color.EnemyPentagon;
