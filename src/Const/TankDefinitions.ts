@@ -2162,7 +2162,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Triple Tank",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [35, 38, 59 , 60 , 80, 81],
+        "upgrades": [40, 38, 59 , 60 , 80, 81],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
