@@ -16,7 +16,7 @@
 import GameServer from "../../Game";
 import AbstractShape from "./AbstractShape";
 
-import { Color, PositionFlags, StyleFlags, NameFlags } from "../../Const/Enums";
+import { Color, PositionFlags, StyleFlags, NameFlags, ClientBound } from "../../Const/Enums";
 import { BarrelBase } from "../Tank/TankBody";
 import { Entity } from "../../Native/Entity";
 import { AI, AIState, Inputs } from "../AI";
