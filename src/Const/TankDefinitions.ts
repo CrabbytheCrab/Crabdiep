@@ -14227,11 +14227,11 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "trap",
                     "sizeRatio": 0.8,
-                    "health": 2,
+                    "health": 1.75,
                     "damage": 1,
                     "speed": 2,
                     "scatterRate": 1,
-                    "lifeLength": 7.5,
+                    "lifeLength": 6,
                     "absorbtionFactor": 1
                 }
             },
@@ -14250,7 +14250,7 @@ const TankDefinitions = JSON.parse(`[
                     "type": "bullet",
                     "sizeRatio": 1,
                     "health": 1,
-                    "damage": 1,
+                    "damage": 0.85,
                     "speed": 1,
                     "scatterRate": 1,
                     "lifeLength": 1,
