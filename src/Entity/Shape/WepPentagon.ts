@@ -154,7 +154,7 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
             
             if (!this.hasBeenWelcomed) {
                 let message = "The Penta Lord boss has spawned!"
-                //this.game.broadcast().u8(ClientBound.Notification).stringNT(message).u32(0x000000).float(10000).stringNT("").send();
+                this.game.broadcast().u8(ClientBound.Notification).stringNT(message).u32(0x000000).float(10000).stringNT("").send();
                 this.hasBeenWelcomed = true;
             }
         const atuo = new AutoTurret(this, {
