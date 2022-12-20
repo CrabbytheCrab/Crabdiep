@@ -19,7 +19,7 @@
 import GameServer from "../../Game";
 import AbstractShape from "./AbstractShape";
 
-import { Color, PositionFlags, StyleFlags } from "../../Const/Enums";
+import { Color, PositionFlags, StyleFlags, NameFlags } from "../../Const/Enums";
 import { BarrelBase } from "../Tank/TankBody";
 import { Entity } from "../../Native/Entity";
 import { AI, AIState, Inputs } from "../AI";
@@ -146,12 +146,13 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
         super(game);
         this.sizeFactor = this.physicsData.values.size/50;
         this.ai = new AI(this);
-        this.ai.viewRange = 1200;
+        this.ai.viewRange = 1800;
         this.ai.aimSpeed = (this.ai.movementSpeed);
         this.ai['_findTargetInterval'] = tps;
         this.inputs = this.ai.inputs;       
-        this.nameData.values.name = isAlpha ? "Omega Pentagon" : "Weaponized Pentagon";
+        this.nameData.values.name = isAlpha ? "Penta Lord" : "Weaponized Pentagon";
         if(isAlpha){
+            if (this.nameData.values.flags & NameFlags.hiddenName) this.nameData.values.flags ^= NameFlags.hiddenName;
         const atuo = new AutoTurret(this, {
             angle: 0,
             offset: 0,
@@ -175,7 +176,7 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
                 color: Color.Neutral
             }
         });
-        atuo.ai.viewRange = 1200;
+        atuo.ai.viewRange = 1800;
         //atuo.ai.passiveRotation = this.movementAngle
         atuo.styleData.values.flags |= StyleFlags.showsAboveParent;
         const MAX_ANGLE_RANGE = PI2 / 4; // keep within 90º each side
@@ -184,7 +185,7 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
              const base  = [new AutoTurret(this, GuardianSpawnerDefinition2)];
              base[0].influencedByOwnerInputs = true;
              base[0].baseSize = 100;
-             base[0].ai.viewRange = 1200;
+             base[0].ai.viewRange = 1800;
             const angle = base[0].ai.inputs.mouse.angle = PI2 * (i / 5);
             base[0].ai.passiveRotation = AI.PASSIVE_ROTATION;
             base[0].positionData.values.y = this.physicsData.values.size * Math.sin(angle) * 1.1;
