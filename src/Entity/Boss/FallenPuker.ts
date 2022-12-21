@@ -35,7 +35,7 @@ export default class FallenPuker extends AbstractBoss {
         super(game);
 
         this.nameData.values.name = 'Fallen Puker';
-        for (const barrelDefinition of TankDefinitions[Tank.Penta].barrels) {
+        for (const barrelDefinition of TankDefinitions[Tank.PentaShot].barrels) {
 
             const def = Object.assign({}, barrelDefinition, { recoil: 0.35, width: 35, isTrapezoid: true, reload: 0.35 });
             def.bullet = Object.assign({}, def.bullet, { speed: 1.2, health: 4.25 });
