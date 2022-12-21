@@ -2958,10 +2958,10 @@ const TankDefinitions = JSON.parse(`[
                 "canControlDrones": true,
                 "bullet": {
                     "type": "minion",
-                    "sizeRatio": 0.8,
-                    "health": 2.5,
+                    "sizeRatio": 1,
+                    "health": 2,
                     "damage": 0.7,
-                    "speed": 0.56,
+                    "speed": 0.69,
                     "scatterRate": 0,
                     "lifeLength": -1,
                     "absorbtionFactor": 1
