@@ -74,7 +74,8 @@ export const magicNum = (function magicNum(build: string) {
 export const spatialHashingCellSize: number = 7;
 
 /** Amount of TICKs before the next boss spawn attempt */
-export const bossSpawningInterval = 30 * 5 * tps;
+export const bossSpawningInterval = 10 * 5 * tps;
+//30 and 45
 
 /** Hashed (sha256) dev password */
 export const devPasswordHash: string | undefined = process.env.DEV_PASSWORD_HASH;
