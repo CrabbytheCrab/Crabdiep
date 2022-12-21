@@ -34,6 +34,7 @@ import Guardian from "../Entity/Boss/Guardian";
 import Summoner from "../Entity/Boss/Summoner";
 import FallenOverlord from "../Entity/Boss/FallenOverlord";
 import FallenBooster from "../Entity/Boss/FallenBooster";
+import FallenPuker from "../Entity/Boss/FallenPuker";
 import Defender from "../Entity/Boss/Defender";
 import { bossSpawningInterval } from "../config";
 
@@ -199,7 +200,8 @@ export default class ArenaEntity extends Entity implements TeamGroupEntity {
 
 	/** Spawns the boss into the arena */
 	protected spawnBoss() {
-		const TBoss = [Guardian, Summoner, FallenOverlord, FallenBooster, Defender]
+		//const TBoss = [Guardian, Summoner, FallenOverlord, FallenPuker, FallenBooster, Defender]
+		const TBoss = [FallenPuker]
 			[~~(Math.random() * 5)];
 		
 		this.boss = new TBoss(this.game);
