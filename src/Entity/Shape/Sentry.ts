@@ -77,7 +77,7 @@ import Barrel from "../Tank/Barrel";
                 width: 63,
                 delay: 0,
                 reload: 1,
-                recoil: 1.75,
+                recoil: 1.25,
                 isTrapezoid: true,
                 trapezoidDirection: 0,
                 addon: null,
@@ -252,6 +252,6 @@ import Barrel from "../Tank/Barrel";
         this.styleData.values.color = Color.EnemyCrasher;
 
         this.scoreReward = 500;
-        this.damagePerTick = 20;
+        this.damagePerTick = 12;
     }
 }
