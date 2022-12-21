@@ -110,7 +110,7 @@ export default class MegaMinion extends Drone implements BarrelBase {
             if (dist < MegaMinion.FOCUS_RADIUS / 4) { // Half
                 this.movementAngle = this.positionData.values.angle + Math.PI;
             } else if (dist < MegaMinion.FOCUS_RADIUS) {
-                this.movementAngle = this.positionData.values.angle + Math.PI / 2;
+                this.movementAngle = this.positionData.values.angle;
             } else this.movementAngle = this.positionData.values.angle;
         }
 
