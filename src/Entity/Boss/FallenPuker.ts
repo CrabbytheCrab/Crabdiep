@@ -27,18 +27,18 @@ import { AIState } from "../AI";
 /**
  * Class which represents the boss "FallenBooster"
  */
-export default class FallenBooster extends AbstractBoss {
+export default class FallenPuker extends AbstractBoss {
     /** The speed to maintain during movement. */
-    public movementSpeed = 1;
+    public movementSpeed = 1.1;
 
     public constructor(game: GameServer) {
         super(game);
 
-        this.nameData.values.name = 'Fallen Booster';
-        for (const barrelDefinition of TankDefinitions[Tank.Booster].barrels) {
+        this.nameData.values.name = 'Fallen Puker';
+        for (const barrelDefinition of TankDefinitions[Tank.Penta].barrels) {
 
-            const def = Object.assign({}, barrelDefinition, {});
-            def.bullet = Object.assign({}, def.bullet, { speed: 1.7, health: 6.25 });
+            const def = Object.assign({}, barrelDefinition, { recoil: 0.35, width: 35, isTrapezoid: true, reload: 0.35 });
+            def.bullet = Object.assign({}, def.bullet, { speed: 1.2, health: 4.25 });
             this.barrels.push(new Barrel(this, def));
         }
     }
