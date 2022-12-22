@@ -200,6 +200,8 @@ export const enum Tank {
     Blockade      = 125,
     Fusion        = 126,
     Amalgam       = 127,
+    Dronemare     = 128,
+    Shrapnel      = 129,
     Mothership    = 204
 }
 
