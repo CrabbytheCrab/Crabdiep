@@ -153,7 +153,7 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
             if (this.nameData.values.flags & NameFlags.hiddenName) this.nameData.values.flags ^= NameFlags.hiddenName;
             
             if (!this.hasBeenWelcomed) {
-                let message = "The Penta Lord boss has spawned!"
+                let message = "The Penta Lord has spawned!"
                 this.game.broadcast().u8(ClientBound.Notification).stringNT(message).u32(0x000000).float(10000).stringNT("").send();
                 this.hasBeenWelcomed = true;
             }
