@@ -243,7 +243,24 @@ export default class TankBody extends LivingEntity implements BarrelBase {
 
                 const sunchip = NecromancerSquare.fromShape(barrelToShoot, this, this.definition, entity);
             }
-        } else {
+        }else if (this._currentTank === Tank.Dronemare){
+            // If can claim, pick a random barrel that has drones it can still shoot, then shoot
+            const MAX_DRONES_PER_BARREL = 4 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload] * 0.714);
+            const barrelsToShoot = this.barrels.filter((e) => e.definition.bullet.type === "necrodrone" && e.droneCount < MAX_DRONES_PER_BARREL);
+
+            if (barrelsToShoot.length) {
+                const barrelToShoot = barrelsToShoot[~~(Math.random()*barrelsToShoot.length)];
+
+                // No destroy it on the next tick to make it look more like the way diep does it.
+                entity.destroy(true);
+                if (entity.deletionAnimation) {
+                    entity.deletionAnimation.frame = 0;
+                    entity.styleData.opacity = 1;
+                }
+            
+                const sunchip = NecromancerSquare.fromShape(barrelToShoot, this, this.definition, entity);
+            }
+            } else {
             // If can claim, pick a random barrel that has drones it can still shoot, then shoot
             const MAX_DRONES_PER_BARREL = 9 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]);
             const barrelsToShoot = this.barrels.filter((e) => e.definition.bullet.type === "necrodrone" && e.droneCount < MAX_DRONES_PER_BARREL);
