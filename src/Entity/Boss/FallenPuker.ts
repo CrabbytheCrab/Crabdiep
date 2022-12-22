@@ -29,7 +29,7 @@ import { AIState } from "../AI";
  */
 export default class FallenPuker extends AbstractBoss {
     /** The speed to maintain during movement. */
-    public movementSpeed = 1.1;
+    public movementSpeed = 1.8;
 
     public constructor(game: GameServer) {
         super(game);
