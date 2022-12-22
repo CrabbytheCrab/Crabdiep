@@ -118,8 +118,7 @@ export interface TankDefinition {
     /** If not empty, the client is sent a notification with this message when it upgrades to this tank. */
     upgradeMessage: string;
     /** The levels required to upgrade to this tank. */
-    levelRequirement: number;
-    /** The tanks this tank can upgrade to. */
+    levelRequirement: number;    /** The tanks this tank can upgrade to. */
     upgrades: (Tank | DevTank)[];
     /** Boolean flags about the tank. */
     flags: {
@@ -131,6 +130,7 @@ export interface TankDefinition {
         canClaimSquares?: boolean;
         canClaimTriangles?: boolean;
         canClaimPentagons?: boolean;
+        dronecount?: boolean;
         /** If the tank requires devmode to access (unused). */
         devOnly: boolean;
     },
@@ -14328,7 +14328,8 @@ const TankDefinitions = JSON.parse(`[
             "invisibility": false,
             "zoomAbility": false,
             "canClaimSquares": true,
-            "devOnly": false
+            "devOnly": false,
+            "dronecount": true
         },
         "visibilityRateShooting": 0.23,
         "visibilityRateMoving": 0.08,
