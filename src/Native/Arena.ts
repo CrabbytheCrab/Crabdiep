@@ -38,6 +38,9 @@ import FallenBooster from "../Entity/Boss/FallenBooster";
 import FallenPuker from "../Entity/Boss/FallenPuker";
 import Defender from "../Entity/Boss/Defender";
 import { bossSpawningInterval } from "../config";
+import Fortress from "../Entity/Boss/Fortress";
+import Pyromancer from "../Entity/Boss/Pyromancer";
+import Mecha from "../Entity/Boss/Mecha";
 
 export const enum ArenaState {
 	/** Alive, open */
@@ -65,7 +68,6 @@ export default class ArenaEntity extends Entity implements TeamGroupEntity {
 	public height: number;
 	/** Whether or not the arena allows new players to spawn. */
 	public state: number = ArenaState.OPEN;
-
 	public shapeScoreRewardMultiplier: number = 1;
 
 	/** The current boss spawned into the game */
@@ -81,7 +83,6 @@ export default class ArenaEntity extends Entity implements TeamGroupEntity {
 		super(game);
 
 		this.updateBounds(this.width = 22300, this.height = 22300);
-
 		this.arenaData.values.topY = -this.height / 2;
 		this.arenaData.values.bottomY = this.height / 2;
 		this.arenaData.values.leftX = -this.width / 2;
@@ -201,17 +202,26 @@ export default class ArenaEntity extends Entity implements TeamGroupEntity {
 
 	/** Spawns the boss into the arena */
 	protected spawnBoss() {
+		const rand = Math.random();
+		if (rand < .25) {
+		const TBoss = [Fortress,Pyromancer]
+		//const TBoss = [Mecha]
+		[~~(Math.random() * 2)];
+		
+		this.boss = new TBoss(this.game);
+	}else{
 		const TBoss = [Guardian, Protector, Summoner, FallenOverlord, FallenPuker, FallenBooster, Defender]
-		//const TBoss = [Protector]
-			[~~(Math.random() * 7)];
+		//const TBoss = [Mecha]
+		[~~(Math.random() * 7)];
 		
 		this.boss = new TBoss(this.game);
 	}
+}
 
 	public tick(tick: number) {
 		this.shapes.tick();
 
-		if (this.game.tick >= 1 && (this.game.tick % bossSpawningInterval) === 0 && !this.boss) {
+		if (this.game.tick >= 1 && (this.game.tick % bossSpawningInterval) === 0 && !this.game.arena.boss) {
 			this.spawnBoss();
 		}
 

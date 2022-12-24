@@ -19,7 +19,7 @@
 import GameServer from "../../Game";
 import Barrel from "../Tank/Barrel";
 
-import { ClientBound, Color, PositionFlags } from "../../Const/Enums";
+import { ClientBound, Color, PhysicsFlags, PositionFlags,StyleFlags } from "../../Const/Enums";
 import { VectorAbstract } from "../../Physics/Vector";
 import { AI, AIState, Inputs } from "../AI";
 import { NameGroup } from "../../Native/FieldGroups";
@@ -128,7 +128,7 @@ export default class AbstractBoss extends LivingEntity {
         this.positionData.values.flags |= PositionFlags.absoluteRotation;
         this.scoreReward = 30000 * this.game.arena.shapeScoreRewardMultiplier;
         this.damagePerTick = 60;
-
+        this.physicsData.values.flags |= PhysicsFlags.showsOnMap;
         this.ai = new AI(this);
         this.ai.viewRange = 2000;
         this.ai['_findTargetInterval'] = 0;
@@ -157,7 +157,9 @@ export default class AbstractBoss extends LivingEntity {
      */
     public onDeath(killer: LivingEntity) {
         // Reset arena.boss
-        if (this.game.arena.boss === this) this.game.arena.boss = null;
+
+        if (this.game.arena.boss === this){ this.game.arena.boss = null
+        }
 
         const killerName = (killer instanceof TankBody && killer.nameData.values.name) || "an unnamed tank"
         this.game.broadcast()
