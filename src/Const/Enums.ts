@@ -203,6 +203,7 @@ export const enum Tank {
     Dronemare     = 128,
     Shrapnel      = 129,
     Quadruplet    = 130,
+    Vulcan        = 131,
     Mothership    = 204
 }
 

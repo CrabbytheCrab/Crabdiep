@@ -1841,8 +1841,8 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "bullet",
                     "sizeRatio": 0.8,
-                    "health": 1,
-                    "damage": 0.5,
+                    "health": 0.875,
+                    "damage": 0.6,
                     "speed": 1,
                     "scatterRate": 3,
                     "lifeLength": 1,
@@ -13509,7 +13509,7 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "flame",
                     "sizeRatio": 1,
-                    "health": 10,
+                    "health": 15,
                     "damage": 0.25,
                     "speed": 1,
                     "scatterRate": 2,
@@ -13590,7 +13590,7 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "flame",
                     "sizeRatio": 1,
-                    "health": 10,
+                    "health": 15,
                     "damage": 0.45,
                     "speed": 1.2,
                     "scatterRate": 1.5,
@@ -13671,7 +13671,7 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "flame",
                     "sizeRatio": 1,
-                    "health": 6,
+                    "health": 11,
                     "damage": 0.2,
                     "speed": 0.8,
                     "scatterRate": 2,
@@ -13693,7 +13693,7 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "flame",
                     "sizeRatio": 1,
-                    "health": 6,
+                    "health": 11,
                     "damage": 0.2,
                     "speed": 0.8,
                     "scatterRate": 2,
@@ -13775,7 +13775,7 @@ const TankDefinitions = JSON.parse(`[
                     "type": "bullet",
                     "sizeRatio": 1,
                     "health": 0.9,
-                    "damage": 0.65,
+                    "damage": 0.75,
                     "speed": 1,
                     "scatterRate": 1,
                     "lifeLength": 1,
@@ -13796,7 +13796,7 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "flame",
                     "sizeRatio": 1,
-                    "health": 10,
+                    "health": 13,
                     "damage": 0.25,
                     "speed": 1,
                     "scatterRate": 2,
@@ -14868,6 +14868,87 @@ const TankDefinitions = JSON.parse(`[
                     "scatterRate": 1,
                     "lifeLength": 1,
                     "absorbtionFactor": 1
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 7
+            },
+            {
+                "name": "Reload",
+                "max": 7
+            },
+            {
+                "name": "Bullet Damage",
+                "max": 7
+            },
+            {
+                "name": "Bullet Penetration",
+                "max": 7
+            },
+            {
+                "name": "Bullet Speed",
+                "max": 7
+            },
+            {
+                "name": "Body Damage",
+                "max": 7
+            },
+            {
+                "name": "Max Health",
+                "max": 7
+            },
+            {
+                "name": "Health Regen",
+                "max": 7
+            }
+        ]
+    },
+    {
+        "id": 131,
+        "name": "Vulcan Cannon",
+        "upgradeMessage": "",
+        "levelRequirement": 45,
+        "upgrades": [],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 1,
+        "absorbtionFactor": 1,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": null,
+        "postAddon": null,
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 95,
+                "width": 67.2,
+                "delay": 0,
+                "reload": 0.1,
+                "recoil": 0.45,
+                "isTrapezoid": true,
+                "trapezoidDirection": 0,
+                "addon": null,
+                "bullet": {
+                    "type": "bullet",
+                    "sizeRatio": 0.625,
+                    "health": 0.825,
+                    "damage": 0.3,
+                    "speed": 1,
+                    "scatterRate": 3,
+                    "lifeLength": 0.85,
+                    "absorbtionFactor": 1.5
                 }
             }
         ],
