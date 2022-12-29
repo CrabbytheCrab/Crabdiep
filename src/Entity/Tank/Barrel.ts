@@ -49,6 +49,8 @@ import NecromancerPentagon from "./Projectile/NecromancerPenta";
 import Pentagon from "./Projectile/PentaDrone";
 import NecromancerTriangle from "./Projectile/NecromancerTriangle";
 import MegaSpinner from "./Projectile/MegaSpinner";
+import { tps } from "../../config";
+
 /**
  * Class that determines when barrels can shoot, and when they can't.
  */
@@ -73,7 +75,7 @@ export class ShootCycle {
             this.reloadTime = reloadTime;
         }
 
-        const alwaysShoot = (this.barrelEntity.definition.forceFire) || (this.barrelEntity.definition.bullet.type === 'pentadrone') || (this.barrelEntity.definition.bullet.type === 'domminion') || (this.barrelEntity.definition.bullet.type === 'megaminion') || (this.barrelEntity.definition.bullet.type === 'miniminion') || (this.barrelEntity.definition.bullet.type === 'minion') || (this.barrelEntity.definition.bullet.type === 'drone') || (this.barrelEntity.definition.bullet.type === 'necrodrone') || (this.barrelEntity.definition.bullet.type === 'necropentadrone') || (this.barrelEntity.definition.bullet.type === 'necrotriangledrone');
+        const alwaysShoot = (this.barrelEntity.definition.forceFire) || (this.barrelEntity.definition.bullet.type === 'basedrone') || (this.barrelEntity.definition.bullet.type === 'pentadrone') || (this.barrelEntity.definition.bullet.type === 'domminion') || (this.barrelEntity.definition.bullet.type === 'megaminion') || (this.barrelEntity.definition.bullet.type === 'miniminion') || (this.barrelEntity.definition.bullet.type === 'minion') || (this.barrelEntity.definition.bullet.type === 'drone') || (this.barrelEntity.definition.bullet.type === 'necrodrone') || (this.barrelEntity.definition.bullet.type === 'necropentadrone') || (this.barrelEntity.definition.bullet.type === 'necrotriangledrone');
 
         if (this.pos >= reloadTime) {
             // When its not shooting dont shoot, unless its a drone
@@ -206,6 +208,12 @@ export default class Barrel extends ObjectEntity {
             }
             case 'trap':
                 new Trap(this, this.tank, tankDefinition, angle, this.rootParent);
+                break;
+            case 'basedrone':
+                const drone = new Drone(this, this.tank, tankDefinition, angle);
+                drone.ai.viewRange = 4500;
+                drone.ai.targetFilter = (targetPos, team) => team !== this.game.arena && (targetPos.x - this.tank.positionData.values.x) ** 2 + (targetPos.y - this.tank.positionData.values.y) ** 2 <= drone.ai.viewRange ** 2;
+                drone.ai["_findTargetInterval"] = tps;
                 break;
             case 'drone':
                 new Drone(this, this.tank, tankDefinition, angle);
