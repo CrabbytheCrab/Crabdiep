@@ -28,6 +28,7 @@ import { Color } from "../Const/Enums";
 import Dominator from "../Entity/Misc/Dominator";
 import MazeWall from "../Entity/Misc/MazeWall";
 import ShapeManager from "../Entity/Shape/Manager";
+import BaseDrones from "../Entity/Misc/BaseDrones";
 
  const arenaSize = 11150;
  const baseWidth = 2230;
@@ -43,7 +44,7 @@ const ARENA_SIZE = CELL_SIZE * GRID_SIZE;
  */
 
  export class Chaoschance extends ShapeManager {
-      constructor(arena: ArenaEntity) {
+    constructor(arena: ArenaEntity) {
         super(arena);
         this.sentrychance = 0
     }
@@ -81,6 +82,19 @@ export default class Teams2Arena extends ArenaEntity {
         new MazeWall(this.game, -arenaSize/5 + 2230 ,  arenaSize/2.5, domBaseSize, domBaseSize * 7);
         this.shapeScoreRewardMultiplier = 3.0;
 
+        /** Basedrones */
+        new BaseDrones(this.blueTeamBase, 0, 0);
+        new BaseDrones(this.redTeamBase, 0, 0);
+
+        for(let i = 1; i < 4; ++i) {
+            const yOffset = arenaSize / 4 * i;
+            new BaseDrones(this.blueTeamBase, 0, yOffset);
+            new BaseDrones(this.blueTeamBase, 0, -yOffset);
+            new BaseDrones(this.redTeamBase, 0, yOffset);
+            new BaseDrones(this.redTeamBase, 0, -yOffset);   
+            continue;         
+        }
+        /** Basedrones */
     }
 
     public spawnPlayer(tank: TankBody, client: Client) {
