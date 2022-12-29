@@ -98,7 +98,7 @@ export class AI {
     public doAimPrediction: boolean = false;
 
     /** Target filter letting owner classes filter what can't be a target by position - false = not valid target */
-    public targetFilter: (possibleTargetPos: VectorAbstract) => boolean;
+    public targetFilter: (possibleTargetPos: VectorAbstract, team?: Entity | null) => boolean;
 
     /** Stores the creation of the AI, used to optimize ticking */
     private _creationTick: number;
@@ -140,7 +140,7 @@ export class AI {
             if (team !== this.target.relationsData.values.team && this.target.physicsData.values.sides !== 0) {
                 // confirm its within range
                 const targetDistSq = (this.target.positionData.values.x - rootPos.x) ** 2 + (this.target.positionData.values.y - rootPos.y) ** 2;
-                if (this.targetFilter(this.target.positionData.values) && targetDistSq < (this.viewRange ** 2) * 2) return this.target; // this range is inaccurate i think
+                if (this.targetFilter(this.target.positionData.values, this.target.relationsData.team) && targetDistSq < (this.viewRange ** 2) * 2) return this.target; // this range is inaccurate i think
 
             }
         }
@@ -164,7 +164,7 @@ export class AI {
 
             if (entity.relationsData.values.team === team || entity.physicsData.values.sides === 0) continue;
 
-            if (!this.targetFilter(entity.positionData.values)) continue; // Custom check
+            if (!this.targetFilter(entity.positionData.values, entity.relationsData.team)) continue; // Custom check
 
             // TODO(ABC): Find out why this was put here
             if (entity instanceof TankBody) {
