@@ -204,6 +204,12 @@ export const enum Tank {
     Shrapnel      = 129,
     Quadruplet    = 130,
     Vulcan        = 131,
+    Splitshot     = 132,
+    Objector      = 133,
+    MachineTrap   = 134,
+    RubbleMaker   = 135,
+    Fabricator    = 136,
+    Orbiter       = 137,
     Mothership    = 204
 }
 

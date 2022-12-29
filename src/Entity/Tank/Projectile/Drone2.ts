@@ -31,6 +31,7 @@ import { CameraEntity } from "../../../Native/Camera";
  */
 export default class Drone2 extends Bullet {
     /** The AI of the drone (for AI mode) */
+    public static FOCUS_RADIUS = 850 ** 2;
     public ai: AI;
     public boom: boolean = false
     /** The drone's radius of resting state */
@@ -81,21 +82,59 @@ export default class Drone2 extends Bullet {
 
     public tick(tick: number) {
         if (!this.canControlDrones){
-            if(tick - this.spawnTick >= this.lifeLength/4 && this.boom == false){
-                this.movementAngle += Math.PI
-                this.boom = true
+            if(tick - this.spawnTick >= this.lifeLength/8 && this.boom == false){
+                const delta = {
+                    x: this.positionData.values.x - this.tank.positionData.values.x,
+                    y: this.positionData.values.y - this.tank.positionData.values.y
+                }
+                const base = this.baseAccel;
+            
+                let unitDist = (delta.x ** 2 + delta.y ** 2) / Drone2.MAX_RESTING_RADIUS;
+                const offset = Math.atan2(delta.y, delta.x) + Math.PI / 2
+                delta.x = this.tank.positionData.values.x + Math.cos(offset) * this.tank.physicsData.values.size * 1.2 - this.positionData.values.x;
+                delta.y = this.tank.positionData.values.y + Math.sin(offset) * this.tank.physicsData.values.size * 1.2 - this.positionData.values.y;
+                this.movementAngle = Math.atan2(delta.y, delta.x);
+                if (unitDist < 0.1){ this.baseAccel /= 3;
+                this.destroy()}
+                    this.baseAccel = base;
+
             }
+
         }
         if (this.canControlDrones){
-            if(tick - this.spawnTick >= this.lifeLength/6 && this.boom == false){
-                this.movementAngle += Math.PI
-                this.boom = true
+            if(tick - this.spawnTick >= this.lifeLength/16 && this.boom == false){
+
+
+                const delta = {
+                    x: this.positionData.values.x - this.tank.positionData.values.x,
+                    y: this.positionData.values.y - this.tank.positionData.values.y
+                }
+                const base = this.baseAccel;
+                const dist = Math.atan2(delta.y, delta.x)
+
+                if (dist < Drone2.FOCUS_RADIUS / 4) { // Half
+                    this.movementAngle = this.positionData.values.angle + Math.PI;
+                } else if (dist < Drone2.FOCUS_RADIUS) {
+                   this.movementAngle = this.positionData.values.angle;
+                } else this.movementAngle = this.positionData.values.angle;
+                let unitDist = (delta.x ** 2 + delta.y ** 2) / Drone2.MAX_RESTING_RADIUS;
+                const offset = Math.atan2(delta.y, delta.x) + Math.PI / 2
+                delta.x = this.tank.positionData.values.x + Math.cos(offset) * this.tank.physicsData.values.size * 1.2 - this.positionData.values.x;
+                delta.y = this.tank.positionData.values.y + Math.sin(offset) * this.tank.physicsData.values.size * 1.2 - this.positionData.values.y;
+                this.movementAngle = Math.atan2(delta.y, delta.x);
+                
+                if (unitDist < 0.1){
+                    //this.movementAngle = this.positionData.values.angle + Math.PI;
+                    // this.baseAccel /= 3;
+                //this.destroy()
+            }
+                    this.baseAccel = base;
+
             }
         }
         this.positionData.angle += 0.3
         super.tick(tick);
         // So that switch tank works, as well as on death
-        if (!Entity.exists(this.barrelEntity)) this.destroy();
 
         this.tickMixin(tick);
     }

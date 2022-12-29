@@ -35,6 +35,7 @@ export default class AutoTrap extends Bullet implements BarrelBase {
     public cameraEntity: Entity;
     private _currentTank: Tank | DevTank = Tank.Basic;
     protected megaturret: boolean;
+    protected canControlDrones: boolean;
     public inputs = new Inputs();
     /** Number of ticks before the trap cant collide with its own team. */
     protected collisionEnd = 0;
@@ -43,20 +44,21 @@ export default class AutoTrap extends Bullet implements BarrelBase {
     public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number) {
         super(barrel, tank, tankDefinition, shootAngle);
 
+        this.canControlDrones = typeof this.barrelEntity.definition.canControlDrones === 'boolean' && this.barrelEntity.definition.canControlDrones;
 
         this.cameraEntity = tank.cameraEntity;
         this.megaturret = typeof this.barrelEntity.definition.megaturret === 'boolean' && this.barrelEntity.definition.megaturret;
 
         this.sizeFactor = this.physicsData.values.size / 50;
-        if ( this.megaturret){
-
+        if ( this.megaturret || this.canControlDrones){
+            if ( this.megaturret){
             const atuo = new AutoTurret(this, {
                 angle: 0,
                 offset: 0,
                 size: 80,
                 width: 45,
                 delay: 0,
-                reload: 4,
+                reload: 5.5,
                 recoil: 0,
                 isTrapezoid: false,
                 trapezoidDirection: 0,
@@ -65,7 +67,7 @@ export default class AutoTrap extends Bullet implements BarrelBase {
                     type: "bullet",
                     sizeRatio: 1,
                     health: 0.8,
-                    damage: 1.5,
+                    damage: 1.25,
                     speed: 1.3,
                     scatterRate: 0.3,
                     lifeLength: 1,
@@ -78,6 +80,36 @@ export default class AutoTrap extends Bullet implements BarrelBase {
             atuo.styleData.values.flags |= StyleFlags.showsAboveParent;
             atuo.ai.viewRange = 1500
         }
+        if(this.canControlDrones){
+            const atuo = new AutoTurret(this, {
+                angle: 0,
+                offset: 0,
+                size: 65,
+                width: 35,
+                delay: 0,
+                reload: 0.875,
+                recoil: 0,
+                isTrapezoid: true,
+                trapezoidDirection: 0,
+                addon: null,
+                bullet: {
+                    type: "bullet",
+                    sizeRatio: 1,
+                    health: 0.75,
+                    damage: 0.325,
+                    speed: 1,
+                    scatterRate: 2,
+                    lifeLength: 0.75,
+                    absorbtionFactor: 0.3
+                }
+            });
+                atuo.baseSize *= 1.25
+                atuo.positionData.values.angle = shootAngle
+            //atuo.ai.passiveRotation = this.movementAngle
+            atuo.styleData.values.flags |= StyleFlags.showsAboveParent;
+            atuo.ai.viewRange = 540
+        }
+    }
         else{
         const atuo = new AutoTurret(this, {
             angle: 0,
@@ -95,7 +127,7 @@ export default class AutoTrap extends Bullet implements BarrelBase {
                 sizeRatio: 1,
                 health: 0.75,
                 damage: 0.5,
-                speed: 0.8,
+                speed: 1,
                 scatterRate: 1,
                 lifeLength: 0.75,
                 absorbtionFactor: 0.1

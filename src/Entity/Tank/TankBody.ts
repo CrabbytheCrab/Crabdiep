@@ -230,7 +230,6 @@ export default class TankBody extends LivingEntity implements BarrelBase {
 
         }else{
             // If can claim, pick a random barrel that has drones it can still shoot, then shoot
-            if(this.definition.flags.dronecount == false){
             const MAX_DRONES_PER_BARREL = 9 + this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload];
             const barrelsToShoot = this.barrels.filter((e) => e.definition.bullet.type === "necrodrone" && e.droneCount < MAX_DRONES_PER_BARREL);
 
@@ -245,7 +244,13 @@ export default class TankBody extends LivingEntity implements BarrelBase {
                 }
 
                 const sunchip = NecromancerSquare.fromShape(barrelToShoot, this, this.definition, entity);
-            }}else if(this.definition.flags.dronecount == true){
+            }
+        }
+    }
+                if (entity instanceof Square && this.definition.flags.canClaimSquares2 && this.barrels.length) {
+                    if(entity instanceof WepSquare){
+            
+                    }else{
                 const MAX_DRONES_PER_BARREL2 = 4 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload] * 0.5);
                 const barrelsToShoot = this.barrels.filter((e) => e.definition.bullet.type === "necrodrone" && e.droneCount < MAX_DRONES_PER_BARREL2);
     
@@ -260,7 +265,7 @@ export default class TankBody extends LivingEntity implements BarrelBase {
                     }
     
                     const sunchip = NecromancerSquare.fromShape(barrelToShoot, this, this.definition, entity);
-                }}}
+                }}
     }  
     }
 
