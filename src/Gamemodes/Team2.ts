@@ -79,6 +79,7 @@ export default class Teams2Arena extends ArenaEntity {
 
         new MazeWall(this.game, -arenaSize/5 + 2230 ,  -arenaSize/2.5, domBaseSize, domBaseSize * 7);
         new MazeWall(this.game, -arenaSize/5 + 2230 ,  arenaSize/2.5, domBaseSize, domBaseSize * 7);
+        this.shapeScoreRewardMultiplier = 3.0;
 
     }
 
