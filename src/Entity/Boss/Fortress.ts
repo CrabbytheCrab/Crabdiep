@@ -128,8 +128,8 @@ export default class Fortress extends AbstractBoss {
         const offsetRatio = 0;
         const size = this.physicsData.values.size;
 
-        rotator.setParent(this);
-        rotator.relationsData.values.owner = this;
+       // rotator.setParent(this);
+        //rotator.relationsData.values.owner = this;
         rotator.relationsData.values.team = this.relationsData.values.team
         rotator.styleData.values.color = Color.Border;
         rotator.physicsData.values.sides = 6;
