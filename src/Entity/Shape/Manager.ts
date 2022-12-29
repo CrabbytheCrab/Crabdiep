@@ -40,9 +40,11 @@ export default class ShapeManager {
     protected arena: ArenaEntity;
     public sentrychance = 0.1
     public weaponchance = 0.04
+    public alphachance = 0.5
     public constructor(arena: ArenaEntity) {
         this.arena = arena;
         this.game = arena.game;
+        
     }
 
     /**
@@ -58,12 +60,21 @@ export default class ShapeManager {
         if (Math.max(x, y) < rightX / 10 && Math.min(x, y) > leftX / 10) {
             // Pentagon Nest
             if(rand2 < this.weaponchance * 1.25){
-                shape = new WepPentagon(this.game, Math.random() <= 0.5);
+                if(rand2 < this.alphachance && this.game.pentalord == false){
+
+                shape = new WepPentagon(this.game, true);
 
                 shape.positionData.values.x = x;
                 shape.positionData.values.y = y;
                 shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;
-            }
+                this.game.pentalord = true
+
+            }else{
+                shape = new WepPentagon(this.game, false);
+                shape.positionData.values.x = x;
+                shape.positionData.values.y = y;
+                shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;
+            }}
             else{
             shape = new Pentagon(this.game, Math.random() <= 0.05);
 
