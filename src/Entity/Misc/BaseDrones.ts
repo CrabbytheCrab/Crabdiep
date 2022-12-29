@@ -48,54 +48,6 @@ const tankdef: TankDefinition = {
     "borderWidth": 15,
     "barrels": [
         {
-            "angle": -1.5707963267948966,
-            "offset": 0,
-            "size": 70,
-            "width": 42,
-            "delay": 0,
-            "reload": 6,
-            "recoil": 1,
-            "isTrapezoid": true,
-            "trapezoidDirection": 0,
-            "addon": null,
-            "droneCount": 2,
-            "canControlDrones": true,
-            "bullet": {
-                "type": "basedrone",
-                "sizeRatio": 1,
-                "health": 100,
-                "damage": 1.5,
-                "speed": 2.5,
-                "scatterRate": 1,
-                "lifeLength": -1,
-                "absorbtionFactor": 1
-            }
-        },
-        {
-            "angle": 1.5707963267948966,
-            "offset": 0,
-            "size": 70,
-            "width": 42,
-            "delay": 0,
-            "reload": 6,
-            "recoil": 1,
-            "isTrapezoid": true,
-            "trapezoidDirection": 0,
-            "addon": null,
-            "droneCount": 2,
-            "canControlDrones": true,
-            "bullet": {
-                "type": "basedrone",
-                "sizeRatio": 1,
-                "health": 100,
-                "damage": 1.5,
-                "speed": 2.5,
-                "scatterRate": 1,
-                "lifeLength": -1,
-                "absorbtionFactor": 1
-            }
-        },
-        {
             "angle": 0,
             "offset": 0,
             "size": 70,
@@ -111,33 +63,9 @@ const tankdef: TankDefinition = {
             "bullet": {
                 "type": "basedrone",
                 "sizeRatio": 1,
-                "health": 100,
+                "health": 10000,
                 "damage": 1.5,
-                "speed": 2.5,
-                "scatterRate": 1,
-                "lifeLength": -1,
-                "absorbtionFactor": 1
-            }
-        },
-        {
-            "angle": 3.141592653589793,
-            "offset": 0,
-            "size": 70,
-            "width": 42,
-            "delay": 0,
-            "reload": 6,
-            "recoil": 1,
-            "isTrapezoid": true,
-            "trapezoidDirection": 0,
-            "addon": null,
-            "droneCount": 2,
-            "canControlDrones": true,
-            "bullet": {
-                "type": "basedrone",
-                "sizeRatio": 1,
-                "health": 100,
-                "damage": 1.5,
-                "speed": 2.5,
+                "speed": 3.0,
                 "scatterRate": 1,
                 "lifeLength": -1,
                 "absorbtionFactor": 1
