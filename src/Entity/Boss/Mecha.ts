@@ -131,8 +131,8 @@ export default class Mecha extends AbstractBoss {
         const offsetRatio = 0;
         const size = this.physicsData.values.size;
 
-        rotator.setParent(this);
-        rotator.relationsData.values.owner = this;
+       // rotator.setParent(this);
+        //rotator.relationsData.values.owner = this;
         rotator.relationsData.values.team = this.relationsData.values.team
         rotator.physicsData.values.size =  this.physicsData.values.size * 0.75;
         rotator.positionData.values.x = offsetRatio * size;
