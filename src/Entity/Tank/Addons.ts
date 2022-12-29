@@ -586,6 +586,7 @@ export class OverdriveAddon extends Addon {
         oversquare.physicsData.values.size = sizeRatio * size;
         oversquare.positionData.values.x = offsetRatio * size;
         oversquare.positionData.values.angle = 0;
+        oversquare.styleData.zIndex -= 2;
         
         oversquare.styleData.values.color = Color.Border;
         oversquare.physicsData.values.sides = 6;
