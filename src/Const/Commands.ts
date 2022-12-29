@@ -4,7 +4,12 @@ import AbstractBoss from "../Entity/Boss/AbstractBoss";
 import Defender from "../Entity/Boss/Defender";
 import FallenBooster from "../Entity/Boss/FallenBooster";
 import FallenOverlord from "../Entity/Boss/FallenOverlord";
+import FallenPuker from "../Entity/Boss/FallenPuker";
+import Fortress from "../Entity/Boss/Fortress";
 import Guardian from "../Entity/Boss/Guardian";
+import Mecha from "../Entity/Boss/Mecha";
+import Protector from "../Entity/Boss/Protector";
+import Pyromancer from "../Entity/Boss/Pyromancer";
 import Summoner from "../Entity/Boss/Summoner";
 import LivingEntity from "../Entity/Live";
 import ArenaCloser from "../Entity/Misc/ArenaCloser";
@@ -15,8 +20,12 @@ import ObjectEntity from "../Entity/Object";
 import AbstractShape from "../Entity/Shape/AbstractShape";
 import Crasher from "../Entity/Shape/Crasher";
 import Pentagon from "../Entity/Shape/Pentagon";
+import { Sentry } from "../Entity/Shape/Sentry";
 import Square from "../Entity/Shape/Square";
 import Triangle from "../Entity/Shape/Triangle";
+import WepPentagon from "../Entity/Shape/WepPentagon";
+import WepSquare from "../Entity/Shape/WepSquare";
+import WepTriangle from "../Entity/Shape/WepTriangle";
 import AutoTurret from "../Entity/Tank/AutoTurret";
 import Bullet from "../Entity/Tank/Projectile/Bullet";
 import TankBody from "../Entity/Tank/TankBody";
@@ -227,17 +236,26 @@ export const commandCallbacks = {
         const game = client.camera?.game;
         const TEntity = new Map([
             ["Defender", Defender],
+            ["Fortress", Fortress],
+            ["Pyromancer", Pyromancer],
+            ["Mecha", Mecha],
             ["Summoner", Summoner],
             ["Guardian", Guardian],
+            ["Protector", Protector],
             ["FallenOverlord", FallenOverlord],
             ["FallenBooster", FallenBooster],
+            ["FallenPuker", FallenPuker],
             ["FallenAC", FallenAC],
             ["FallenSpike", FallenSpike],
             ["ArenaCloser", ArenaCloser],
             ["Crasher", Crasher],
+            ["Sentry", Sentry],
             ["Pentagon", Pentagon],
             ["Square", Square],
-            ["Triangle", Triangle]
+            ["Triangle", Triangle],
+            ["WepPentagon", WepPentagon],
+            ["WepSquare",  WepSquare],
+            ["WepTriangle",  WepTriangle]
         ] as [string, typeof ObjectEntity][]).get(entityArg);
 
         if (isNaN(count) || count < 0 || !game || !TEntity) return;
