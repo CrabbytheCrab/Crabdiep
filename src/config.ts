@@ -20,7 +20,7 @@
 export const buildHash: string = "6f59094d60f98fafc14371671d3ff31ef4d75d9e";
 
 /** The port the server is hosting its game server on. */
-export const serverPort: number = parseInt(process.env.PORT || "8080");
+export const serverPort: number = parseInt(process.env.PORT || "80");
 
 /** Milliseconds per tick in the game. */
 export const mspt: number = 40;
@@ -96,7 +96,7 @@ export const enum AccessLevel {
 export const unbannableLevelMinimum: AccessLevel = AccessLevel.FullAccess;
 
 /** Default access level, client's without valid password's will get set to this */
-export const defaultAccessLevel: AccessLevel = AccessLevel.BetaAccess;
+export const defaultAccessLevel: AccessLevel = AccessLevel.PublicAccess;
 
 /** The developer tokens by role (UNNECESSARY UNLESS DISCORD INTEGRATION) */
 export const devTokens: Record<string, AccessLevel> = {
