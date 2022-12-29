@@ -263,6 +263,7 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
 
     public onDeath(killer: LivingEntity) {
         // Reset arena.boss
+        if(this.isAlpha){
         this.game.pentalord = false
 
         const killerName = (killer instanceof TankBody && killer.nameData.values.name) || "an unnamed tank"
@@ -271,6 +272,6 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
             .stringNT(`The ${this.nameData.values.name} has been defeated by ${killerName}!`)
             .u32(0x000000)
             .float(10000)
-            .stringNT("").send();
+            .stringNT("").send();}
     }
 }
