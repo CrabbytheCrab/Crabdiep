@@ -73,7 +73,7 @@ const GuardianSpawnerDefinition2: BarrelDefinition = {
         type: "trap",
         sizeRatio:0.8,
         health: 4,
-        damage: 8,
+        damage: 6.75,
         speed: 2,
         scatterRate: 1,
         lifeLength: 1,
@@ -97,8 +97,8 @@ const GuardianSpawnerDefinition3: BarrelDefinition = {
         type: "pentadrone",
         sizeRatio:1,
         health: 2,
-        damage: 6,
-        speed: 4,
+        damage: 4,
+        speed: 3,
         scatterRate: 0,
         lifeLength: -1,
         absorbtionFactor: 1,
@@ -156,10 +156,10 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
                 type: "bullet",
                 sizeRatio: 1,
                 health: 4,
-                damage: 3,
+                damage: 2.5,
                 speed: 2,
                 scatterRate: 0.3,
-                lifeLength: 1.75,
+                lifeLength: 1,
                 absorbtionFactor: 0.1,
                 color: Color.Neutral
             }
@@ -241,7 +241,7 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
                 }));
             }
             }
-        this.healthData.values.health = this.healthData.values.maxHealth = (isAlpha ? 8000 : 2000);
+        this.healthData.values.health = this.healthData.values.maxHealth = (isAlpha ? 7000 : 2000);
         this.physicsData.values.size = (isAlpha ? 225 : 93.75) * Math.SQRT1_2;
         this.physicsData.values.sides = 5;
         this.styleData.values.color = shiny ? Color.Shiny : Color.EnemyPentagon;
@@ -253,7 +253,7 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
         this.isShiny = shiny;
 
         this.damagePerTick = isAlpha ? 40 : 16;
-        this.scoreReward = isAlpha ? 45000 : 4000;
+        this.scoreReward = isAlpha ? 45000 : 1500;
         
         if (shiny) {
             this.scoreReward *= 100;
