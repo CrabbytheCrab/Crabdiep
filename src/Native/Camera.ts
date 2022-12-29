@@ -121,7 +121,7 @@ export default class ClientCamera extends CameraEntity {
         if (level <= 0) return 0;
         if (level <= 28) return level - 1;
 
-        return Math.floor(level / 3) + 19;
+        return Math.floor(level / 3) + 20;
     }
 
     public constructor(game: GameServer, client: Client) {
