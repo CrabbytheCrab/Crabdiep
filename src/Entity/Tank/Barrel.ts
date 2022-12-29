@@ -211,7 +211,7 @@ export default class Barrel extends ObjectEntity {
                 break;
             case 'basedrone':
                 const drone = new Drone(this, this.tank, tankDefinition, angle);
-                drone.ai.viewRange = 4500;
+                drone.ai.viewRange = 3250;
                 drone.ai.targetFilter = (targetPos, team) => team !== this.game.arena && (targetPos.x - this.tank.positionData.values.x) ** 2 + (targetPos.y - this.tank.positionData.values.y) ** 2 <= drone.ai.viewRange ** 2;
                 drone.ai["_findTargetInterval"] = tps;
                 break;
