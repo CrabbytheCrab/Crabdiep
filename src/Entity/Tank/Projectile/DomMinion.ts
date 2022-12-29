@@ -34,20 +34,20 @@ import { BarrelBase } from "../TankBody";
     size: 95,
     width: 42,
     delay: 0,
-    reload: 1,
+    reload: 3,
     recoil: 1.35,
     isTrapezoid: false,
     trapezoidDirection: 0,
     addon: null,
     bullet: {
         type: "bullet",
-        health: 1.4,
-        damage: 1.5,
-        speed: 2,
+        health: 2,
+        damage: 3.5,
+        speed: 3,
         scatterRate: 1,
         lifeLength: 1,
         sizeRatio: 1,
-        absorbtionFactor: 1
+        absorbtionFactor: 0.4
     }
 };
 
@@ -57,20 +57,20 @@ const MinionBarrelDefinition2: BarrelDefinition = {
     size: 85,
     width: 42,
     delay: 0.5,
-    reload: 1,
+    reload: 3,
     recoil: 1.35,
     isTrapezoid: false,
     trapezoidDirection: 0,
     addon: null,
     bullet: {
         type: "bullet",
-        health: 1.4,
-        damage: 1.5,
-        speed: 2,
+        health: 2,
+        damage: 3.5,
+        speed: 3,
         scatterRate: 1,
         lifeLength: 1,
         sizeRatio: 1,
-        absorbtionFactor: 1
+        absorbtionFactor: 0.4
     }
 };
 
@@ -80,20 +80,20 @@ const MinionBarrelDefinition3: BarrelDefinition = {
     size: 85,
     width: 42,
     delay: 0.5,
-    reload: 1,
+    reload: 3,
     recoil: 1.35,
     isTrapezoid: false,
     trapezoidDirection: 0,
     addon: null,
     bullet: {
         type: "bullet",
-        health: 1.4,
-        damage: 1.5,
-        speed: 2,
+        health: 2,
+        damage: 3.5,
+        speed: 3,
         scatterRate: 1,
         lifeLength: 1,
         sizeRatio: 1,
-        absorbtionFactor: 1
+        absorbtionFactor: 0.4
     }
 };
 
