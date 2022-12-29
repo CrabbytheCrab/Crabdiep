@@ -48,10 +48,10 @@ import MazeArena from "./Gamemodes/Maze";
  */
 class WSSWriterStream extends Writer {
     private game: GameServer;
-
     public constructor(game: GameServer) {
         super();
         this.game = game;
+
     }
 
     public send() {
@@ -133,10 +133,12 @@ const HOSTED_ENDPOINTS: string[] = [];
 
     /** The interval timer of the tick loop. */
     private _tickInterval: NodeJS.Timeout;
+        public pentalord: boolean;
 
     public constructor(wss: Server, gamemode: DiepGamemodeID, name: string | "*") {
         this.gamemode = gamemode;
         this.name = name;
+        this.pentalord = false
 
         this.wss = wss;
 

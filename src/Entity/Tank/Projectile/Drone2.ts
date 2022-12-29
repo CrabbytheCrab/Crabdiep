@@ -91,8 +91,8 @@ export default class Drone2 extends Bullet {
             
                 let unitDist = (delta.x ** 2 + delta.y ** 2) / Drone2.MAX_RESTING_RADIUS;
                 const offset = Math.atan2(delta.y, delta.x) + Math.PI / 2
-                delta.x = this.tank.positionData.values.x + Math.cos(offset) * this.tank.physicsData.values.size * 1.2 - this.positionData.values.x;
-                delta.y = this.tank.positionData.values.y + Math.sin(offset) * this.tank.physicsData.values.size * 1.2 - this.positionData.values.y;
+                delta.x = this.tank.positionData.values.x + Math.cos(offset) * this.tank.physicsData.values.size * 0.75 - this.positionData.values.x;
+                delta.y = this.tank.positionData.values.y + Math.sin(offset) * this.tank.physicsData.values.size * 0.75 - this.positionData.values.y;
                 this.movementAngle = Math.atan2(delta.y, delta.x);
                 if (unitDist < 0.1){ this.baseAccel /= 3;
                 this.destroy()}
@@ -119,8 +119,8 @@ export default class Drone2 extends Bullet {
                 } else this.movementAngle = this.positionData.values.angle;
                 let unitDist = (delta.x ** 2 + delta.y ** 2) / Drone2.MAX_RESTING_RADIUS;
                 const offset = Math.atan2(delta.y, delta.x) + Math.PI / 2
-                delta.x = this.tank.positionData.values.x + Math.cos(offset) * this.tank.physicsData.values.size * 1.2 - this.positionData.values.x;
-                delta.y = this.tank.positionData.values.y + Math.sin(offset) * this.tank.physicsData.values.size * 1.2 - this.positionData.values.y;
+                delta.x = this.tank.positionData.values.x + Math.cos(offset) * this.tank.physicsData.values.size * 3 - this.positionData.values.x;
+                delta.y = this.tank.positionData.values.y + Math.sin(offset) * this.tank.physicsData.values.size * 3 - this.positionData.values.y;
                 this.movementAngle = Math.atan2(delta.y, delta.x);
                 
                 if (unitDist < 0.1){
