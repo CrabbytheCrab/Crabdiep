@@ -15609,11 +15609,11 @@ const TankDefinitions = JSON.parse(`[
                     "type": "drone2",
                     "sizeRatio": 1,
                     "health": 2,
-                    "damage": 0.8,
-                    "speed": 1.75,
+                    "damage": 1,
+                    "speed": 2,
                     "scatterRate": 1,
                     "lifeLength": 3.5,
-                    "absorbtionFactor": 1
+                    "absorbtionFactor": 0.35
                 }
             }
         ],
