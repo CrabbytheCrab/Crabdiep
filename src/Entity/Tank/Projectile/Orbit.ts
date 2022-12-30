@@ -30,7 +30,8 @@ import { PI2 } from "../../../util";
 /**
  * The drone class represents the drone (projectile) entity in diep.
  */
-export default class Drone2 extends Bullet {
+export default class Orbit extends Bullet {
+    public static occupiedSlots = new Uint8Array(100);
     /** The AI of the drone (for AI mode) */
     public static FOCUS_RADIUS = 850 ** 2;
     public ai: AI;
@@ -40,7 +41,7 @@ export default class Drone2 extends Bullet {
     public static BASE_ROTATION = 0.1;
     //private rotationPerTick = Drone.BASE_ROTATION;
     /** Used let the drone go back to the player in time. */
-    public num : number
+    public num : number = 0;
     public angles : number
     public timer : number
     /** Cached prop of the definition. */
@@ -66,13 +67,14 @@ export default class Drone2 extends Bullet {
 
         barrel.droneCount += 1;
         this.num = barrel.droneCount
+        Orbit.occupiedSlots[this.num] = 1;
         this.ai.movementSpeed = this.ai.aimSpeed = this.baseAccel;
     }
 
     /** Extends LivingEntity.destroy - so that the drone count decreases for the barrel. */
     public destroy(animate=true) {
         if (!animate) this.barrelEntity.droneCount -= 1;
-
+        Orbit.occupiedSlots[this.num] = 0;
         super.destroy(animate);
     }
     
@@ -81,6 +83,13 @@ export default class Drone2 extends Bullet {
     }
 
     public tick(tick: number) {
+        for (let n = 0; n < this.num; n++) {
+            if (Orbit.occupiedSlots[n] === 0) {
+                this.num--;
+                //only let it move down once at a time, prevents overlaps and weird stuff
+                break;
+            }
+        }
         if(this.fire == true){
             this.timer++
             if(this.timer == 5){
