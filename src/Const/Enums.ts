@@ -16,6 +16,8 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>
 */
 
+import { maxPlayerLevel } from "../config";
+
 /**
  * The IDs for all the team colors, by name.
  */
@@ -210,6 +212,8 @@ export const enum Tank {
     RubbleMaker   = 135,
     Fabricator    = 136,
     Orbiter       = 137,
+    PsiTank       = 138,
+    Barrager      = 139,
     Mothership    = 204
 }
 
@@ -373,9 +377,9 @@ export const enum NameFlags {
  * 
  * `[index: level]->score at level`
  */
-export const levelToScoreTable = Array(45).fill(0);
+export const levelToScoreTable = Array(maxPlayerLevel).fill(0);
 
-for (let i = 1; i < 45; ++i) {
+for (let i = 1; i < maxPlayerLevel; ++i) {
     levelToScoreTable[i] = levelToScoreTable[i - 1] + (40 / 9 * 1.06 ** (i - 1) * Math.min(31, i));
 }
 
@@ -388,7 +392,7 @@ for (let i = 1; i < 45; ++i) {
  * `(level)->score at level`
  */
 export function levelToScore(level: number): number {
-    if (level >= 45) return levelToScoreTable[44];
+    if (level >= maxPlayerLevel) return levelToScoreTable[maxPlayerLevel - 1];
     if (level <= 0) return 0;
 
     return levelToScoreTable[level - 1];

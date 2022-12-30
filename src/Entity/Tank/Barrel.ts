@@ -18,6 +18,7 @@ import * as util from "../../util";
 import Bullet from "./Projectile/Bullet";
 import Blunt from "./Projectile/Blunt";
 import BluntTrap from "./Projectile/BluntTrap";
+import Orbit from "./Projectile/Orbit";
 import Trap from "./Projectile/Trap";
 import Drone from "./Projectile/Drone";
 import Hive from "./Projectile/Hive";
@@ -209,6 +210,9 @@ export default class Barrel extends ObjectEntity {
                 break;
             case 'drone':
                 new Drone(this, this.tank, tankDefinition, angle);
+                break;
+            case 'orbit':
+                new Orbit(this, this.tank, tankDefinition, angle);
                 break;
             case 'pentadrone':
                 new Pentagon(this, this.tank, tankDefinition, angle);
