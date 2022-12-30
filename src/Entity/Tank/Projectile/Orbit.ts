@@ -89,6 +89,7 @@ export default class Orbit extends Bullet {
             if (Orbit.occupiedSlots[n] === 0) {
                 Orbit.occupiedSlots[this.num] -= 1;            
                 this.num--;
+                Orbit.occupiedSlots[this.num] += 1;
                 shifted = true;
                 //only let it move down once at a time, prevents overlaps and weird stuff
                 break;
@@ -97,6 +98,7 @@ export default class Orbit extends Bullet {
         if (!shifted && Orbit.occupiedSlots[this.num] > 1) {
             Orbit.occupiedSlots[this.num] -= 1;
             this.num++;
+            Orbit.occupiedSlots[this.num] += 1;
         }
         if(this.fire == true){
             this.timer++
