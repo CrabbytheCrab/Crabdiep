@@ -26,6 +26,7 @@ import { AI, AIState } from "../../AI";
 import { BarrelBase } from "../TankBody";
 import { CameraEntity } from "../../../Native/Camera";
 import { PI2 } from "../../../util";
+import { throws } from "assert";
 
 /**
  * The drone class represents the drone (projectile) entity in diep.
@@ -67,14 +68,14 @@ export default class Orbit extends Bullet {
 
         barrel.droneCount += 1;
         this.num = barrel.droneCount
-        Orbit.occupiedSlots[this.num] = 1;
+        Orbit.occupiedSlots[this.num] += 1;
         this.ai.movementSpeed = this.ai.aimSpeed = this.baseAccel;
     }
 
     /** Extends LivingEntity.destroy - so that the drone count decreases for the barrel. */
     public destroy(animate=true) {
         if (!animate) this.barrelEntity.droneCount -= 1;
-        Orbit.occupiedSlots[this.num] = 0;
+        Orbit.occupiedSlots[this.num] -= 1;
         super.destroy(animate);
     }
     
@@ -83,12 +84,19 @@ export default class Orbit extends Bullet {
     }
 
     public tick(tick: number) {
+        let shifted = false;
         for (let n = 0; n < this.num; n++) {
             if (Orbit.occupiedSlots[n] === 0) {
+                Orbit.occupiedSlots[this.num] -= 1;            
                 this.num--;
+                shifted = true;
                 //only let it move down once at a time, prevents overlaps and weird stuff
                 break;
             }
+        }
+        if (!shifted && Orbit.occupiedSlots[this.num] > 1) {
+            Orbit.occupiedSlots[this.num] -= 1;
+            this.num++;
         }
         if(this.fire == true){
             this.timer++
