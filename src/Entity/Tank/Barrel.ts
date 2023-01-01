@@ -87,10 +87,7 @@ export class ShootCycle {
                 this.pos = reloadTime;
                 return;
             }
-            if (typeof  TankBody.MAXORBS === 'number' && TankBody.OrbCount >= TankBody.MAXORBS) {
-                this.pos = reloadTime;
-                return;
-            }
+
         }
 
         if (this.pos >= reloadTime * (1 + this.barrelEntity.definition.delay)) {
