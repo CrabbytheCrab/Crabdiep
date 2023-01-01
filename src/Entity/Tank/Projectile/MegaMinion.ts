@@ -34,8 +34,8 @@ import { BarrelBase } from "../TankBody";
     size: 90,
     width: 75.6,
     delay: 0,
-    reload: 3,
-    recoil: 1.35,
+    reload: 3.25,
+    recoil: 8,
     isTrapezoid: false,
     trapezoidDirection: 0,
     addon: null,
@@ -45,7 +45,7 @@ import { BarrelBase } from "../TankBody";
         damage: 1,
         speed: 0.85,
         scatterRate: 1,
-        lifeLength: 1,
+        lifeLength: 0.75,
         sizeRatio: 1,
         absorbtionFactor: 0.1
     }

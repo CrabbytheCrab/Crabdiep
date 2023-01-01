@@ -64,6 +64,8 @@ export default class TankBody extends LivingEntity implements BarrelBase {
     public cameraEntity: CameraEntity;
     /** The inputs of the client, lets the barrels know when to shoot etc. */
     public inputs: Inputs;
+    public static MAXORBS = 0;
+    public static OrbCount = 0;
 
     /** The tank's barrels, if any. */
     public barrels: Barrel[] = [];
@@ -85,7 +87,6 @@ export default class TankBody extends LivingEntity implements BarrelBase {
         super(game);
         this.cameraEntity = camera;
         this.inputs = inputs;
-
         this.physicsData.values.size = 50;
         this.physicsData.values.sides = 1;
         this.styleData.values.color = Color.Tank;
@@ -129,7 +130,6 @@ export default class TankBody extends LivingEntity implements BarrelBase {
         // Get the new tank data
         const tank = getTankById(id);
         const camera = this.cameraEntity;
-
         if (!tank) throw new TypeError("Invalid tank ID");
         this.definition = tank;
         if (!Entity.exists(camera)) throw new Error("No camera");
@@ -312,6 +312,7 @@ export default class TankBody extends LivingEntity implements BarrelBase {
     }
 
     public tick(tick: number) {
+        TankBody.MAXORBS = this.definition.maxorbs
 
         this.positionData.angle = Math.atan2(this.inputs.mouse.y - this.positionData.values.y, this.inputs.mouse.x - this.positionData.values.x);
 

@@ -23,16 +23,14 @@ import { PhysicsFlags, StyleFlags } from "../../../Const/Enums";
 import { getTankById, TankDefinition } from "../../../Const/TankDefinitions";
 import { Entity } from "../../../Native/Entity";
 import { AI, AIState } from "../../AI";
-import { BarrelBase } from "../TankBody";
+import TankBody, { BarrelBase } from "../TankBody";
 import { CameraEntity } from "../../../Native/Camera";
 import { PI2 } from "../../../util";
-import { throws } from "assert";
 
 /**
  * The drone class represents the drone (projectile) entity in diep.
  */
 export default class Orbit extends Bullet {
-    public static occupiedSlots = new Uint8Array(100);
     /** The AI of the drone (for AI mode) */
     public static FOCUS_RADIUS = 850 ** 2;
     public ai: AI;
@@ -40,9 +38,10 @@ export default class Orbit extends Bullet {
     /** The drone's radius of resting state */
     public static MAX_RESTING_RADIUS = 400 ** 2;
     public static BASE_ROTATION = 0.1;
+    public static dronecount = new Array(100);
     //private rotationPerTick = Drone.BASE_ROTATION;
     /** Used let the drone go back to the player in time. */
-    public num : number = 0;
+    public num : number
     public angles : number
     public timer : number
     /** Cached prop of the definition. */
@@ -51,6 +50,8 @@ export default class Orbit extends Bullet {
     public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number) {
         super(barrel, tank, tankDefinition, shootAngle);
         //this.rotationPerTick = direction;
+        Orbit.dronecount = Orbit.dronecount.filter(val => val !== this.num)
+        Orbit.dronecount.push()
         const bulletDefinition = barrel.definition.bullet;
         this.usePosAngle = false;
         this.ai = new AI(this);
@@ -63,19 +64,20 @@ export default class Orbit extends Bullet {
         this.timer = 0
         this.physicsData.values.pushFactor = 4;
         this.physicsData.values.absorbtionFactor = bulletDefinition.absorbtionFactor;
-
         this.baseSpeed /= 3;
 
-        barrel.droneCount += 1;
-        this.num = barrel.droneCount
-        Orbit.occupiedSlots[this.num] += 1;
+        TankBody.OrbCount += 1;
+        this.num = TankBody.OrbCount
         this.ai.movementSpeed = this.ai.aimSpeed = this.baseAccel;
+        Orbit.dronecount[this.num] += 1;
     }
 
     /** Extends LivingEntity.destroy - so that the drone count decreases for the barrel. */
     public destroy(animate=true) {
-        if (!animate) this.barrelEntity.droneCount -= 1;
-        Orbit.occupiedSlots[this.num] -= 1;
+        Orbit.dronecount[this.num] -= 1;
+
+        if (!animate) TankBody.OrbCount -= 1;
+
         super.destroy(animate);
     }
     
@@ -86,19 +88,17 @@ export default class Orbit extends Bullet {
     public tick(tick: number) {
         let shifted = false;
         for (let n = 0; n < this.num; n++) {
-            if (Orbit.occupiedSlots[n] === 0) {
-                Orbit.occupiedSlots[this.num] -= 1;            
+            if (Orbit.dronecount[n] === 0) {
+                Orbit.dronecount[this.num] -= 1;            
                 this.num--;
-                Orbit.occupiedSlots[this.num] += 1;
                 shifted = true;
                 //only let it move down once at a time, prevents overlaps and weird stuff
                 break;
             }
         }
-        if (!shifted && Orbit.occupiedSlots[this.num] > 1) {
-            Orbit.occupiedSlots[this.num] -= 1;
-            this.num++;
-            Orbit.occupiedSlots[this.num] += 1;
+        if (!shifted && Orbit.dronecount[this.num] > 1) {
+            //this.num++;
+            Orbit.dronecount[this.num] -= 1;
         }
         if(this.fire == true){
             this.timer++
@@ -108,6 +108,7 @@ export default class Orbit extends Bullet {
             }
         }
             if(this.fire == false){
+            if (!Entity.exists(this.barrelEntity)) this.destroy()
             this.lifeLength = Infinity;
             this.spawnTick = this.barrelEntity.game.tick;
                 const delta = {
@@ -119,7 +120,7 @@ export default class Orbit extends Bullet {
                     y: this.positionData.values.y - this.tank.positionData.values.y
                 }
                 const base = this.baseAccel;
-            let angle = PI2 * ((this.num)/ this.barrelEntity.droneCount);
+            let angle = PI2 * ((this.num)/TankBody.OrbCount);
             //const offset = (Math.atan2(delta.y, delta.x) + Math.PI/ 2)
 
                 const offset2 =  Math.atan2(this.tank.positionData.values.y, this.tank.positionData.values.x ) +  Math.PI /(this.barrelEntity.droneCount/this.num)

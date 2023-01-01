@@ -90,6 +90,7 @@ const DevTankDefinitions: TankDefinition[] = [
         postAddon: null,
         maxHealth: 50,
         borderWidth: 15,
+        maxorbs: 1,
         sides: 1,
         stats: [
             {
@@ -194,6 +195,7 @@ const DevTankDefinitions: TankDefinition[] = [
         postAddon: null,
         maxHealth: 50,
         borderWidth: 15,
+        maxorbs: 1,
         sides: 1,
         stats: [
             {
@@ -275,6 +277,7 @@ const DevTankDefinitions: TankDefinition[] = [
         postAddon: null,
         maxHealth: 50,
         borderWidth: 15,
+        maxorbs: 1,
         sides: 1,
         stats: [
             {
@@ -333,6 +336,7 @@ const DevTankDefinitions: TankDefinition[] = [
         postAddon: null,
         sides: 7,
         borderWidth: 15,
+        maxorbs: 1,
         barrels: [
             {
                 angle: PI2/ 7 * 0,
@@ -546,6 +550,7 @@ const DevTankDefinitions: TankDefinition[] = [
         postAddon: null,
         sides: 1,
         borderWidth: 15,
+        maxorbs: 1,
         barrels: [
             {
                 angle: 0,
@@ -677,6 +682,7 @@ const DevTankDefinitions: TankDefinition[] = [
         postAddon: "autorocket",
         sides: 1,
         borderWidth: 15,
+        maxorbs: 1,
         barrels: [
             {
                 angle: 0,
@@ -802,6 +808,7 @@ const DevTankDefinitions: TankDefinition[] = [
         postAddon: "spiesk",
         sides: 1,
         borderWidth: 15,
+        maxorbs: 1,
         barrels: [
             {
                 angle: Math.PI,
@@ -1172,6 +1179,7 @@ const DevTankDefinitions: TankDefinition[] = [
         postAddon: null,
         maxHealth: 50,
         borderWidth: 15,
+        maxorbs: 1,
         sides: 1,
         stats: [
             {
@@ -1230,6 +1238,7 @@ const DevTankDefinitions: TankDefinition[] = [
         postAddon: null,
         sides: 1,
         borderWidth: 15,
+        maxorbs: 1,
         barrels: [
             {
                 angle: 0,
@@ -1333,6 +1342,7 @@ const DevTankDefinitions: TankDefinition[] = [
         postAddon: null,
         sides: 5,
         borderWidth: 15,
+        maxorbs: 1,
         barrels: [
             {
                 angle: 0,
@@ -1414,6 +1424,7 @@ const DevTankDefinitions: TankDefinition[] = [
         postAddon: null,
         sides: 1,
         borderWidth: 15,
+        maxorbs: 1,
         barrels: [
             // 7 ac bullets gg
             {angle:-0.15,offset:0,size:75,width:42,delay:0,reload:1,recoil:0.1,isTrapezoid:false,trapezoidDirection:0,addon:null,bullet:{type:"bullet",sizeRatio:1,health:300,damage:7,speed:2,scatterRate:1,lifeLength:1,absorbtionFactor:1}},
@@ -1481,6 +1492,7 @@ const DevTankDefinitions: TankDefinition[] = [
         postAddon: null,
         sides: 0,
         borderWidth: 15,
+        maxorbs: 1,
         barrels: [],
         stats: [
             {
@@ -1539,6 +1551,7 @@ const DevTankDefinitions: TankDefinition[] = [
         postAddon: null,
         sides: 1,
         borderWidth: 15,
+        maxorbs: 1,
         barrels: [
             {
                 angle: 0,
@@ -1620,6 +1633,7 @@ const DevTankDefinitions: TankDefinition[] = [
         postAddon: "pronounced",
         sides: 1,
         borderWidth: 15,
+        maxorbs: 1,
         barrels: [
             {
                 angle: 0,
@@ -1789,6 +1803,7 @@ const DevTankDefinitions: TankDefinition[] = [
         postAddon: null,
         sides: 1,
         borderWidth: 15,
+        maxorbs: 1,
         barrels: [
             {
                 angle: PI2/ 6 * 1,
