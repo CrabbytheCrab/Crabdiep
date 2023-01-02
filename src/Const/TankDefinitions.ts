@@ -15919,7 +15919,7 @@ const TankDefinitions = JSON.parse(`[
                 "size": 60,
                 "width": 42,
                 "delay": 0,
-                "reload": 3.75,
+                "reload": 3.25,
                 "recoil": 1,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
@@ -15931,7 +15931,7 @@ const TankDefinitions = JSON.parse(`[
                     "damage": 1,
                     "speed": 2,
                     "scatterRate": 1,
-                    "lifeLength": 2,
+                    "lifeLength": 2.25,
                     "absorbtionFactor": 1
                 }
             }
