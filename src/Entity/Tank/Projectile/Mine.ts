@@ -37,7 +37,7 @@ const Bombshot1: BarrelDefinition = {
     angle: 0,
     offset: 0,
     size: 0,
-    width: 50.4,
+    width: 75,
     delay: 0,
     reload: 1,
     recoil: 1,
@@ -47,12 +47,12 @@ const Bombshot1: BarrelDefinition = {
     bullet: {
         type: "bullet",
         health: 0.9,
-        damage: 0.4,
+        damage: 1.4,
         speed: 0.8,
-        scatterRate: 1,
-        lifeLength: 1,
+        scatterRate: 0.3,
+        lifeLength: 0.65,
         sizeRatio: 1,
-        absorbtionFactor: 1
+        absorbtionFactor: 0.3
     }
 };
 export default class Mine extends Bullet implements BarrelBase {
