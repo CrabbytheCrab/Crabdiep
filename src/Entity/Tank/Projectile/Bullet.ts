@@ -34,9 +34,9 @@ export default class Bullet extends LivingEntity {
     /** The tick this entity was created in. */
     protected spawnTick = 0;
     /** Speed the bullet will accelerate at. */
-    protected baseAccel = 0;
+    public baseAccel = 0;
     /** Starting velocity of the bullet. */
-    protected baseSpeed = 0;
+    public baseSpeed = 0;
     /** Percent of accel applied when dying. */
     protected deathAccelFactor = 0.5;
     /** Life length in ticks before the bullet dies. */

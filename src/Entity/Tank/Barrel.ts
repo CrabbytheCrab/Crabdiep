@@ -50,6 +50,7 @@ import NecromancerPentagon from "./Projectile/NecromancerPenta";
 import Pentagon from "./Projectile/PentaDrone";
 import NecromancerTriangle from "./Projectile/NecromancerTriangle";
 import MegaSpinner from "./Projectile/MegaSpinner";
+import Mine from "./Projectile/Mine";
 /**
  * Class that determines when barrels can shoot, and when they can't.
  */
@@ -87,7 +88,10 @@ export class ShootCycle {
                 this.pos = reloadTime;
                 return;
             }
-
+            if (typeof  TankBody.MAXORBS === 'number' && TankBody.OrbCount >= TankBody.MAXORBS) {
+                this.pos = reloadTime;
+                return;
+            }
         }
 
         if (this.pos >= reloadTime * (1 + this.barrelEntity.definition.delay)) {
@@ -208,6 +212,9 @@ export default class Barrel extends ObjectEntity {
             }
             case 'trap':
                 new Trap(this, this.tank, tankDefinition, angle, this.rootParent);
+                break;
+            case 'mine':
+                new Mine(this, this.tank, tankDefinition, angle, this.rootParent);
                 break;
             case 'drone':
                 new Drone(this, this.tank, tankDefinition, angle);

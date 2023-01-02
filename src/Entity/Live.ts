@@ -37,7 +37,7 @@ export default class LivingEntity extends ObjectEntity {
     /** Amount of health gained per tick. */
     protected regenPerTick = 0;
     /** The damage this entity can emit onto another per tick. */
-    protected damagePerTick = 8;
+    public damagePerTick = 8;
     /** Entities who have went through damage cycles with this entity in the past tick. No repeats. */
     protected damagedEntities: LivingEntity[] = [];
     /** Last tick that damage was received. */

@@ -24,6 +24,7 @@ import { BarrelDefinition, TankDefinition } from "../../../Const/TankDefinitions
 import { Entity } from "../../../Native/Entity";
 import { AIState, Inputs } from "../../AI";
 import { BarrelBase } from "../TankBody";
+import Bullet from "./Bullet";
 
 /**
  * Barrel definition for the factory minion's barrel.
@@ -112,6 +113,7 @@ export default class Minion extends Drone implements BarrelBase {
             if (dist < Minion.FOCUS_RADIUS / 4) { // Half
                 this.movementAngle = this.positionData.values.angle + Math.PI;
             } else if (dist < Minion.FOCUS_RADIUS) {
+                new Bullet(this.barrelEntity, this.tank, null, this.positionData.values.angle)
                this.movementAngle = this.positionData.values.angle;
             } else this.movementAngle = this.positionData.values.angle;
         }

@@ -33,6 +33,7 @@ import ObjectEntity from "../../Object";
  */
 export default class NecromancerSquare extends Drone {
     protected invisibile: boolean;
+    public static INVIS_RADIUS = 825 ** 2;
 
     public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number) {
         super(barrel, tank, tankDefinition, shootAngle);
@@ -85,11 +86,19 @@ export default class NecromancerSquare extends Drone {
 
     public tick(tick: number) {
         super.tick(tick);
+        const dist = (this.positionData.x - this.tank.positionData.x) ** 2 + (this.positionData.y - this.tank.positionData.y) ** 2
         if(this.invisibile == true){
             //if(this.restCycle == false)this.styleData.opacity += 0.08;
-            if(this.ai.state !== AIState.idle && this.ai.target != this.tank || this.tank.inputs.attemptingShot() || this.tank.inputs.attemptingRepel())this.styleData.opacity += 0.13;
+          /*  if(this.ai.state !== AIState.idle && this.ai.target != this.tank || this.tank.inputs.attemptingShot() || this.tank.inputs.attemptingRepel())this.styleData.opacity += 0.13;
             this.styleData.opacity -= 0.03
-            this.styleData.opacity = util.constrain(this.styleData.values.opacity, 0, 1);
+            this.styleData.opacity = util.constrain(this.styleData.values.opacity, 0, 1);*/
+            //if(dist < NecromancerSquare.INVIS_RADIUS)this.styleData.opacity += 0.13;
+            if (dist > NecromancerSquare.INVIS_RADIUS / 4) { // Half
+                this.styleData.opacity += 0.1
+                this.movementAngle = this.positionData.values.angle + Math.PI;
+            } else this.styleData.opacity -= 0.025
+            //this.styleData.opacity -= 0.03
+            this.styleData.opacity = util.constrain(this.styleData.values.opacity, 0.05, 1);
         }
     }
 }

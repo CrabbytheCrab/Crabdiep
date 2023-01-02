@@ -66,8 +66,8 @@ export default class Orbit extends Bullet {
         this.physicsData.values.absorbtionFactor = bulletDefinition.absorbtionFactor;
         this.baseSpeed /= 3;
 
-       barrel.droneCount += 1;
-        this.num = barrel.droneCount
+        TankBody.OrbCount += 1;
+        this.num = TankBody.OrbCount
         this.ai.movementSpeed = this.ai.aimSpeed = this.baseAccel;
         Orbit.dronecount[this.num] += 1;
     }
@@ -76,7 +76,7 @@ export default class Orbit extends Bullet {
     public destroy(animate=true) {
         Orbit.dronecount[this.num] -= 1;
 
-        if (!animate)  this.barrelEntity.droneCount -= 1;
+        if (!animate) TankBody.OrbCount -= 1;
 
         super.destroy(animate);
     }
@@ -120,7 +120,7 @@ export default class Orbit extends Bullet {
                     y: this.positionData.values.y - this.tank.positionData.values.y
                 }
                 const base = this.baseAccel;
-            let angle = PI2 * ((this.num)/this.barrelEntity.droneCount);
+            let angle = PI2 * ((this.num)/TankBody.OrbCount);
             //const offset = (Math.atan2(delta.y, delta.x) + Math.PI/ 2)
 
                 const offset2 =  Math.atan2(this.tank.positionData.values.y, this.tank.positionData.values.x ) +  Math.PI /(this.barrelEntity.droneCount/this.num)
