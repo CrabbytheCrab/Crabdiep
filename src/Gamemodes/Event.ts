@@ -52,15 +52,15 @@ class EventShapeManager extends ShapeManager {
             shape.positionData.x += Math.random() > 0.5 ? Math.random() * Math.pow(this.wantedWeaponizedShapes, 2) : -Math.random() * Math.pow(this.wantedWeaponizedShapes, 2);
             shape.positionData.y = Math.random() > 0.5 ? this.arena.height / 2.5 * Math.sin(angle) : -this.arena.height / 3 * Math.sin(angle);
             shape.positionData.y += Math.random() > 0.5 ? Math.random() * Math.pow(this.wantedWeaponizedShapes, 2) : -Math.random() * Math.pow(this.wantedWeaponizedShapes, 2);
-        } while(Math.sqrt(shape.getWorldPosition().distanceToSQ(arena.blueTeamNexus.getWorldPosition())) > 4000 && Math.sqrt(shape.getWorldPosition().distanceToSQ(arena.redTeamNexus.getWorldPosition())) > 4000);
+        } while(Math.sqrt(shape.getWorldPosition().distanceToSQ(arena.blueTeamNexus.getWorldPosition())) < 4000 || Math.sqrt(shape.getWorldPosition().distanceToSQ(arena.redTeamNexus.getWorldPosition())) < 4000);
         shape.relationsData.owner = shape.relationsData.team = this.arena;
         shape.scoreReward *= this.arena.shapeScoreRewardMultiplier;
         return shape;
     }
 
-    protected get wantedShapes() {
+    public get wantedShapes() {
         if(this.arena.state !== ArenaState.OPEN) return 0;
-        return 100;
+        return 250;
     }
 
     private get wantedWeaponizedShapes() {
@@ -89,6 +89,8 @@ export default class EventArena extends ArenaEntity {
     /** Red Team entity */
     public redTeamBase: TeamBase;
 
+    private spawnerBase: TeamBase;
+
     public blueTeamNexus: Nexus;
     public redTeamNexus: Nexus;
 
@@ -105,6 +107,8 @@ export default class EventArena extends ArenaEntity {
         this.blueTeamNexus = new Nexus(game, this.blueTeamBase, NEXUS_CONFIG);
         this.redTeamBase = new TeamBase(game, new TeamEntity(this.game, Color.TeamRed), 0, ARENA_SIZE / 2 - BASE_SIZE / 2, BASE_SIZE, BASE_SIZE, false);
         this.redTeamNexus = new Nexus(game, this.redTeamBase, NEXUS_CONFIG);
+
+        this.spawnerBase = new TeamBase(game, new TeamEntity(this.game, Color.EnemyPentagon), 0, 0, this.shapes.wantedShapes * 10, this.shapes.wantedShapes * 10, false);
     }
 
     public spawnPlayer(tank: TankBody, client: Client) {
@@ -145,6 +149,7 @@ export default class EventArena extends ArenaEntity {
         this.blueTeamNexus.destroy();
         this.redTeamBase.delete();
         this.redTeamNexus.destroy();
+        this.spawnerBase.delete();
 
         for(const client of this.game.clients) {
             if(!(client.camera?.cameraData.player instanceof TankBody)) continue;
