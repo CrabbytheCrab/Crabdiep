@@ -71,6 +71,8 @@ export default class Nexus extends LivingEntity {
 
         this.positionData.x = base.positionData.x;
         this.positionData.y = base.positionData.y;
+
+        this.scoreReward = 100000;
     }
 
     public notifyShieldBroke() {
@@ -173,6 +175,8 @@ export class NexusShield extends LivingEntity {
         this.physicsData.flags |= PhysicsFlags.isSolidWall;
         this.physicsData.sides = 7;
         this.physicsData.size = size;
+
+        this.scoreReward = 10000;
     }
 
     public revive() {
@@ -185,7 +189,7 @@ export class NexusShield extends LivingEntity {
 
     public onDeath(killer: LivingEntity): void {
         if(this.isBroken) return;
-        this.healthData.health = 1;
+        this.healthData.health = this.healthData.maxHealth * 0.333;
         this.physicsData.sides = 0;
         this.isBroken = true;
         this.brokenTick = this.game.tick;

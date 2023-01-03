@@ -115,7 +115,7 @@ export default class EventArena extends ArenaEntity {
         if(!this.playerTeamMap.get(client) && client.connectTick + tps * 120 > this.game.tick) {
             client.notify("Welcome player, destroy the enemy Nexus to win the game.", 0xFF00FF, 10000);
             setTimeout(() => client.notify("Press H to sacrifice yourself to your team's Nexus. You have to be close to it to perform the sacrifice.", 0xFF00FF, 10000), 4000);
-            setTimeout(() => client.notify("Your sacrifice will result in the Nexus regenerating it's shield (2x) and health (0.1x) according to your health.", 0xFF00FF, 10000), 8000);
+            setTimeout(() => client.notify("Your sacrifice will result in the Nexus regenerating it's shield (2x) or health (0.1x) according to your health.", 0xFF00FF, 10000), 8000);
         }
 
         tank.positionData.values.y = ARENA_SIZE * Math.random() - ARENA_SIZE;
@@ -143,7 +143,7 @@ export default class EventArena extends ArenaEntity {
 		this.arenaData.flags |= ArenaFlags.noJoining;
         saveToLog("Arena Closing", "Arena running at `" + this.game.gamemode + "` is now closing.", 0xFFE869);
 
-        this.closingTick = this.game.tick + tps * 60;
+        this.closingTick = this.game.tick + tps * 45;
 
         this.blueTeamBase.delete();
         this.blueTeamNexus.destroy();
