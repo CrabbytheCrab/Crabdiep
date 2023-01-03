@@ -19,7 +19,7 @@
 import GameServer from "../../Game";
 import LivingEntity from "../Live";
 
-import { Color, PositionFlags, NameFlags } from "../../Const/Enums";
+import { PositionFlags, NameFlags } from "../../Const/Enums";
 import { NameGroup } from "../../Native/FieldGroups";
 import { AI } from "../AI";
 import { normalizeAngle, PI2 } from "../../util";
