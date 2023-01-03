@@ -60,14 +60,13 @@ export default class ShapeManager {
         if (Math.max(x, y) < rightX / 10 && Math.min(x, y) > leftX / 10) {
             // Pentagon Nest
             if(rand2 < this.weaponchance * 1.25){
-                if(rand2 < this.alphachance && this.game.pentalord == false){
+                if(rand2 < this.alphachance){
 
                 shape = new WepPentagon(this.game, true);
 
                 shape.positionData.values.x = x;
                 shape.positionData.values.y = y;
                 shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;
-                this.game.pentalord = true
 
             }else{
                 shape = new WepPentagon(this.game, false);

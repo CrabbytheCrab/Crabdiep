@@ -33,12 +33,6 @@ import BaseDrones from "../Entity/Misc/BaseDrones";
  const arenaSize = 11150;
  const baseWidth = 2230;
  const domBaseSize = baseWidth / 2;
- const CELL_SIZE = 635;
-const GRID_SIZE = 40;
-const ARENA_SIZE = CELL_SIZE * GRID_SIZE;
-// const arenaSize = 2000;
-// const baseWidth = 407;
-
 /**
  * Teams2 Gamemode Arena
  */

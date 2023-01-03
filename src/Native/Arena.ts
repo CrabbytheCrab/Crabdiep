@@ -124,8 +124,6 @@ export default class ArenaEntity extends Entity implements TeamGroupEntity {
 	 * Updates the scoreboard / leaderboard arena fields.
 	 */
 	protected updateScoreboard(scoreboardPlayers: TankBody[]) {
-
-
 		const scoreboardCount = this.arenaData.scoreboardAmount = (this.arenaData.values.flags & ArenaFlags.hiddenScores) ? 0 : Math.min(scoreboardPlayers.length, 10);
 
 		if (scoreboardCount) {

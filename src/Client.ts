@@ -33,11 +33,12 @@ import TankBody from "./Entity/Tank/TankBody";
 
 import Vector, { VectorAbstract } from "./Physics/Vector";
 import { Entity, EntityStateFlags } from "./Native/Entity";
-import { CameraFlags, ClientBound, ArenaFlags, InputFlags, NameFlags, ServerBound, Stat, StatCount, StyleFlags, Tank } from "./Const/Enums";
+import { CameraFlags, ClientBound, ArenaFlags, InputFlags, NameFlags, ServerBound, Stat, StatCount, StyleFlags, Tank, ColorsHexCode, Color } from "./Const/Enums";
 import { AI, AIState, Inputs } from "./Entity/AI";
 import AbstractBoss from "./Entity/Boss/AbstractBoss";
 import { executeCommand } from "./Const/Commands";
 import LivingEntity from "./Entity/Live";
+import EventArena from "./Gamemodes/Event";
 
 /** XORed onto the tank id in the Tank Upgrade packet. */
 const TANK_XOR = config.magicNum % TankCount;
@@ -101,7 +102,7 @@ export default class Client {
     /** Set to true if the client socket has been terminated. */
     private terminated = false;
     /** The game tick at which the client connected. */
-    private connectTick: number;
+    public connectTick: number;
     /** The last tick that the client received a ping. */
     private lastPingTick: number;
     /** The client's access level. */
@@ -460,7 +461,22 @@ export default class Client {
                         this.notify("Team switched to arena");
                     }
                 */
+
                 if (!Entity.exists(camera.cameraData.values.player)) return;
+                if(this.game.arena instanceof EventArena && this.game.arena.state === ArenaState.OPEN && camera.cameraData.player instanceof TankBody) {
+                    const team = camera.cameraData.player.relationsData.team;
+                    if(!team) return;
+                    const nexus = [this.game.arena.blueTeamNexus, this.game.arena.redTeamNexus]
+                        .find(e => e.relationsData.team === team);
+                    if(!nexus) return;
+                    if(camera.cameraData.player.getWorldPosition().distanceToSQ(nexus.getWorldPosition()) > 5000) {
+                        console.log(camera.cameraData.player.getWorldPosition().distanceToSQ(nexus.getWorldPosition()))
+                        //return this.notify("Unable to sacrifice to the nexus, out of reach.", 0xFFA500, 2000, 'cant_claim_info');
+                    }
+                    if(nexus.sacrificeTick && nexus.sacrificeTick + config.tps * 10 > this.game.tick) return this.notify(`Unable to sacrifice to the nexus, please try again in ${((nexus.sacrificeTick - this.game.tick) / config.tps + 10).toFixed(2)} seconds.`, 0xFFA500, 2000, 'cant_claim_info');
+                    if(nexus.sacrificeEntity(this)) return; 
+                    return this.notify("Unable to sacrifice to the nexus, maximum health reached.", 0xFFA500, 2000, 'cant_claim_info');
+                }
                 if (!this.game.entities.AIs.length) return this.notify("Someone has already taken that tank", 0x000000, 5000, "cant_claim_info");
                 if (!this.inputs.isPossessing) {
                     const x = camera.cameraData.values.player.positionData?.values.x || 0;
