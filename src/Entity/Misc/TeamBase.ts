@@ -55,6 +55,16 @@ export default class TeamBase extends LivingEntity {
         this.healthData.health = this.healthData.values.maxHealth = 0xABCFF;
     }
 
+    public setPainful(painful: boolean, damage: number = 5) {
+        if (!painful) {
+            this.physicsData.values.pushFactor = 0;
+            this.damagePerTick = 0;
+            return;
+        }
+        this.physicsData.values.pushFactor = 2;
+        this.damagePerTick = damage;
+    }
+
     public tick(tick: number) {
         // No animation. No regen
         this.lastDamageTick = tick;

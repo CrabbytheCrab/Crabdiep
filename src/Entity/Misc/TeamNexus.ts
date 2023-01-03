@@ -86,12 +86,13 @@ export default class Nexus extends LivingEntity {
             else {
                 client.notify(`The other team's nexus has lost it's shield!`);
                 const pos = tank.getWorldPosition();
-                const dist = pos.distanceToSQ(nexusPos);
-                if(dist > 7000) continue;
-                tank.addAcceleration(Math.atan2(pos.y - nexusPos.y, pos.x - nexusPos.x), 1000);
+                if(Math.sqrt(pos.distanceToSQ(nexusPos)) > 7000) continue;
+                tank.addAcceleration(Math.atan2(pos.y - nexusPos.y, pos.x - nexusPos.x), 300);
                 tank.applyPhysics();
             }
         }
+        this.base.setPainful(true, 50);
+        setTimeout(() => this.base.setPainful(false), 3000);
     }
 
     public sacrificeEntity(client: Client): boolean {

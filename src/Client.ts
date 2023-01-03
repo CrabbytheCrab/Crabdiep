@@ -469,11 +469,10 @@ export default class Client {
                     const nexus = [this.game.arena.blueTeamNexus, this.game.arena.redTeamNexus]
                         .find(e => e.relationsData.team === team);
                     if(!nexus) return;
-                    if(camera.cameraData.player.getWorldPosition().distanceToSQ(nexus.getWorldPosition()) > 5000) {
-                        console.log(camera.cameraData.player.getWorldPosition().distanceToSQ(nexus.getWorldPosition()))
-                        //return this.notify("Unable to sacrifice to the nexus, out of reach.", 0xFFA500, 2000, 'cant_claim_info');
+                    if(Math.sqrt(camera.cameraData.player.getWorldPosition().distanceToSQ(nexus.getWorldPosition())) > 5000) {
+                        return this.notify("Unable to sacrifice to the nexus, out of reach.", 0xFFA500, 2000, 'cant_claim_info');
                     }
-                    if(nexus.sacrificeTick && nexus.sacrificeTick + config.tps * 10 > this.game.tick) return this.notify(`Unable to sacrifice to the nexus, please try again in ${((nexus.sacrificeTick - this.game.tick) / config.tps + 10).toFixed(2)} seconds.`, 0xFFA500, 2000, 'cant_claim_info');
+                    if(nexus.sacrificeTick && nexus.sacrificeTick + config.tps * 20 > this.game.tick) return this.notify(`Unable to sacrifice to the nexus, please try again in ${((nexus.sacrificeTick - this.game.tick) / config.tps + 20).toFixed(2)} seconds.`, 0xFFA500, 2000, 'cant_claim_info');
                     if(nexus.sacrificeEntity(this)) return; 
                     return this.notify("Unable to sacrifice to the nexus, maximum health reached.", 0xFFA500, 2000, 'cant_claim_info');
                 }
