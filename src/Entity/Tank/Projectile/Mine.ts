@@ -64,6 +64,8 @@ export default class Mine extends Bullet implements BarrelBase {
     public reloadTime = 1;
     public cameraEntity: Entity;
     public inputs = new Inputs();
+    protected megaturret: boolean;
+    protected canControlDrones: boolean;
     public canexplode: boolean;
     public primetimer: number;
     public primetimer2: number;
@@ -79,6 +81,8 @@ export default class Mine extends Bullet implements BarrelBase {
         this.boom = false
         this.primetimer2 = 0
         this.primetimer = 0
+        this.canControlDrones = typeof this.barrelEntity.definition.canControlDrones === 'boolean' && this.barrelEntity.definition.canControlDrones;
+        this.megaturret = typeof this.barrelEntity.definition.megaturret === 'boolean' && this.barrelEntity.definition.megaturret;
         this.canexplode = false
         this.baseSpeed = (barrel.bulletAccel / 2) + 30 - Math.random() * barrel.definition.bullet.scatterRate;
         this.baseAccel = 0;
@@ -124,11 +128,19 @@ export default class Mine extends Bullet implements BarrelBase {
         const tickBase = atuo.tick;
         atuo.tick = (tick: number) => {
             if(this.canexplode == false)
+            if(this.canControlDrones){
                 this.primetimer++
-                if(this.primetimer == 60){
+                if(this.primetimer == 30){
                     this.canexplode = true
                     atuo.styleData.color = Color.Box
 
+                }}else{
+                    this.primetimer++
+                    if(this.primetimer == 60){
+                        this.canexplode = true
+                        atuo.styleData.color = Color.Box
+    
+                    } 
                 }
             tickBase.call(atuo, tick);
         }
@@ -136,20 +148,6 @@ export default class Mine extends Bullet implements BarrelBase {
         this.positionData.values.angle = Math.random() * PI2;
     }
     public destroy(animate=true) {
-        const skimmerBarrels: Barrel[] = this.skimmerBarrels =[]
-        if(this.death == true && this.boom == true){
-            this.death = false
-
-            
-        for (let n = 0; n < 8; n++) {
-           const barr = new Barrel(this, {
-            ...Bombshot1,
-            angle: PI2 * (n / 8)
-        });
-        barr.physicsData.values.sides = 0
-        skimmerBarrels.push(barr);
-
-        }}
         super.destroy(animate);
     }
     public onKill(killedEntity: LivingEntity) {
@@ -163,19 +161,39 @@ export default class Mine extends Bullet implements BarrelBase {
         this.inputs = new Inputs();
         this.inputs.flags |= InputFlags.leftclick;
         if(this.tank.inputs.attemptingRepel() && this.canexplode == true){
+
+            if ( this.megaturret || this.canControlDrones){
+                if ( this.megaturret){
+            }
+            if(this.canControlDrones){
+                const skimmerBarrels: Barrel[] = this.skimmerBarrels =[]
+                for (let n = 0; n < 4; n++) {
+                    const barr = new Barrel(this, {
+                     ...Bombshot1,
+                     angle: PI2 * (n / 4)
+                 });
+                 barr.physicsData.values.sides = 0
+                 skimmerBarrels.push(barr);
+         
+                 }
+        }
+    } else{
+                const skimmerBarrels: Barrel[] = this.skimmerBarrels =[]
+                for (let n = 0; n < 8; n++) {
+                    const barr = new Barrel(this, {
+                     ...Bombshot1,
+                     angle: PI2 * (n / 8)
+                 });
+                 barr.physicsData.values.sides = 0
+                 skimmerBarrels.push(barr);
+         
+                 } 
+                
+                 
+        }
             setTimeout(() => {
                 this.destroy()
             }, 45);
-        const skimmerBarrels: Barrel[] = this.skimmerBarrels =[]
-            for (let n = 0; n < 8; n++) {
-                const barr = new Barrel(this, {
-                 ...Bombshot1,
-                 angle: PI2 * (n / 8)
-             });
-             barr.physicsData.values.sides = 0
-             skimmerBarrels.push(barr);
-     
-             }
 
         this.boom = true
     }

@@ -31,7 +31,7 @@ export type addonId = preAddonId | postAddonId;
 export type projectileId = "bullet"| "mine" | "drone" | "trap"| "pentadrone"  | "necrotriangledrone" | "necropentadrone" | "necrodrone" | "minion" | "spinner" | "spinner4" | "megaspinner" | "skimmer" | "rocket" | "swarm" | "flame" | "wall" | "croc" | "launrocket" | "autotrap"| "domminion" | "megaminion" | "miniminion" | "drone2" | "hive" | "blunt" | "blunttrap" | "orbit";
 
 /** The types of barrel addons that exist in the game */
-export type barrelAddonId = "trapLauncher" | "mineLauncher"  | "minionLauncher" | "engitrapLauncher" | "swarmLauncher" | "machineTrapLauncher" | "engimachinetrapLauncher";
+export type barrelAddonId = "trapLauncher" | "mineLauncher"  |"machineMineLauncher"| "minionLauncher" | "engitrapLauncher" | "swarmLauncher" | "machineTrapLauncher" | "engimachinetrapLauncher";
 
 /** Increase in opacity when taking damage. */
 export const visibilityRateDamage = 0.2;
@@ -2927,7 +2927,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Spawner",
         "upgradeMessage": "Use your left mouse button to control the minions around your cursor",
         "levelRequirement": 30,
-        "upgrades": [79, 80, 94,117,128],
+        "upgrades": [79, 80, 94,117,142,128],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -3035,7 +3035,7 @@ const TankDefinitions = JSON.parse(`[
                 "width": 29.4,
                 "delay": 0,
                 "reload": 1,
-                "recoil": 1,
+                "recoil": 0.7,
                 "isTrapezoid": true,
                 "trapezoidDirection": 3.141592653589793,
                 "addon": null,
@@ -3059,7 +3059,7 @@ const TankDefinitions = JSON.parse(`[
                 "width": 29.4,
                 "delay": 0.5,
                 "reload": 1,
-                "recoil": 1,
+                "recoil": 0.7,
                 "isTrapezoid": true,
                 "trapezoidDirection": 3.141592653589793,
                 "addon": null,
@@ -9308,7 +9308,7 @@ const TankDefinitions = JSON.parse(`[
                 "width": 29.4,
                 "delay": 0,
                 "reload": 1,
-                "recoil": 0.7,
+                "recoil": 0.575,
                 "isTrapezoid": true,
                 "trapezoidDirection": 3.141592653589793,
                 "addon": null,
@@ -9332,7 +9332,7 @@ const TankDefinitions = JSON.parse(`[
                 "width": 29.4,
                 "delay": 0,
                 "reload": 1,
-                "recoil": 0.7,
+                "recoil": 0.575,
                 "isTrapezoid": true,
                 "trapezoidDirection": 3.141592653589793,
                 "addon": null,
@@ -9356,7 +9356,7 @@ const TankDefinitions = JSON.parse(`[
                 "width": 29.4,
                 "delay": 0,
                 "reload": 1,
-                "recoil": 0.7,
+                "recoil": 0.575,
                 "isTrapezoid": true,
                 "trapezoidDirection": 3.141592653589793,
                 "addon": null,
@@ -15332,7 +15332,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Machine Trapper",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [82, 135, 136],
+        "upgrades": [82, 135, 136, 141],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -15364,8 +15364,8 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "trap",
                     "sizeRatio": 0.8,
-                    "health": 2,
-                    "damage": 0.7,
+                    "health": 1.5,
+                    "damage": 1,
                     "speed": 2,
                     "scatterRate": 2,
                     "lifeLength": 5.5,
@@ -15437,7 +15437,7 @@ const TankDefinitions = JSON.parse(`[
                 "size": 60,
                 "width": 52.5,
                 "delay": 0,
-                "reload": 0.55,
+                "reload": 0.475,
                 "recoil": 1,
                 "isTrapezoid": true,
                 "trapezoidDirection": 0,
@@ -15445,8 +15445,8 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "trap",
                     "sizeRatio": 0.64,
-                    "health": 1.75,
-                    "damage": 0.475,
+                    "health": 1.425,
+                    "damage": 0.8,
                     "speed": 2,
                     "scatterRate": 3,
                     "lifeLength": 3.5,
@@ -15895,7 +15895,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Mine Layer",
         "upgradeMessage": "Right click to detonate all primed traps",
         "levelRequirement": 30,
-        "upgrades": [],
+        "upgrades": [141, 142],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -15955,6 +15955,172 @@ const TankDefinitions = JSON.parse(`[
             },
             {
                 "name": "Trap Speed",
+                "max": 7
+            },
+            {
+                "name": "Body Damage",
+                "max": 7
+            },
+            {
+                "name": "Max Health",
+                "max": 7
+            },
+            {
+                "name": "Health Regen",
+                "max": 7
+            }
+        ]
+    },
+    {
+        "id": 141,
+        "name": "Detonator",
+        "upgradeMessage": "",
+        "levelRequirement": 45,
+        "upgrades": [],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 0.9,
+        "absorbtionFactor": 1,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": null,
+        "postAddon": null,
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 60,
+                "width": 42,
+                "delay": 0,
+                "reload": 1.2,
+                "recoil": 1,
+                "isTrapezoid": true,
+                "canControlDrones": true,
+                "trapezoidDirection": 0,
+                "addon": "machineMineLauncher",
+                "bullet": {
+                    "type": "mine",
+                    "sizeRatio": 0.8,
+                    "health": 1.45,
+                    "damage": 0.8,
+                    "speed": 2,
+                    "scatterRate": 2,
+                    "lifeLength": 2,
+                    "absorbtionFactor": 1
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 7
+            },
+            {
+                "name": "Reload",
+                "max": 7
+            },
+            {
+                "name": "Trap Damage",
+                "max": 7
+            },
+            {
+                "name": "Trap Health",
+                "max": 7
+            },
+            {
+                "name": "Trap Speed",
+                "max": 7
+            },
+            {
+                "name": "Body Damage",
+                "max": 7
+            },
+            {
+                "name": "Max Health",
+                "max": 7
+            },
+            {
+                "name": "Health Regen",
+                "max": 7
+            }
+        ]
+    },
+    {
+        "id": 142,
+        "name": "Bomber",
+        "upgradeMessage": "Right click to detonate all drones",
+        "levelRequirement": 45,
+        "upgrades": [],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 0.9,
+        "absorbtionFactor": 1,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": null,
+        "postAddon": null,
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 80,
+                "width": 48,
+                "delay": 0,
+                "reload": 5,
+                "recoil": 1,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": "minionLauncher",
+                "droneCount": 4,
+                "megaturret": true,
+                "canControlDrones": true,
+                "bullet": {
+                    "type": "minion",
+                    "sizeRatio": 1,
+                    "health": 2,
+                    "damage": 0.7,
+                    "speed": 0.69,
+                    "scatterRate": 0,
+                    "lifeLength": -1,
+                    "absorbtionFactor": 1
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 7
+            },
+            {
+                "name": "Reload",
+                "max": 7
+            },
+            {
+                "name": "Minion Damage",
+                "max": 7
+            },
+            {
+                "name": "Minion Health",
+                "max": 7
+            },
+            {
+                "name": "Minion Speed",
                 "max": 7
             },
             {

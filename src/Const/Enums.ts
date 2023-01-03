@@ -215,6 +215,8 @@ export const enum Tank {
     PsiTank       = 138,
     Barrager      = 139,
     MineLayer     = 140,
+    Detonator     = 141,
+    Bomber        = 142,
     Mothership    = 204
 }
 
