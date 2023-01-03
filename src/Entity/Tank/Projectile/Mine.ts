@@ -55,6 +55,28 @@ const Bombshot1: BarrelDefinition = {
         absorbtionFactor: 0.3
     }
 };
+const Bombshot2: BarrelDefinition = {
+    angle: 0,
+    offset: 0,
+    size: 0,
+    width: 45,
+    delay: 0,
+    reload: 1,
+    recoil: 1,
+    isTrapezoid: false,
+    trapezoidDirection: 0,
+    addon: null,
+    bullet: {
+        type: "bullet",
+        health: 0.85,
+        damage: 0.85,
+        speed: 0.8,
+        scatterRate: 0.3,
+        lifeLength: 0.65,
+        sizeRatio: 1,
+        absorbtionFactor: 0.3
+    }
+};
 export default class Mine extends Bullet implements BarrelBase {
     /** Number of ticks before the trap cant collide with its own team. */
     protected collisionEnd = 0;
@@ -167,10 +189,10 @@ export default class Mine extends Bullet implements BarrelBase {
             }
             if(this.canControlDrones){
                 const skimmerBarrels: Barrel[] = this.skimmerBarrels =[]
-                for (let n = 0; n < 4; n++) {
+                for (let n = 0; n < 8; n++) {
                     const barr = new Barrel(this, {
-                     ...Bombshot1,
-                     angle: PI2 * (n / 4)
+                     ...Bombshot2,
+                     angle: PI2 * (n / 8)
                  });
                  barr.physicsData.values.sides = 0
                  skimmerBarrels.push(barr);

@@ -53,11 +53,33 @@ import { PI2 } from "../../../util";
         absorbtionFactor: 1
     }
 };
+const MinionBarrelDefinition2: BarrelDefinition = {
+    angle: 0,
+    offset: 0,
+    size: 80,
+    width: 50.4,
+    delay: 0,
+    reload: 1,
+    recoil: 1.35,
+    isTrapezoid: false,
+    trapezoidDirection: 0,
+    addon: null,
+    bullet: {
+        type: "bullet",
+        health: 0.4,
+        damage: 0.275,
+        speed: 0.8,
+        scatterRate: 1,
+        lifeLength: 1,
+        sizeRatio: 1,
+        absorbtionFactor: 1
+    }
+};
 const Bombshot1: BarrelDefinition = {
     angle: 0,
     offset: 0,
     size: 0,
-    width: 75,
+    width: 85,
     delay: 0,
     reload: 1,
     recoil: 1,
@@ -66,8 +88,8 @@ const Bombshot1: BarrelDefinition = {
     addon: null,
     bullet: {
         type: "bullet",
-        health: 0.9,
-        damage: 1.4,
+        health: 1.2,
+        damage: 1.8,
         speed: 0.8,
         scatterRate: 0.3,
         lifeLength: 0.65,
@@ -125,8 +147,10 @@ export default class Minion extends Drone implements BarrelBase {
 
         this.sizeFactor = this.physicsData.values.size / 50;
         this.cameraEntity = tank.cameraEntity;
-
-        this.minionBarrel = new Barrel(this, MinionBarrelDefinition);
+        if(this.megaturret){
+            this.minionBarrel = new Barrel(this, MinionBarrelDefinition2)
+        }else{
+        this.minionBarrel = new Barrel(this, MinionBarrelDefinition);}
         this.ai.movementSpeed = this.ai.aimSpeed = this.baseAccel;
 
         if(this.megaturret){
