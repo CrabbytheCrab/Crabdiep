@@ -49,10 +49,13 @@ class EventShapeManager extends ShapeManager {
         const TShape = [WepPentagon, WepTriangle, WepSquare][~~(Math.random() * 3)];
         const shape = new TShape(this.game, false, false);
         const angle = Math.random() * 2 * Math.PI;
-        shape.positionData.x = Math.random() > 0.5 ? this.arena.width / 2.5 * Math.cos(angle) : -this.arena.width / 3 * Math.cos(angle);
-        shape.positionData.x += Math.random() > 0.5 ? Math.random() * Math.pow(this.wantedWeaponizedShapes, 2) : -Math.random() * Math.pow(this.wantedWeaponizedShapes, 2);
-        shape.positionData.y = Math.random() > 0.5 ? this.arena.height / 2.5 * Math.sin(angle) : -this.arena.height / 3 * Math.sin(angle);
-        shape.positionData.y += Math.random() > 0.5 ? Math.random() * Math.pow(this.wantedWeaponizedShapes, 2) : -Math.random() * Math.pow(this.wantedWeaponizedShapes, 2);
+        const arena = this.arena as EventArena;
+        do {
+            shape.positionData.x = Math.random() > 0.5 ? this.arena.width / 2.5 * Math.cos(angle) : -this.arena.width / 3 * Math.cos(angle);
+            shape.positionData.x += Math.random() > 0.5 ? Math.random() * Math.pow(this.wantedWeaponizedShapes, 2) : -Math.random() * Math.pow(this.wantedWeaponizedShapes, 2);
+            shape.positionData.y = Math.random() > 0.5 ? this.arena.height / 2.5 * Math.sin(angle) : -this.arena.height / 3 * Math.sin(angle);
+            shape.positionData.y += Math.random() > 0.5 ? Math.random() * Math.pow(this.wantedWeaponizedShapes, 2) : -Math.random() * Math.pow(this.wantedWeaponizedShapes, 2);
+        } while(Math.sqrt(shape.getWorldPosition().distanceToSQ(arena.blueTeamNexus.getWorldPosition())) > 4000 && Math.sqrt(shape.getWorldPosition().distanceToSQ(arena.redTeamNexus.getWorldPosition())) > 4000);
         shape.relationsData.owner = shape.relationsData.team = this.arena;
         shape.scoreReward *= this.arena.shapeScoreRewardMultiplier;
         return shape;
