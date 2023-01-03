@@ -119,13 +119,14 @@ export default class Orbit extends Bullet {
                     x: this.positionData.values.x - this.tank.positionData.values.x,
                     y: this.positionData.values.y - this.tank.positionData.values.y
                 }
-                const base = this.baseAccel;
+        const sizeFactor = this.tank.sizeFactor;
+        const base = this.baseAccel;
             let angle = PI2 * ((this.num)/TankBody.OrbCount);
-            //const offset = (Math.atan2(delta.y, delta.x) + Math.PI/ 2)
+            const offset = (Math.atan2(delta.y, delta.x) + Math.PI/ 2)
 
                 const offset2 =  Math.atan2(this.tank.positionData.values.y, this.tank.positionData.values.x ) +  Math.PI /(this.barrelEntity.droneCount/this.num)
-                delta.x = this.tank.positionData.values.x + Math.cos(angle) * (this.tank.physicsData.values.size) * 3 - this.positionData.values.x;
-                delta.y = this.tank.positionData.values.y + Math.sin(angle) * (this.tank.physicsData.values.size) * 3 - this.positionData.values.y
+                delta.x = this.tank.positionData.x + (Math.cos(angle) * sizeFactor/2 - Math.sin(offset)) * (this.tank.physicsData.size/2) * -3 - this.positionData.x;
+                delta.y = this.tank.positionData.y + (Math.sin(angle) * sizeFactor/2 + Math.cos(offset))* (this.tank.physicsData.size/2) * -3 - this.positionData.y
                
                 //this.movementAngle = Math.atan2(delta.y, delta.x);
                 this.movementAngle =  Math.atan2(delta.y, delta.x);

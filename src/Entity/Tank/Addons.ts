@@ -506,8 +506,8 @@ const AutoTurretMegaDefinition: BarrelDefinition = {
     addon: null,
     bullet: {
         type: "bullet",
-        health: 1.5,
-        damage: 1.2,
+        health: 1.35,
+        damage: 1.15,
         speed: 0.85,
         scatterRate: 1,
         lifeLength: 1,
@@ -528,13 +528,13 @@ const AutoTurretTrapDefinition: BarrelDefinition = {
     addon: "trapLauncher",
     bullet: {
         type: "trap",
-        health: 1.5,
-        damage: 1,
+        health: 1.25,
+        damage: 1.5,
         speed: 2.5,
         scatterRate: 1,
         lifeLength: 2,
         sizeRatio: 0.8,
-        absorbtionFactor: 0.75
+        absorbtionFactor: 1
     }
 };
 
@@ -728,36 +728,79 @@ class LauncherAddon extends Addon {
         }
     }
 }
+
+class LauncherSmallAddon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+
+        const launcher = new ObjectEntity(this.game);
+        const sizeRatio = 65.5 * Math.SQRT2 / 50;
+        const widthRatio = 29.5 / 50;
+        const size = this.owner.physicsData.values.size;
+
+        launcher.setParent(this.owner);
+        launcher.relationsData.values.owner = this.owner;
+        launcher.relationsData.values.team = this.owner.relationsData.values.team;
+
+        launcher.physicsData.values.size = sizeRatio * size;
+        launcher.physicsData.values.width = widthRatio * size;
+        launcher.positionData.values.x = launcher.physicsData.values.size / 2;
+
+        launcher.styleData.values.color = Color.Barrel;
+        launcher.physicsData.values.flags |= PhysicsFlags.isTrapezoid;
+        launcher.physicsData.values.sides = 2;
+
+        launcher.tick = () => {
+            const size = this.owner.physicsData.values.size;
+
+            launcher.physicsData.size = sizeRatio * size;
+            launcher.physicsData.width = widthRatio * size;
+            launcher.positionData.x = launcher.physicsData.values.size / 2;
+        }
+    }
+}
+
 class LauncherAddon2 extends Addon {
     public constructor(owner: BarrelBase) {
         super(owner);
 
-        const launcher2 = new ObjectEntity(this.game);
-        const sizeRatio = 50 * Math.SQRT2 / 50;
-        const widthRatio = 1.4;
-        const size = this.owner.physicsData.values.size;
+        for (let i = 0; i < 3; ++i) {
+            const angle = PI2 * ((i / 3));
+            const angle2 = PI2 * ((i / 3)  - 1 / (6));
 
-        launcher2.setParent(this.owner);
-        launcher2.relationsData.values.owner = this.owner;
-        launcher2.relationsData.values.team = this.owner.relationsData.values.team;
-
-        launcher2.physicsData.values.size = sizeRatio * size;
-        launcher2.physicsData.values.width = widthRatio * size;
-        launcher2.positionData.values.x = launcher2.physicsData.values.size / 2;
-
-        launcher2.styleData.values.color = Color.Barrel;
-        //launcher.physics.values.objectFlags |= ObjectFlags.isTrapezoid;
-        launcher2.physicsData.values.sides = 2;
-
-        launcher2.tick = () => {
+            const launcher = new ObjectEntity(this.game);
+            const sizeRatio = 65.5 * Math.SQRT2 / 50;
+            const widthRatio = 27.75 / 50;
             const size = this.owner.physicsData.values.size;
+    
+            launcher.setParent(this.owner);
+            launcher.relationsData.values.owner = this.owner;
+            launcher.relationsData.values.team = this.owner.relationsData.values.team;
+    
+            launcher.physicsData.values.size = sizeRatio * size;
+            launcher.physicsData.values.width = widthRatio * size;
+            launcher.positionData.values.x = launcher.physicsData.values.size / 2;
+            launcher.styleData.values.color = Color.Barrel;
+            launcher.physicsData.values.flags |= PhysicsFlags.isTrapezoid;
+            launcher.physicsData.values.sides = 2;
+            launcher.positionData.angle = angle
+            const tickBase2 = launcher.tick;
 
-            launcher2.physicsData.size = sizeRatio * size;
-            launcher2.physicsData.width = widthRatio * size;
-            launcher2.positionData.x = launcher2.physicsData.values.size / 2;
-            launcher2.physicsData.size = sizeRatio * size;
-            launcher2.physicsData.width = widthRatio * size;
-            launcher2.positionData.x = launcher2.physicsData.values.size / 2;
+            launcher.positionData.values.x = Math.cos(angle) * this.owner.physicsData.values.size;
+            launcher.positionData.values.y = Math.sin(angle) * this.owner.physicsData.values.size;
+            launcher.tick = (tick: number) => {
+                const size = this.owner.physicsData.values.size;
+
+                launcher.physicsData.size = sizeRatio * size;
+                launcher.physicsData.width = widthRatio * size;
+                launcher.positionData.x = Math.cos(angle) * this.owner.physicsData.size;
+                launcher.positionData.y = Math.sin(angle) * this.owner.physicsData.size;
+        
+
+                tickBase2.call(launcher, tick);
+
+                //barr.positionData.values.angle = angle + rotator.positionData.values.angle;
+            }
         }
     }
 }
@@ -1073,6 +1116,7 @@ export const AddonById: Record<addonId, typeof Addon | null> = {
     stalker3 : Stalker3Addon,
     auto4    : Auto4Addon,
     bumper   : BumperAddon,
+    launchersmall : LauncherSmallAddon,
     bigautoturret: THEBIGONE,
     joint3 : Joint3Addon,
     droneturret :Banshee

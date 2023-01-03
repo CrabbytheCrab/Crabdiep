@@ -34,6 +34,7 @@ export default class Drone2 extends Bullet {
     public static FOCUS_RADIUS = 850 ** 2;
     public ai: AI;
     public boom: boolean = false
+    public boom2: boolean = false
     /** The drone's radius of resting state */
     public static MAX_RESTING_RADIUS = 400 ** 2;
     public static BASE_ROTATION = 0.1;
@@ -83,6 +84,9 @@ export default class Drone2 extends Bullet {
     public tick(tick: number) {
         if (!this.canControlDrones){
             if(tick - this.spawnTick >= this.lifeLength/8 && this.boom == false){
+                if(this.boom2 == false){
+                    this.boom2 = true
+                this.baseAccel *= 1.5}
                 const delta = {
                     x: this.positionData.values.x - this.tank.positionData.values.x,
                     y: this.positionData.values.y - this.tank.positionData.values.y
@@ -91,8 +95,8 @@ export default class Drone2 extends Bullet {
             
                 let unitDist = (delta.x ** 2 + delta.y ** 2) / Drone2.MAX_RESTING_RADIUS;
                 const offset = Math.atan2(delta.y, delta.x) + Math.PI / 2
-                delta.x = this.tank.positionData.values.x + Math.cos(offset) * this.tank.physicsData.values.size * 0.75 - this.positionData.values.x;
-                delta.y = this.tank.positionData.values.y + Math.sin(offset) * this.tank.physicsData.values.size * 0.75 - this.positionData.values.y;
+                delta.x = this.tank.positionData.values.x + Math.cos(offset) * this.tank.physicsData.values.size * 0.5 - this.positionData.values.x;
+                delta.y = this.tank.positionData.values.y + Math.sin(offset) * this.tank.physicsData.values.size * 0.5 - this.positionData.values.y;
                 this.movementAngle = Math.atan2(delta.y, delta.x);
                 if (unitDist < 0.1){ this.baseAccel /= 3;
                 this.destroy()}

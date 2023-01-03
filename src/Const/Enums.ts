@@ -217,6 +217,7 @@ export const enum Tank {
     MineLayer     = 140,
     Detonator     = 141,
     Bomber        = 142,
+    Deployer      = 143,
     Mothership    = 204
 }
 

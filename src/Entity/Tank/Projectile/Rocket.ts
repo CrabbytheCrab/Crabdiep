@@ -45,7 +45,7 @@ const RocketBarrelDefinition: BarrelDefinition = {
         damage: 3 / 5,
         speed: 1.5,
         scatterRate: 5,
-        lifeLength: 0.1,
+        lifeLength: 0.5,
         sizeRatio: 1,
         absorbtionFactor: 1
     }
