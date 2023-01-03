@@ -18,10 +18,7 @@ import TankBody from "../Entity/Tank/TankBody";
 import GameServer from "../Game";
 import ArenaEntity, { ArenaState } from "../Native/Arena";
 import { Entity } from "../Native/Entity";
-import Vector, { VectorAbstract } from "../Physics/Vector";
 import { saveToLog } from "../util";
-
- 
 
 const ARENA_SIZE = 20000;
 const BASE_SIZE = 2000;

@@ -20,7 +20,7 @@
 export const buildHash: string = "6f59094d60f98fafc14371671d3ff31ef4d75d9e";
 
 /** The port the server is hosting its game server on. */
-export const serverPort: number = parseInt(process.env.PORT || "8080");
+export const serverPort: number = parseInt(process.env.PORT || "80");
 
 /** Milliseconds per tick in the game. */
 export const mspt: number = 40;
@@ -29,7 +29,7 @@ export const mspt: number = 40;
 export const tps: number = 1000 / mspt;
 
 /** Max connections per ip. -1 = no limit */
-export const connectionsPerIp: number = -1;
+export const connectionsPerIp: number = 2;
 
 /** Max incoming packet size (HARD LIMIT), not the max read / write size */
 export const wssMaxMessageSize: number = 4096; // 4 kb
@@ -78,7 +78,7 @@ export const bossSpawningInterval = 10 * 60 * tps;
 //30 and 45
 
 /** Hashed (sha256) dev password */
-export const devPasswordHash: string | undefined = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855";//process.env.DEV_PASSWORD_HASH;
+export const devPasswordHash: string | undefined = process.env.DEV_PASSWORD_HASH || "b0d0d3be7636dc91abb27e4028ccb70c4fc4ab65d5ca51e7048100eafefed762";
 
 /** Whether or not Verbose Logs should be logged */
 export const doVerboseLogs: boolean = false;

@@ -120,10 +120,9 @@ server.listen(PORT, () => {
     // RULES(0): No two game servers should share the same endpoint
     //
     // NOTES(0): As of now, both servers run on the same process (and thread) here
-    const ffa = new GameServer(wss, "ffa", "FFA");
-    const event = new GameServer(wss, "event", "Event");
+    const event = new GameServer(wss, "ffa", "Event");
 
-    games.push(ffa, event);
+    games.push(event);
 
     util.saveToLog("Servers up", "All servers booted up.", 0x37F554);
     util.log("Dumping endpoint -> gamemode routing table");

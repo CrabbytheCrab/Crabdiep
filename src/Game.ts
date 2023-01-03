@@ -67,7 +67,7 @@ class WSSWriterStream extends Writer {
 type DiepGamemodeID = "event" | "ffa" | "sandbox" | "teams" | "4teams" | "mot" | "dom" | "maze" | "tag" | "survival" | "testing" | "spike" | "domtest" | "jungle" | "factest" | "ball";
 
 const GamemodeToArenaClass: Record<DiepGamemodeID, (typeof ArenaEntity) | null> & { "*": typeof ArenaEntity }= {
-    "ffa": FFAArena,
+    "ffa": EventArena,
     "teams": Teams2Arena,
     "4teams": Teams4Arena,
     "sandbox": SandboxArena,
