@@ -20,7 +20,7 @@ import DevTankDefinitions, { DevTank } from "./DevTankDefinitions";
 import { Tank, Color } from "./Enums";
 
 /** The types of post addons that exist in the game, by their id. */
-export type postAddonId = "dompronounced" | "auto5" | "auto3" | "autosmasher" | "spike" | "pronounced"  | "bumper"| "smasher" | "landmine" | "autoturret"  | "joint3"  | "weirdspike" | "auto2" | "auto7" | "autorocket" | "spiesk" | "saw" | "megasmasher" | "mega3" | "stalker3" | "auto4" | "bigautoturret"| "droneturret";
+export type postAddonId = "dompronounced" | "auto5" | "auto3" | "autosmasher" | "spike" | "pronounced"  | "rammer"| "bumper"|"smasher" | "landmine" | "autoturret"  | "joint3"  | "weirdspike" | "auto2" | "auto7" | "autorocket" | "spiesk" | "saw" | "megasmasher" | "mega3" | "stalker3" | "auto4" | "bigautoturret"| "droneturret";
 
 /** The types of post addons that exist in the game, by their id. */
 export type preAddonId = "dombase" | "launcher" | "laucher2"| "launchersmall";
@@ -878,7 +878,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Smasher",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [86, 87,88,89,90, 108],
+        "upgrades": [87,86,88,90,89, 108,144],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -7901,7 +7901,7 @@ const TankDefinitions = JSON.parse(`[
                 "width": 96.6,
                 "delay": 0,
                 "reload": 6,
-                "recoil": 17,
+                "recoil": 25.5,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
                 "addon": null,
@@ -7909,10 +7909,10 @@ const TankDefinitions = JSON.parse(`[
                     "type": "bullet",
                     "sizeRatio": 1,
                     "health": 3,
-                    "damage": 3,
-                    "speed": 0.7,
+                    "damage": 4,
+                    "speed": 0.55,
                     "scatterRate": 1,
-                    "lifeLength": 1,
+                    "lifeLength": 0.85,
                     "absorbtionFactor": 0.05
                 }
             }
@@ -8535,7 +8535,7 @@ const TankDefinitions = JSON.parse(`[
         "absorbtionFactor": 1,
         "speed": 1,
         "maxHealth": 50,
-        "preAddon": "launcher",
+        "preAddon": "launchersmall",
         "postAddon": "autoturret",
         "sides": 1,
         "borderWidth": 15,
@@ -9494,7 +9494,7 @@ const TankDefinitions = JSON.parse(`[
     },
     {
         "id": 80,
-        "name": "Hatcher",
+        "name": "Master",
         "upgradeMessage": "",
         "levelRequirement": 45,
         "upgrades": [],
@@ -9521,12 +9521,12 @@ const TankDefinitions = JSON.parse(`[
                 "size": 80,
                 "width": 38,
                 "delay": 0.2,
-                "reload": 7.5,
+                "reload": 5,
                 "recoil": 1,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
                 "addon": "minionLauncher",
-                "droneCount": 4,
+                "droneCount": 3,
                 "canControlDrones": true,
                 "bullet": {
                     "type": "miniminion",
@@ -9545,12 +9545,12 @@ const TankDefinitions = JSON.parse(`[
                 "size": 80,
                 "width": 38,
                 "delay": 0.2,
-                "reload": 7.5,
+                "reload": 5,
                 "recoil": 1,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
                 "addon": "minionLauncher",
-                "droneCount": 4,
+                "droneCount": 3,
                 "canControlDrones": true,
                 "bullet": {
                     "type": "miniminion",
@@ -9569,12 +9569,12 @@ const TankDefinitions = JSON.parse(`[
                 "size": 80,
                 "width": 38,
                 "delay": 0.2,
-                "reload": 7.5,
+                "reload": 5,
                 "recoil": 1,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
                 "addon": "minionLauncher",
-                "droneCount": 4,
+                "droneCount": 3,
                 "canControlDrones": true,
                 "bullet": {
                     "type": "miniminion",
@@ -10216,7 +10216,7 @@ const TankDefinitions = JSON.parse(`[
         "visibilityRateMoving": 0.08,
         "invisibilityRate": 0.03,
         "fieldFactor": 0.9,
-        "absorbtionFactor": 0.25,
+        "absorbtionFactor": 0.1,
         "speed": 0.925,
         "maxHealth": 75,
         "preAddon": null,
@@ -10273,10 +10273,10 @@ const TankDefinitions = JSON.parse(`[
         "visibilityRateShooting": 0.23,
         "visibilityRateMoving": 0.08,
         "invisibilityRate": 0.03,
-        "fieldFactor": 0.85,
-        "absorbtionFactor": 0.8,
-        "speed": 1.2,
-        "maxHealth": 40,
+        "fieldFactor": 0.8,
+        "absorbtionFactor": 0.75,
+        "speed": 1.3,
+        "maxHealth": 50,
         "preAddon": null,
         "postAddon": "saw",
         "sides": 1,
@@ -12356,7 +12356,7 @@ const TankDefinitions = JSON.parse(`[
         "speed": 1,
         "maxHealth": 50,
         "preAddon": null,
-        "postAddon": "bumper",
+        "postAddon": "rammer",
         "sides": 1,
         "borderWidth": 15,
         "barrels": [
@@ -12796,7 +12796,7 @@ const TankDefinitions = JSON.parse(`[
         "absorbtionFactor": 1,
         "speed": 1,
         "maxHealth": 50,
-        "preAddon": "launcher",
+        "preAddon": "launchersmall",
         "postAddon": null,
         "sides": 1,
         "borderWidth": 15,
@@ -16259,6 +16259,64 @@ const TankDefinitions = JSON.parse(`[
             {
                 "name": "Health Regen",
                 "max": 7
+            }
+        ]
+    },
+    {
+        "id": 144,
+        "name": "Bumper",
+        "upgradeMessage": "",
+        "levelRequirement": 45,
+        "upgrades": [],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 0.9,
+        "absorbtionFactor": 0.75,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": null,
+        "postAddon": "bumper",
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 10
+            },
+            {
+                "name": "Reload",
+                "max": 0
+            },
+            {
+                "name": "Bullet Damage",
+                "max": 0
+            },
+            {
+                "name": "Bullet Penetration",
+                "max": 0
+            },
+            {
+                "name": "Bullet Speed",
+                "max": 0
+            },
+            {
+                "name": "Body Damage",
+                "max": 10
+            },
+            {
+                "name": "Max Health",
+                "max": 10
+            },
+            {
+                "name": "Health Regen",
+                "max": 10
             }
         ]
     }

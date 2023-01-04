@@ -688,6 +688,13 @@ class SmasherAddon extends Addon {
         this.createGuard(6, 1.15, 0, .1);
     }
 }
+class BumperAddon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+
+        this.createGuard(1, 1.75, 0, .1);
+    }
+}
 /** Landmine addon. */
 class LandmineAddon extends Addon {
     public constructor(owner: BarrelBase) {
@@ -741,7 +748,7 @@ class LauncherSmallAddon extends Addon {
         launcher.setParent(this.owner);
         launcher.relationsData.values.owner = this.owner;
         launcher.relationsData.values.team = this.owner.relationsData.values.team;
-
+        launcher.styleData.zIndex += 1
         launcher.physicsData.values.size = sizeRatio * size;
         launcher.physicsData.values.width = widthRatio * size;
         launcher.positionData.values.x = launcher.physicsData.values.size / 2;
@@ -1070,7 +1077,7 @@ class MegaSmasherAddon extends Addon {
     public constructor(owner: BarrelBase) {
         super(owner);
 
-        this.createGuard(6, 1.45, 0, .1);
+        this.createGuard(6, 1.3, 0, .1);
     }
 }
 
@@ -1078,10 +1085,10 @@ class SawAddon extends Addon {
     public constructor(owner: BarrelBase) {
         super(owner);
 
-        this.createGuard(4, 1.5, 0, .1);
+        this.createGuard(4, 1.55, Math.PI/8, .15);
     }
 }
-class BumperAddon extends Addon {
+class RammerAddon extends Addon {
     public constructor(owner: BarrelBase) {
         super(owner);
         //owner.positionData.values.angle
@@ -1115,6 +1122,7 @@ export const AddonById: Record<addonId, typeof Addon | null> = {
     mega3: Mega3Addon,
     stalker3 : Stalker3Addon,
     auto4    : Auto4Addon,
+    rammer   : RammerAddon,
     bumper   : BumperAddon,
     launchersmall : LauncherSmallAddon,
     bigautoturret: THEBIGONE,

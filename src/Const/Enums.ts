@@ -182,7 +182,7 @@ export const enum Tank {
     ArenaCloser   = 105,
     DominatorC    = 106,
     DominatorF    = 107,
-    Bumper        = 108,
+    Rammer        = 108,
     Autotank      = 109,
     Bombard       = 110,
     Joint3        = 111,
@@ -218,6 +218,7 @@ export const enum Tank {
     Detonator     = 141,
     Bomber        = 142,
     Deployer      = 143,
+    Bumper        = 144,
     Mothership    = 204
 }
 
