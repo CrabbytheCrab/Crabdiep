@@ -16319,6 +16319,175 @@ const TankDefinitions = JSON.parse(`[
                 "max": 10
             }
         ]
+    },
+    {
+        "id": 145,
+        "name": "Shitty Ass Scenexe.io Penta Piece Of Shit",
+        "upgradeMessage": "",
+        "levelRequirement": 45,
+        "upgrades": [],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 1,
+        "absorbtionFactor": 1,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": null,
+        "postAddon": null,
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle": -0.6981317007977318,
+                "offset": 0,
+                "size": 80,
+                "width": 50,
+                "delay": 0.66,
+                "reload": 1,
+                "recoil": 1,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": null,
+                "bullet": {
+                    "type": "bullet",
+                    "sizeRatio": 1,
+                    "health": 0.625,
+                    "damage": 0.55,
+                    "speed": 1,
+                    "scatterRate": 0,
+                    "lifeLength": 1,
+                    "absorbtionFactor": 0
+                }
+            },
+            {
+                "angle": 0.6981317007977318,
+                "offset": 0,
+                "size": 80,
+                "width": 50,
+                "delay": 0.66,
+                "reload": 1,
+                "recoil": 1,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": null,
+                "bullet": {
+                    "type": "bullet",
+                    "sizeRatio": 1,
+                    "health": 0.625,
+                    "damage": 0.55,
+                    "speed": 1,
+                    "scatterRate": 0,
+                    "lifeLength": 1,
+                    "absorbtionFactor": 0
+                }
+            },
+            {
+                "angle": -0.3490658503988659,
+                "offset": 0,
+                "size": 90,
+                "width": 50,
+                "delay": 0.33,
+                "reload": 1,
+                "recoil": 1,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": null,
+                "bullet": {
+                    "type": "bullet",
+                    "sizeRatio": 1,
+                    "health": 0.625,
+                    "damage": 0.55,
+                    "speed": 1,
+                    "scatterRate": 0,
+                    "lifeLength": 1,
+                    "absorbtionFactor": 0
+                }
+            },
+            {
+                "angle": 0.3490658503988659,
+                "offset": 0,
+                "size": 90,
+                "width": 50,
+                "delay": 0.33,
+                "reload": 1,
+                "recoil": 1,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": null,
+                "bullet": {
+                    "type": "bullet",
+                    "sizeRatio": 1,
+                    "health": 0.625,
+                    "damage": 0.55,
+                    "speed": 1,
+                    "scatterRate": 0,
+                    "lifeLength": 1,
+                    "absorbtionFactor": 0
+                }
+            },
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 100,
+                "width": 50,
+                "delay": 0,
+                "reload": 1,
+                "recoil": 1,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": null,
+                "bullet": {
+                    "type": "bullet",
+                    "sizeRatio": 1,
+                    "health": 0.625,
+                    "damage": 0.55,
+                    "speed": 1,
+                    "scatterRate": 0,
+                    "lifeLength": 1,
+                    "absorbtionFactor": 0
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 7
+            },
+            {
+                "name": "Reload",
+                "max": 7
+            },
+            {
+                "name": "Bullet Damage",
+                "max": 7
+            },
+            {
+                "name": "Bullet Penetration",
+                "max": 7
+            },
+            {
+                "name": "Bullet Speed",
+                "max": 7
+            },
+            {
+                "name": "Body Damage",
+                "max": 7
+            },
+            {
+                "name": "Max Health",
+                "max": 7
+            },
+            {
+                "name": "Health Regen",
+                "max": 7
+            }
+        ]
     }
 ]`) as (TankDefinition | null)[] & Record<Tank, TankDefinition>;
 

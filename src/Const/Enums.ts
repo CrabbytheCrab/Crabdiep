@@ -219,6 +219,7 @@ export const enum Tank {
     Bomber        = 142,
     Deployer      = 143,
     Bumper        = 144,
+    Bad           = 145,
     Mothership    = 204
 }
 
