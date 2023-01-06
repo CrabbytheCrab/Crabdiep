@@ -220,6 +220,12 @@ export const enum Tank {
     Deployer      = 143,
     Bumper        = 144,
     Bad           = 145,
+    Puker         = 146,
+    Emperor       = 147,
+    Agent         = 148,
+    Overdrive     = 148,
+    Megadrive     = 149,
+    Genesis       = 150,
     Mothership    = 204
 }
 
