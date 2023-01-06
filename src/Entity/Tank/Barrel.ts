@@ -40,6 +40,7 @@ import MazeWall from "../Misc/MazeWall";
 import CrocSkimmer from "./Projectile/CrocSkimmer";
 import { BarrelAddon, BarrelAddonById } from "./BarrelAddons";
 import { Swarm } from "./Projectile/Swarm";
+import { AutoSwarm } from "./Projectile/AutoSwarm";
 import NecromancerSquare from "./Projectile/NecromancerSquare";
 import MiniMinion from "./Projectile/MiniMinion";
 import MegaMinion from "./Projectile/MegaMinion";
@@ -234,6 +235,9 @@ export default class Barrel extends ObjectEntity {
                 break;
             case 'swarm':
                 new Swarm(this, this.tank, tankDefinition, angle);
+                break;
+            case 'autoswarm':
+                new AutoSwarm(this, this.tank, tankDefinition, angle);
                 break;
             case 'minion':
                 new Minion(this, this.tank, tankDefinition, angle);
