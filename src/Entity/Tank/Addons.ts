@@ -689,7 +689,7 @@ export class GuardObject2 extends ObjectEntity implements BarrelBase {
         this.setParent(owner);
         this.relationsData.values.owner = owner;
         this.relationsData.values.team = owner.relationsData.values.team;
-this.styleData.zIndex += 4
+this.styleData.zIndex += 2
 this.styleData.flags |= StyleFlags.showsAboveParent
         this.styleData.values.color = Color.Border;
         this.positionData.values.flags |= PositionFlags.absoluteRotation;

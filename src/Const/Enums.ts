@@ -223,9 +223,9 @@ export const enum Tank {
     Puker         = 146,
     Emperor       = 147,
     Agent         = 148,
-    Overdrive     = 148,
-    Megadrive     = 149,
-    Genesis       = 150,
+    Overdrive     = 149,
+    Megadrive     = 150,
+    Genesis       = 151,
     Mothership    = 204
 }
 

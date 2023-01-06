@@ -633,7 +633,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Commander",
         "upgradeMessage": "Use your left mouse button to control the drones",
         "levelRequirement": 15,
-        "upgrades": [26, 24, 27, 28, 32,115, 126,148],
+        "upgrades": [26, 24, 27, 28, 32,115, 126,148,74],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -2656,7 +2656,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Director",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [75,94,149,112],
+        "upgrades": [75,94,150,112],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -2820,7 +2820,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Overseer",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [71,72,73, 85, 147, 74,148,101,128],
+        "upgrades": [71,72,73, 85, 147,149,101,128],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -3951,7 +3951,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Engineer",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [84, 98,118,136,150],
+        "upgrades": [84, 98,118,136,151],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -8995,21 +8995,21 @@ const TankDefinitions = JSON.parse(`[
             {
                 "angle": 0,
                 "offset": 0,
-                "size": 70,
-                "width": 42,
+                "size": 75,
+                "width": 47,
                 "delay": 0,
                 "reload": 3,
                 "recoil": 1,
                 "isTrapezoid": true,
                 "trapezoidDirection": 0,
                 "addon": null,
-                "droneCount": 8,
+                "droneCount": 6,
                 "canControlDrones": true,
                 "bullet": {
                     "type": "drone",
                     "sizeRatio": 1,
                     "health": 2,
-                    "damage": 0.7,
+                    "damage": 0.875,
                     "speed": 0.8,
                     "scatterRate": 1,
                     "lifeLength": -1,
@@ -16732,6 +16732,7 @@ const TankDefinitions = JSON.parse(`[
             {
                 "angle": -1.2566370614359172,
                 "offset": 0,
+                "size": 70,
                 "width": 21,
                 "delay": 0.1,
                 "reload": 4,
@@ -16841,7 +16842,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Agent",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [148,149,150],
+        "upgrades": [149,150,151],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -16872,7 +16873,6 @@ const TankDefinitions = JSON.parse(`[
                 "addon": null,
                 "droneCount": 3,
                 "canControlDrones": true,
-                "megaturret": true,
                 "bullet": {
                     "type": "autodrone",
                     "sizeRatio": 1,
@@ -16921,7 +16921,7 @@ const TankDefinitions = JSON.parse(`[
         ]
     },
     {
-        "id": 148,
+        "id": 149,
         "name": "Overdrive",
         "upgradeMessage": "",
         "levelRequirement": 45,
@@ -17028,7 +17028,7 @@ const TankDefinitions = JSON.parse(`[
         ]
     },
     {
-        "id": 149,
+        "id": 150,
         "name": "Megadrive",
         "upgradeMessage": "",
         "levelRequirement": 45,
@@ -17112,7 +17112,7 @@ const TankDefinitions = JSON.parse(`[
         ]
     },
     {
-        "id": 150,
+        "id": 151,
         "name": "Genesis",
         "upgradeMessage": "",
         "levelRequirement": 45,
