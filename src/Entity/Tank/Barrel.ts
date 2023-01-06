@@ -45,6 +45,7 @@ import MiniMinion from "./Projectile/MiniMinion";
 import MegaMinion from "./Projectile/MegaMinion";
 import Launrocket from "./Projectile/Launrocket";
 import Drone2 from "./Projectile/Drone2";
+import AutoDrone from "./Projectile/AutoDrone";
 import AutoTrap from "./Projectile/AutoTrap";
 import NecromancerPentagon from "./Projectile/NecromancerPenta";
 import Pentagon from "./Projectile/PentaDrone";
@@ -75,7 +76,7 @@ export class ShootCycle {
             this.reloadTime = reloadTime;
         }
 
-        const alwaysShoot = (this.barrelEntity.definition.forceFire) || (this.barrelEntity.definition.bullet.type === 'pentadrone') || (this.barrelEntity.definition.bullet.type === 'domminion') || (this.barrelEntity.definition.bullet.type === 'megaminion') || (this.barrelEntity.definition.bullet.type === 'miniminion') || (this.barrelEntity.definition.bullet.type === 'minion') || (this.barrelEntity.definition.bullet.type === 'drone') || (this.barrelEntity.definition.bullet.type === 'necrodrone') || (this.barrelEntity.definition.bullet.type === 'necropentadrone') || (this.barrelEntity.definition.bullet.type === 'necrotriangledrone');
+        const alwaysShoot = (this.barrelEntity.definition.forceFire) ||(this.barrelEntity.definition.bullet.type === 'autodrone') || (this.barrelEntity.definition.bullet.type === 'pentadrone') || (this.barrelEntity.definition.bullet.type === 'domminion') || (this.barrelEntity.definition.bullet.type === 'megaminion') || (this.barrelEntity.definition.bullet.type === 'miniminion') || (this.barrelEntity.definition.bullet.type === 'minion') || (this.barrelEntity.definition.bullet.type === 'drone') || (this.barrelEntity.definition.bullet.type === 'necrodrone') || (this.barrelEntity.definition.bullet.type === 'necropentadrone') || (this.barrelEntity.definition.bullet.type === 'necrotriangledrone');
 
         if (this.pos >= reloadTime) {
             // When its not shooting dont shoot, unless its a drone
@@ -219,6 +220,9 @@ export default class Barrel extends ObjectEntity {
             case 'drone':
                 new Drone(this, this.tank, tankDefinition, angle);
                 break;
+                case 'autodrone':
+                    new AutoDrone(this, this.tank, tankDefinition, angle);
+                    break;
             case 'orbit':
                 new Orbit(this, this.tank, tankDefinition, angle);
                 break;
