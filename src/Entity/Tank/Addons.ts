@@ -987,6 +987,40 @@ class PronouncedAddon extends Addon {
         }
     }
 }
+
+/** The thing above ranger's barrel. */
+class PronouncedAddon2 extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+
+        const pronounce = new ObjectEntity(this.game);
+        const sizeRatio = 50 / 50;
+        const widthRatio = 50 / 50;
+        const offsetRatio = 40 / 50;
+        const size = this.owner.physicsData.values.size;
+
+        pronounce.setParent(this.owner);
+        pronounce.relationsData.values.owner = this.owner;
+        pronounce.relationsData.values.team = this.owner.relationsData.values.team
+
+        pronounce.physicsData.values.size = sizeRatio * size;
+        pronounce.physicsData.values.width = widthRatio * size;
+        pronounce.positionData.values.x = offsetRatio * size;
+        pronounce.positionData.values.angle = Math.PI;
+
+        pronounce.styleData.values.color = Color.Barrel;
+        pronounce.physicsData.values.flags |= PhysicsFlags.isTrapezoid;
+        pronounce.physicsData.values.sides = 2;
+
+        pronounce.tick = () => {
+            const size = this.owner.physicsData.values.size;
+
+            pronounce.physicsData.size = sizeRatio * size;
+            pronounce.physicsData.width = widthRatio * size;
+            pronounce.positionData.x = offsetRatio * size;
+        }
+    }
+}
 /** The thing above Gunner + Destroyer Dominator's barrel. */
 class PronouncedDomAddon extends Addon {
     public constructor(owner: BarrelBase) {
@@ -1200,5 +1234,6 @@ export const AddonById: Record<addonId, typeof Addon | null> = {
     bigautoturret: THEBIGONE,
     joint3 : Joint3Addon,
     overdrive : OverDriveAddon,
-    droneturret :Banshee
+    droneturret :Banshee, 
+    pronounced2 : PronouncedAddon2
 }

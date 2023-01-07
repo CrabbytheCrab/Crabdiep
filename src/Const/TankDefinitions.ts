@@ -23,7 +23,7 @@ import { Tank, Color } from "./Enums";
 export type postAddonId = "dompronounced" | "auto5" | "auto3" | "overdrive"|"autosmasher" | "spike" | "pronounced"  | "rammer"| "bumper"|"smasher" | "landmine" | "autoturret"  | "joint3"  | "weirdspike" | "auto2" | "auto7" | "autorocket" | "spiesk" | "saw" | "megasmasher" | "mega3" | "stalker3" | "auto4" | "bigautoturret"| "droneturret";
 
 /** The types of post addons that exist in the game, by their id. */
-export type preAddonId = "dombase" | "launcher" | "laucher2"| "launchersmall";
+export type preAddonId = "dombase" | "launcher" |  "pronounced2"|"laucher2"| "launchersmall";
 /** A joint list of all post addon ids and pre addon ids. */
 export type addonId = preAddonId | postAddonId;
 
@@ -1436,7 +1436,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Hunter",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [47, 48],
+        "upgrades": [47, 48,153],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -5592,7 +5592,7 @@ const TankDefinitions = JSON.parse(`[
                 "size": 85,
                 "width": 25.2,
                 "delay": 0.6666,
-                "reload": 2.5,
+                "reload": 1.5,
                 "recoil": 0.5,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
@@ -5601,7 +5601,7 @@ const TankDefinitions = JSON.parse(`[
                     "type": "bullet",
                     "sizeRatio": 1,
                     "health": 0.8,
-                    "damage": 0.65,
+                    "damage": 0.5,
                     "speed": 1.4,
                     "scatterRate": 0.3,
                     "lifeLength": 1,
@@ -5614,7 +5614,7 @@ const TankDefinitions = JSON.parse(`[
                 "size": 85,
                 "width": 25.2,
                 "delay": 0.3333,
-                "reload": 2.5,
+                "reload": 1.5,
                 "recoil": 0.5,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
@@ -5623,7 +5623,7 @@ const TankDefinitions = JSON.parse(`[
                     "type": "bullet",
                     "sizeRatio": 1,
                     "health": 0.8,
-                    "damage": 0.65,
+                    "damage": 0.5,
                     "speed": 1.4,
                     "scatterRate": 0.3,
                     "lifeLength": 1,
@@ -5636,7 +5636,7 @@ const TankDefinitions = JSON.parse(`[
                 "size": 110,
                 "width": 52.7,
                 "delay": 0,
-                "reload": 2.5,
+                "reload": 3,
                 "recoil": 0.3,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
@@ -5658,7 +5658,7 @@ const TankDefinitions = JSON.parse(`[
                 "size": 95,
                 "width": 65,
                 "delay": 0.2,
-                "reload": 2.5,
+                "reload": 3,
                 "recoil": 3,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
@@ -17309,6 +17309,109 @@ const TankDefinitions = JSON.parse(`[
             },
             {
                 "name": "Drone Speed",
+                "max": 7
+            },
+            {
+                "name": "Body Damage",
+                "max": 7
+            },
+            {
+                "name": "Max Health",
+                "max": 7
+            },
+            {
+                "name": "Health Regen",
+                "max": 7
+            }
+        ]
+    },
+    {
+        "id": 153,
+        "name": "X Hunter",
+        "upgradeMessage": "",
+        "levelRequirement": 30,
+        "upgrades": [],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 0.75,
+        "absorbtionFactor": 1,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": null,
+        "postAddon": "pronounced2",
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 110,
+                "width": 37,
+                "delay": 0,
+                "reload": 2.5,
+                "recoil": 0.3,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": null,
+                "bullet": {
+                    "type": "bullet",
+                    "sizeRatio": 0.8,
+                    "health": 1,
+                    "damage": 0.7,
+                    "speed": 1.65,
+                    "scatterRate": 0.3,
+                    "lifeLength": 1,
+                    "absorbtionFactor": 0.5
+                }
+            },
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 95,
+                "width": 50,
+                "delay": 0.2,
+                "reload": 2.5,
+                "recoil": 0.3,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": null,
+                "bullet": {
+                    "type": "bullet",
+                    "sizeRatio": 0.8,
+                    "health": 1,
+                    "damage": 0.7,
+                    "speed": 1.65,
+                    "scatterRate": 0.3,
+                    "lifeLength": 1,
+                    "absorbtionFactor": 0.5
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 7
+            },
+            {
+                "name": "Reload",
+                "max": 7
+            },
+            {
+                "name": "Bullet Damage",
+                "max": 7
+            },
+            {
+                "name": "Bullet Penetration",
+                "max": 7
+            },
+            {
+                "name": "Bullet Speed",
                 "max": 7
             },
             {

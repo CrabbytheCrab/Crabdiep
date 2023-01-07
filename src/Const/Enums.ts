@@ -227,6 +227,7 @@ export const enum Tank {
     Megadrive     = 150,
     Genesis       = 151,
     Overclocked   = 152,
+    Hunterx       = 153,
     Mothership    = 204
 }
 
