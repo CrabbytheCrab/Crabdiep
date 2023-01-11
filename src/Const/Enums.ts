@@ -228,6 +228,9 @@ export const enum Tank {
     Genesis       = 151,
     Overclocked   = 152,
     Hunterx       = 153,
+    Fortress      = 154,
+    Blaster       = 155,
+    Striker       = 156,
     Mothership    = 204
 }
 

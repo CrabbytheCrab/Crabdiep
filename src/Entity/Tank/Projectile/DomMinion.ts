@@ -31,7 +31,7 @@ import { BarrelBase } from "../TankBody";
  const MinionBarrelDefinition: BarrelDefinition = {
     angle: 0,
     offset: 0,
-    size: 95,
+    size: 100,
     width: 42,
     delay: 0,
     reload: 3,
@@ -54,7 +54,7 @@ import { BarrelBase } from "../TankBody";
 const MinionBarrelDefinition2: BarrelDefinition = {
     angle: -0.39269908169872414,
     offset: 0,
-    size: 85,
+    size: 90,
     width: 42,
     delay: 0.5,
     reload: 3,
@@ -77,7 +77,7 @@ const MinionBarrelDefinition2: BarrelDefinition = {
 const MinionBarrelDefinition3: BarrelDefinition = {
     angle: 0.39269908169872414,
     offset: 0,
-    size: 85,
+    size: 90,
     width: 42,
     delay: 0.5,
     reload: 3,
@@ -100,8 +100,8 @@ const MinionBarrelDefinition3: BarrelDefinition = {
  const MinionBarrelDefinition4: BarrelDefinition = {
     angle: 0,
     offset: 0,
-    size: 95,
-    width: 42,
+    size: 90,
+    width: 44.4,
     delay: 0,
     reload: 1,
     recoil: 0.65,
@@ -111,7 +111,7 @@ const MinionBarrelDefinition3: BarrelDefinition = {
     bullet: {
         type: "bullet",
         health: 0.4,
-        damage: 0.3,
+        damage: 0.325,
         speed: 1,
         scatterRate: 1,
         lifeLength: 1,
@@ -123,8 +123,8 @@ const MinionBarrelDefinition3: BarrelDefinition = {
 const MinionBarrelDefinition5: BarrelDefinition = {
     angle: -0.39269908169872414,
     offset: 0,
-    size: 85,
-    width: 42,
+    size: 80,
+    width: 44.4,
     delay: 0.5,
     reload: 1,
     recoil: 0.65,
@@ -134,7 +134,7 @@ const MinionBarrelDefinition5: BarrelDefinition = {
     bullet: {
         type: "bullet",
         health: 0.4,
-        damage: 0.3,
+        damage: 0.325,
         speed: 1,
         scatterRate: 1,
         lifeLength: 1,
@@ -146,8 +146,8 @@ const MinionBarrelDefinition5: BarrelDefinition = {
 const MinionBarrelDefinition6: BarrelDefinition = {
     angle: 0.39269908169872414,
     offset: 0,
-    size: 85,
-    width: 42,
+    size: 80,
+    width: 44.4,
     delay: 0.5,
     reload: 1,
     recoil: 0.65,
@@ -157,7 +157,7 @@ const MinionBarrelDefinition6: BarrelDefinition = {
     bullet: {
         type: "bullet",
         health: 0.4,
-        damage: 0.3,
+        damage: 0.325,
         speed: 1,
         scatterRate: 1,
         lifeLength: 1,

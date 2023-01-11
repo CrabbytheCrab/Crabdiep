@@ -19,16 +19,65 @@
 import Barrel from "../Barrel";
 import Bullet from "./Bullet";
 
-import { PhysicsFlags, StyleFlags } from "../../../Const/Enums";
-import { TankDefinition } from "../../../Const/TankDefinitions";
+import { Color, InputFlags, PhysicsFlags, StyleFlags } from "../../../Const/Enums";
+import { BarrelDefinition, TankDefinition } from "../../../Const/TankDefinitions";
 import { Entity } from "../../../Native/Entity";
-import { AI, AIState } from "../../AI";
+import { AI, AIState, Inputs } from "../../AI";
 import { BarrelBase } from "../TankBody";
+import { PI2 } from "../../../util";
+import AutoTurret from "../AutoTurret";
 
 /**
  * The drone class represents the drone (projectile) entity in diep.
  */
-export default class Hive extends Bullet {
+
+const MinionBarrelDefinition2: BarrelDefinition = {
+    angle:  3.141592653589793,
+    offset: 0,
+    size: 75,
+    width: 44.4,
+    delay: 0,
+    reload: 1,
+    recoil: 1.35,
+    isTrapezoid: true,
+    trapezoidDirection: 0,
+    addon: null,
+    droneCount: 0,
+    bullet: {
+        type: "drone",
+        health: 0.4,
+        damage: 0.275,
+        speed: 0.8,
+        scatterRate: 1,
+        lifeLength: 1,
+        sizeRatio: 1,
+        absorbtionFactor: 1
+    }
+};
+const Bombshot1: BarrelDefinition = {
+    angle: 0,
+    offset: 0,
+    size: 0,
+    width: 85,
+    delay: 0,
+    reload: 1,
+    recoil: 1,
+    isTrapezoid: false,
+    trapezoidDirection: 0,
+    addon: null,
+    bullet: {
+        type: "bullet",
+        health: 1.5,
+        damage: 1,
+        speed: 1.2,
+        scatterRate: 0.3,
+        lifeLength: 0.45,
+        sizeRatio: 1,
+        absorbtionFactor: 0.3
+    }
+};
+export default class BombDrone extends Bullet  implements BarrelBase {
+    
     /** The AI of the drone (for AI mode) */
     public ai: AI;
 
@@ -36,23 +85,49 @@ export default class Hive extends Bullet {
     public static MAX_RESTING_RADIUS = 400 ** 2;
 
     /** Used let the drone go back to the player in time. */
-    private restCycle = true;
+    public restCycle = true;
 
     /** Cached prop of the definition. */
     protected canControlDrones: boolean;
-
+    /** The size ratio of the rocket. */
+    public sizeFactor: number;
+    /** The camera entity (used as team) of the rocket. */
+    public cameraEntity: Entity;
+    /** The reload time of the rocket's barrel. */
+    public reloadTime = 1;
+    /** The inputs for when to shoot or not. (Rocket) */
+    public inputs = new Inputs();
+    public canexplode: boolean;
+    public primetimer: number;
+    public death: boolean;
+    public primetimer2: number;
+    public skimmerBarrels: Barrel[];
+    private minionBarrel: Barrel;
+    public boom: boolean;
     public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number) {
         super(barrel, tank, tankDefinition, shootAngle);
+        this.cameraEntity = tank.cameraEntity;
 
         const bulletDefinition = barrel.definition.bullet;
 
         this.usePosAngle = true;
-        
+        this.minionBarrel = new Barrel(this, MinionBarrelDefinition2)
+        this.minionBarrel.styleData.color = this.styleData.color
+
         this.ai = new AI(this);
-        this.ai.viewRange = 900 * tank.sizeFactor;
-        this.ai.targetFilter = (targetPos) => (targetPos.x - this.positionData.x) ** 2 + (targetPos.y - this.positionData.y) ** 2 <= this.ai.viewRange ** 2; // (1000 ** 2) 1000 radius
+        this.ai.viewRange = 850 * tank.sizeFactor;
+        this.ai.targetFilter = (targetPos) => (targetPos.x - this.tank.positionData.values.x) ** 2 + (targetPos.y - this.tank.positionData.values.y) ** 2 <= this.ai.viewRange ** 2; // (1000 ** 2) 1000 radius
         this.canControlDrones = typeof this.barrelEntity.definition.canControlDrones === 'boolean' && this.barrelEntity.definition.canControlDrones;
-        this.physicsData.values.sides = bulletDefinition.sides ?? 3;
+        this.physicsData.values.sides = bulletDefinition.sides ?? 1;
+        this.physicsData.values.size *= 1.2;
+        this.canexplode = false
+        this.death = true
+        this.boom = false 
+       this.sizeFactor = this.physicsData.values.size / 50;
+
+        this.primetimer2 = 0
+        this.skimmerBarrels =[];
+        this.primetimer = 0
         if (this.physicsData.values.flags & PhysicsFlags.noOwnTeamCollision) this.physicsData.values.flags ^= PhysicsFlags.noOwnTeamCollision;
         this.physicsData.values.flags |= PhysicsFlags.onlySameOwnerCollision;
         this.styleData.values.flags &= ~StyleFlags.hasNoDmgIndicator;
@@ -65,7 +140,7 @@ export default class Hive extends Bullet {
         }
         this.deathAccelFactor = 1;
 
-        this.physicsData.values.pushFactor = 2;
+        this.physicsData.values.pushFactor = 4;
         this.physicsData.values.absorbtionFactor = bulletDefinition.absorbtionFactor;
 
         this.baseSpeed /= 3;
@@ -73,6 +148,49 @@ export default class Hive extends Bullet {
         barrel.droneCount += 1;
 
         this.ai.movementSpeed = this.ai.aimSpeed = this.baseAccel;
+        
+
+        const atuo = new AutoTurret(this, {
+            angle: 0,
+            offset: 0,
+            size: 0,
+            width: 0,
+            delay: 0.01,
+            reload: 1.75,
+            recoil: 0,
+            isTrapezoid: false,
+            trapezoidDirection: 0,
+            addon: null,
+            droneCount: 0,
+            bullet: {
+                type: "drone",
+                sizeRatio: 1,
+                health: 0.75,
+                damage: 0.5,
+                speed: 1,
+                scatterRate: 1,
+                lifeLength: 0.75,
+                absorbtionFactor: 0.1
+            }
+        });
+            atuo.baseSize *= 1.25
+            atuo.positionData.values.angle = shootAngle
+        //atuo.ai.passiveRotation = this.movementAngle
+        atuo.styleData.values.flags |= StyleFlags.showsAboveParent;
+        atuo.ai.viewRange = 0
+        atuo.styleData.color = Color.Border
+        const tickBase = atuo.tick;
+        atuo.tick = (tick: number) => {
+            if(this.canexplode == false){
+                    this.primetimer++
+                    if(this.primetimer == 60){
+                        this.canexplode = true
+                        atuo.styleData.color = Color.Box
+    
+                    } 
+                }
+            tickBase.call(atuo, tick);
+        }
     }
 
     /** Extends LivingEntity.destroy - so that the drone count decreases for the barrel. */
@@ -99,8 +217,8 @@ export default class Hive extends Bullet {
             const base = this.baseAccel;
 
             // still a bit inaccurate, works though
-            /*let unitDist = (delta.x ** 2 + delta.y ** 2) / Drone.MAX_RESTING_RADIUS;
-           if (unitDist <= 1 && this.restCycle) {
+            let unitDist = (delta.x ** 2 + delta.y ** 2) / BombDrone.MAX_RESTING_RADIUS;
+            if (unitDist <= 1 && this.restCycle) {
                 this.baseAccel /= 6;
                 this.positionData.angle += 0.01 + 0.012 * unitDist;
             } else {
@@ -110,7 +228,7 @@ export default class Hive extends Bullet {
                 this.positionData.angle = Math.atan2(delta.y, delta.x);
                 if (unitDist < 0.5) this.baseAccel /= 3;
                 this.restCycle = (delta.x ** 2 + delta.y ** 2) <= 4 * (this.tank.physicsData.values.size ** 2);
-            }*/
+            }
 
             if (!Entity.exists(this.barrelEntity)) this.destroy();
 
@@ -132,7 +250,29 @@ export default class Hive extends Bullet {
 
         // So that switch tank works, as well as on death
         if (!Entity.exists(this.barrelEntity)) this.destroy();
-
+        if(this.tank.inputs.attemptingRepel() && this.canexplode == true){
+            {
+                this.inputs = new Inputs();
+                this.inputs.flags |= InputFlags.leftclick;
+                    const skimmerBarrels: Barrel[] = this.skimmerBarrels =[]
+                    for (let n = 0; n < 8; n++) {
+                        const barr = new Barrel(this, {
+                         ...Bombshot1,
+                         angle: PI2 * (n / 8)
+                     });
+                     barr.physicsData.values.sides = 0
+                     skimmerBarrels.push(barr);
+             
+                     } 
+                    
+                     
+            }
+                setTimeout(() => {
+                    this.destroy()
+                }, 15);
+    
+            this.boom = true
+        }
         this.tickMixin(tick);
     }
 }

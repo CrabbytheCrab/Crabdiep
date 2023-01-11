@@ -567,6 +567,55 @@ export class MineLauncherAddon2 extends BarrelAddon {
         this.launcherEntity = new MineLauncher2(owner);
     }
 }
+
+export class StrikerLauncher extends ObjectEntity {
+    /** The barrel that this trap launcher is placed on. */
+    public barrelEntity: Barrel;
+
+    /** Resizes the trap launcher; when its barrel owner gets bigger, the trap launcher must as well. */
+    public constructor(barrel: Barrel) {
+        super(barrel.game);
+
+        this.barrelEntity = barrel;
+        this.setParent(barrel);
+        this.relationsData.values.team = barrel;
+        this.physicsData.values.flags = PhysicsFlags.isTrapezoid | PhysicsFlags._unknown;
+        this.styleData.values.color = Color.Barrel;
+        this.styleData.values.flags|=  StyleFlags.showsAboveParent;
+
+        this.physicsData.values.sides = 2;
+        this.physicsData.values.width = barrel.physicsData.values.width * 0.45;
+        this.physicsData.values.size = barrel.physicsData.values.size * (40 / 50);
+        this.positionData.values.x = 0;
+        this.positionData.values.angle = Math.PI;
+    }
+
+    public resize() {
+        this.physicsData.sides = 2;
+        this.physicsData.width = this.barrelEntity.physicsData.values.width * 0.45;
+        this.physicsData.size = this.barrelEntity.physicsData.values.size * (40 / 50);
+        this.positionData.x = 0;
+        //this.positionData.angle = Math.PI;
+    }
+
+
+    public tick(tick: number) {
+        super.tick(tick);
+
+        this.resize();
+    }
+}
+export class StrikerAddon extends BarrelAddon {
+    /** The actual trap launcher entity */
+    public launcherEntity: StrikerLauncher;
+
+    public constructor(owner: Barrel) {
+        super(owner);
+
+        this.launcherEntity = new StrikerLauncher(owner);
+        this.launcherEntity = new TrapLauncher(owner);
+    }
+}
 /**
  * All barrel addons in the game by their ID.
  */
@@ -578,6 +627,7 @@ export class MineLauncherAddon2 extends BarrelAddon {
     machineTrapLauncher: MachineTrapLauncherAddon,
     engimachinetrapLauncher: MachineEngiTrapLauncherAddon,
     mineLauncher : MineLauncherAddon,
-    machineMineLauncher : MineLauncherAddon2
+    machineMineLauncher : MineLauncherAddon2,
+    striker : StrikerAddon
 
 }

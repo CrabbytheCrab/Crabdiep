@@ -32,7 +32,7 @@ import { BarrelBase } from "../TankBody";
     angle: 0,
     offset: 0,
     size: 80,
-    width: 42,
+    width: 40,
     delay: 0,
     reload: 1,
     recoil: 1.35,
@@ -41,11 +41,11 @@ import { BarrelBase } from "../TankBody";
     addon: null,
     bullet: {
         type: "bullet",
-        health: 0.3,
-        damage: 0.4,
-        speed: 0.8,
-        scatterRate: 1,
-        lifeLength: 1,
+        health: 0.4,
+        damage: 0.275,
+        speed: 0.95,
+        scatterRate: 1.2,
+        lifeLength: 0.8,
         sizeRatio: 1,
         absorbtionFactor: 1
     }

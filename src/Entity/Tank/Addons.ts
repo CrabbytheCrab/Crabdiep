@@ -814,7 +814,7 @@ class LauncherSmallAddon extends Addon {
 
         const launcher = new ObjectEntity(this.game);
         const sizeRatio = 65.5 * Math.SQRT2 / 50;
-        const widthRatio = 29.5 / 50;
+        const widthRatio = 49.21875 / 50;
         const size = this.owner.physicsData.values.size;
 
         launcher.setParent(this.owner);
@@ -826,7 +826,6 @@ class LauncherSmallAddon extends Addon {
         launcher.positionData.values.x = launcher.physicsData.values.size / 2;
 
         launcher.styleData.values.color = Color.Barrel;
-        launcher.physicsData.values.flags |= PhysicsFlags.isTrapezoid;
         launcher.physicsData.values.sides = 2;
 
         launcher.tick = () => {
@@ -848,8 +847,8 @@ class LauncherAddon2 extends Addon {
             const angle2 = PI2 * ((i / 3)  - 1 / (6));
 
             const launcher = new ObjectEntity(this.game);
-            const sizeRatio = 65.5 * Math.SQRT2 / 50;
-            const widthRatio = 27.75 / 50;
+            const sizeRatio = 58.5 * Math.SQRT2 / 50;
+            const widthRatio = 43.125 / 50;
             const size = this.owner.physicsData.values.size;
     
             launcher.setParent(this.owner);
@@ -860,7 +859,6 @@ class LauncherAddon2 extends Addon {
             launcher.physicsData.values.width = widthRatio * size;
             launcher.positionData.values.x = launcher.physicsData.values.size / 2;
             launcher.styleData.values.color = Color.Barrel;
-            launcher.physicsData.values.flags |= PhysicsFlags.isTrapezoid;
             launcher.physicsData.values.sides = 2;
             launcher.positionData.angle = angle
             const tickBase2 = launcher.tick;
@@ -1088,7 +1086,7 @@ class AutoRocketAddon extends Addon {
         const base = new AutoTurret(owner, {
             angle: 0,
             offset: 0,
-            size: 65,
+            size: 55,
             width: 42 * 0.7,
             delay: 0,
             reload: 4,
@@ -1100,8 +1098,8 @@ class AutoRocketAddon extends Addon {
                 type: "bullet",
                 sizeRatio: 1,
                 health: 0.85,
-                damage: 1.25,
-                speed: 1.5,
+                damage: 1.2,
+                speed: 1.4,
                 scatterRate: 0.3,
                 lifeLength: 1,
                 absorbtionFactor: 0.1

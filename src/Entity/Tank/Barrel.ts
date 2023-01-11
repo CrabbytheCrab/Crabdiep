@@ -53,6 +53,8 @@ import Pentagon from "./Projectile/PentaDrone";
 import NecromancerTriangle from "./Projectile/NecromancerTriangle";
 import MegaSpinner from "./Projectile/MegaSpinner";
 import Mine from "./Projectile/Mine";
+import BombDrone from "./Projectile/BombDrone";
+import Striker from "./Projectile/Striker";
 /**
  * Class that determines when barrels can shoot, and when they can't.
  */
@@ -77,7 +79,7 @@ export class ShootCycle {
             this.reloadTime = reloadTime;
         }
 
-        const alwaysShoot = (this.barrelEntity.definition.forceFire) ||(this.barrelEntity.definition.bullet.type === 'autodrone') || (this.barrelEntity.definition.bullet.type === 'pentadrone') || (this.barrelEntity.definition.bullet.type === 'domminion') || (this.barrelEntity.definition.bullet.type === 'megaminion') || (this.barrelEntity.definition.bullet.type === 'miniminion') || (this.barrelEntity.definition.bullet.type === 'minion') || (this.barrelEntity.definition.bullet.type === 'drone') || (this.barrelEntity.definition.bullet.type === 'necrodrone') || (this.barrelEntity.definition.bullet.type === 'necropentadrone') || (this.barrelEntity.definition.bullet.type === 'necrotriangledrone');
+        const alwaysShoot = (this.barrelEntity.definition.forceFire) ||(this.barrelEntity.definition.bullet.type === 'bombdrone')||(this.barrelEntity.definition.bullet.type === 'autodrone') || (this.barrelEntity.definition.bullet.type === 'pentadrone') || (this.barrelEntity.definition.bullet.type === 'domminion') || (this.barrelEntity.definition.bullet.type === 'megaminion') || (this.barrelEntity.definition.bullet.type === 'miniminion') || (this.barrelEntity.definition.bullet.type === 'minion') || (this.barrelEntity.definition.bullet.type === 'drone') || (this.barrelEntity.definition.bullet.type === 'necrodrone') || (this.barrelEntity.definition.bullet.type === 'necropentadrone') || (this.barrelEntity.definition.bullet.type === 'necrotriangledrone');
 
         if (this.pos >= reloadTime) {
             // When its not shooting dont shoot, unless its a drone
@@ -215,12 +217,18 @@ export default class Barrel extends ObjectEntity {
             case 'trap':
                 new Trap(this, this.tank, tankDefinition, angle, this.rootParent);
                 break;
+                case 'striker':
+                    new Striker(this, this.tank, tankDefinition, angle, this.rootParent);
+                    break;
             case 'mine':
                 new Mine(this, this.tank, tankDefinition, angle, this.rootParent);
                 break;
             case 'drone':
                 new Drone(this, this.tank, tankDefinition, angle);
                 break;
+                case 'bombdrone':
+                    new BombDrone(this, this.tank, tankDefinition, angle);
+                    break;
                 case 'autodrone':
                     new AutoDrone(this, this.tank, tankDefinition, angle);
                     break;

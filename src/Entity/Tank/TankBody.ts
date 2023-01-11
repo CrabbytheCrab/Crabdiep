@@ -369,8 +369,10 @@ export default class TankBody extends LivingEntity implements BarrelBase {
             // Damage
             this.damagePerTick = this.cameraEntity.cameraData.statLevels[Stat.BodyDamage] * 6 + 20;
             if (this._currentTank === Tank.Spike) this.damagePerTick *= 1.5;
-            if (this._currentTank === Tank.Saw) this.damagePerTick *= 1.15;
+            if (this._currentTank === Tank.Saw) this.damagePerTick *= 1.1;
             if (this._currentTank === Tank.autosmasher) this.damagePerTick *= 1.1;
+            if (this._currentTank === Tank.Bumper) this.damagePerTick *= 0.375;
+            if (this._currentTank === Tank.Bumper) this.damageReduction = 0.375;
 
             // Max Health
             const maxHealthCache = this.healthData.values.maxHealth;
@@ -380,6 +382,8 @@ export default class TankBody extends LivingEntity implements BarrelBase {
             this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth] * 1.5) * 20;}
             else if (this._currentTank === Tank.Saw){
                 this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth]) * 15;}
+                else if (this._currentTank === Tank.autosmasher){
+                    this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth]) * 22;}
                 else{ this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth] * 20}
             if (this.healthData.values.health === maxHealthCache) this.healthData.health = this.healthData.maxHealth; // just in case
             else if (this.healthData.values.maxHealth !== maxHealthCache) {
@@ -389,7 +393,7 @@ export default class TankBody extends LivingEntity implements BarrelBase {
             // Regen
             this.regenPerTick = (this.healthData.values.maxHealth * 4 * (this.cameraEntity.cameraData.values.statLevels.values[Stat.HealthRegen] * 1.25) + this.healthData.values.maxHealth) / 25000;
             if (this._currentTank === Tank.MegaSmasher) this.regenPerTick *= 1.25;
-            if (this._currentTank === Tank.Bumper) {this.physicsData.pushFactor = 60;}else{this.physicsData.pushFactor = 8}
+            if (this._currentTank === Tank.Bumper) {this.physicsData.pushFactor = 100;}else{this.physicsData.pushFactor = 8}
             // Reload
             this.reloadTime = 15 * Math.pow(0.914, this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]);
         }
