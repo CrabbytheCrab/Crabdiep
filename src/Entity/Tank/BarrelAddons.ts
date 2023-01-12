@@ -58,7 +58,7 @@ export class TrapLauncher extends ObjectEntity {
         this.setParent(barrel);
         this.relationsData.values.team = barrel;
         this.physicsData.values.flags = PhysicsFlags.isTrapezoid | PhysicsFlags._unknown;
-        this.styleData.values.color = Color.Barrel;
+        this.styleData.color = this.barrelEntity.styleData.color;
 
         this.physicsData.values.sides = 2;
         this.physicsData.values.width = barrel.physicsData.values.width;
@@ -67,6 +67,7 @@ export class TrapLauncher extends ObjectEntity {
     }
 
     public resize() {
+        this.styleData.color = this.barrelEntity.styleData.color;
         this.physicsData.sides = 2;
         this.physicsData.width = this.barrelEntity.physicsData.values.width;
         this.physicsData.size = this.barrelEntity.physicsData.values.width * (20 / 42);

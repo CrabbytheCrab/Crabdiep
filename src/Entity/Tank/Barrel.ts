@@ -23,9 +23,10 @@ import Trap from "./Projectile/Trap";
 import Drone from "./Projectile/Drone";
 import Hive from "./Projectile/Hive";
 import Rocket from "./Projectile/Rocket";
-import Spinner from "./Projectile/Skimmer";
+import Spinner from "./Projectile/Spinner";
 import Spinner4 from "./Projectile/Spinner4";
-import Skimmer from "./Projectile/Skimrocket";
+import TrapSpinner from "./Projectile/Trapspin";
+import Skimmer from "./Projectile/Skimmer";
 import Minion from "./Projectile/Minion";
 import DomMinion from "./Projectile/DomMinion";
 import ObjectEntity from "../Object";
@@ -195,6 +196,9 @@ export default class Barrel extends ObjectEntity {
         switch (this.definition.bullet.type) {
             case "spinner":
                 new Spinner(this, this.tank, tankDefinition, angle, this.tank.inputs.attemptingRepel() ? -Spinner.BASE_ROTATION : Spinner.BASE_ROTATION);
+                break;
+            case "trapspinner":
+                new TrapSpinner(this, this.tank, tankDefinition, angle, this.tank.inputs.attemptingRepel() ? -Spinner.BASE_ROTATION : Spinner.BASE_ROTATION);
                 break;
             case "spinner4":
                 new Spinner4(this, this.tank, tankDefinition, angle, this.tank.inputs.attemptingRepel() ? -Spinner.BASE_ROTATION : Spinner.BASE_ROTATION);

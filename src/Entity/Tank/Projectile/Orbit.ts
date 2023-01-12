@@ -32,10 +32,10 @@ import { PI2 } from "../../../util";
  */
 export default class Orbit extends Bullet {
     /** The AI of the drone (for AI mode) */
-    public static FOCUS_RADIUS = 850 ** 2;
     public ai: AI;
     public fire: boolean = true
     /** The drone's radius of resting state */
+    public static FOCUS_RADIUS = 40 ** 2;
     public static MAX_RESTING_RADIUS = 400 ** 2;
     public static BASE_ROTATION = 0.1;
     public static dronecount = new Array(100);
@@ -108,6 +108,15 @@ export default class Orbit extends Bullet {
             }
         }
             if(this.fire == false){
+        const inputs = this.tank.inputs;
+
+        const dist = (this.positionData.x - this.tank.positionData.x) ** 2 + (this.positionData.y - this.tank.positionData.y) ** 2
+
+                if (dist < Orbit.FOCUS_RADIUS / 4) { // Half
+                    this.movementAngle = this.positionData.values.angle + Math.PI;
+                } else if (dist < Orbit.FOCUS_RADIUS) {
+                    this.movementAngle = this.positionData.values.angle + Math.PI / 2;
+                } else this.movementAngle = this.positionData.values.angle;
             if (!Entity.exists(this.barrelEntity)) this.destroy()
             this.lifeLength = Infinity;
             this.spawnTick = this.barrelEntity.game.tick;
@@ -129,7 +138,7 @@ export default class Orbit extends Bullet {
                 delta.y = this.tank.positionData.y + (Math.sin(angle) * sizeFactor/2 + Math.cos(offset))* (this.tank.physicsData.size/2) * -3 - this.positionData.y
                
                 //this.movementAngle = Math.atan2(delta.y, delta.x);
-                this.movementAngle =  Math.atan2(delta.y, delta.x);
+                this.movementAngle =  Math.atan2(delta.y, delta.x) + PI2;
             if(this.tank.inputs.attemptingRepel()){
         const inputs = this.tank.inputs;
 
