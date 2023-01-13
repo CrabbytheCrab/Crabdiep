@@ -45,7 +45,7 @@ export default class SandboxArena extends ArenaEntity {
     public constructor(game: GameServer) {
         super(game);
 
-		this.updateBounds(2500, 2500);
+		this.updateBounds(7500, 7500);
         this.arenaData.values.flags |= ArenaFlags.canUseCheats;
 		// const w1 = new MazeWall(this.game, 0, 0, 500, 500);
     }

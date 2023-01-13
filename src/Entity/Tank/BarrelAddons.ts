@@ -59,6 +59,7 @@ export class TrapLauncher extends ObjectEntity {
         this.relationsData.values.team = barrel;
         this.physicsData.values.flags = PhysicsFlags.isTrapezoid | PhysicsFlags._unknown;
         this.styleData.color = this.barrelEntity.styleData.color;
+        //this.positionData.values.angle = Math.PI;
 
         this.physicsData.values.sides = 2;
         this.physicsData.values.width = barrel.physicsData.values.width;
@@ -361,16 +362,16 @@ export class SwarmLauncher2 extends ObjectEntity {
 
         this.physicsData.values.sides = 2;
         this.physicsData.values.width = barrel.physicsData.values.width * 2.5;
-        this.physicsData.values.size = barrel.physicsData.values.size * (15 / 50);
-        this.positionData.values.x = 7;
+        this.physicsData.values.size = 105 * (30 / 50);
+        this.positionData.x = (this.barrelEntity.physicsData.values.size - this.physicsData.values.size) / 2;
         //this.positionData.values.angle = Math.PI;
     }
 
     public resize() {
         this.physicsData.sides = 2;
         this.physicsData.width = this.barrelEntity.physicsData.values.width * 2.5;
-        this.physicsData.size = this.barrelEntity.physicsData.values.size * (15 / 50);
-        this.positionData.x = 7;
+        this.physicsData.size = this.barrelEntity.tank.sizeFactor * 105 * (30 / 50);
+        this.positionData.x = (this.barrelEntity.physicsData.values.size - this.physicsData.values.size) / 2;
         //this.positionData.angle = Math.PI;
     }
     public tick(tick: number) {
@@ -605,6 +606,45 @@ export class StrikerLauncher extends ObjectEntity {
 
         this.resize();
     }
+    
+}
+
+
+export class ReverseTrapLauncher extends ObjectEntity {
+    /** The barrel that this trap launcher is placed on. */
+    public barrelEntity: Barrel;
+
+    /** Resizes the trap launcher; when its barrel owner gets bigger, the trap launcher must as well. */
+    public constructor(barrel: Barrel) {
+        super(barrel.game);
+
+        this.barrelEntity = barrel;
+        this.setParent(barrel);
+        this.relationsData.values.team = barrel;
+        this.physicsData.values.flags = PhysicsFlags.isTrapezoid | PhysicsFlags._unknown;
+        this.styleData.color = this.barrelEntity.styleData.color;
+        this.positionData.values.angle = Math.PI;
+
+        this.physicsData.values.sides = 2;
+        this.physicsData.values.width = barrel.physicsData.values.width;
+        this.physicsData.values.size = barrel.physicsData.values.width * (20 / 42);
+        this.positionData.values.x = (-barrel.physicsData.values.size - this.physicsData.values.size) / 2;
+    }
+
+    public resize() {
+        this.styleData.color = this.barrelEntity.styleData.color;
+        this.physicsData.sides = 2;
+        this.physicsData.width = this.barrelEntity.physicsData.values.width;
+        this.physicsData.size = this.barrelEntity.physicsData.values.width * (20 / 42);
+        this.positionData.x = (-this.barrelEntity.physicsData.values.size - this.physicsData.values.size) / 2;
+    }
+
+
+    public tick(tick: number) {
+        super.tick(tick);
+
+        this.resize();
+    }
 }
 export class StrikerAddon extends BarrelAddon {
     /** The actual trap launcher entity */
@@ -613,8 +653,8 @@ export class StrikerAddon extends BarrelAddon {
     public constructor(owner: Barrel) {
         super(owner);
 
-        this.launcherEntity = new StrikerLauncher(owner);
-        this.launcherEntity = new TrapLauncher(owner);
+        //this.launcherEntity = new StrikerLauncher(owner);
+        this.launcherEntity = new ReverseTrapLauncher(owner);
     }
 }
 /**
@@ -629,6 +669,6 @@ export class StrikerAddon extends BarrelAddon {
     engimachinetrapLauncher: MachineEngiTrapLauncherAddon,
     mineLauncher : MineLauncherAddon,
     machineMineLauncher : MineLauncherAddon2,
-    striker : StrikerAddon
+    reversetrap : StrikerAddon
 
 }

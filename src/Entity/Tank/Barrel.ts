@@ -165,7 +165,7 @@ export default class Barrel extends ObjectEntity {
 
         this.barrelData.values.trapezoidDirection = barrelDefinition.trapezoidDirection;
         this.shootCycle = new ShootCycle(this);
-        const iseffectedbyspeed = (this.definition.bullet.type === 'spinner' || this.definition.bullet.type === 'spinner4' || this.definition.bullet.type === 'megaspinner')
+        const iseffectedbyspeed = (this.definition.bullet.type === 'trapspinner'  || this.definition.bullet.type === 'spinner' || this.definition.bullet.type === 'spinner4' || this.definition.bullet.type === 'megaspinner')
         if(!iseffectedbyspeed){
         this.bulletAccel = (20 + (owner.cameraEntity.cameraData?.values.statLevels.values[Stat.BulletSpeed] || 0) * 3) * barrelDefinition.bullet.speed;
         }
@@ -319,7 +319,7 @@ export default class Barrel extends ObjectEntity {
         this.positionData.y = Math.sin(this.definition.angle) * size / 2 + Math.cos(this.definition.angle) * this.definition.offset * sizeFactor;
 
         // Updates bullet accel too
-        const iseffectedbyspeed = (this.definition.bullet.type === 'spinner' || this.definition.bullet.type === 'spinner4' || this.definition.bullet.type === 'megaspinner')
+        const iseffectedbyspeed = (this.definition.bullet.type === 'trapspinner'  || this.definition.bullet.type === 'spinner' || this.definition.bullet.type === 'spinner4' || this.definition.bullet.type === 'megaspinner')
         if(!iseffectedbyspeed){
         this.bulletAccel = (20 + (this.tank.cameraEntity.cameraData?.values.statLevels.values[Stat.BulletSpeed] || 0) * 3) * this.definition.bullet.speed;
         }
