@@ -181,6 +181,7 @@ const TankDefinitions = JSON.parse(`[
             6,
             5,
             7,
+            109,
             8
         ],
         "flags": {
@@ -529,7 +530,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Flank Guard",
         "upgradeMessage": "",
         "levelRequirement": 15,
-        "upgrades": [18, 10, 11, 19, 20, 29, 21,109],
+        "upgrades": [18, 10, 11, 19, 20, 159, 29, 21],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -633,7 +634,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Commander",
         "upgradeMessage": "Use your left mouse button to control the drones",
         "levelRequirement": 15,
-        "upgrades": [26, 24, 27, 28, 32,115, 126,148,74],
+        "upgrades": [26, 24, 27, 28, 32,115, 126,159,148,74],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -1539,7 +1540,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Scope",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [45,49,50],
+        "upgrades": [45,49,50,160],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -3010,7 +3011,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Cruiser",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [41, 78,128,152],
+        "upgrades": [41, 78,128,152,160],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -12423,7 +12424,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Auto Tank",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [62,63, 70,100, 73,110,112],
+        "upgrades": [62,63, 70,100, 73,110],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -12640,7 +12641,7 @@ const TankDefinitions = JSON.parse(`[
     },
     {
         "id": 112,
-        "name": "Auto Director",
+        "name": "Bridhy",
         "upgradeMessage": "",
         "levelRequirement": 45,
         "upgrades": [],
@@ -12657,22 +12658,44 @@ const TankDefinitions = JSON.parse(`[
         "speed": 1,
         "maxHealth": 50,
         "preAddon": null,
-        "postAddon": "autoturret",
+        "postAddon": null,
         "sides": 1,
         "borderWidth": 15,
         "barrels": [
             {
                 "angle": 0,
                 "offset": 0,
+                "size": 95,
+                "width": 42,
+                "delay": 0,
+                "reload": 1,
+                "recoil": 0,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": null,
+                "bullet": {
+                    "type": "bullet",
+                    "sizeRatio": 1,
+                    "health": 1,
+                    "damage": 1,
+                    "speed": 1,
+                    "scatterRate": 1,
+                    "lifeLength": 1,
+                    "absorbtionFactor": 1
+                }
+            },
+            {
+                "angle": 3.141592653589793,
+                "offset": 0,
                 "size": 75,
                 "width": 63,
                 "delay": 0,
-                "reload": 8,
+                "reload": 6.5,
                 "recoil": 1,
                 "isTrapezoid": true,
                 "trapezoidDirection": 0,
                 "addon": null,
-                "droneCount": 4,
+                "droneCount": 2,
                 "canControlDrones": true,
                 "bullet": {
                     "type": "drone",
@@ -12696,15 +12719,15 @@ const TankDefinitions = JSON.parse(`[
                 "max": 7
             },
             {
-                "name": "Drone Damage",
+                "name": "Weapon Damage",
                 "max": 7
             },
             {
-                "name": "Drone Health",
+                "name": "Weapon Penetration",
                 "max": 7
             },
             {
-                "name": "Drone Speed",
+                "name": "Weapon Speed",
                 "max": 7
             },
             {
@@ -17932,6 +17955,264 @@ const TankDefinitions = JSON.parse(`[
             },
             {
                 "name": "Bullet Speed",
+                "max": 7
+            },
+            {
+                "name": "Body Damage",
+                "max": 7
+            },
+            {
+                "name": "Max Health",
+                "max": 7
+            },
+            {
+                "name": "Health Regen",
+                "max": 7
+            }
+        ]
+    },
+    {
+        "id": 159,
+        "name": "Alloy",
+        "upgradeMessage": "",
+        "levelRequirement": 30,
+        "upgrades": [65, 112, 127,160],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 1,
+        "absorbtionFactor": 1,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": null,
+        "postAddon": null,
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 95,
+                "width": 42,
+                "delay": 0,
+                "reload": 1,
+                "recoil": 0,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": null,
+                "bullet": {
+                    "type": "bullet",
+                    "sizeRatio": 1,
+                    "health": 1,
+                    "damage": 1,
+                    "speed": 1,
+                    "scatterRate": 1,
+                    "lifeLength": 1,
+                    "absorbtionFactor": 1
+                }
+            },
+            {
+                "angle": 3.141592653589793,
+                "offset": 0,
+                "size": 70,
+                "width": 42,
+                "delay": 0,
+                "reload": 4.5,
+                "recoil": 1,
+                "isTrapezoid": true,
+                "trapezoidDirection": 0,
+                "addon": null,
+                "droneCount": 2,
+                "canControlDrones": true,
+                "bullet": {
+                    "type": "drone",
+                    "sizeRatio": 1,
+                    "health": 2,
+                    "damage": 0.7,
+                    "speed": 0.8,
+                    "scatterRate": 0,
+                    "lifeLength": -1,
+                    "absorbtionFactor": 1
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 7
+            },
+            {
+                "name": "Reload",
+                "max": 7
+            },
+            {
+                "name": "Weapon Damage",
+                "max": 7
+            },
+            {
+                "name": "Weapon Penetration",
+                "max": 7
+            },
+            {
+                "name": "Weapon Speed",
+                "max": 7
+            },
+            {
+                "name": "Body Damage",
+                "max": 7
+            },
+            {
+                "name": "Max Health",
+                "max": 7
+            },
+            {
+                "name": "Health Regen",
+                "max": 7
+            }
+        ]
+    },
+    {
+        "id": 160,
+        "name": "Munition",
+        "upgradeMessage": "",
+        "levelRequirement": 45,
+        "upgrades": [],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 0.9,
+        "absorbtionFactor": 1,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": null,
+        "postAddon": null,
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 110,
+                "width": 37,
+                "delay": 0,
+                "reload": 1.5,
+                "recoil": 3,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": null,
+                "bullet": {
+                    "type": "bullet",
+                    "sizeRatio": 1,
+                    "health": 1,
+                    "damage": 1,
+                    "speed": 1.5,
+                    "scatterRate": 0.3,
+                    "lifeLength": 1,
+                    "absorbtionFactor": 1
+                }
+            },
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 90,
+                "width": 27,
+                "delay": 0.2,
+                "reload": 3,
+                "recoil": 0.4,
+                "isTrapezoid": true,
+                "trapezoidDirection": 3.141592653589793,
+                "addon": null,
+                "droneCount": 4294967295,
+                "canControlDrones": true,
+                "bullet": {
+                    "type": "swarm",
+                    "sizeRatio": 0.7,
+                    "health": 1,
+                    "damage": 0.15,
+                    "speed": 1,
+                    "scatterRate": 0,
+                    "lifeLength": 1,
+                    "absorbtionFactor": 1
+                }
+            },
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 75,
+                "width": 27,
+                "delay": 0.4,
+                "reload": 3,
+                "recoil": 0.4,
+                "isTrapezoid": true,
+                "trapezoidDirection": 3.141592653589793,
+                "addon": null,
+                "droneCount": 4294967295,
+                "canControlDrones": true,
+                "bullet": {
+                    "type": "swarm",
+                    "sizeRatio": 0.7,
+                    "health": 1,
+                    "damage": 0.15,
+                    "speed": 1,
+                    "scatterRate": 0,
+                    "lifeLength": 1,
+                    "absorbtionFactor": 1
+                }
+            },
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 60,
+                "width": 27,
+                "delay": 0.6,
+                "reload": 3,
+                "recoil": 0.4,
+                "isTrapezoid": true,
+                "trapezoidDirection": 3.141592653589793,
+                "addon": null,
+                "droneCount": 4294967295,
+                "canControlDrones": true,
+                "bullet": {
+                    "type": "swarm",
+                    "sizeRatio": 0.7,
+                    "health": 1,
+                    "damage": 0.15,
+                    "speed": 1,
+                    "scatterRate": 0,
+                    "lifeLength": 1,
+                    "absorbtionFactor": 1
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 7
+            },
+            {
+                "name": "Reload",
+                "max": 7
+            },
+            {
+                "name": "Weapon Damage",
+                "max": 7
+            },
+            {
+                "name": "Weapon Penetration",
+                "max": 7
+            },
+            {
+                "name": "Weapon Speed",
                 "max": 7
             },
             {
