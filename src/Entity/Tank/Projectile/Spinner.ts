@@ -31,8 +31,8 @@ import { BarrelBase } from "../TankBody";
 const SkimmerBarrelDefinition: BarrelDefinition = {
     angle: Math.PI / 2,
     offset: 0,
-    size: 70,
-    width: 31,
+    size: 66.526,
+    width: 49.578,
     delay: 0,
     reload: 0.25,
     recoil: 0,
@@ -89,7 +89,7 @@ export default class Spinner extends Bullet implements BarrelBase {
             // Keep the width constant
             protected resize() {
                 super.resize();
-                this.physicsData.values.width = this.definition.width
+               // this.physicsData.values.width = this.definition.width
                 // this.physicsData.state.width = 0;
             }
         }(this, {...SkimmerBarrelDefinition});
@@ -99,7 +99,7 @@ export default class Spinner extends Bullet implements BarrelBase {
             // Keep the width constant
             protected resize() {
                 super.resize();
-                this.physicsData.width = this.definition.width
+                //this.physicsData.width = this.definition.width
             }
         }(this, s2Definition);
 

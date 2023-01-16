@@ -32,7 +32,7 @@ const RocketBarrelDefinition: BarrelDefinition = {
     angle: Math.PI,
     offset: 0,
     size: 70,
-    width: 72,
+    width:  54.239,
     delay: 0,
     reload: 0.15,
     recoil: 3.3,
@@ -82,7 +82,7 @@ export default class Rocket extends Bullet implements BarrelBase {
     public tick(tick: number) {
         this.sizeFactor = this.physicsData.values.size / 50;
         this.reloadTime = this.tank.reloadTime;
-        if (!this.deletionAnimation && this.rocketBarrel) this.rocketBarrel.definition.width = ((this.barrelEntity.definition.width / 2) * RocketBarrelDefinition.width) / this.physicsData.values.size;
+        //if (!this.deletionAnimation && this.rocketBarrel) this.rocketBarrel.definition.width = ((this.barrelEntity.definition.width / 2) * RocketBarrelDefinition.width) / this.physicsData.values.size;
 
         super.tick(tick);
 

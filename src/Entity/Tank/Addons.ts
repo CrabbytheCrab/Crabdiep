@@ -814,7 +814,7 @@ class LauncherSmallAddon extends Addon {
 
         const launcher = new ObjectEntity(this.game);
         const sizeRatio = 65.5 * Math.SQRT2 / 50;
-        const widthRatio = 49.21875 / 50;
+        const widthRatio = 32.8125/ 50;
         const size = this.owner.physicsData.values.size;
 
         launcher.setParent(this.owner);
@@ -825,6 +825,7 @@ class LauncherSmallAddon extends Addon {
         launcher.physicsData.values.width = widthRatio * size;
         launcher.positionData.values.x = launcher.physicsData.values.size / 2;
 
+        launcher.physicsData.values.flags |= PhysicsFlags.isTrapezoid;
         launcher.styleData.values.color = Color.Barrel;
         launcher.physicsData.values.sides = 2;
 
@@ -848,12 +849,13 @@ class LauncherAddon2 extends Addon {
 
             const launcher = new ObjectEntity(this.game);
             const sizeRatio = 58.5 * Math.SQRT2 / 50;
-            const widthRatio = 43.125 / 50;
+            const widthRatio = 28.75 / 50;
             const size = this.owner.physicsData.values.size;
     
             launcher.setParent(this.owner);
             launcher.relationsData.values.owner = this.owner;
             launcher.relationsData.values.team = this.owner.relationsData.values.team;
+            launcher.physicsData.values.flags |= PhysicsFlags.isTrapezoid;
     
             launcher.physicsData.values.size = sizeRatio * size;
             launcher.physicsData.values.width = widthRatio * size;

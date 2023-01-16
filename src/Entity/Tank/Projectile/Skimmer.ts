@@ -31,10 +31,10 @@ import AutoTurret from "../AutoTurret";
  */
 
 const RocketBarrelDefinition: BarrelDefinition = {
-    angle: 2.6179938779914944,
+    angle: 2.520255439879812,
     offset: 0,
-    size: 70,
-    width: 42,
+    size:  66.526,
+    width:  37.967,
     delay: 0,
     reload: 0.5,
     recoil: 4.5,
@@ -55,10 +55,10 @@ const RocketBarrelDefinition: BarrelDefinition = {
 
 
 const RocketBarrelDefinition2: BarrelDefinition = {
-    angle: 3.665191429188092,
+    angle: 3.7629298672997744,
     offset: 0,
-    size: 70,
-    width: 42,
+    size:  66.526,
+    width:  37.967,
     delay: 0,
     reload: 0.5,
     recoil: 4.5,
@@ -104,7 +104,7 @@ export default class Skimmer extends Bullet implements BarrelBase {
             // Keep the width constant
             protected resize() {
                 super.resize();
-                this.physicsData.values.width = this.definition.width
+               // this.physicsData.values.width = this.definition.width
                 // this.physicsData.state.width = 0;
             }
         }(this, {...RocketBarrelDefinition});
@@ -112,7 +112,7 @@ export default class Skimmer extends Bullet implements BarrelBase {
             // Keep the width constant
             protected resize() {
                 super.resize();
-                this.physicsData.width = this.definition.width
+               // this.physicsData.width = this.definition.width
             }
         }(this, RocketBarrelDefinition2);
 
