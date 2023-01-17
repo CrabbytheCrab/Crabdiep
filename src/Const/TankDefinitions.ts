@@ -2691,7 +2691,7 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "drone",
                     "sizeRatio": 1,
-                    "health": 2.75,
+                    "health": 2.5,
                     "damage": 1.15,
                     "speed": 0.75,
                     "scatterRate": 0,
@@ -9092,9 +9092,9 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "drone",
                     "sizeRatio": 1,
-                    "health": 3.5,
-                    "damage": 1.85,
-                    "speed": 0.675,
+                    "health": 3,
+                    "damage": 1.65,
+                    "speed": 0.7,
                     "scatterRate": 0,
                     "lifeLength": -1,
                     "absorbtionFactor": 0.2
@@ -10925,10 +10925,10 @@ const TankDefinitions = JSON.parse(`[
                     "sizeRatio": 1,
                     "health": 5.25,
                     "damage": 1.2,
-                    "speed": 0.55,
+                    "speed": 0.575,
                     "scatterRate": 0,
                     "lifeLength": -1,
-                    "absorbtionFactor": 0.5
+                    "absorbtionFactor": 0.35
                 }
             }
         ],
@@ -12700,7 +12700,7 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "drone",
                     "sizeRatio": 1,
-                    "health": 2.75,
+                    "health": 2.5,
                     "damage": 1.15,
                     "speed": 0.75,
                     "scatterRate": 0,
@@ -17091,7 +17091,7 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "autodrone",
                     "sizeRatio": 1,
-                    "health": 2.75,
+                    "health": 2.5,
                     "damage": 1.15,
                     "speed": 0.75,
                     "scatterRate": 0,
@@ -17873,7 +17873,7 @@ const TankDefinitions = JSON.parse(`[
                 "max": 7
             },
             {
-                "name": "Bullet Speed",
+                "name": "Trap Speed",
                 "max": 7
             },
             {

@@ -64,8 +64,6 @@ export default class TankBody extends LivingEntity implements BarrelBase {
     public cameraEntity: CameraEntity;
     /** The inputs of the client, lets the barrels know when to shoot etc. */
     public inputs: Inputs;
-    public static MAXORBS = 0;
-    public static OrbCount = 0;
 
     /** The tank's barrels, if any. */
     public barrels: Barrel[] = [];
@@ -312,7 +310,6 @@ export default class TankBody extends LivingEntity implements BarrelBase {
     }
 
     public tick(tick: number) {
-        TankBody.MAXORBS = this.definition.maxorbs
 
         this.positionData.angle = Math.atan2(this.inputs.mouse.y - this.positionData.values.y, this.inputs.mouse.x - this.positionData.values.x);
 

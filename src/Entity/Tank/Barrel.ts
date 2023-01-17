@@ -18,7 +18,6 @@ import * as util from "../../util";
 import Bullet from "./Projectile/Bullet";
 import Blunt from "./Projectile/Blunt";
 import BluntTrap from "./Projectile/BluntTrap";
-import Orbit from "./Projectile/Orbit";
 import Trap from "./Projectile/Trap";
 import Drone from "./Projectile/Drone";
 import Hive from "./Projectile/Hive";
@@ -90,10 +89,6 @@ export class ShootCycle {
             }
             // When it runs out of drones, dont shoot
             if (typeof this.barrelEntity.definition.droneCount === 'number' && this.barrelEntity.droneCount >= this.barrelEntity.definition.droneCount) {
-                this.pos = reloadTime;
-                return;
-            }
-            if (typeof  TankBody.MAXORBS === 'number' && TankBody.OrbCount >= TankBody.MAXORBS) {
                 this.pos = reloadTime;
                 return;
             }
@@ -237,7 +232,7 @@ export default class Barrel extends ObjectEntity {
                     new AutoDrone(this, this.tank, tankDefinition, angle);
                     break;
             case 'orbit':
-                new Orbit(this, this.tank, tankDefinition, angle);
+                new AutoDrone(this, this.tank, tankDefinition, angle);
                 break;
             case 'pentadrone':
                 new Pentagon(this, this.tank, tankDefinition, angle);
