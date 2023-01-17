@@ -180,7 +180,7 @@ export default class TankBody extends LivingEntity implements BarrelBase {
     }
     /** See LivingEntity.onKill */
     public onKill(entity: LivingEntity) {
-        if(this.cameraEntity.cameraData.level < 45 && entity instanceof AbstractShape) {
+        if(!(this.cameraEntity.cameraData.level >= 45 && entity instanceof AbstractShape)) {
             this.scoreData.score = this.cameraEntity.cameraData.score += entity.scoreReward;
         }
 
