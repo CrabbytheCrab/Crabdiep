@@ -20,7 +20,8 @@
 
 import Client from "../../Client";
 import { tps } from "../../config";
-import { ClientBound, Color, ColorsHexCode, HealthFlags, PhysicsFlags, StyleFlags } from "../../Const/Enums";
+import { ClientBound, Color, ColorsHexCode, HealthFlags, PhysicsFlags } from "../../Const/Enums";
+import TankDefinitions from "../../Const/TankDefinitions";
 import GameServer from "../../Game";
 import { ArenaState } from "../../Native/Arena";
 import ClientCamera from "../../Native/Camera";
@@ -41,21 +42,36 @@ export default class Nexus extends LivingEntity {
     public nameData: NameGroup = new NameGroup(this);
 
     public config: NexusConfig;
+    public team: Entity;
     public base: TeamBase;
 
     public shield: NexusShield;
 
-    public sacrificeTick: number = 0;
+    public sacrifices: Set<Client> = new Set();
+
+    public bases: TeamBase[];
     
-    public constructor(game: GameServer, base: TeamBase, config: NexusConfig) {
+    public constructor(game: GameServer, x: number, y: number, team: TeamEntity, config: NexusConfig, bases: TeamBase[]) {
         super(game);
         this.shield = new NexusShield(game, this, config.shield, config.size * 1.5);
-        this.base = base;
+        this.team = team;
         this.config = config;
 
-        this.relationsData.team = base.relationsData.team;
+        this.relationsData.team = team;
 
-        this.styleData.color = Color.Shiny;
+        this.base = new TeamBase(
+            game,
+            team,
+            x,
+            y,
+            config.size * 10,
+            config.size * 10,
+            false
+        );
+
+        this.bases = bases;
+
+        this.styleData.color = team.teamData.teamColor;
         this.styleData.zIndex = this.shield.styleData.zIndex + 1;
         
         this.healthData.maxHealth = config.health;
@@ -65,12 +81,12 @@ export default class Nexus extends LivingEntity {
 
         this.physicsData.absorbtionFactor = 0;
         this.physicsData.pushFactor = 5.0;
-        this.physicsData.sides = 7;
+        this.physicsData.sides = 6;
         this.physicsData.size = this.config.size;
         this.physicsData.flags |= PhysicsFlags.isSolidWall;
 
-        this.positionData.x = base.positionData.x;
-        this.positionData.y = base.positionData.y;
+        this.positionData.x = x;
+        this.positionData.y = y;
 
         this.scoreReward = 100000;
     }
@@ -89,31 +105,30 @@ export default class Nexus extends LivingEntity {
                 client.notify(`The other team's nexus has lost it's shield!`);
                 const pos = tank.getWorldPosition();
                 if(Math.sqrt(pos.distanceToSQ(nexusPos)) > 7000) continue;
-                tank.addAcceleration(Math.atan2(pos.y - nexusPos.y, pos.x - nexusPos.x), 300);
+                tank.addAcceleration(Math.atan2(pos.y - nexusPos.y, pos.x - nexusPos.x), 500);
                 tank.applyPhysics();
             }
         }
-        this.base.setPainful(true, 50);
-        setTimeout(() => this.base.setPainful(false), 3000);
     }
 
-    public sacrificeEntity(client: Client): boolean {
-        const entity = (client.camera as ClientCamera).cameraData.player as TankBody;
-        if(this.shield.healthData.health >= this.shield.healthData.maxHealth) {
-            if(this.healthData.health >= this.healthData.maxHealth) return false;
-            this.healthData.health += entity.healthData.health * 0.1;
-            client.notify(`You have sacrificed ${Math.round(entity.healthData.health * 0.1)} health.`, 0x00FF00, 2000);
-            entity.destroy();
-            (client.camera as ClientCamera).spectatee = this;
-            this.sacrificeTick = this.game.tick;
-            return true;
+    public sacrifice(client: Client) {
+        if(!client.camera || !Entity.exists(client.camera.cameraData.player) || !Entity.exists(this)) return;
+
+        if(!(client.camera.cameraData.player instanceof LivingEntity)) return;
+
+        if(this.sacrifices.has(client)) {
+            client.notify("Sacificing stopped by player.", 0xFFA500, 2000, 'cant_claim_info');
+            this.sacrifices.delete(client);
+            return;
         }
-        this.shield.healthData.health += entity.healthData.health * 2;
-        client.notify(`You have sacrificed ${Math.round(entity.healthData.health * 2)} health.`, 0x00FF00, 2000);
-        entity.destroy();
-        (client.camera as ClientCamera).spectatee = this;
-        this.sacrificeTick = this.game.tick;
-        return true;
+
+        if(Math.sqrt(client.camera.cameraData.player.getWorldPosition().distanceToSQ(this.getWorldPosition())) > 3000) {
+            client.notify("Unable to sacrifice to the nexus, out of reach.", 0xFFA500, 2000, 'cant_claim_info');
+            return;
+        }
+
+        this.sacrifices.add(client);
+        client.notify("Sacificing started, stay close to the nexus.", 0xFFA500, 2000, 'cant_claim_info');
     }
 
     public updateShield() {
@@ -124,31 +139,45 @@ export default class Nexus extends LivingEntity {
     }
 
     public onDeath(killer: LivingEntity): void {
+        if(!Entity.exists(this)) return;
         if(Entity.exists(this.shield)) this.shield.delete();
-        if(this.game.arena.state !== ArenaState.OPEN) return;
+        if(Entity.exists(this.base)) this.base.delete();
+        this.bases.forEach(e => e.setPainful(false));
         this.game.broadcast()
             .u8(ClientBound.Notification)
-            .stringNT(`${killer.nameData?.name || "An unnamed tank"} has destroyed ${(this.relationsData.team as TeamEntity).teamName}'s Nexus!`)
+            .stringNT(`${killer.nameData?.name || "An unnamed tank"} has destroyed the ${(this.relationsData.team as TeamEntity).teamName} Nexus!`)
             .u32(killer.teamData ? ColorsHexCode[killer.teamData.teamColor] : 0x000000)
-            .float(-1)
+            .float(30000)
             .stringNT("").send();
-        setTimeout(() => this.game.arena.close(), 10000);
     }
 
     public tick(tick: number) {
-        if(this.shield.isBroken) this.nameData.name = `Nexus (${Math.round(this.healthData.health)} Health, Shield recovers in ${(30 - (this.game.tick - this.shield.brokenTick) / tps).toFixed(2)} seconds)`;
-        else this.nameData.name = `Nexus (${Math.round(this.healthData.health)} Health, ${Math.round(this.shield.healthData.health)} Shield)`;
-        const healthRatio = this.healthData.health / this.healthData.maxHealth;
-        if(healthRatio > 0.666) {
-            this.styleData.color = Color.Shiny;
-        } else if(healthRatio > 0.333) {
-            this.styleData.color = Color.Neutral;
-        } else {
-            this.styleData.color = Color.TeamRed;
-        }
+        if(this.shield.isBroken) this.nameData.name = `Nexus Shield recovers in ${(30 - (this.game.tick - this.shield.brokenTick) / tps).toFixed(2)} seconds`;
+        else this.nameData.name = `Nexus (${Math.round(this.healthData.health)} Health)`;
         this.positionData.angle = -(tick * 0.01);
         this.updateShield();
         this.lastDamageTick = tick;
+
+        for(const sacrifice of this.sacrifices) {
+            if(!sacrifice.camera 
+                || !Entity.exists(sacrifice.camera.cameraData.player)
+                || !Entity.exists(this)
+                || !(sacrifice.camera.cameraData.player instanceof LivingEntity)
+                || Math.sqrt(sacrifice.camera.cameraData.player.getWorldPosition().distanceToSQ(this.getWorldPosition())) > 3000
+            ) {
+                sacrifice.notify("Sacificing stopped.", 0xFFA500, 2000, 'cant_claim_info');
+                this.sacrifices.delete(sacrifice);
+                continue;
+            }
+
+            const entity = sacrifice.camera.cameraData.player;
+            const target = [this.shield, this].filter(e => e.healthData.health < e.healthData.maxHealth)[0];
+            if(!target) continue;
+            entity.lastDamageTick = tick;
+            target.healthData.health += entity.healthData.health * entity.damagePerTick / 8 * 0.005;
+            entity.healthData.health -= entity.healthData.health * 0.005;
+        }
+
         super.tick(tick);
     }
 }
@@ -173,7 +202,7 @@ export class NexusShield extends LivingEntity {
         this.physicsData.absorbtionFactor = 0.0;
         this.physicsData.pushFactor = 1.0;
         this.physicsData.flags |= PhysicsFlags.isSolidWall;
-        this.physicsData.sides = 7;
+        this.physicsData.sides = 6;
         this.physicsData.size = size;
 
         this.scoreReward = 10000;
@@ -182,7 +211,7 @@ export class NexusShield extends LivingEntity {
     public revive() {
         this.isBroken = false;
         this.healthData.health = this.healthData.maxHealth * 0.333;
-        this.physicsData.sides = 7;
+        this.physicsData.sides = 6;
         this.lastDamageTick = this.game.tick;
 
     }

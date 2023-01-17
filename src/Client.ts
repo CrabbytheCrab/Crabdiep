@@ -134,7 +134,6 @@ export default class Client {
     public isInvulnerable: boolean = false;
     /** Used to restore the damage reduction value on the tankbody after godmode is toggled off. */
     public damageReductionCache: number = 1;
-
     /** Returns a new writer stream connected to the socket. */
     public write() {
         return new WSWriterStream(this.ws);
@@ -462,24 +461,20 @@ export default class Client {
                     }
                 */
 
-                if (!Entity.exists(camera.cameraData.values.player)) return;
-                if(this.game.arena instanceof EventArena && this.game.arena.state === ArenaState.OPEN && camera.cameraData.player instanceof TankBody) {
+                if (!Entity.exists(camera.cameraData.player)) return;
+                if(this.game.arena instanceof EventArena) {
+                    if(!camera.cameraData.player.relationsData?.team) return;
                     const team = camera.cameraData.player.relationsData.team;
                     if(!team) return;
-                    const nexus = [this.game.arena.blueTeamNexus, this.game.arena.redTeamNexus]
-                        .find(e => e.relationsData.team === team);
+                    const nexus = [this.game.arena.blueTeamNexus, this.game.arena.redTeamNexus].find(e => e.relationsData.team === team);
                     if(!nexus) return;
-                    if(Math.sqrt(camera.cameraData.player.getWorldPosition().distanceToSQ(nexus.getWorldPosition())) > 5000) {
-                        return this.notify("Unable to sacrifice to the nexus, out of reach.", 0xFFA500, 2000, 'cant_claim_info');
-                    }
-                    if(nexus.sacrificeTick && nexus.sacrificeTick + config.tps * 20 > this.game.tick) return this.notify(`Unable to sacrifice to the nexus, please try again in ${((nexus.sacrificeTick - this.game.tick) / config.tps + 20).toFixed(2)} seconds.`, 0xFFA500, 2000, 'cant_claim_info');
-                    if(nexus.sacrificeEntity(this)) return; 
-                    return this.notify("Unable to sacrifice to the nexus, maximum health reached.", 0xFFA500, 2000, 'cant_claim_info');
+                    nexus.sacrifice(this);
+                    return;
                 }
                 if (!this.game.entities.AIs.length) return this.notify("Someone has already taken that tank", 0x000000, 5000, "cant_claim_info");
                 if (!this.inputs.isPossessing) {
-                    const x = camera.cameraData.values.player.positionData?.values.x || 0;
-                    const y = camera.cameraData.values.player.positionData?.values.y || 0;
+                    const x = camera.cameraData.player.positionData?.values.x || 0;
+                    const y = camera.cameraData.player.positionData?.values.y || 0;
                     const AIs = Array.from(this.game.entities.AIs);
                     AIs.sort((a: AI, b: AI) => {
                         const {x: x1, y: y1} = a.owner.getWorldPosition();

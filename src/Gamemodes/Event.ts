@@ -1,27 +1,27 @@
+import { threadId } from "worker_threads";
 import Client from "../Client";
 import { tps } from "../config";
-import { ArenaFlags, Color, PhysicsFlags, ValidScoreboardIndex } from "../Const/Enums";
+import { DevTank } from "../Const/DevTankDefinitions";
+import { ArenaFlags, ClientBound, Color, StyleFlags, Tank, ValidScoreboardIndex } from "../Const/Enums";
+import MazeWall from "../Entity/Misc/MazeWall";
 import TeamBase from "../Entity/Misc/TeamBase";
 import { TeamEntity } from "../Entity/Misc/TeamEntity";
 import Nexus, { NexusConfig } from "../Entity/Misc/TeamNexus";
 import AbstractShape from "../Entity/Shape/AbstractShape";
-import Crasher from "../Entity/Shape/Crasher";
 import ShapeManager from "../Entity/Shape/Manager";
 import Pentagon from "../Entity/Shape/Pentagon";
-import { Sentry } from "../Entity/Shape/Sentry";
 import Square from "../Entity/Shape/Square";
 import Triangle from "../Entity/Shape/Triangle";
-import WepPentagon from "../Entity/Shape/WepPentagon";
-import WepSquare from "../Entity/Shape/WepSquare";
-import WepTriangle from "../Entity/Shape/WepTriangle";
 import TankBody from "../Entity/Tank/TankBody";
 import GameServer from "../Game";
 import ArenaEntity, { ArenaState } from "../Native/Arena";
 import { Entity } from "../Native/Entity";
-import { saveToLog } from "../util";
+import { removeFast, saveToLog } from "../util";
 
-const ARENA_SIZE = 20000;
-const BASE_SIZE = 2000;
+const ARENA_WIDTH = 25000;
+const ARENA_HEIGHT = 20000;
+const BASE_WIDTH = 5000;
+const BASE_HEIGHT = 2000;
 
 const NEXUS_CONFIG: NexusConfig = {
     health: 20000,
@@ -31,175 +31,240 @@ const NEXUS_CONFIG: NexusConfig = {
 
 class EventShapeManager extends ShapeManager {
     private shapeEntities: AbstractShape[] = [];
-    private weaponizesShapeEntities: AbstractShape[] = [];
 
     protected spawnShape(): AbstractShape {
-        const TShape = [Pentagon, Triangle, Square][~~(Math.random() * 3)];
-        const shape = new TShape(this.game, Math.random() < 0.05, Math.random() < 0.01);
+        const r = Math.random();
+        let shape;
+        if(r > 0.8) shape = new Pentagon(this.game, Math.random() < 0.05, Math.random() < 0.001);
+        else if(r > 0.5) shape = new Triangle(this.game, Math.random() < 0.01);
+        else shape = new Square(this.game, Math.random() < 0.05);
         shape.positionData.x = Math.random() > 0.5 ? Math.random() * this.wantedShapes * 5 : -Math.random() * this.wantedShapes * 5;
         shape.positionData.y = Math.random() > 0.5 ? Math.random() * this.wantedShapes * 5 : -Math.random() * this.wantedShapes * 5;
         shape.relationsData.owner = shape.relationsData.team = this.arena;
         return shape;
     }
 
-    private spawnWeaponizedShape() {
-        const TShape = [WepPentagon, WepTriangle, WepSquare][~~(Math.random() * 3)];
-        const shape = new TShape(this.game, false, false);
-        const angle = Math.random() * 2 * Math.PI;
-        const arena = this.arena as EventArena;
-        do {
-            shape.positionData.x = Math.random() > 0.5 ? this.arena.width / 2.5 * Math.cos(angle) : -this.arena.width / 3 * Math.cos(angle);
-            shape.positionData.x += Math.random() > 0.5 ? Math.random() * Math.pow(this.wantedWeaponizedShapes, 2) : -Math.random() * Math.pow(this.wantedWeaponizedShapes, 2);
-            shape.positionData.y = Math.random() > 0.5 ? this.arena.height / 2.5 * Math.sin(angle) : -this.arena.height / 3 * Math.sin(angle);
-            shape.positionData.y += Math.random() > 0.5 ? Math.random() * Math.pow(this.wantedWeaponizedShapes, 2) : -Math.random() * Math.pow(this.wantedWeaponizedShapes, 2);
-        } while(Math.sqrt(shape.getWorldPosition().distanceToSQ(arena.blueTeamNexus.getWorldPosition())) < 4000 || Math.sqrt(shape.getWorldPosition().distanceToSQ(arena.redTeamNexus.getWorldPosition())) < 4000);
-        shape.relationsData.owner = shape.relationsData.team = this.arena;
-        shape.scoreReward *= this.arena.shapeScoreRewardMultiplier;
-        return shape;
-    }
-
     public get wantedShapes() {
-        if(this.arena.state !== ArenaState.OPEN) return 0;
         return 250;
     }
 
-    private get wantedWeaponizedShapes() {
-        if(this.arena.state !== ArenaState.OPEN) return 0;
-        return 50;
-    }
-
     public tick() {
-        this.shapeEntities = this.shapeEntities.filter(e => Entity.exists(e));
-        
-        for(let i = this.shapeEntities.length; i < this.wantedShapes; ++i) {
-            this.shapeEntities.push(this.spawnShape());
-        }
-
-        this.weaponizesShapeEntities = this.weaponizesShapeEntities.filter(e => Entity.exists(e));
-
-        for(let i = this.weaponizesShapeEntities.length; i < this.wantedWeaponizedShapes; ++i) {
-            this.weaponizesShapeEntities.push(this.spawnWeaponizedShape());
+        for(let i = 0; i < this.wantedShapes; ++i) {
+            if(!this.shapeEntities[i]) this.shapeEntities.push(this.spawnShape());
+            else if(!Entity.exists(this.shapeEntities[i])) removeFast(this.shapeEntities, i); // deal with this next tick :P
         }
     }
 }
 
 export default class EventArena extends ArenaEntity {
-    /** Blue Team entity */
-    public blueTeamBase: TeamBase;
-    /** Red Team entity */
-    public redTeamBase: TeamBase;
-
-    private spawnerBase: TeamBase;
-
+    public blueTeamBaseLeft: TeamBase;
+    public blueTeamBaseRight: TeamBase;
+    public redTeamBaseLeft: TeamBase;
+    public redTeamBaseRight: TeamBase;
     public blueTeamNexus: Nexus;
     public redTeamNexus: Nexus;
-
-    public playerTeamMap: Map<Client, TeamBase> = new Map();
-
-    private closingTick: number = 0;
-
+    public playerTeamMap: Map<Client, Nexus> = new Map();
     protected shapes: EventShapeManager = new EventShapeManager(this);
+    public blueTeam: TeamEntity;
+    public redTeam: TeamEntity;
 
     constructor(game: GameServer) {
         super(game);
-        this.updateBounds(ARENA_SIZE, ARENA_SIZE);
-        this.blueTeamBase = new TeamBase(game, new TeamEntity(this.game, Color.TeamBlue), 0, -ARENA_SIZE / 2 + BASE_SIZE / 2, BASE_SIZE, BASE_SIZE, false);
-        this.blueTeamNexus = new Nexus(game, this.blueTeamBase, NEXUS_CONFIG);
-        this.redTeamBase = new TeamBase(game, new TeamEntity(this.game, Color.TeamRed), 0, ARENA_SIZE / 2 - BASE_SIZE / 2, BASE_SIZE, BASE_SIZE, false);
-        this.redTeamNexus = new Nexus(game, this.redTeamBase, NEXUS_CONFIG);
+        this.updateBounds(ARENA_WIDTH, ARENA_HEIGHT);
 
-        this.spawnerBase = new TeamBase(game, new TeamEntity(this.game, Color.EnemyPentagon), 0, 0, this.shapes.wantedShapes * 10, this.shapes.wantedShapes * 10, false);
+        this.blueTeam = new TeamEntity(this.game, Color.TeamBlue);
+        this.redTeam = new TeamEntity(this.game, Color.TeamRed);
+
+        this.blueTeamBaseLeft = new TeamBase(
+            game, 
+            this.blueTeam,
+            -ARENA_WIDTH / 2 + BASE_WIDTH / 2, // x
+            -ARENA_HEIGHT / 2 + BASE_HEIGHT / 2, // y
+            BASE_HEIGHT,
+            BASE_WIDTH
+        );
+
+        this.blueTeamBaseRight = new TeamBase(
+            game,
+            this.blueTeam,
+            ARENA_WIDTH / 2 - BASE_WIDTH / 2,
+            -ARENA_HEIGHT / 2 + BASE_HEIGHT / 2,
+            BASE_HEIGHT,
+            BASE_WIDTH
+        );
+
+        this.redTeamBaseLeft = new TeamBase(
+            game,
+            this.redTeam,
+            -ARENA_WIDTH / 2 + BASE_WIDTH / 2,
+            ARENA_HEIGHT / 2 - BASE_HEIGHT / 2,
+            BASE_HEIGHT,
+            BASE_WIDTH
+        );
+
+        this.redTeamBaseRight = new TeamBase(
+            game,
+            this.redTeam,
+            ARENA_WIDTH / 2 - BASE_WIDTH / 2,
+            ARENA_HEIGHT / 2 - BASE_HEIGHT / 2,
+            BASE_HEIGHT,
+            BASE_WIDTH
+        );
+
+        new TeamBase(
+            game,
+            new TeamEntity(this.game, Color.EnemyPentagon),
+            0,
+            0,
+            this.shapes.wantedShapes * 10,
+            this.shapes.wantedShapes * 10,
+            false
+        );
+
+        this.blueTeamNexus = new Nexus(
+            game,
+            0,
+            -ARENA_HEIGHT / 2 + NEXUS_CONFIG.size * 5,
+            this.blueTeam,
+            NEXUS_CONFIG,
+            [this.blueTeamBaseLeft, this.blueTeamBaseRight]
+        );
+
+        this.redTeamNexus = new Nexus(
+            game,
+            0,
+            ARENA_HEIGHT / 2 - NEXUS_CONFIG.size * 5,
+            this.redTeam,
+            NEXUS_CONFIG,
+            [this.redTeamBaseLeft, this.redTeamBaseRight]
+        );
+
+        new MazeWall(game, 0, -ARENA_HEIGHT / 2 + NEXUS_CONFIG.size * 20, 1000, 5000);
+        new MazeWall(game, 0, ARENA_HEIGHT / 2 - NEXUS_CONFIG.size * 20, 1000, 5000);
+        new MazeWall(game, -ARENA_WIDTH / 2 + 1500, 0, 10000, 3000);
+        new MazeWall(game, ARENA_WIDTH / 2 - 1500, 0, 10000, 3000);
     }
 
     public spawnPlayer(tank: TankBody, client: Client) {
-        if(!this.playerTeamMap.get(client) && client.connectTick + tps * 120 > this.game.tick) {
+        /*if(!this.playerTeamMap.get(client) && client.connectTick + tps * 120 > this.game.tick) {
             client.notify("Welcome player, destroy the enemy Nexus to win the game.", 0xFF00FF, 10000);
             setTimeout(() => client.notify("Press H to sacrifice yourself to your team's Nexus. You have to be close to it to perform the sacrifice.", 0xFF00FF, 10000), 4000);
             setTimeout(() => client.notify("Your sacrifice will result in the Nexus regenerating it's shield (2x) or health (0.1x) according to your health.", 0xFF00FF, 10000), 8000);
+        }*/
+
+        let team = this.playerTeamMap.get(client) || [this.blueTeamNexus, this.redTeamNexus][0 | Math.random() * 2];
+        this.playerTeamMap.set(client, team);
+
+        if(!Entity.exists(team)) {
+            tank.setTank(DevTank.Spectator);
+            if(client.camera) client.camera.setLevel(0);
+            tank.positionData.x = 0;
+            tank.positionData.y = 0;
+            return;
         }
 
-        tank.positionData.values.y = ARENA_SIZE * Math.random() - ARENA_SIZE;
-
-        const xOffset = (Math.random() - 0.5) * BASE_SIZE,
-            yOffset = (Math.random() - 0.5) * BASE_SIZE;
-
-        const base = this.playerTeamMap.get(client) || [this.blueTeamBase, this.redTeamBase][0|Math.random()*2];
+        const xOffset = (Math.random() - 0.5) * BASE_WIDTH,
+            yOffset = (Math.random() - 0.5) * BASE_HEIGHT;
+                
+        const base = team.bases[0 | Math.random() * 2];
         tank.relationsData.values.team = base.relationsData.values.team;
         tank.styleData.values.color = base.styleData.values.color;
         tank.positionData.values.x = base.positionData.values.x + xOffset;
         tank.positionData.values.y = base.positionData.values.y + yOffset;
-        this.playerTeamMap.set(client, base);
-
         if (client.camera) client.camera.relationsData.team = tank.relationsData.values.team;
     }
 
-    public close(): void {
-        for (const client of this.game.clients) {
-			client.notify("Arena closed: No players can join", 0xFF0000, -1);
-            client.notify("Teams disabled, you are now on your own.");
-		}
-
-		this.state = ArenaState.CLOSING;
-		this.arenaData.flags |= ArenaFlags.noJoining;
-        saveToLog("Arena Closing", "Arena running at `" + this.game.gamemode + "` is now closing.", 0xFFE869);
-
-        this.closingTick = this.game.tick + tps * 45;
-
-        this.blueTeamBase.delete();
-        this.blueTeamNexus.destroy();
-        this.redTeamBase.delete();
-        this.redTeamNexus.destroy();
-        this.spawnerBase.delete();
-
-        for(const client of this.game.clients) {
-            if(!(client.camera?.cameraData.player instanceof TankBody)) continue;
-            client.camera.cameraData.player.relationsData.team = client.camera;
-            client.camera.cameraData.player.relationsData.owner = client.camera;
+    protected updateScoreboard(): void {
+        const writeNexusHealth = (nexus: Nexus, i: ValidScoreboardIndex) => {
+            this.arenaData.scoreboardColors[i] = nexus.styleData.color;
+            this.arenaData.scoreboardNames[i] = `${(nexus.relationsData.team as TeamEntity).teamName} Nexus`;
+            this.arenaData.scoreboardTanks[i] = -1;
+            this.arenaData.scoreboardScores[i] = nexus.healthData.health;
+            this.arenaData.scoreboardSuffixes[i] = " HP";
         }
-    }
-
-    protected updateScoreboard(scoreboardPlayers: TankBody[]): void {
-        if(this.state === ArenaState.OPEN) {
-            const scoreboard = [];
-            if(this.blueTeamNexus.healthData.health > this.redTeamNexus.healthData.health) {
-                scoreboard.push(this.blueTeamNexus);
-                scoreboard.push(this.redTeamNexus);
-            } else {
-                scoreboard.push(this.redTeamNexus);
-                scoreboard.push(this.blueTeamNexus);
-            }
-            for(let i = 0; i < scoreboard.length + 1; ++i) {
-                const nexus = scoreboard.shift() as Nexus;
-                this.arenaData.scoreboardColors[i as ValidScoreboardIndex] = nexus.styleData.color;
-                this.arenaData.scoreboardNames[i as ValidScoreboardIndex] = `${(nexus.relationsData.team as TeamEntity).teamName}'s Nexus`;
-                this.arenaData.scoreboardTanks[i as ValidScoreboardIndex] = -1;
-                this.arenaData.scoreboardScores[i as ValidScoreboardIndex] = nexus.healthData.health;
-                this.arenaData.scoreboardSuffixes[i as ValidScoreboardIndex] = " HP";
-            }
-            this.arenaData.scoreboardAmount = 2;
-            return;
-        }
-        else super.updateScoreboard(scoreboardPlayers);
         
-        for(const client of this.game.clients) {
-            if(!client.camera) continue;
-            if(client.camera.cameraData.player instanceof TankBody) {
-                client.camera.cameraData.score += 10;
-                if(this.game.tick > this.closingTick) 
-                    client.camera.cameraData.player.healthData.health -= client.camera.cameraData.player.healthData.maxHealth * 0.01;
-                continue;
-            }
-            client.camera.spectatee = scoreboardPlayers[0];
+        const writePlayerCount = (count: number, team: TeamEntity, i: ValidScoreboardIndex) => {
+            this.arenaData.scoreboardColors[i] = team.teamData.teamColor;
+            this.arenaData.scoreboardNames[i] = team.teamName;
+            this.arenaData.scoreboardTanks[i] = -1;
+            this.arenaData.scoreboardScores[i] = count;
+            this.arenaData.scoreboardSuffixes[i] = " players";
         }
+
+        const blueAlive = Entity.exists(this.blueTeamNexus);
+        const redAlive = Entity.exists(this.redTeamNexus);
+        if(blueAlive && redAlive) {
+            if(this.blueTeamNexus.healthData.health > this.redTeamNexus.healthData.health) {
+                writeNexusHealth(this.blueTeamNexus, 0);
+                writeNexusHealth(this.redTeamNexus, 1);
+            } else {
+                writeNexusHealth(this.redTeamNexus, 0);
+                writeNexusHealth(this.blueTeamNexus, 1);
+            }
+        } else if(blueAlive && !redAlive) {
+            writeNexusHealth(this.blueTeamNexus, 0);
+            let playerCount = 0;
+            for(const client of this.game.clients) {
+                if(!client.camera || !(client.camera.cameraData.player instanceof TankBody) || !Entity.exists(client.camera.cameraData.player)) continue;
+                if(client.camera.cameraData.player.relationsData.team !== this.redTeam) continue;
+                ++playerCount;
+                client.camera.cameraData.score += 10;
+                client.camera.cameraData.player.styleData.opacity = 1;
+            }
+            if(!playerCount && this.state === ArenaState.OPEN) this.close();
+            writePlayerCount(playerCount, this.redTeam, 1);
+        } else if(!blueAlive && redAlive) {
+            writeNexusHealth(this.redTeamNexus, 0);
+            let playerCount = 0;
+            for(const client of this.game.clients) {
+                if(!client.camera || !(client.camera.cameraData.player instanceof TankBody) || !Entity.exists(client.camera.cameraData.player)) continue;
+                if(client.camera.cameraData.player.relationsData.team !== this.blueTeam) continue;
+                ++playerCount;
+                client.camera.cameraData.score += 10;
+                client.camera.cameraData.player.styleData.opacity = 1;
+            }
+            if(!playerCount && this.state === ArenaState.OPEN) this.close();
+            writePlayerCount(playerCount, this.blueTeam, 1);
+        } else {
+            let bluePlayers = 0, redPlayers = 0;
+            for(const client of this.game.clients) {
+                if(!client.camera || !(client.camera.cameraData.player instanceof TankBody) || !Entity.exists(client.camera.cameraData.player)) continue;
+                if(client.camera.cameraData.player.relationsData.team === this.redTeam) ++redPlayers;              
+                else if(client.camera.cameraData.player.relationsData.team === this.blueTeam) ++bluePlayers;
+                client.camera.cameraData.score += 10;
+                client.camera.cameraData.player.styleData.opacity = 1;
+            }
+            if((!bluePlayers || !redPlayers) && this.state === ArenaState.OPEN) this.close();
+            if(bluePlayers > redPlayers) {
+                writePlayerCount(bluePlayers, this.blueTeam, 0);
+                writePlayerCount(redPlayers, this.redTeam, 1);
+            } else {
+                writePlayerCount(redPlayers, this.redTeam, 0);
+                writePlayerCount(bluePlayers, this.blueTeam, 1);
+            }
+        }
+        this.arenaData.scoreboardAmount = 2;
     }
 
     public tick(tick: number): void {
+        this.shapes.tick();
+        this.updateScoreboard();
         if (this.state === ArenaState.CLOSING) {
-            this.shapes.killAll();
-            if(this.boss) this.boss.destroy();
-            this.updateBounds(this.width * 0.998, this.height * 0.998);
-        }
+            let players = 0;
+            for(const client of this.game.clients) {
+                if(client.camera
+                    && Entity.exists(client.camera.cameraData.player) 
+                    && client.camera.cameraData.player instanceof TankBody
+                ) ++players;
+            }
+            if(players) return;
 
-        super.tick(tick);
+			this.state = ArenaState.CLOSED;
+
+			setTimeout(() => {
+				this.game.end();
+			}, 5000);
+			return;
+		}
     }
 }

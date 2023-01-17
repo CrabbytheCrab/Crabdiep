@@ -35,13 +35,13 @@ export default class LivingEntity extends ObjectEntity {
     /** The points a player is awarded when it kills this entity. */
     public scoreReward = 0;
     /** Amount of health gained per tick. */
-    protected regenPerTick = 0;
+    public regenPerTick = 0;
     /** The damage this entity can emit onto another per tick. */
-    protected damagePerTick = 8;
+    public damagePerTick = 8;
     /** Entities who have went through damage cycles with this entity in the past tick. No repeats. */
     protected damagedEntities: LivingEntity[] = [];
     /** Last tick that damage was received. */
-    protected lastDamageTick = -1;
+    public lastDamageTick = -1;
     /** Last tick that damage style flag was changed. */
     protected lastDamageAnimationTick = -1;
     /** Damage reduction (mathematical health increase). */
