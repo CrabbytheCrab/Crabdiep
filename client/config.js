@@ -23,27 +23,11 @@ const API_URL = `${window.location.href}api/`;
 const CHANGELOG = [
     "Updated recently",
     "",
-    "Welcome to Crab Diep a private server of Diep.io using Diep Custom",
-    "Join the Discord server of the creators of Diep Custom here: discord.gg/SyxWdxgHnT",
+    "Make your own diep server:",
+    "https://github.com/ABCxFF/diepcustom-v1",
     "",
-    "Major non tank changes",
-    "",
-    "2 new bosses to fight being Fallen Puker and Protecter",
-    "2 new Dominators",
-    "2 elite bosses to hunt down being The Fortress and Pyromancer",
-    "Weaponized Polygons that have weapons to shoot at you with",
-    "",
-    "Major tank changes",
-    "",
-    "81 new tanks to play with!",
-    "Trapper is a tier 2 upgrade from tank",
-    "Single is a tier 2 upgrade from tank serving as a path to Destroyer instead of Machine Gun",
-    "Single is a tier 2 upgrade from tank serving as a path to Overseer instead of Sniper",
-    "Sprayer is now a tier 3",
-    "Reworked Triple Shot, Penta Shot, Auto Trapper, Mega Trapper, and Factory's designs",
-    "Minions no longer rotate around the mouse",
-    "Many ballance changes like Overlord having a delay to when the drones can spawn",
-
+    "And make sure to check out our discord server as well if you are interested:",
+    "https://discord.com/invite/SyxWdxgHnT"
 ];
 
 const ASM_CONSTS = {

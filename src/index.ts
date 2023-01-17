@@ -120,7 +120,7 @@ server.listen(PORT, () => {
     // RULES(0): No two game servers should share the same endpoint
     //
     // NOTES(0): As of now, both servers run on the same process (and thread) here
-    const event = new GameServer(wss, "ffa", "Event");
+    const event = new GameServer(wss, "ffa", "Annihilation");
 
     games.push(event);
 

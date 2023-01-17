@@ -146,12 +146,6 @@ export default class EventArena extends ArenaEntity {
     }
 
     public spawnPlayer(tank: TankBody, client: Client) {
-        /*if(!this.playerTeamMap.get(client) && client.connectTick + tps * 120 > this.game.tick) {
-            client.notify("Welcome player, destroy the enemy Nexus to win the game.", 0xFF00FF, 10000);
-            setTimeout(() => client.notify("Press H to sacrifice yourself to your team's Nexus. You have to be close to it to perform the sacrifice.", 0xFF00FF, 10000), 4000);
-            setTimeout(() => client.notify("Your sacrifice will result in the Nexus regenerating it's shield (2x) or health (0.1x) according to your health.", 0xFF00FF, 10000), 8000);
-        }*/
-
         let team = this.playerTeamMap.get(client) || [this.blueTeamNexus, this.redTeamNexus][0 | Math.random() * 2];
         this.playerTeamMap.set(client, team);
 

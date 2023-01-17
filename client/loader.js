@@ -595,8 +595,14 @@ class ASMConsts {
         const img = new Image;
         img.isLoaded = false;
         img.onload = () => img.isLoaded = true;
-        img.src = `${CDN}${Module.UTF8ToString(src)}`;
-        if(img.src.includes('title')) img.src = 'https://raw.githubusercontent.com/CrabbytheCrab/Crabdiep/main/background.png';
+        switch(Module.UTF8ToString(src)) {
+            case "title.png":
+                img.src = "https://raw.githubusercontent.com/Nul-led/Crabdiep/main/title.jpg";
+                break;
+            default:
+                img.src = `${CDN}${Module.UTF8ToString(src)}`;
+        }
+
         for (let i = 0; i < Module.cp5.images.length; ++i) {
             if (Module.cp5.images[i] !== null) continue;
             Module.cp5.images[i] = img;
