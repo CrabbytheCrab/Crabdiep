@@ -49,16 +49,19 @@ export default class Vector implements VectorAbstract {
     public set(vector: VectorAbstract) {
         this.x = vector.x;
         this.y = vector.y;
+        return this;
     }
 
     public add(vector: VectorAbstract) {
         this.x += vector.x,
         this.y += vector.y;
+        return this;
     }
 
     public subtract(vector: VectorAbstract) {
         this.x -= vector.x;
         this.y -= vector.y;
+        return this;
     }
 
     public distanceToSQ(vector: VectorAbstract) {

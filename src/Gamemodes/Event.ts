@@ -1,8 +1,6 @@
-import { threadId } from "worker_threads";
 import Client from "../Client";
-import { tps } from "../config";
 import { DevTank } from "../Const/DevTankDefinitions";
-import { ArenaFlags, ClientBound, Color, StyleFlags, Tank, ValidScoreboardIndex } from "../Const/Enums";
+import { Color, ValidScoreboardIndex } from "../Const/Enums";
 import MazeWall from "../Entity/Misc/MazeWall";
 import TeamBase from "../Entity/Misc/TeamBase";
 import { TeamEntity } from "../Entity/Misc/TeamEntity";
@@ -16,7 +14,7 @@ import TankBody from "../Entity/Tank/TankBody";
 import GameServer from "../Game";
 import ArenaEntity, { ArenaState } from "../Native/Arena";
 import { Entity } from "../Native/Entity";
-import { removeFast, saveToLog } from "../util";
+import { removeFast } from "../util";
 
 const ARENA_WIDTH = 25000;
 const ARENA_HEIGHT = 20000;
@@ -31,15 +29,24 @@ const NEXUS_CONFIG: NexusConfig = {
 
 class EventShapeManager extends ShapeManager {
     private shapeEntities: AbstractShape[] = [];
+    private lowerShapeEntities: AbstractShape[] = [];
 
     protected spawnShape(): AbstractShape {
         const r = Math.random();
         let shape;
-        if(r > 0.8) shape = new Pentagon(this.game, Math.random() < 0.05, Math.random() < 0.001);
-        else if(r > 0.5) shape = new Triangle(this.game, Math.random() < 0.01);
-        else shape = new Square(this.game, Math.random() < 0.05);
+        if(r > 0.8) shape = new Pentagon(this.game, Math.random() > 0.97);
+        else if(r > 0.5) shape = new Triangle(this.game);
+        else shape = new Square(this.game);
         shape.positionData.x = Math.random() > 0.5 ? Math.random() * this.wantedShapes * 5 : -Math.random() * this.wantedShapes * 5;
         shape.positionData.y = Math.random() > 0.5 ? Math.random() * this.wantedShapes * 5 : -Math.random() * this.wantedShapes * 5;
+        shape.relationsData.owner = shape.relationsData.team = this.arena;
+        return shape;
+    }
+
+    protected spawnLowerShape(): AbstractShape {
+        const shape = new [Square, Triangle][0 | Math.random() * 2](this.game, false);
+        shape.positionData.x = Math.random() > 0.5 ? Math.random() * ARENA_WIDTH / 1.5 : -Math.random() * ARENA_WIDTH / 1.5;
+        shape.positionData.y = Math.random() > 0.5 ? Math.random() * ARENA_HEIGHT / 1.5 : -Math.random() * ARENA_HEIGHT / 1.5;
         shape.relationsData.owner = shape.relationsData.team = this.arena;
         return shape;
     }
@@ -48,10 +55,19 @@ class EventShapeManager extends ShapeManager {
         return 250;
     }
 
+    public get wantedLowerShapes() {
+        return 250 + this.game.clients.size * 10;
+    }
+
     public tick() {
         for(let i = 0; i < this.wantedShapes; ++i) {
             if(!this.shapeEntities[i]) this.shapeEntities.push(this.spawnShape());
             else if(!Entity.exists(this.shapeEntities[i])) removeFast(this.shapeEntities, i); // deal with this next tick :P
+        }
+
+        for(let i = 0; i < this.wantedLowerShapes; ++i) {
+            if(!this.lowerShapeEntities[i]) this.lowerShapeEntities.push(this.spawnLowerShape());
+            else if(!Entity.exists(this.lowerShapeEntities[i])) removeFast(this.lowerShapeEntities, i); // deal with this next tick :P
         }
     }
 }
@@ -78,8 +94,8 @@ export default class EventArena extends ArenaEntity {
         this.blueTeamBaseLeft = new TeamBase(
             game, 
             this.blueTeam,
-            -ARENA_WIDTH / 2 + BASE_WIDTH / 2, // x
-            -ARENA_HEIGHT / 2 + BASE_HEIGHT / 2, // y
+            -ARENA_WIDTH / 2 + BASE_WIDTH / 2,
+            -ARENA_HEIGHT / 2 + BASE_HEIGHT / 2,
             BASE_HEIGHT,
             BASE_WIDTH
         );

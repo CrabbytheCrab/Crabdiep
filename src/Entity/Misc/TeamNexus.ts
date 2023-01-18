@@ -27,6 +27,8 @@ import { ArenaState } from "../../Native/Arena";
 import ClientCamera from "../../Native/Camera";
 import { Entity } from "../../Native/Entity";
 import { NameGroup } from "../../Native/FieldGroups";
+import Vector from "../../Physics/Vector";
+import { constrain } from "../../util";
 import LivingEntity from "../Live";
 import TankBody from "../Tank/TankBody";
 import TeamBase from "./TeamBase";
@@ -99,10 +101,10 @@ export default class Nexus extends LivingEntity {
             if(!(client.camera.cameraData.player instanceof TankBody)) continue;
             const tank = client.camera.cameraData.player;
             if(tank.relationsData.team === this.relationsData.team) {
-                client.notify(`Your team's nexus has lost it's shield (${Math.round(this.healthData.health)} hp remaining)`);
+                client.notify(`Your team's nexus has lost its shield (${Math.round(this.healthData.health)} hp remaining)!`, ColorsHexCode[Color.TeamRed], 3000, 'shield_broke');
             }
             else {
-                client.notify(`The other team's nexus has lost it's shield!`);
+                client.notify(`The other team's nexus has lost its shield!`, ColorsHexCode[Color.TeamGreen], 3000, 'shield_broke');
                 const pos = tank.getWorldPosition();
                 if(Math.sqrt(pos.distanceToSQ(nexusPos)) > 7000) continue;
                 tank.addAcceleration(Math.atan2(pos.y - nexusPos.y, pos.x - nexusPos.x), 500);
@@ -122,10 +124,15 @@ export default class Nexus extends LivingEntity {
             return;
         }
 
-        const pos1 = client.camera.cameraData.player.getWorldPosition();
-        const pos2 = this.base.getWorldPosition();
+        const playerPos = client.camera.cameraData.player.positionData;
+        const playerPhysics = client.camera.cameraData.player.physicsData;
+        const basePos = this.base.positionData;
+        const basePhysics = this.base.physicsData;
+        const dX = constrain(playerPos.x, basePos.x - basePhysics.size / 2, basePos.x + basePhysics.size / 2) - playerPos.x;
+        const dY = constrain(playerPos.y, basePos.y - basePhysics.width / 2, basePos.y + basePhysics.width / 2) - playerPos.y;
+        const isInBase = dX ** 2 + dY ** 2 <= playerPhysics.sides ** 2;
 
-        if(!(pos2.x <= pos1.x && pos1.x <= pos2.x + this.config.size * 10 && pos2.y <= pos1.y && pos1.y <= pos2.y + this.config.size * 10)) {
+        if(!isInBase) {
             client.notify("Unable to sacrifice to the nexus, out of reach.", 0xFFA500, 2000, 'cant_claim_info');
             return;
         }
@@ -155,8 +162,8 @@ export default class Nexus extends LivingEntity {
     }
 
     public tick(tick: number) {
-        if(this.shield.isBroken) this.nameData.name = `Nexus Shield recovers in ${(30 - (this.game.tick - this.shield.brokenTick) / tps).toFixed(2)} seconds`;
-        else this.nameData.name = `Nexus (${Math.round(this.healthData.health)} Health)`;
+        if(this.shield.isBroken) this.nameData.name = `Nexus (${Math.round(this.healthData.health)} Health, Shield recovers in ${(30 - (this.game.tick - this.shield.brokenTick) / tps).toFixed(2)} seconds)`;
+        else this.nameData.name = `Nexus (${Math.round(this.healthData.health)} Health, ${Math.round(this.shield.healthData.health)} Shield)`;
         this.positionData.angle = -(tick * 0.01);
         this.updateShield();
         this.lastDamageTick = tick;
@@ -172,10 +179,15 @@ export default class Nexus extends LivingEntity {
                 continue;
             }
 
-            const pos1 = sacrifice.camera.cameraData.player.getWorldPosition();
-            const pos2 = this.base.getWorldPosition();
+            const playerPos = sacrifice.camera.cameraData.player.positionData;
+            const playerPhysics = sacrifice.camera.cameraData.player.physicsData;
+            const basePos = this.base.positionData;
+            const basePhysics = this.base.physicsData;
+            const dX = constrain(playerPos.x, basePos.x - basePhysics.size / 2, basePos.x + basePhysics.size / 2) - playerPos.x;
+            const dY = constrain(playerPos.y, basePos.y - basePhysics.width / 2, basePos.y + basePhysics.width / 2) - playerPos.y;
+            const isInBase = dX ** 2 + dY ** 2 <= playerPhysics.sides ** 2;
 
-            if(!(pos2.x <= pos1.x && pos1.x <= pos2.x + this.config.size * 10 && pos2.y <= pos1.y && pos1.y <= pos2.y + this.config.size * 10)) {
+            if(!isInBase) {
                 sacrifice.notify("Sacificing stopped, out of reach.", 0xFFA500, 2000, 'cant_claim_info');
                 this.sacrifices.delete(sacrifice);
                 continue;
