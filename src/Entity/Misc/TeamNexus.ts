@@ -122,7 +122,10 @@ export default class Nexus extends LivingEntity {
             return;
         }
 
-        if(Math.sqrt(client.camera.cameraData.player.getWorldPosition().distanceToSQ(this.getWorldPosition())) > 3000) {
+        const pos1 = client.camera.cameraData.player.getWorldPosition();
+        const pos2 = this.base.getWorldPosition();
+
+        if(pos2.x <= pos1.x && pos1.x <= pos2.x + this.config.size * 10 && pos2.y <= pos1.y && pos1.y <= pos2.y + this.config.size * 10) {
             client.notify("Unable to sacrifice to the nexus, out of reach.", 0xFFA500, 2000, 'cant_claim_info');
             return;
         }
@@ -163,9 +166,17 @@ export default class Nexus extends LivingEntity {
                 || !Entity.exists(sacrifice.camera.cameraData.player)
                 || !Entity.exists(this)
                 || !(sacrifice.camera.cameraData.player instanceof LivingEntity)
-                || Math.sqrt(sacrifice.camera.cameraData.player.getWorldPosition().distanceToSQ(this.getWorldPosition())) > 3000
             ) {
                 sacrifice.notify("Sacificing stopped.", 0xFFA500, 2000, 'cant_claim_info');
+                this.sacrifices.delete(sacrifice);
+                continue;
+            }
+
+            const pos1 = sacrifice.camera.cameraData.player.getWorldPosition();
+            const pos2 = this.base.getWorldPosition();
+
+            if(pos2.x <= pos1.x && pos1.x <= pos2.x + this.config.size * 10 && pos2.y <= pos1.y && pos1.y <= pos2.y + this.config.size * 10) {
+                sacrifice.notify("Sacificing stopped, out of reach.", 0xFFA500, 2000, 'cant_claim_info');
                 this.sacrifices.delete(sacrifice);
                 continue;
             }
@@ -174,8 +185,8 @@ export default class Nexus extends LivingEntity {
             const target = [this.shield, this].filter(e => e.healthData.health < e.healthData.maxHealth)[0];
             if(!target) continue;
             entity.lastDamageTick = tick;
-            target.healthData.health += entity.healthData.health * entity.damagePerTick / 8 * 0.005;
-            entity.healthData.health -= entity.healthData.health * 0.005;
+            target.healthData.health += entity.healthData.maxHealth * entity.damagePerTick / 10 * 0.005;
+            entity.healthData.health -= entity.healthData.maxHealth * 0.005;
         }
 
         super.tick(tick);
