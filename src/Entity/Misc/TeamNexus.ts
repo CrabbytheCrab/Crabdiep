@@ -125,7 +125,7 @@ export default class Nexus extends LivingEntity {
         const pos1 = client.camera.cameraData.player.getWorldPosition();
         const pos2 = this.base.getWorldPosition();
 
-        if(pos2.x <= pos1.x && pos1.x <= pos2.x + this.config.size * 10 && pos2.y <= pos1.y && pos1.y <= pos2.y + this.config.size * 10) {
+        if(!(pos2.x <= pos1.x && pos1.x <= pos2.x + this.config.size * 10 && pos2.y <= pos1.y && pos1.y <= pos2.y + this.config.size * 10)) {
             client.notify("Unable to sacrifice to the nexus, out of reach.", 0xFFA500, 2000, 'cant_claim_info');
             return;
         }
@@ -175,7 +175,7 @@ export default class Nexus extends LivingEntity {
             const pos1 = sacrifice.camera.cameraData.player.getWorldPosition();
             const pos2 = this.base.getWorldPosition();
 
-            if(pos2.x <= pos1.x && pos1.x <= pos2.x + this.config.size * 10 && pos2.y <= pos1.y && pos1.y <= pos2.y + this.config.size * 10) {
+            if(!(pos2.x <= pos1.x && pos1.x <= pos2.x + this.config.size * 10 && pos2.y <= pos1.y && pos1.y <= pos2.y + this.config.size * 10)) {
                 sacrifice.notify("Sacificing stopped, out of reach.", 0xFFA500, 2000, 'cant_claim_info');
                 this.sacrifices.delete(sacrifice);
                 continue;
