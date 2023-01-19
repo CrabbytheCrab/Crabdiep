@@ -265,6 +265,7 @@ export default class EventArena extends ArenaEntity {
                 if(client.camera
                     && Entity.exists(client.camera.cameraData.player) 
                     && client.camera.cameraData.player instanceof TankBody
+                    && client.camera.cameraData.player.physicsData.sides > 0
                 ) ++players;
             }
             if(players) return;
