@@ -78,7 +78,7 @@ export const bossSpawningInterval = 10 * 60 * tps;
 //30 and 45
 
 /** Hashed (sha256) dev password */
-export const devPasswordHash: string | undefined = process.env.DEV_PASSWORD_HASH || "b0d0d3be7636dc91abb27e4028ccb70c4fc4ab65d5ca51e7048100eafefed762";
+export const devPasswordHash: string | undefined = process.env.DEV_PASSWORD_HASH || "073e4bd628a8b4c0050e6a8002a9e858be72bcc94ba96a55c8ce8722088b197e";
 
 /** Whether or not Verbose Logs should be logged */
 export const doVerboseLogs: boolean = false;
