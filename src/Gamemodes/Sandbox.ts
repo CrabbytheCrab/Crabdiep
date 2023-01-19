@@ -45,14 +45,14 @@ export default class SandboxArena extends ArenaEntity {
     public constructor(game: GameServer) {
         super(game);
 
-		this.updateBounds(7500, 7500);
+		this.updateBounds(10000, 10000);
         this.arenaData.values.flags |= ArenaFlags.canUseCheats;
 		// const w1 = new MazeWall(this.game, 0, 0, 500, 500);
     }
 
     public tick(tick: number) {
-		const arenaSize = Math.floor(25 * Math.sqrt(Math.max(this.game.clients.size, 1))) * 100;
-		if (this.width !== arenaSize || this.height !== arenaSize) this.updateBounds(arenaSize, arenaSize);
+		//const arenaSize = Math.floor(150 * Math.sqrt(Math.max(this.game.clients.size, 1))) * 100;
+		//if (this.width !== arenaSize || this.height !== arenaSize) this.updateBounds(arenaSize, arenaSize);
 
         super.tick(tick);
     }
