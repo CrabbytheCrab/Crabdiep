@@ -152,7 +152,7 @@ export default class Nexus extends LivingEntity {
         if(!Entity.exists(this)) return;
         if(Entity.exists(this.shield)) this.shield.delete();
         if(Entity.exists(this.base)) this.base.delete();
-        this.bases.forEach(e => e.setPainful(false));
+        this.bases.forEach(e => e.delete());
         this.game.broadcast()
             .u8(ClientBound.Notification)
             .stringNT(`${killer.nameData?.name || "An unnamed tank"} has destroyed the ${(this.relationsData.team as TeamEntity).teamName} Nexus!`)
