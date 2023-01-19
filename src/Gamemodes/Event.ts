@@ -241,6 +241,7 @@ export default class EventArena extends ArenaEntity {
                 if(!client.camera || !(client.camera.cameraData.player instanceof TankBody) || !Entity.exists(client.camera.cameraData.player)) continue;
                 if(client.camera.cameraData.player.relationsData.team === this.redTeam) ++redPlayers;              
                 else if(client.camera.cameraData.player.relationsData.team === this.blueTeam) ++bluePlayers;
+                else continue;
                 client.camera.cameraData.score += 10;
                 client.camera.cameraData.player.styleData.opacity = 1;
             }
