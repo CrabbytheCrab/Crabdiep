@@ -53,7 +53,7 @@ export class Addon {
      * Read (addons.md on diepindepth)[https://github.com/ABCxFF/diepindepth/blob/main/extras/addons.md]
      * for more details and examples.
      */
-    public createGuard(sides: number, sizeRatio: number, offsetAngle: number, radiansPerTick: number): GuardObject {
+    public createGuard(sides: number, sizeRatio: number, offsetAngle: number, radiansPerTick: number): LivingEntity {
         return new GuardObject(this.game, this.owner, sides, sizeRatio, offsetAngle, radiansPerTick);
     }
     public createGuard2(): OverdriveAddon {
@@ -111,6 +111,8 @@ export class Addon {
         return rotator;
     }
 
+
+    
     protected createAutoTurretsWeak(count: number) {
         const rotPerTick = AI.PASSIVE_ROTATION;
         const MAX_ANGLE_RANGE = PI2 / 4; // keep within 90º each side
@@ -264,8 +266,8 @@ export class Addon {
             const barr = new Barrel(this.owner, {...dronebarrel, angle: PI2 * ((i / count))})
             const tickBase2 = barr.tick;
 
-            barr.positionData.values.y += rotator.physicsData.values.size * Math.sin(MAX_ANGLE_RANGE)* ROT_OFFSET
-            barr.positionData.values.x += rotator.physicsData.values.size * Math.cos(MAX_ANGLE_RANGE)* ROT_OFFSET;
+            barr.positionData.values.y += rotator.physicsData.values.size * Math.sin(MAX_ANGLE_RANGE)
+            barr.positionData.values.x += rotator.physicsData.values.size * Math.cos(MAX_ANGLE_RANGE);
             barr.tick = (tick: number) => {
                 barr.positionData.y += rotator.physicsData.values.size * Math.sin(MAX_ANGLE_RANGE);
                 barr.positionData.x += rotator.physicsData.values.size * Math.cos(MAX_ANGLE_RANGE);
@@ -279,45 +281,7 @@ export class Addon {
 
         return rotator;
     }
-
-
-    protected createDrones2(count: number) {
-        const rotPerTick = AI.PASSIVE_ROTATION;
-        const MAX_ANGLE_RANGE = PI2; // keep within 90º each side
-
-        const rotator = this.createGuard(1, 2, 0, 0) as GuardObject & { joints: GuardObject[]};
-        rotator.positionData.angle = rotator.owner.positionData.angle
-        rotator.joints = [];
-        //rotator.joints = [];
-
-            const tickBase = rotator.tick;
-            const ROT_OFFSET = 3;
-        rotator.tick = (tick: number) => {
-
-            tickBase.call(rotator, tick);
-
-            rotator.positionData.values.angle = rotator.owner.positionData.values.angle;
-        }
-        //if (rotator.styleData.values.flags & StyleFlags.isVisible) rotator.styleData.values.flags ^= StyleFlags.isVisible;
-
-            const rotator2 = this.createGuard(1, 2, 0, 0) as GuardObject
-            const tickBase2 = rotator2.tick;
-            rotator2.positionData.angle = rotator.positionData.angle
-
-            rotator2.positionData.values.y = rotator.physicsData.values.size * Math.sin(MAX_ANGLE_RANGE) * ROT_OFFSET
-            rotator2.positionData.values.x = rotator.physicsData.values.size * Math.cos(MAX_ANGLE_RANGE) * ROT_OFFSET;
-            rotator2.tick = (tick: number) => {
-                rotator2.positionData.y = rotator.physicsData.values.size * Math.sin(MAX_ANGLE_RANGE) * ROT_OFFSET;
-                rotator2.positionData.x = rotator.physicsData.values.size * Math.cos(MAX_ANGLE_RANGE) * ROT_OFFSET;
-
-                tickBase2.call(rotator2, tick);
-
-                rotator2.positionData.values.angle = rotator.positionData.values.angle;
-            }
-            rotator.joints.push(rotator2);
-
-        return rotator;
-    }
+    
     protected createAutoStalkerTurrets(count: number) {
         const rotPerTick = AI.PASSIVE_ROTATION;
         const MAX_ANGLE_RANGE = PI2 / 4; // keep within 90º each side
@@ -638,7 +602,7 @@ export class OverdriveAddon extends Addon {
         }
     }
 }
-export class GuardObject extends ObjectEntity implements BarrelBase {
+export class GuardObject extends LivingEntity implements BarrelBase {
     /***** From BarrelBase *****/
     public inputs: Inputs;
     public cameraEntity: Entity;
@@ -653,7 +617,7 @@ export class GuardObject extends ObjectEntity implements BarrelBase {
 
     public constructor(game: GameServer, owner: BarrelBase, sides: number, sizeRatio: number, offsetAngle: number, radiansPerTick: number) {
         super(game);
-
+        this.damagePerTick = 10
         this.owner = owner;
         this.inputs = owner.inputs;
         this.cameraEntity = owner.cameraEntity;
@@ -989,7 +953,7 @@ class Joint3Addon extends Addon {
 class Banshee extends Addon {
     public constructor(owner: BarrelBase) {
         super(owner);
-        this.createDrones2(3)
+        this.createDrones(3)
         this.createAutoTurretsWeak(3);
     }
 }

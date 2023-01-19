@@ -33,8 +33,8 @@ import AutoTurret from "../AutoTurret";
 const RocketBarrelDefinition: BarrelDefinition = {
     angle: Math.PI,
     offset: 0,
-    size: 70,
-    width: 46.472,
+    size:  66.526,
+    width:  37.967,
     delay: 0,
     reload: 0.3,
     recoil: 4.5,
