@@ -20,7 +20,7 @@
 
 import Client from "../../Client";
 import { tps } from "../../config";
-import { ClientBound, Color, ColorsHexCode, HealthFlags, PhysicsFlags } from "../../Const/Enums";
+import { ClientBound, Color, ColorsHexCode, HealthFlags, PhysicsFlags, Stat } from "../../Const/Enums";
 import TankDefinitions from "../../Const/TankDefinitions";
 import GameServer from "../../Game";
 import { ArenaState } from "../../Native/Arena";
@@ -197,8 +197,8 @@ export default class Nexus extends LivingEntity {
             const target = [this.shield, this].filter(e => e.healthData.health < e.healthData.maxHealth)[0];
             if(!target) continue;
             entity.lastDamageTick = tick;
-            target.healthData.health += entity.healthData.maxHealth * entity.damagePerTick / 10 * 0.005;
-            entity.healthData.health -= entity.healthData.maxHealth * 0.005;
+            target.healthData.health += entity.healthData.maxHealth * entity.damagePerTick / (entity instanceof TankBody ? 20 : 8) * 0.005;
+            entity.healthData.health -= entity.healthData.maxHealth * 0.005 + entity.regenPerTick;
         }
 
         super.tick(tick);

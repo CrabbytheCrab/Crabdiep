@@ -82,7 +82,6 @@ export default class LivingEntity extends ObjectEntity {
             dF2 *= 1 - ratio;
         }
 
-
         // Plays the animation damage for entity 2
         if (entity2.lastDamageAnimationTick !== game.tick && !(entity2.styleData.values.flags & StyleFlags.hasNoDmgIndicator)) {
             entity2.styleData.flags ^= StyleFlags.hasBeenDamaged;
