@@ -194,8 +194,8 @@ export default class Nexus extends LivingEntity {
             }
 
             const entity = sacrifice.camera.cameraData.player;
-            const target = [this.shield, this].filter(e => e.healthData.health < e.healthData.maxHealth)[0];
-            if(!target) continue;
+            const target = [this, this.shield].filter(e => e.healthData.health < e.healthData.maxHealth)[0];
+            if(!target || (target === this.shield && this.shield.isBroken)) continue;
             entity.lastDamageTick = tick;
             target.healthData.health += entity.healthData.maxHealth * entity.damagePerTick / (entity instanceof TankBody ? 60 : 24) * 0.005;
             entity.healthData.health -= entity.healthData.maxHealth * 0.005 + entity.regenPerTick;
