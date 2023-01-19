@@ -296,7 +296,6 @@ const ADDON_MAP = {
         "launcher": 157, // Skimmer (157) & Rocketeer (158)
         "dombase": 159,
         "dompronounced": 160, // Dom1 (160) & Dom2 (161) 
-        "joint3": 161
     }
 };
 

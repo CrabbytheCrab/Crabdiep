@@ -153,21 +153,17 @@ Module.allocateUTF8 = str => {
 Module.loadGamemodeButtons = () => {
     const vec = new $.Vector(MOD_CONFIG.memory.gamemodeButtons, "struct", 28);
     if(vec.start) vec.destroy(); // remove old arenas
+    
     // map server response to memory struct
+    if(!Module.servers.find(e => Module.loadGamemodeButtons._DIEP_PREFERRED_GAMEMODES.includes(e.gamemode))) {
+        window.localStorage['gamemode'] = '';
+    }
     vec.push(...Module.servers.map(server => ([
         { offset: 0, type: "cstr", value: server.gamemode }, 
         { offset: 12, type: "cstr", value: server.name }, 
         { offset: 24, type: "i32", value: 0 }
     ])));
     $(MOD_CONFIG.memory.gamemodeDisabledText).utf8 = 'This game mode is disabled';
-    // placeholders to prevent single/no gamemode bugs
-    if (!Module.servers.find(e => Module.loadGamemodeButtons._DIEP_PREFERRED_GAMEMODES.includes(e.gamemode))) {
-        vec.push(...[[
-            { offset: 0, type: "cstr", value: "survival" }, 
-            { offset: 12, type: "cstr", value: "" }, 
-            { offset: 24, type: "i32", value: 1 }
-        ]]);
-    }
     Module.rawExports.loadVectorDone(MOD_CONFIG.memory.gamemodeButtons + 12); // not understood
 };
 
@@ -205,7 +201,7 @@ Module.loadTankDefinitions = () => {
                 { offset: 56, type: "f32", value: barrel.bullet.sizeRatio },
                 { offset: 60, type: "f32", value: barrel.trapezoidDirection },
                 { offset: 64, type: "f32", value: barrel.reload },
-                { offset: 96, type: "u32", value: ADDON_MAP.barrelAddons[barrel.addon] || 0 }
+                { offset: 96, type: "u32", value: ADDON_MAP.barrelAddons[barrel.addon] || ADDON_MAP.tankAddons.someTankAddon }
             ];
         }) : [];
 
@@ -220,8 +216,8 @@ Module.loadTankDefinitions = () => {
             { offset: 64, type: "u32", value: tank.levelRequirement || 0 },
             { offset: 76, type: "u8", value: Number(tank.sides === 4) },
             { offset: 93, type: "u8", value: Number(tank.sides === 16) },
-            { offset: 96, type: "u32", value: ADDON_MAP.tankAddons[tank.preAddon] || 0 },
-            { offset: 100, type: "u32", value: ADDON_MAP.tankAddons[tank.postAddon] || 0 },
+            { offset: 96, type: "u32", value: ADDON_MAP.tankAddons[tank.preAddon] || ADDON_MAP.tankAddons.someTankAddon },
+            { offset: 100, type: "u32", value: ADDON_MAP.tankAddons[tank.postAddon] || ADDON_MAP.tankAddons.someTankAddon },
         ];
 
         $.writeStruct(ptr, fields);
@@ -298,7 +294,7 @@ Module.loadCommands = (commands = CUSTOM_COMMANDS) => {
 };
 
 const wasmImports = {
-    assertFail: (condition, filename, line, func) => Module.abort("Assertion failed: " + UTF8ToString(condition) + ", at: " + [filename ? UTF8ToString(filename) : "unknown filename", line, func ? UTF8ToString(func) : "unknown function"]),
+    assertFail: (condition, filename, line, func) => Module.abort("Assertion failed: " + Module.UTF8ToString(condition) + ", at: " + [filename ? Module.UTF8ToString(filename) : "unknown filename", line, func ? Module.UTF8ToString(func) : "unknown function"]),
     mapFile: () => -1, // unused
     sysMunmap: (addr, len) => addr === -1 || !len ? -28 : 0, // not really used
     abort: Module.abort,
@@ -401,9 +397,20 @@ Module.todo.push([(dependency, servers, tanks) => {
             fieldStr: "executeCommand",
             kind: "func",
             type: types.vi
+        }),
+        someTankAddon: parser.addImportEntry({
+            moduleStr: "addons",
+            fieldStr: "someTankAddon",
+            kind: "func",
+            type: types.vi
         })
     }
 
+    Module.imports.addons = {
+        someTankAddon: (entityPtr) => {
+            if(entityPtr == 160){}
+        }
+    }
 
     // Modded imports, see above
     Module.imports.mods = {
@@ -413,6 +420,11 @@ Module.todo.push([(dependency, servers, tanks) => {
         findCommand: Module.getCommand,
         executeCommand: Module.executeCommand
     };
+
+    parser.addExportEntry(imports.someTankAddon, {
+        fieldStr: "someTankAddon",
+        kind: "func"
+    });
 
     // export to be able to add as a function table element
     parser.addExportEntry(imports.executeCommand, {
@@ -542,6 +554,9 @@ Module.todo.push([() => {
     // custom commands
     Module.executeCommandFunctionIndex = Module.imports.a.table.grow(1);
     Module.imports.a.table.set(Module.executeCommandFunctionIndex, Module.rawExports.executeCommand);
+
+    ADDON_MAP.tankAddons.someTankAddon = Module.imports.a.table.grow(1);
+    Module.imports.a.table.set(ADDON_MAP.tankAddons.someTankAddon, Module.rawExports.someTankAddon);
     
     Module.status = "START";
     // emscripten requirements
