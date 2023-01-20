@@ -181,7 +181,6 @@ const TankDefinitions = JSON.parse(`[
             6,
             5,
             7,
-            138,
             109,
             8
         ],
@@ -369,7 +368,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Sniper",
         "upgradeMessage": "",
         "levelRequirement": 15,
-        "upgrades": [12, 13, 14,31,158],
+        "upgrades": [12, 13, 14,31,158, 138],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -1063,7 +1062,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Quad Tank",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [37, 38, 39,113,56],
+        "upgrades": [37, 38, 39,113,139,56],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -15681,9 +15680,9 @@ const TankDefinitions = JSON.parse(`[
     {
         "id": 138,
         "name": "Psi Tank",
-        "upgradeMessage": "",
+        "upgradeMessage": "Right click to fire all the orbitiong bullets",
         "levelRequirement": 30,
-        "upgrades": [139
+        "upgrades": [139,137
         ],
         "flags": {
             "invisibility": false,
@@ -15693,7 +15692,7 @@ const TankDefinitions = JSON.parse(`[
         "visibilityRateShooting": 0.23,
         "visibilityRateMoving": 0.08,
         "invisibilityRate": 0.03,
-        "fieldFactor": 1,
+        "fieldFactor": 0.85,
         "absorbtionFactor": 1,
         "speed": 1,
         "maxHealth": 50,
@@ -15721,7 +15720,7 @@ const TankDefinitions = JSON.parse(`[
                     "health": 1,
                     "damage": 0.75,
                     "speed": 1.25,
-                    "scatterRate": 1,
+                    "scatterRate": 0,
                     "lifeLength": 1,
                     "absorbtionFactor": 1
                 }
@@ -15777,7 +15776,7 @@ const TankDefinitions = JSON.parse(`[
         "visibilityRateShooting": 0.23,
         "visibilityRateMoving": 0.08,
         "invisibilityRate": 0.03,
-        "fieldFactor": 1,
+        "fieldFactor": 0.85,
         "absorbtionFactor": 1,
         "speed": 1,
         "maxHealth": 50,
@@ -15790,7 +15789,7 @@ const TankDefinitions = JSON.parse(`[
             {
                 "angle": 0,
                 "offset": 0,
-                "size": 95,
+                "size": 80,
                 "width": 25,
                 "delay": 0,
                 "reload": 1.5,
@@ -15805,7 +15804,7 @@ const TankDefinitions = JSON.parse(`[
                     "health": 0.65,
                     "damage": 0.45,
                     "speed": 1.25,
-                    "scatterRate": 1,
+                    "scatterRate": 0,
                     "lifeLength": 1,
                     "absorbtionFactor": 0.75
                 }
@@ -15813,7 +15812,7 @@ const TankDefinitions = JSON.parse(`[
             {
                 "angle": -1.5707963267948966,
                 "offset": 0,
-                "size": 95,
+                "size": 80,
                 "width": 25,
                 "delay": 0,
                 "reload": 1.5,
@@ -15828,7 +15827,7 @@ const TankDefinitions = JSON.parse(`[
                     "health": 0.65,
                     "damage": 0.45,
                     "speed": 1.25,
-                    "scatterRate": 1,
+                    "scatterRate": 0,
                     "lifeLength": 1,
                     "absorbtionFactor": 0.75
                 }
@@ -15836,7 +15835,7 @@ const TankDefinitions = JSON.parse(`[
             {
                 "angle": 1.5707963267948966,
                 "offset": 0,
-                "size": 95,
+                "size": 80,
                 "width": 25,
                 "delay": 0,
                 "reload": 1.5,
@@ -15851,7 +15850,7 @@ const TankDefinitions = JSON.parse(`[
                     "health": 0.65,
                     "damage": 0.45,
                     "speed": 1.25,
-                    "scatterRate": 1,
+                    "scatterRate": 0,
                     "lifeLength": 1,
                     "absorbtionFactor": 0.75
                 }
@@ -15859,7 +15858,7 @@ const TankDefinitions = JSON.parse(`[
             {
                 "angle": 3.141592653589793,
                 "offset": 0,
-                "size": 95,
+                "size": 80,
                 "width": 25,
                 "delay": 0,
                 "reload": 1.5,
@@ -15874,7 +15873,7 @@ const TankDefinitions = JSON.parse(`[
                     "health": 0.65,
                     "damage": 0.45,
                     "speed": 1.25,
-                    "scatterRate": 1,
+                    "scatterRate": 0,
                     "lifeLength": 1,
                     "absorbtionFactor": 0.75
                 }
