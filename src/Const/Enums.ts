@@ -235,6 +235,8 @@ export const enum Tank {
     Flinger       = 158,
     Alloy         = 159,
     Munition      = 160,
+    PsiTrapper    = 161,
+    Blunderbuss   = 162,
     Mothership    = 204
 }
 

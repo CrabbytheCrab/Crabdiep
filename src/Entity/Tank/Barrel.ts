@@ -56,6 +56,7 @@ import MegaSpinner from "./Projectile/MegaSpinner";
 import Mine from "./Projectile/Mine";
 import BombDrone from "./Projectile/BombDrone";
 import Striker from "./Projectile/Striker";
+import OrbitTrap from "./Projectile/OrbitTrap";
 /**
  * Class that determines when barrels can shoot, and when they can't.
  */
@@ -239,6 +240,9 @@ export default class Barrel extends ObjectEntity {
             case 'orbit':
                 new Orbit(this, this.tank, tankDefinition, angle);
                 break;
+                case 'orbittrap':
+                    new OrbitTrap(this, this.tank, tankDefinition, angle);
+                    break;
             case 'pentadrone':
                 new Pentagon(this, this.tank, tankDefinition, angle);
                 break;
