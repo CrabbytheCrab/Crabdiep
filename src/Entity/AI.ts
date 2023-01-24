@@ -24,7 +24,6 @@ import TankBody from "./Tank/TankBody";
 
 import { InputFlags, PhysicsFlags } from "../Const/Enums";
 import { Entity } from "../Native/Entity";
-import { tps } from "../config";
 
 // Beware
 // The logic in this file is somewhat messed up

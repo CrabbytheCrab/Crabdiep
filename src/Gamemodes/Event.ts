@@ -1,6 +1,6 @@
 import Client from "../Client";
 import { DevTank } from "../Const/DevTankDefinitions";
-import { ArenaFlags, Color, ValidScoreboardIndex } from "../Const/Enums";
+import { ArenaFlags, Color, ColorsHexCode, ValidScoreboardIndex } from "../Const/Enums";
 import MazeWall from "../Entity/Misc/MazeWall";
 import TeamBase from "../Entity/Misc/TeamBase";
 import { TeamEntity } from "../Entity/Misc/TeamEntity";
@@ -17,8 +17,8 @@ import ClientCamera from "../Native/Camera";
 import { Entity } from "../Native/Entity";
 import { removeFast } from "../util";
 
-const ARENA_WIDTH = 12500;
-const ARENA_HEIGHT = 12500;
+const ARENA_WIDTH = 15000;
+const ARENA_HEIGHT = 15000;
 const BASE_WIDTH = 3000;
 const BASE_HEIGHT = 1500;
 
@@ -74,10 +74,8 @@ class EventShapeManager extends ShapeManager {
 }
 
 /*
-    Phase 1 (Farming phase basically):
-        - Nexus is Invincible
-        - (Shape score multiplier) ?
-    Phase 2 (After x minutes): Nexus isnt invincible anymore
+    Phase 1 (Farming phase basically): Nexus is Invincible
+    Phase 2 (After 5 minutes): Nexus isnt invincible anymore
     Phase 3 (One or more nexus dead): Sacrificing disabled (and other stuff we had b4)
 
 
@@ -97,6 +95,7 @@ export default class EventArena extends ArenaEntity {
     public blueTeam: TeamEntity;
     public redTeam: TeamEntity;
     public walls: MazeWall[] = [];
+    public phase: number = 1;
 
     constructor(game: GameServer) {
         super(game);
@@ -173,6 +172,17 @@ export default class EventArena extends ArenaEntity {
         this.walls.push(new MazeWall(game, 0, ARENA_HEIGHT / 2 - NEXUS_CONFIG.size * 14.375, 700, 2500));
         this.walls.push(new MazeWall(game, -ARENA_WIDTH / 2 + 750 - this.ARENA_PADDING, 0, ARENA_HEIGHT / 2, 1500));
         this.walls.push(new MazeWall(game, ARENA_WIDTH / 2 - 750 + this.ARENA_PADDING, 0, ARENA_HEIGHT / 2, 1500));
+
+        this.blueTeamNexus.setInvicibility(true);
+        this.redTeamNexus.setInvicibility(true);
+
+        setTimeout(() => {
+            if(this.state !== ArenaState.OPEN) return;
+            this.phase = 2;
+            this.blueTeamNexus.setInvicibility(false);
+            this.redTeamNexus.setInvicibility(false);
+            for(const client of game.clients) client.notify("Phase 2 has started, the Nexuses can now be attacked!", 0x0000FF, 10000, 'phase_transition');
+        }, 60000 * 5);
     }
 
     public spawnPlayer(tank: TankBody, client: Client) {
@@ -223,6 +233,14 @@ export default class EventArena extends ArenaEntity {
     }
 
     protected updateScoreboard(): void {
+        const writePhase = (i: ValidScoreboardIndex) => {
+            this.arenaData.scoreboardColors[i] = Color.kMaxColors;
+            this.arenaData.scoreboardNames[i] = "Phase";
+            this.arenaData.scoreboardScores[i] = this.phase;
+            this.arenaData.scoreboardTanks[i] = -1;
+            this.arenaData.scoreboardSuffixes[i] = "";
+        }
+
         const writeNexusHealth = (nexus: Nexus, i: ValidScoreboardIndex) => {
             this.arenaData.scoreboardColors[i] = nexus.styleData.color;
             this.arenaData.scoreboardNames[i] = `${(nexus.relationsData.team as TeamEntity).teamName} Nexus`;
@@ -242,18 +260,28 @@ export default class EventArena extends ArenaEntity {
         const blueAlive = Entity.exists(this.blueTeamNexus);
         const redAlive = Entity.exists(this.redTeamNexus);
 
+        if(this.phase === 2 && (!blueAlive || !redAlive)) {
+            for(const client of this.game.clients) client.notify("Phase 3 has started, attacking a Nexus deals double the damage!", 0x0000FF, 10000, 'phase_transition');
+            this.phase = 3;
+            this.blueTeamNexus.damageReduction = 2;
+            this.blueTeamNexus.shield.damageReduction = 2;
+            this.redTeamNexus.damageReduction = 2;
+            this.redTeamNexus.shield.damageReduction = 2;
+        }
+
         if(this.arenaData.flags & ArenaFlags.showsLeaderArrow) this.arenaData.flags ^= ArenaFlags.showsLeaderArrow;
+
+        writePhase(0);
 
         if(blueAlive && redAlive) {
             if(this.blueTeamNexus.healthData.health > this.redTeamNexus.healthData.health) {
-                writeNexusHealth(this.blueTeamNexus, 0);
-                writeNexusHealth(this.redTeamNexus, 1);
-            } else {
-                writeNexusHealth(this.redTeamNexus, 0);
                 writeNexusHealth(this.blueTeamNexus, 1);
+                writeNexusHealth(this.redTeamNexus, 2);
+            } else {
+                writeNexusHealth(this.redTeamNexus, 1);
+                writeNexusHealth(this.blueTeamNexus, 2);
             }
         } else if(blueAlive && !redAlive) {
-            writeNexusHealth(this.blueTeamNexus, 0);
             let playerCount = 0;
             let leader: null | Client = null;
             for(const client of this.game.clients) {
@@ -270,9 +298,9 @@ export default class EventArena extends ArenaEntity {
                 client.camera.cameraData.player.styleData.opacity = 1;
             }
             if(!playerCount && this.state === ArenaState.OPEN) this.close();
-            writePlayerCount(playerCount, this.redTeam, 1);
+            writeNexusHealth(this.blueTeamNexus, 1);
+            writePlayerCount(playerCount, this.redTeam, 2);
         } else if(!blueAlive && redAlive) {
-            writeNexusHealth(this.redTeamNexus, 0);
             let playerCount = 0;
             let leader: null | Client = null;
             for(const client of this.game.clients) {
@@ -289,7 +317,8 @@ export default class EventArena extends ArenaEntity {
                 client.camera.cameraData.player.styleData.opacity = 1;
             }
             if(!playerCount && this.state === ArenaState.OPEN) this.close();
-            writePlayerCount(playerCount, this.blueTeam, 1);
+            writeNexusHealth(this.redTeamNexus, 1);
+            writePlayerCount(playerCount, this.blueTeam, 2);
         } else {
             let bluePlayers = 0, redPlayers = 0;
             let leader: null | Client = null;
@@ -309,15 +338,15 @@ export default class EventArena extends ArenaEntity {
             }
             if((!bluePlayers || !redPlayers) && this.state === ArenaState.OPEN) this.close();
             if(bluePlayers > redPlayers) {
-                writePlayerCount(bluePlayers, this.blueTeam, 0);
-                writePlayerCount(redPlayers, this.redTeam, 1);
-            } else {
-                writePlayerCount(redPlayers, this.redTeam, 0);
                 writePlayerCount(bluePlayers, this.blueTeam, 1);
+                writePlayerCount(redPlayers, this.redTeam, 2);
+            } else {
+                writePlayerCount(redPlayers, this.redTeam, 1);
+                writePlayerCount(bluePlayers, this.blueTeam, 2);
             }
         }
 
-        this.arenaData.scoreboardAmount = 2;
+        this.arenaData.scoreboardAmount = 3;
     }
 
     public tick(tick: number): void {

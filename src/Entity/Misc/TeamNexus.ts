@@ -22,11 +22,13 @@ import Client from "../../Client";
 import { tps } from "../../config";
 import { ClientBound, Color, ColorsHexCode, HealthFlags, PhysicsFlags } from "../../Const/Enums";
 import GameServer from "../../Game";
+import EventArena from "../../Gamemodes/Event";
 import { ArenaState } from "../../Native/Arena";
 import { Entity } from "../../Native/Entity";
 import { NameGroup } from "../../Native/FieldGroups";
 import { constrain } from "../../util";
 import LivingEntity from "../Live";
+import ObjectEntity from "../Object";
 import TankBody from "../Tank/TankBody";
 import TeamBase from "./TeamBase";
 import { TeamEntity } from "./TeamEntity";
@@ -49,6 +51,8 @@ export default class Nexus extends LivingEntity {
     public sacrifices: Set<Client> = new Set();
 
     public bases: TeamBase[];
+
+    private lastNotificationTick = 0;
     
     public constructor(game: GameServer, x: number, y: number, team: TeamEntity, config: NexusConfig, bases: TeamBase[]) {
         super(game);
@@ -76,7 +80,6 @@ export default class Nexus extends LivingEntity {
         this.healthData.maxHealth = config.health;
         this.healthData.health = config.health;
         this.healthData.flags |= HealthFlags.hiddenHealthbar;
-        this.regenPerTick = 0;
 
         this.physicsData.absorbtionFactor = 0;
         this.physicsData.pushFactor = 5.0;
@@ -88,6 +91,11 @@ export default class Nexus extends LivingEntity {
         this.positionData.y = y;
 
         this.scoreReward = 100000;
+    }
+
+    public setInvicibility(isInvincible: boolean) {
+        this.damageReduction = isInvincible ? 0 : 1;
+        this.shield.damageReduction = isInvincible ? 0 : 1;
     }
 
     public notifyShieldBroke() {
@@ -111,6 +119,21 @@ export default class Nexus extends LivingEntity {
         }
     }
 
+    public notifyDamage() {
+        if(this.game.arena.state !== ArenaState.OPEN) return;
+        if(this.lastNotificationTick + tps * 2.5 > this.game.tick) return;
+        const hp = Math.round(this.healthData.health);
+        const shield = Math.round(this.shield.healthData.health);
+        const notification = `Your team's nexus is being attacked (${this.shield.isBroken ? hp + " Health remaining" : hp + " Health, " + shield + " Shield remaining"})`;
+        for(const client of this.game.clients) {
+            if(!client.camera) continue;
+            if(!(client.camera.cameraData.player instanceof TankBody)) continue;
+            if(client.camera.cameraData.player.relationsData.team !== this.relationsData.team) continue;
+            client.notify(notification, ColorsHexCode[Color.TeamRed], 3000, 'nexus_attack');
+        }
+        this.lastNotificationTick = this.game.tick;
+    }
+
     public sacrifice(client: Client) {
         if(!client.camera || !Entity.exists(client.camera.cameraData.player) || !Entity.exists(this)) return;
 
@@ -119,6 +142,11 @@ export default class Nexus extends LivingEntity {
         if(this.sacrifices.has(client)) {
             client.notify("Sacificing stopped by player.", 0xFFA500, 2000, 'cant_claim_info');
             this.sacrifices.delete(client);
+            return;
+        }
+
+        if((this.game.arena as EventArena).phase !== 2) {
+            client.notify("Sacificing disable in this phase.", 0xFFA500, 2000, 'cant_claim_info');
             return;
         }
 
@@ -159,12 +187,38 @@ export default class Nexus extends LivingEntity {
             .stringNT("").send();
     }
 
+    public applyPhysics() {
+        ObjectEntity.prototype.applyPhysics.call(this);
+
+        if (this.healthData.values.health <= 0) {
+            this.destroy(true);
+            this.damagedEntities = [];
+            return;
+        }
+
+        if (this.healthData.values.health > this.healthData.values.maxHealth) {
+            this.healthData.health = this.healthData.values.maxHealth;
+        }
+
+        this.damagedEntities = [];
+    }
+
     public tick(tick: number) {
-        if(this.shield.isBroken) this.nameData.name = `Nexus (${Math.round(this.healthData.health)} Health, Shield recovers in ${(30 - (this.game.tick - this.shield.brokenTick) / tps).toFixed(2)} seconds)`;
-        else this.nameData.name = `Nexus (${Math.round(this.healthData.health)} Health, ${Math.round(this.shield.healthData.health)} Shield)`;
+        if((this.game.arena as EventArena).phase === 1) {
+            this.nameData.name = "Nexus (Invincible)";
+        } else {
+            if(this.shield.isBroken) this.nameData.name = `Nexus (${Math.round(this.healthData.health)} Health, Shield recovers in ${(30 - (this.game.tick - this.shield.brokenTick) / tps).toFixed(2)} seconds)`;
+            else this.nameData.name = `Nexus (${Math.round(this.healthData.health)} Health, ${Math.round(this.shield.healthData.health)} Shield)`;
+        }
+
+
         this.positionData.angle = -(tick * 0.01);
         this.updateShield();
-        this.lastDamageTick = tick;
+        
+        this.lastDamageAnimationTick = tick;
+        super.tick(tick);
+
+        if((this.game.arena as EventArena).phase !== 2) return;
 
         for(const sacrifice of this.sacrifices) {
             if(!sacrifice.camera 
@@ -198,8 +252,8 @@ export default class Nexus extends LivingEntity {
             target.healthData.health += entity.healthData.maxHealth * entity.damagePerTick / (entity instanceof TankBody ? 20 : 8) * 0.005;
             entity.healthData.health -= entity.healthData.maxHealth * 0.005 + entity.regenPerTick;
         }
-        this.lastDamageAnimationTick = tick;
-        super.tick(tick);
+
+        if(this.lastDamageTick === tick) this.notifyDamage();
     }
 }
 
@@ -252,5 +306,6 @@ export class NexusShield extends LivingEntity {
         this.styleData.opacity = this.healthData.health / this.healthData.maxHealth;
         this.lastDamageAnimationTick = tick;
         super.tick(tick);
+        if(this.lastDamageTick === tick) this.nexus.notifyDamage();
     }
 }
