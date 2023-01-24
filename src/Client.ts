@@ -100,7 +100,7 @@ export class ClientInputs extends Inputs {
 
 export default class Client {
     /** Set to true if the client socket has been terminated. */
-    private terminated = false;
+    public terminated = false;
     /** The game tick at which the client connected. */
     public connectTick: number;
     /** The last tick that the client received a ping. */
@@ -516,10 +516,10 @@ export default class Client {
     /** Defines whether the player used cheats or not. This also defines whether the name is highlighted or not. */
     public setHasCheated(value: boolean) {
         const player = this.camera?.cameraData.values.player;
-        if (player && player.nameData) {
+        /*if (player && player.nameData) {
             if (value) player.nameData.flags |= NameFlags.highlightedName;
             else player.nameData.flags &= ~NameFlags.highlightedName;
-        }
+        }*/
 
         this.devCheatsUsed = value;
     }

@@ -31,7 +31,7 @@ import Bullet from "../Entity/Tank/Projectile/Bullet";
 import TankBody from "../Entity/Tank/TankBody";
 import { Entity, EntityStateFlags } from "../Native/Entity";
 import { saveToVLog } from "../util";
-import { Stat, StatCount, StyleFlags } from "./Enums";
+import { ColorsHexCode, Stat, StatCount, StyleFlags } from "./Enums";
 import { getTankByName } from "./TankDefinitions"
 
 export const enum CommandID {
@@ -47,7 +47,8 @@ export const enum CommandID {
     adminSummon= "admin_summon",
     adminKillAll = "admin_kill_all",
     adminKillEntity = "admin_kill_entity",
-    adminCloseArena = "admin_close_arena"
+    adminCloseArena = "admin_close_arena",
+    adminBroadcastMsg = "admin_broadcast_msg",
 }
 
 export interface CommandDefinition {
@@ -136,6 +137,11 @@ export const commandDefinitions = {
     admin_close_arena: {
         id: CommandID.adminCloseArena,
         description: "Closes the current arena",
+        permissionLevel: AccessLevel.FullAccess
+    },
+    admin_broadcast_msg: {
+        id: CommandID.adminBroadcastMsg,
+        usage: "[]",
         permissionLevel: AccessLevel.FullAccess
     }
 } as Record<CommandID, CommandDefinition>
@@ -295,6 +301,12 @@ export const commandCallbacks = {
 			const entity = game.entities.inner[id];
 			if (Entity.exists(entity) && entity instanceof TEntity) entity.healthData.health = 0;
 		}
+    },
+    admin_broadcast_msg: (client: Client, ...msgArg: string[]) => {
+        if(!client.camera?.game) return;
+        for(const c of client.camera.game.clients) {
+            c.notify(msgArg.join(" "), 0xFF00FF, 30000);
+        }
     }
 } as Record<CommandID, CommandCallback>
 

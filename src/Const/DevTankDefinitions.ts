@@ -1473,7 +1473,7 @@ const DevTankDefinitions: TankDefinition[] = [
         visibilityRateShooting: 0.0,
         visibilityRateMoving: 0.0,
         invisibilityRate: 1.0,
-        fieldFactor: 0.3,
+        fieldFactor: 0.6,
         absorbtionFactor: 0,
         speed: 3,
         maxHealth: 50,

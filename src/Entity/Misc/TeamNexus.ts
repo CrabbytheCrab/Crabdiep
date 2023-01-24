@@ -20,14 +20,11 @@
 
 import Client from "../../Client";
 import { tps } from "../../config";
-import { ClientBound, Color, ColorsHexCode, HealthFlags, PhysicsFlags, Stat } from "../../Const/Enums";
-import TankDefinitions from "../../Const/TankDefinitions";
+import { ClientBound, Color, ColorsHexCode, HealthFlags, PhysicsFlags } from "../../Const/Enums";
 import GameServer from "../../Game";
 import { ArenaState } from "../../Native/Arena";
-import ClientCamera from "../../Native/Camera";
 import { Entity } from "../../Native/Entity";
 import { NameGroup } from "../../Native/FieldGroups";
-import Vector from "../../Physics/Vector";
 import { constrain } from "../../util";
 import LivingEntity from "../Live";
 import TankBody from "../Tank/TankBody";
@@ -55,7 +52,7 @@ export default class Nexus extends LivingEntity {
     
     public constructor(game: GameServer, x: number, y: number, team: TeamEntity, config: NexusConfig, bases: TeamBase[]) {
         super(game);
-        this.shield = new NexusShield(game, this, config.shield, config.size * 1.5);
+        this.shield = new NexusShield(game, this, config.shield, config.size * 1.7);
         this.team = team;
         this.config = config;
 
@@ -66,8 +63,8 @@ export default class Nexus extends LivingEntity {
             team,
             x,
             y,
-            config.size * 10,
-            config.size * 10,
+            config.size * 12,
+            config.size * 12,
             false
         );
 
@@ -106,8 +103,9 @@ export default class Nexus extends LivingEntity {
             else {
                 client.notify(`The other team's nexus has lost its shield!`, ColorsHexCode[Color.TeamGreen], 3000, 'shield_broke');
                 const pos = tank.getWorldPosition();
-                if(Math.sqrt(pos.distanceToSQ(nexusPos)) > 7000) continue;
-                tank.addAcceleration(Math.atan2(pos.y - nexusPos.y, pos.x - nexusPos.x), 500);
+                const distance = Math.sqrt(pos.distanceToSQ(nexusPos))
+                if(distance > 3000) continue;
+                tank.addAcceleration(Math.atan2(pos.y - nexusPos.y, pos.x - nexusPos.x), 300 - distance / 10);
                 tank.applyPhysics();
             }
         }
@@ -197,10 +195,10 @@ export default class Nexus extends LivingEntity {
             const target = [this, this.shield].filter(e => e.healthData.health < e.healthData.maxHealth)[0];
             if(!target || (target === this.shield && this.shield.isBroken)) continue;
             entity.lastDamageTick = tick;
-            target.healthData.health += entity.healthData.maxHealth * entity.damagePerTick / (entity instanceof TankBody ? 60 : 24) * 0.005;
+            target.healthData.health += entity.healthData.maxHealth * entity.damagePerTick / (entity instanceof TankBody ? 20 : 8) * 0.005;
             entity.healthData.health -= entity.healthData.maxHealth * 0.005 + entity.regenPerTick;
         }
-
+        this.lastDamageAnimationTick = tick;
         super.tick(tick);
     }
 }
@@ -227,8 +225,6 @@ export class NexusShield extends LivingEntity {
         this.physicsData.flags |= PhysicsFlags.isSolidWall;
         this.physicsData.sides = 6;
         this.physicsData.size = size;
-
-        this.scoreReward = 10000;
     }
 
     public revive() {
@@ -236,7 +232,6 @@ export class NexusShield extends LivingEntity {
         this.healthData.health = this.healthData.maxHealth * 0.333;
         this.physicsData.sides = 6;
         this.lastDamageTick = this.game.tick;
-
     }
 
     public onDeath(killer: LivingEntity): void {
@@ -255,6 +250,7 @@ export class NexusShield extends LivingEntity {
         this.positionData.y = this.nexus.positionData.y;
         this.positionData.angle = tick * 0.01;
         this.styleData.opacity = this.healthData.health / this.healthData.maxHealth;
+        this.lastDamageAnimationTick = tick;
         super.tick(tick);
     }
 }

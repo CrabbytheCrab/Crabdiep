@@ -40,8 +40,9 @@ import Pentagon from "../Shape/Pentagon";
 import NecromancerTriangle from "./Projectile/NecromancerTriangle";
 import Triangle from "../Shape/Triangle";
 import WepSquare from "../Shape/WepSquare";
-import { maxPlayerLevel } from "../../config";
+import { AccessLevel, maxPlayerLevel } from "../../config";
 import AbstractShape from "../Shape/AbstractShape";
+import Vector from "../../Physics/Vector";
 
 /**
  * Abstract type of entity which barrels can connect to.
@@ -182,6 +183,9 @@ export default class TankBody extends LivingEntity implements BarrelBase {
     public onKill(entity: LivingEntity) {
         if(!(this.cameraEntity.cameraData.level >= 45 && entity instanceof AbstractShape)) {
             this.scoreData.score = this.cameraEntity.cameraData.score += entity.scoreReward;
+        } else if(Math.sqrt(entity.getWorldPosition().distanceToSQ(new Vector(0, 0))) < 1500) {
+            this.healthData.health -= entity.healthData.maxHealth * 0.01;
+            this.lastDamageTick = this.game.tick;
         }
 
         if (entity instanceof TankBody && entity.scoreReward && Math.max(this.cameraEntity.cameraData.values.level, maxPlayerLevel) - entity.cameraEntity.cameraData.values.level <= 20 || entity instanceof AbstractBoss) {
@@ -321,7 +325,7 @@ export default class TankBody extends LivingEntity implements BarrelBase {
         if (this.isInvulnerable) {
             if (this.game.clients.size !== 1 || this.game.arena.state !== ArenaState.OPEN) {
                 // not for ACs
-                if (this.cameraEntity instanceof ClientCamera) this.setInvulnerability(false);
+                if (this.cameraEntity instanceof ClientCamera && this.cameraEntity.client.accessLevel < AccessLevel.FullAccess) this.setInvulnerability(false);
             }
         }
         if (!this.deletionAnimation && !this.inputs.deleted) this.physicsData.size = this.baseSize * this.cameraEntity.sizeFactor;

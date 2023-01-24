@@ -1,6 +1,6 @@
 import Client from "../Client";
 import { DevTank } from "../Const/DevTankDefinitions";
-import { Color, ValidScoreboardIndex } from "../Const/Enums";
+import { ArenaFlags, Color, ValidScoreboardIndex } from "../Const/Enums";
 import MazeWall from "../Entity/Misc/MazeWall";
 import TeamBase from "../Entity/Misc/TeamBase";
 import { TeamEntity } from "../Entity/Misc/TeamEntity";
@@ -13,18 +13,19 @@ import Triangle from "../Entity/Shape/Triangle";
 import TankBody from "../Entity/Tank/TankBody";
 import GameServer from "../Game";
 import ArenaEntity, { ArenaState } from "../Native/Arena";
+import ClientCamera from "../Native/Camera";
 import { Entity } from "../Native/Entity";
 import { removeFast } from "../util";
 
-const ARENA_WIDTH = 25000;
-const ARENA_HEIGHT = 20000;
-const BASE_WIDTH = 5000;
-const BASE_HEIGHT = 2000;
+const ARENA_WIDTH = 12500;
+const ARENA_HEIGHT = 12500;
+const BASE_WIDTH = 3000;
+const BASE_HEIGHT = 1500;
 
 const NEXUS_CONFIG: NexusConfig = {
-    health: 20000,
-    shield: 5000,
-    size: 160
+    health: 100000,
+    shield: 10000,
+    size: 150
 }
 
 class EventShapeManager extends ShapeManager {
@@ -45,9 +46,9 @@ class EventShapeManager extends ShapeManager {
 
     protected spawnLowerShape(): AbstractShape {
         const shape = new [Square, Triangle][0 | Math.random() * 2](this.game, false);
+        shape.relationsData.owner = shape.relationsData.team = this.arena;
         shape.positionData.x = Math.random() > 0.5 ? Math.random() * ARENA_WIDTH / 1.5 : -Math.random() * ARENA_WIDTH / 1.5;
         shape.positionData.y = Math.random() > 0.5 ? Math.random() * ARENA_HEIGHT / 1.5 : -Math.random() * ARENA_HEIGHT / 1.5;
-        shape.relationsData.owner = shape.relationsData.team = this.arena;
         return shape;
     }
 
@@ -56,7 +57,7 @@ class EventShapeManager extends ShapeManager {
     }
 
     public get wantedLowerShapes() {
-        return 250 + this.game.clients.size * 10;
+        return 100 + this.game.clients.size * 10;
     }
 
     public tick() {
@@ -72,6 +73,18 @@ class EventShapeManager extends ShapeManager {
     }
 }
 
+/*
+    Phase 1 (Farming phase basically):
+        - Nexus is Invincible
+        - (Shape score multiplier) ?
+    Phase 2 (After x minutes): Nexus isnt invincible anymore
+    Phase 3 (One or more nexus dead): Sacrificing disabled (and other stuff we had b4)
+
+
+
+
+*/
+
 export default class EventArena extends ArenaEntity {
     public blueTeamBaseLeft: TeamBase;
     public blueTeamBaseRight: TeamBase;
@@ -80,9 +93,10 @@ export default class EventArena extends ArenaEntity {
     public blueTeamNexus: Nexus;
     public redTeamNexus: Nexus;
     public playerTeamMap: Map<Client, Nexus> = new Map();
-    protected shapes: EventShapeManager = new EventShapeManager(this);
+    public shapes: EventShapeManager = new EventShapeManager(this);
     public blueTeam: TeamEntity;
     public redTeam: TeamEntity;
+    public walls: MazeWall[] = [];
 
     constructor(game: GameServer) {
         super(game);
@@ -140,7 +154,7 @@ export default class EventArena extends ArenaEntity {
         this.blueTeamNexus = new Nexus(
             game,
             0,
-            -ARENA_HEIGHT / 2 + NEXUS_CONFIG.size * 5,
+            -ARENA_HEIGHT / 2 + NEXUS_CONFIG.size * 6,
             this.blueTeam,
             NEXUS_CONFIG,
             [this.blueTeamBaseLeft, this.blueTeamBaseRight]
@@ -149,25 +163,49 @@ export default class EventArena extends ArenaEntity {
         this.redTeamNexus = new Nexus(
             game,
             0,
-            ARENA_HEIGHT / 2 - NEXUS_CONFIG.size * 5,
+            ARENA_HEIGHT / 2 - NEXUS_CONFIG.size * 6,
             this.redTeam,
             NEXUS_CONFIG,
             [this.redTeamBaseLeft, this.redTeamBaseRight]
         );
 
-        new MazeWall(game, 0, -ARENA_HEIGHT / 2 + NEXUS_CONFIG.size * 20, 1000, 5000);
-        new MazeWall(game, 0, ARENA_HEIGHT / 2 - NEXUS_CONFIG.size * 20, 1000, 5000);
-        new MazeWall(game, -ARENA_WIDTH / 2 + 1500, 0, 10000, 3000);
-        new MazeWall(game, ARENA_WIDTH / 2 - 1500, 0, 10000, 3000);
+        this.walls.push(new MazeWall(game, 0, -ARENA_HEIGHT / 2 + NEXUS_CONFIG.size * 14.375, 700, 2500));
+        this.walls.push(new MazeWall(game, 0, ARENA_HEIGHT / 2 - NEXUS_CONFIG.size * 14.375, 700, 2500));
+        this.walls.push(new MazeWall(game, -ARENA_WIDTH / 2 + 750 - this.ARENA_PADDING, 0, ARENA_HEIGHT / 2, 1500));
+        this.walls.push(new MazeWall(game, ARENA_WIDTH / 2 - 750 + this.ARENA_PADDING, 0, ARENA_HEIGHT / 2, 1500));
     }
 
     public spawnPlayer(tank: TankBody, client: Client) {
-        let team = this.playerTeamMap.get(client) || [this.blueTeamNexus, this.redTeamNexus][0 | Math.random() * 2];
+        let team = this.playerTeamMap.get(client);
+
+        findTeam: {
+            if(team) break findTeam;
+            if(!Entity.exists(this.blueTeamNexus) && Entity.exists(this.redTeamNexus)) {
+                team = this.redTeamNexus;
+                break findTeam;
+            } else if(!Entity.exists(this.redTeamNexus) && Entity.exists(this.blueTeamNexus)) {
+                team = this.blueTeamNexus;
+                break findTeam;
+            }
+            let blue = 0, red = 0;
+            for(const [client, nexus] of this.playerTeamMap.entries()) {
+                if(client.terminated) {
+                    this.playerTeamMap.delete(client);
+                    continue;
+                } 
+                if(nexus === this.blueTeamNexus) ++blue;
+                else ++red;
+            }
+            if(red === blue) team = [this.blueTeamNexus, this.redTeamNexus][0 | Math.random() * 2];
+            else if(red < blue) team = this.redTeamNexus;
+            else team = this.blueTeamNexus;
+        }
+
         this.playerTeamMap.set(client, team);
 
         if(!Entity.exists(team)) {
             tank.setTank(DevTank.Spectator);
-            if(client.camera) client.camera.setLevel(0);
+            if(client.camera) client.camera.cameraData.respawnLevel = 0;
             tank.positionData.x = 0;
             tank.positionData.y = 0;
             return;
@@ -203,6 +241,9 @@ export default class EventArena extends ArenaEntity {
 
         const blueAlive = Entity.exists(this.blueTeamNexus);
         const redAlive = Entity.exists(this.redTeamNexus);
+
+        if(this.arenaData.flags & ArenaFlags.showsLeaderArrow) this.arenaData.flags ^= ArenaFlags.showsLeaderArrow;
+
         if(blueAlive && redAlive) {
             if(this.blueTeamNexus.healthData.health > this.redTeamNexus.healthData.health) {
                 writeNexusHealth(this.blueTeamNexus, 0);
@@ -214,11 +255,18 @@ export default class EventArena extends ArenaEntity {
         } else if(blueAlive && !redAlive) {
             writeNexusHealth(this.blueTeamNexus, 0);
             let playerCount = 0;
+            let leader: null | Client = null;
             for(const client of this.game.clients) {
                 if(!client.camera || !(client.camera.cameraData.player instanceof TankBody) || !Entity.exists(client.camera.cameraData.player)) continue;
                 if(client.camera.cameraData.player.relationsData.team !== this.redTeam) continue;
+                if(!leader || (leader.camera as ClientCamera).cameraData.score < client.camera.cameraData.score) {
+                    leader = client;
+                    this.arenaData.leaderX = leader.camera?.cameraData.player?.positionData?.x || 0;
+                    this.arenaData.leaderY = leader.camera?.cameraData.player?.positionData?.y || 0;
+                    this.arenaData.flags |= ArenaFlags.showsLeaderArrow;
+                }
                 ++playerCount;
-                client.camera.cameraData.score += 10;
+                client.camera.cameraData.score += 450 / client.camera.cameraData.level;
                 client.camera.cameraData.player.styleData.opacity = 1;
             }
             if(!playerCount && this.state === ArenaState.OPEN) this.close();
@@ -226,23 +274,37 @@ export default class EventArena extends ArenaEntity {
         } else if(!blueAlive && redAlive) {
             writeNexusHealth(this.redTeamNexus, 0);
             let playerCount = 0;
+            let leader: null | Client = null;
             for(const client of this.game.clients) {
                 if(!client.camera || !(client.camera.cameraData.player instanceof TankBody) || !Entity.exists(client.camera.cameraData.player)) continue;
                 if(client.camera.cameraData.player.relationsData.team !== this.blueTeam) continue;
+                if(!leader || (leader.camera as ClientCamera).cameraData.score < client.camera.cameraData.score) {
+                    leader = client;
+                    this.arenaData.leaderX = leader.camera?.cameraData.player?.positionData?.x || 0;
+                    this.arenaData.leaderY = leader.camera?.cameraData.player?.positionData?.y || 0;
+                    this.arenaData.flags |= ArenaFlags.showsLeaderArrow;
+                }
                 ++playerCount;
-                client.camera.cameraData.score += 10;
+                client.camera.cameraData.score += 450 / client.camera.cameraData.level;
                 client.camera.cameraData.player.styleData.opacity = 1;
             }
             if(!playerCount && this.state === ArenaState.OPEN) this.close();
             writePlayerCount(playerCount, this.blueTeam, 1);
         } else {
             let bluePlayers = 0, redPlayers = 0;
+            let leader: null | Client = null;
             for(const client of this.game.clients) {
                 if(!client.camera || !(client.camera.cameraData.player instanceof TankBody) || !Entity.exists(client.camera.cameraData.player)) continue;
                 if(client.camera.cameraData.player.relationsData.team === this.redTeam) ++redPlayers;              
                 else if(client.camera.cameraData.player.relationsData.team === this.blueTeam) ++bluePlayers;
                 else continue;
-                client.camera.cameraData.score += 10;
+                if(!leader || (leader.camera as ClientCamera).cameraData.score < client.camera.cameraData.score) {
+                    leader = client;
+                    this.arenaData.leaderX = leader.camera?.cameraData.player?.positionData?.x || 0;
+                    this.arenaData.leaderY = leader.camera?.cameraData.player?.positionData?.y || 0;
+                    this.arenaData.flags |= ArenaFlags.showsLeaderArrow;
+                }
+                client.camera.cameraData.score += 450 / client.camera.cameraData.level;
                 client.camera.cameraData.player.styleData.opacity = 1;
             }
             if((!bluePlayers || !redPlayers) && this.state === ArenaState.OPEN) this.close();
@@ -254,6 +316,7 @@ export default class EventArena extends ArenaEntity {
                 writePlayerCount(bluePlayers, this.blueTeam, 1);
             }
         }
+
         this.arenaData.scoreboardAmount = 2;
     }
 
