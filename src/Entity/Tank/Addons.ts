@@ -111,7 +111,64 @@ export class Addon {
         return rotator;
     }
 
+    protected createAutoMachineTurrets(count: number) {
+        const rotPerTick = AI.PASSIVE_ROTATION * 6;
+        const MAX_ANGLE_RANGE = PI2 / 4; // keep within 90º each side
 
+        const rotator = this.createGuard(1, .1, 0, rotPerTick) as GuardObject & { turrets: AutoTurret[] };
+        rotator.turrets = [];
+
+        const ROT_OFFSET = 0.8;
+
+        if (rotator.styleData.values.flags & StyleFlags.isVisible) rotator.styleData.values.flags ^= StyleFlags.isVisible;
+
+        for (let i = 0; i < count; ++i) {
+            const base = new AutoTurret(rotator, {...AutoTurretMiniDefinition, reload:0.5,    isTrapezoid: true,
+                bullet: {
+                    type: "bullet",
+                    health: 0.875,
+                    damage: 0.3,
+                    speed: 1.2,
+                    scatterRate: 3,
+                    lifeLength: 1,
+                    sizeRatio: 1,
+                    absorbtionFactor: 1
+        }});
+            base.influencedByOwnerInputs = true;
+
+            const angle = base.ai.inputs.mouse.angle = PI2 * (i / count);
+            base.ai.passiveRotation = rotPerTick;
+            base.ai.targetFilter = (targetPos) => {
+                const pos = base.getWorldPosition();
+                const angleToTarget = Math.atan2(targetPos.y - pos.y, targetPos.x - pos.x);
+                
+                const deltaAngle = normalizeAngle(angleToTarget - ((angle + rotator.positionData.values.angle)));
+
+                return deltaAngle < MAX_ANGLE_RANGE || deltaAngle > (PI2 - MAX_ANGLE_RANGE);
+            }
+
+            base.positionData.values.y = this.owner.physicsData.values.size * Math.sin(angle) * ROT_OFFSET;
+            base.positionData.values.x = this.owner.physicsData.values.size * Math.cos(angle) * ROT_OFFSET;
+
+            if (base.styleData.values.flags & StyleFlags.showsAboveParent) base.styleData.values.flags ^= StyleFlags.showsAboveParent;
+            base.physicsData.values.flags |= PositionFlags.absoluteRotation;
+
+            const tickBase = base.tick;
+            base.tick = (tick: number) => {
+                base.positionData.y = this.owner.physicsData.values.size * Math.sin(angle) * ROT_OFFSET;
+                base.positionData.x = this.owner.physicsData.values.size * Math.cos(angle) * ROT_OFFSET;
+
+                tickBase.call(base, tick);
+
+                if (base.ai.state === AIState.idle) base.positionData.angle = angle + rotator.positionData.values.angle;
+            }
+
+            rotator.turrets.push(base);
+        }
+
+        return rotator;
+    }
+    
     
     protected createAutoTurretsWeak(count: number) {
         const rotPerTick = AI.PASSIVE_ROTATION;
@@ -167,18 +224,18 @@ export class Addon {
         const rotator = this.createGuard(1, .1, 0, rotPerTick) as GuardObject & { turrets: AutoTurret[] };
         rotator.turrets = [];
         //rotator.joints = [];
-                rotator.styleData.zIndex += 2;
+                rotator.styleData.values.zIndex += 2;
         const ROT_OFFSET = 1.8;
             rotator.styleData.values.flags |= StyleFlags.showsAboveParent;
         if (rotator.styleData.values.flags & StyleFlags.isVisible) rotator.styleData.values.flags ^= StyleFlags.isVisible;
         if (rotator.styleData.values.flags & StyleFlags.showsAboveParent) rotator.styleData.values.flags |= StyleFlags.showsAboveParent;
         for (let i = 0; i < count; ++i) {
             const base = new AutoTurret(rotator, {...AutoTurretMiniDefinition, reload:1.2});
-                    base.styleData.zIndex += 2;
+                    base.styleData.values.zIndex += 2;
+                    base.turret.styleData.values.zIndex += 2;
             base.influencedByOwnerInputs = true;
             base.relationsData.owner = this.owner;
-            base.turret.styleData.zIndex = this.owner.styleData.zIndex + 2
-            base.relationsData.owner = this.owner;
+            //base.turret.relationsData.owner = this.owner;
             base.styleData.values.flags |= StyleFlags.showsAboveParent;
 
             const angle = base.ai.inputs.mouse.angle = PI2 * (i / count);
@@ -1071,7 +1128,31 @@ class Auto2Addon extends Addon {
     public constructor(owner: BarrelBase) {
         super(owner);
 
-        this.createAutoTurrets(2);
+        this.createAutoMachineTurrets(2);
+
+        const base = new AutoTurret(owner, {
+            angle: 0,
+            offset: 0,
+            size: 55,
+            width: 42 * 0.7,
+            delay: 0.01,
+            reload: 0.5,
+            recoil: 0,
+            isTrapezoid: true,
+            trapezoidDirection: 0,
+            addon: null,
+            bullet: {
+                type: "bullet",
+                health: 0.875,
+                damage: 0.3,
+                speed: 1.2,
+                scatterRate: 3,
+                lifeLength: 1,
+                sizeRatio: 1,
+                absorbtionFactor: 1
+            }});
+            base.influencedByOwnerInputs = true;
+
     }
 }
 /** 7 Auto Turrets */
