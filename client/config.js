@@ -21,7 +21,12 @@ const CDN = "https://static.diep.io/";
 const API_URL = `${window.location.href}api/`;
 
 const CHANGELOG = [
-    "Updated recently",
+    "Annihilation Iteration 2",
+    "",
+    "- Arena is now a bit smaller",
+    "- Vulcan Cannon has been removed",
+    "- Sacrificing has been buffed significantly",
+    "- 3 Phases implemented (invincible nexus/farming, battle, double damage)",
     "",
     "Make your own diep server:",
     "https://github.com/ABCxFF/diepcustom-v1",
