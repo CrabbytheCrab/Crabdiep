@@ -77,10 +77,6 @@ class EventShapeManager extends ShapeManager {
     Phase 1 (Farming phase basically): Nexus is Invincible
     Phase 2 (After 5 minutes): Nexus isnt invincible anymore
     Phase 3 (One or more nexus dead): Sacrificing disabled (and other stuff we had b4)
-
-
-
-
 */
 
 export default class EventArena extends ArenaEntity {
