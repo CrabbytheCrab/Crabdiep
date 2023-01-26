@@ -874,7 +874,7 @@ class LauncherSmallAddon extends Addon {
 
         const launcher = new ObjectEntity(this.game);
         const sizeRatio = 65.5 * Math.SQRT2 / 50;
-        const widthRatio = 32.8125/ 50;
+        const widthRatio = 24/ 50;
         const size = this.owner.physicsData.values.size;
 
         launcher.setParent(this.owner);
@@ -908,8 +908,8 @@ class LauncherAddon2 extends Addon {
             const angle2 = PI2 * ((i / 3)  - 1 / (6));
 
             const launcher = new ObjectEntity(this.game);
-            const sizeRatio = 58.5 * Math.SQRT2 / 50;
-            const widthRatio = 28.75 / 50;
+            const sizeRatio = 65.5 * Math.SQRT2 / 50;
+            const widthRatio = 19.2 / 50;
             const size = this.owner.physicsData.values.size;
     
             launcher.setParent(this.owner);
@@ -932,8 +932,8 @@ class LauncherAddon2 extends Addon {
 
                 launcher.physicsData.size = sizeRatio * size;
                 launcher.physicsData.width = widthRatio * size;
-                launcher.positionData.x = Math.cos(angle) * this.owner.physicsData.size;
-                launcher.positionData.y = Math.sin(angle) * this.owner.physicsData.size;
+                launcher.positionData.x = Math.cos(angle) * launcher.physicsData.values.size / 2; 
+                launcher.positionData.y = Math.sin(angle) * launcher.physicsData.values.size / 2;
         
 
                 tickBase2.call(launcher, tick);
