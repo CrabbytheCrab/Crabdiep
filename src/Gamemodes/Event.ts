@@ -363,7 +363,7 @@ export default class EventArena extends ArenaEntity {
 
 			setTimeout(() => {
 				this.game.end();
-			}, 5000);
+			}, 15000);
 			return;
 		}
     }

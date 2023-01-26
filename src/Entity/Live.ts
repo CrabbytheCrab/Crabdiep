@@ -22,8 +22,11 @@ import ObjectEntity from "./Object";
 import TankBody from "./Tank/TankBody";
 
 import { visibilityRateDamage } from "../Const/TankDefinitions";
-import { StyleFlags } from "../Const/Enums";
+import { StyleFlags, Tank } from "../Const/Enums";
 import { HealthGroup } from "../Native/FieldGroups";
+
+import type Nexus from "./Misc/TeamNexus";
+import ClientCamera from "../Native/Camera";
 
 /**
  * An Abstract class for all entities with health.
@@ -90,6 +93,11 @@ export default class LivingEntity extends ObjectEntity {
         
         if (dF1 !== 0) {
             if (entity2.lastDamageTick !== game.tick && entity2 instanceof TankBody && entity2.definition.flags.invisibility && entity2.styleData.values.opacity < visibilityRateDamage) entity2.styleData.opacity += visibilityRateDamage;
+            if((entity2 as Nexus).config) {
+                let attacker: ObjectEntity = entity1;
+                while (attacker.relationsData.values.owner instanceof ObjectEntity && attacker.relationsData.values.owner.hash !== 0) attacker = attacker.relationsData.values.owner;
+                if(attacker instanceof TankBody && attacker.cameraEntity instanceof ClientCamera) attacker.cameraEntity.cameraData.score += dF1;
+            }
             entity2.lastDamageTick = game.tick;
             entity2.healthData.health -= dF1;
         }
@@ -102,9 +110,15 @@ export default class LivingEntity extends ObjectEntity {
         
         if (dF2 !== 0) {
             if (entity1.lastDamageTick !== game.tick && entity1 instanceof TankBody && entity1.definition.flags.invisibility && entity1.styleData.values.opacity < visibilityRateDamage) entity1.styleData.opacity += visibilityRateDamage;
+            if((entity1 as Nexus).config) {
+                let attacker: ObjectEntity = entity2;
+                while (attacker.relationsData.values.owner instanceof ObjectEntity && attacker.relationsData.values.owner.hash !== 0) attacker = attacker.relationsData.values.owner;
+                if(attacker instanceof TankBody && attacker.cameraEntity instanceof ClientCamera) attacker.cameraEntity.cameraData.score += dF2;
+            }
             entity1.lastDamageTick = game.tick;
             entity1.healthData.health -= dF2;
         }
+
         entity1.damagedEntities.push(entity2)
         entity2.damagedEntities.push(entity1)
 

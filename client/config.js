@@ -25,7 +25,7 @@ const CHANGELOG = [
     "",
     "- Arena is now a bit smaller",
     "- Vulcan Cannon has been removed",
-    "- Sacrificing has been buffed significantly",
+    "- Sacrificing has been buffed",
     "- 3 Phases implemented (invincible nexus/farming, battle, double damage)",
     "",
     "Make your own diep server:",
