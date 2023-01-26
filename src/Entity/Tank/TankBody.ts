@@ -184,7 +184,6 @@ export default class TankBody extends LivingEntity implements BarrelBase {
         if(!(this.cameraEntity.cameraData.level >= 45 && entity instanceof AbstractShape)) {
             this.scoreData.score = this.cameraEntity.cameraData.score += entity.scoreReward;
         } else if(Math.sqrt(entity.getWorldPosition().distanceToSQ(new Vector(0, 0))) < 1500) {
-            this.healthData.health -= entity.healthData.maxHealth * 0.01;
             this.lastDamageTick = this.game.tick;
         }
 
