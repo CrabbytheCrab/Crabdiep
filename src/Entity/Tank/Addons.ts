@@ -581,20 +581,20 @@ const AutoTurretTrapDefinition: BarrelDefinition = {
     size: 43,
     width: 50 * 0.7,
     delay: 0.01,
-    reload: 3,
+    reload: 2.5,
     recoil: 0,
     isTrapezoid: false,
     trapezoidDirection: 0,
     addon: "trapLauncher",
     bullet: {
         type: "trap",
-        health: 1.5,
-        damage: 1.5,
-        speed: 1.5,
+        health: 2,
+        damage: 1,
+        speed: 2.5,
         scatterRate: 1,
         lifeLength: 2,
         sizeRatio: 0.8,
-        absorbtionFactor: 1
+        absorbtionFactor: 0.8
     }
 };
 

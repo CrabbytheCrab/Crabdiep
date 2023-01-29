@@ -33,7 +33,7 @@ import AutoTurret from "../AutoTurret";
 const RocketBarrelDefinition: BarrelDefinition = {
     angle: 2.520255439879812,
     offset: 0,
-    size:  66.526,
+    size:  70,
     width:  37.967,
     delay: 0,
     reload: 0.5,
@@ -57,7 +57,7 @@ const RocketBarrelDefinition: BarrelDefinition = {
 const RocketBarrelDefinition2: BarrelDefinition = {
     angle: 3.7629298672997744,
     offset: 0,
-    size:  66.526,
+    size: 70,
     width:  37.967,
     delay: 0,
     reload: 0.5,
