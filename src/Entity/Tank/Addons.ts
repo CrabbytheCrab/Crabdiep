@@ -982,6 +982,7 @@ class AutoSmasherAddon extends Addon {
             }
         });
     }
+                base.influencedByOwnerInputs = true;
 }
 /** 5 Auto Turrets */
 class Auto5Addon extends Addon {
