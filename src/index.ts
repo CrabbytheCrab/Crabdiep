@@ -126,7 +126,7 @@ server.listen(PORT, () => {
     //const domination = new GameServer(wss, "dom", "Domination");
     const sandbox = new GameServer(wss, "sandbox", "Sandbox");
 
-    games.push(ffa,teams2,teams4,domination, sandbox);
+    games.push(ffa,teams2, sandbox);
 
     util.saveToLog("Servers up", "All servers booted up.", 0x37F554);
     util.log("Dumping endpoint -> gamemode routing table");
