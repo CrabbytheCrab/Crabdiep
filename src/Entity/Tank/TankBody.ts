@@ -126,7 +126,6 @@ export default class TankBody extends LivingEntity implements BarrelBase {
         this.children = [];
         this.barrels = [];
         this.addons = [];
-        TankBody.OrbCount = 0
         // Get the new tank data
         const tank = getTankById(id);
         const camera = this.cameraEntity;
