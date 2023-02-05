@@ -90,10 +90,12 @@ export default class TankBody extends LivingEntity implements BarrelBase {
         this.physicsData.values.size = 50;
         this.physicsData.values.sides = 1;
         this.styleData.values.color = Color.Tank;
-
         this.relationsData.values.team = camera;
         this.relationsData.values.owner = camera;
-
+        if(this.definition.flags.isCelestial){
+            this.physicsData.values.size *= 1.5
+            this.baseSize *= 1.5
+        }
         this.cameraEntity.cameraData.spawnTick = game.tick;
         this.cameraEntity.cameraData.flags |= CameraFlags.showingDeathStats;
 
@@ -126,13 +128,13 @@ export default class TankBody extends LivingEntity implements BarrelBase {
         this.children = [];
         this.barrels = [];
         this.addons = [];
+        //TankBody.OrbCount = 0
         // Get the new tank data
         const tank = getTankById(id);
         const camera = this.cameraEntity;
         if (!tank) throw new TypeError("Invalid tank ID");
         this.definition = tank;
         if (!Entity.exists(camera)) throw new Error("No camera");
-
         this.physicsData.sides = tank.sides;
         this.styleData.opacity = 1;
 
@@ -147,7 +149,11 @@ export default class TankBody extends LivingEntity implements BarrelBase {
         }
 
         // Size ratios
-        this.baseSize = tank.sides === 4 ? Math.SQRT2 * 32.5 : tank.sides === 16 ? Math.SQRT2 * 25 : 50;
+        if(this.definition.flags.isCelestial){
+            this.physicsData.values.size *= 1.5
+            this.baseSize *= 1.5
+        }
+        this.baseSize = tank.sides === 4 ? Math.SQRT2 * 32.5 : tank.sides === 16 ? Math.SQRT2 * 25 :this.definition.flags.isCelestial ? Math.SQRT2 * 47.5 : 50;
         this.physicsData.absorbtionFactor = this.isInvulnerable ? 0 : tank.absorbtionFactor;
         if (tank.absorbtionFactor === 0) this.positionData.flags |= PositionFlags.canMoveThroughWalls;
         else if (this.positionData.flags & PositionFlags.canMoveThroughWalls) this.positionData.flags ^= PositionFlags.canMoveThroughWalls

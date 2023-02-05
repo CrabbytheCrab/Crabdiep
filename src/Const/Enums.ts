@@ -239,6 +239,11 @@ export const enum Tank {
     Blunderbuss   = 162,
     Machineist    = 163,
     Wizard        = 164,
+    Builder       = 165,
+    Nova          = 166,
+    Pulsar        = 167,
+    Satellite     = 168,
+    Debris        = 169,
     Mothership    = 204
 }
 

@@ -48,7 +48,7 @@ export default class Dominator extends TankBody {
             else if (r < 3) tankId = Tank.DominatorC;
             else if (r < 4) tankId = Tank.DominatorT;
             else tankId = Tank.DominatorF;
-    } else tankId = pTankId;
+        } else tankId = pTankId;
         const inputs = new Inputs();
         const camera = new CameraEntity(arena.game);
 

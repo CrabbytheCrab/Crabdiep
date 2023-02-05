@@ -57,6 +57,8 @@ import Mine from "./Projectile/Mine";
 import BombDrone from "./Projectile/BombDrone";
 import Striker from "./Projectile/Striker";
 import OrbitTrap from "./Projectile/OrbitTrap";
+import Block from "./Projectile/Block";
+import PillBox from "./Projectile/Block";
 /**
  * Class that determines when barrels can shoot, and when they can't.
  */
@@ -222,6 +224,9 @@ export default class Barrel extends ObjectEntity {
             case 'trap':
                 new Trap(this, this.tank, tankDefinition, angle, this.rootParent);
                 break;
+                case 'block':
+                    new PillBox(this, this.tank, tankDefinition, angle);
+                    break;
                 case 'striker':
                     new Striker(this, this.tank, tankDefinition, angle, this.rootParent);
                     break;
