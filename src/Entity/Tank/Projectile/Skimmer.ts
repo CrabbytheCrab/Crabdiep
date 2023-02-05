@@ -25,6 +25,9 @@ import { Inputs } from "../../AI";
 import { BarrelDefinition, TankDefinition } from "../../../Const/TankDefinitions";
 import { BarrelBase } from "../TankBody";
 import AutoTurret from "../AutoTurret";
+import ObjectEntity from "../../Object";
+import RopeSegment from "./RopeSegment";
+import Vector from "../../../Physics/Vector";
 
 /**
  * Barrel definition for the rocketeer rocket's barrel.
@@ -81,6 +84,9 @@ const RocketBarrelDefinition2: BarrelDefinition = {
  */
 export default class Skimmer extends Bullet implements BarrelBase {
     /** The rocket's barrel */
+    public k: number;
+    public length: number;
+    public segments: ObjectEntity[];
     private launrocketBarrel: Barrel[];
 
     /** The size ratio of the rocket. */
@@ -97,7 +103,18 @@ export default class Skimmer extends Bullet implements BarrelBase {
         super(barrel, tank, tankDefinition, shootAngle);
         
         this.cameraEntity = tank.cameraEntity;
+        this.length = 2;
+        this.segments = [this.tank];
+        this.k = 0.05;
+        
+        for (let i = 0; i < this.length; i++) 
+        {
+            const ropeSegment = new RopeSegment(this.barrelEntity, this.tank, null, shootAngle, this);
+            ropeSegment.physicsData.size = 5
+           //ropeSegment.restLength = this.restLength;
 
+           this.segments.push(ropeSegment);
+        }
         this.sizeFactor = this.physicsData.values.size / 50;
         const skimmerBarrels: Barrel[] = this.launrocketBarrel =[];
         const s1 = new class extends Barrel {
@@ -133,5 +150,27 @@ export default class Skimmer extends Bullet implements BarrelBase {
         if (tick - this.spawnTick >= this.tank.reloadTime) this.inputs.flags |= InputFlags.leftclick;
         // Only accurate on current version, but we dont want that
         // if (!Entity.exists(this.barrelEntity.rootParent) && (this.inputs.flags & InputFlags.leftclick)) this.inputs.flags ^= InputFlags.leftclick; 
+
+        const segments = Array.from(this.segments);
+
+        for (let i = 1; i < segments.length; i++) 
+        {
+            const a = segments[i - 1];
+            const b = segments[i];
+            /*const delta = {
+                x: a.positionData.values.x - b.positionData.values.x,
+                y: a.positionData.values.y - b.positionData.values.y
+            }*/
+            const delta = new Vector(a.positionData.values.x - b.positionData.values.x, a.positionData.values.y - b.positionData.values.y);
+            const x = delta.magnitude - Math.max(0, 50);
+      
+            let force = delta.scale(-this.k * x);
+      
+            if (a.isAffectedByRope) a.addAcceleration(force.x, force.y, false);
+      
+            force = force.scale(-1);
+
+            if (b.isAffectedByRope) b.addAcceleration(force.x, force.y, false);
+        }
     }
 }
