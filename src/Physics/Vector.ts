@@ -98,4 +98,16 @@ export default class Vector implements VectorAbstract {
         // This also might be overused
         return Math.atan2(this.y, this.x);
     }
+
+    public get unitVector()
+    {
+        const mag = this.magnitude;
+
+        return new Vector((this.x / mag) || 0, (this.y / mag) || 0);
+    }
+
+    public scale(scalar: number) 
+    {
+        return new Vector(this.x * scalar, this.y * scalar);
+    }
 }
