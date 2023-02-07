@@ -12965,7 +12965,7 @@ const TankDefinitions = JSON.parse(`[
                 "droneCount": 4294967295,
                 "canControlDrones": false,
                 "bullet": {
-                    "type": "hive",
+                    "type": "swarm",
                     "sizeRatio": 0.7,
                     "health": 1,
                     "damage": 0.15,
@@ -12989,7 +12989,7 @@ const TankDefinitions = JSON.parse(`[
                 "droneCount": 4294967295,
                 "canControlDrones": false,
                 "bullet": {
-                    "type": "hive",
+                    "type": "swarm",
                     "sizeRatio": 0.7,
                     "health": 1,
                     "damage": 0.15,
@@ -13013,7 +13013,7 @@ const TankDefinitions = JSON.parse(`[
                 "droneCount": 4294967295,
                 "canControlDrones": false,
                 "bullet": {
-                    "type": "hive",
+                    "type": "swarm",
                     "sizeRatio": 0.7,
                     "health": 1,
                     "damage": 0.15,
