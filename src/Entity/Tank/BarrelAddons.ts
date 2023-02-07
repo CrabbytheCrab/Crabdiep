@@ -71,7 +71,7 @@ export class TrapLauncher extends ObjectEntity {
         this.styleData.color = this.barrelEntity.styleData.color;
         this.physicsData.sides = 2;
         this.physicsData.width = this.barrelEntity.physicsData.values.width/1.75 * 1.25;
-        this.physicsData.size = this.barrelEntity.physicsData.values.width * (10 / 42);
+        this.physicsData.size = this.barrelEntity.physicsData.values.width * (15 / 42);
         this.positionData.x = (this.barrelEntity.physicsData.values.size + this.physicsData.values.size) / 2.5;
     }
 
