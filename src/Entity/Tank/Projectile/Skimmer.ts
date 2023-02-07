@@ -26,6 +26,7 @@ import { BarrelDefinition, TankDefinition } from "../../../Const/TankDefinitions
 import { BarrelBase } from "../TankBody";
 import AutoTurret from "../AutoTurret";
 import ObjectEntity from "../../Object";
+import RopeSegment from "./RopeSegment";
 import Vector from "../../../Physics/Vector";
 
 /**
@@ -134,5 +135,6 @@ export default class Skimmer extends Bullet implements BarrelBase {
         if (tick - this.spawnTick >= this.tank.reloadTime) this.inputs.flags |= InputFlags.leftclick;
         // Only accurate on current version, but we dont want that
         // if (!Entity.exists(this.barrelEntity.rootParent) && (this.inputs.flags & InputFlags.leftclick)) this.inputs.flags ^= InputFlags.leftclick; 
+
     }
 }

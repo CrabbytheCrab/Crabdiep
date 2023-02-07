@@ -104,10 +104,12 @@ export default class ObjectEntity extends Entity {
     private cachedCollisions: ObjectEntity[] = [];
     /** Tick that the cache was taken. */
     private cachedTick = 0;
-
+    public isAffectedByRope: boolean;
+    public restLength: number;
     public constructor(game: GameServer) {
         super(game);
-
+        this.restLength = 0
+        this.isAffectedByRope = false
         this.styleData.zIndex = game.entities.zIndex++;
     }
 

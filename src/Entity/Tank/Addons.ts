@@ -232,7 +232,7 @@ export class Addon {
         for (let i = 0; i < count; ++i) {
             const base = new AutoTurret(rotator, {...AutoTurretMiniDefinition, reload:1.2});
                     base.styleData.values.zIndex += 2;
-                    base.turret.styleData.values.zIndex += 2;
+                    base.turret[0].styleData.values.zIndex += 2;
             base.influencedByOwnerInputs = true;
             base.relationsData.owner = this.owner;
             //base.turret.relationsData.owner = this.owner;
@@ -1192,7 +1192,7 @@ class AutoRocketAddon extends Addon {
             }
         });
 
-        base.turret.styleData.zIndex += 2;
+        base.turret[0].styleData.zIndex += 2;
         new LauncherAddon(base);
     }
 }
@@ -1233,8 +1233,8 @@ class THEBIGONE extends Addon {
                 absorbtionFactor: 0.1
             }
         });
+        base.turret[0].styleData.zIndex += 2;
 
-        base.turret.styleData.zIndex += 2;
         base.baseSize *= 1.5;
         base.ai.viewRange = 1800
         new LauncherAddon(base);

@@ -1,17 +1,14 @@
 /*
     DiepCustom - custom tank game server that shares diep.io's WebSocket protocol
     Copyright (C) 2022 ABCxFF (github.com/ABCxFF)
-
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
     by the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU Affero General Public License for more details.
-
     You should have received a copy of the GNU Affero General Public License
     along with this program. If not, see <https://www.gnu.org/licenses/>
 */
@@ -26,7 +23,6 @@ import { AI, AIState, Inputs } from "../AI";
 import { Entity } from "../../Native/Entity";
 import { NameGroup } from "../../Native/FieldGroups";
 import LivingEntity from "../Live";
-import { CameraEntity } from "../../Native/Camera";
 
 export const AutoTurretDefinition: BarrelDefinition = {
     angle: 0,
@@ -35,7 +31,7 @@ export const AutoTurretDefinition: BarrelDefinition = {
     width: 42 * 0.7,
     delay: 0.01,
     reload: 1,
-    recoil: 0,
+    recoil: 0.3,
     isTrapezoid: false,
     trapezoidDirection: 0,
     addon: null,
@@ -63,7 +59,7 @@ export default class AutoTurret extends ObjectEntity {
     /** Barrel's owner (Tank-like object). */
     private owner: BarrelBase;
     /** Actual turret / barrel. */
-    public turret: Barrel;
+    public turret: Barrel[] = [];
     /** The AI controlling the turret. */
     public ai: AI;
     /** The AI's inputs, for determining whether to shoot or not. */
@@ -79,7 +75,8 @@ export default class AutoTurret extends ObjectEntity {
     /** The size of the auto turret base */
     public baseSize: number;
 
-    public constructor(owner: BarrelBase, turretDefinition: BarrelDefinition = AutoTurretDefinition, baseSize: number = 25) {
+    public constructor(owner: BarrelBase, barrelDefinition: BarrelDefinition[] | BarrelDefinition = AutoTurretDefinition, baseSize: number = 25)
+    {
         super(owner.game);
 
         this.cameraEntity = owner.cameraEntity;
@@ -106,8 +103,12 @@ export default class AutoTurret extends ObjectEntity {
         this.nameData.values.name = "Mounted Turret";
         this.nameData.values.flags |= NameFlags.hiddenName;
 
-        this.turret = new Barrel(this, turretDefinition);
-        this.turret.physicsData.values.flags |= PhysicsFlags._unknown;
+        if (!(barrelDefinition instanceof Array)) barrelDefinition = [barrelDefinition];
+        for (const def of barrelDefinition ) { 
+            this.turret = [new Barrel(this, def)];
+            this.turret[0].physicsData.values.flags |= PhysicsFlags._unknown;
+        }
+        
     }
     
     /**
@@ -133,7 +134,7 @@ export default class AutoTurret extends ObjectEntity {
 
         this.physicsData.size = this.baseSize * this.sizeFactor;
 
-        this.ai.aimSpeed = this.turret.bulletAccel;
+        this.ai.aimSpeed = this.turret[0].bulletAccel;
         // Top Speed
         this.ai.movementSpeed = 0;
 
@@ -156,7 +157,7 @@ export default class AutoTurret extends ObjectEntity {
         if (useAI) {
             if (this.ai.state === AIState.idle) {
                 this.positionData.angle += this.ai.passiveRotation;
-                this.turret.attemptingShot = false;
+                this.turret[0].attemptingShot = false;
             } else {
                 // Uh. Yeah
                 const {x, y} = this.getWorldPosition();

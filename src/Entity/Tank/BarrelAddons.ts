@@ -46,7 +46,7 @@ export class BarrelAddon {
 /**
  * Entity attached to the edge of a trapper barrel
  */
-export class TrapLauncher extends ObjectEntity {
+export class BuilderLauncher extends ObjectEntity {
     /** The barrel that this trap launcher is placed on. */
     public barrelEntity: Barrel;
 
@@ -62,17 +62,17 @@ export class TrapLauncher extends ObjectEntity {
         //this.positionData.values.angle = Math.PI;
 
         this.physicsData.values.sides = 2;
-        this.physicsData.values.width = barrel.physicsData.values.width/1.75 * 1.1875;
-        this.physicsData.values.size = barrel.physicsData.values.width * (22.5 / 42);
-        this.positionData.values.x = (barrel.physicsData.values.size + this.physicsData.values.size) / 3;
+        this.physicsData.values.width = barrel.physicsData.values.width;
+        this.physicsData.values.size = barrel.physicsData.values.width * (20 / 42);
+        this.positionData.values.x = (barrel.physicsData.values.size + this.physicsData.values.size) / 2;
     }
 
     public resize() {
         this.styleData.color = this.barrelEntity.styleData.color;
         this.physicsData.sides = 2;
-        this.physicsData.width = this.barrelEntity.physicsData.values.width/1.75 * 1.1875;
-        this.physicsData.size = this.barrelEntity.physicsData.values.width * (22.5 / 42);
-        this.positionData.x = (this.barrelEntity.physicsData.values.size + this.physicsData.values.size) / 3;
+        this.physicsData.width = this.barrelEntity.physicsData.values.width;
+        this.physicsData.size = this.barrelEntity.physicsData.values.width * (20 / 42);
+        this.positionData.x = (this.barrelEntity.physicsData.values.size + this.physicsData.values.size) / 2;
     }
 
 
@@ -86,6 +86,52 @@ export class TrapLauncher extends ObjectEntity {
 /** Trap launcher - added onto traps */
 export class TrapLauncherAddon extends BarrelAddon {
     /** The actual trap launcher entity */
+    public launcherEntity: BuilderLauncher;
+
+    public constructor(owner: Barrel) {
+        super(owner);
+
+        this.launcherEntity = new TrapLauncher(owner);
+    }
+}
+export class TrapLauncher extends ObjectEntity {
+    /** The barrel that this trap launcher is placed on. */
+    public barrelEntity: Barrel;
+
+    /** Resizes the trap launcher; when its barrel owner gets bigger, the trap launcher must as well. */
+    public constructor(barrel: Barrel) {
+        super(barrel.game);
+
+        this.barrelEntity = barrel;
+        this.setParent(barrel);
+        this.relationsData.values.team = barrel;
+        this.physicsData.values.flags = PhysicsFlags.isTrapezoid | PhysicsFlags._unknown;
+        this.styleData.values.color = Color.Barrel;
+
+        this.physicsData.values.sides = 2;
+        this.physicsData.values.width = barrel.physicsData.values.width;
+        this.physicsData.values.size = barrel.physicsData.values.width * (20 / 42);
+        this.positionData.values.x = (barrel.physicsData.values.size + this.physicsData.values.size) / 2;
+    }
+
+    public resize() {
+        this.physicsData.sides = 2;
+        this.physicsData.width = this.barrelEntity.physicsData.values.width;
+        this.physicsData.size = this.barrelEntity.physicsData.values.width * (20 / 42);
+        this.positionData.x = (this.barrelEntity.physicsData.values.size + this.physicsData.values.size) / 2;
+    }
+
+
+    public tick(tick: number) {
+        super.tick(tick);
+
+        this.resize();
+    }
+}
+
+/** Trap launcher - added onto traps */
+export class BuilderLauncherAddon extends BarrelAddon {
+    /** The actual trap launcher entity */
     public launcherEntity: TrapLauncher;
 
     public constructor(owner: Barrel) {
@@ -94,7 +140,6 @@ export class TrapLauncherAddon extends BarrelAddon {
         this.launcherEntity = new TrapLauncher(owner);
     }
 }
-
 export class MachineTrapLauncher extends ObjectEntity {
     /** The barrel that this trap launcher is placed on. */
     public barrelEntity: Barrel;
@@ -664,6 +709,7 @@ export class StrikerAddon extends BarrelAddon {
     minionLauncher: MinionLauncherAddon,
     engitrapLauncher : EngiTrapLauncherAddon,
     trapLauncher: TrapLauncherAddon,
+    blockLauncher: BuilderLauncherAddon,
     swarmLauncher: SwarmLauncherAddon,
     machineTrapLauncher: MachineTrapLauncherAddon,
     engimachinetrapLauncher: MachineEngiTrapLauncherAddon,

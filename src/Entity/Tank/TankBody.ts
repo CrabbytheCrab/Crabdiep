@@ -41,6 +41,8 @@ import NecromancerTriangle from "./Projectile/NecromancerTriangle";
 import Triangle from "../Shape/Triangle";
 import WepSquare from "../Shape/WepSquare";
 import { maxPlayerLevel } from "../../config";
+import RopeSegment from "./Projectile/RopeSegment";
+import Vector from "../../Physics/Vector";
 
 /**
  * Abstract type of entity which barrels can connect to.
@@ -66,7 +68,7 @@ export default class TankBody extends LivingEntity implements BarrelBase {
     public inputs: Inputs;
     public static MAXORBS = 0;
     public static OrbCount = 0;
-
+public canchain: boolean
     /** The tank's barrels, if any. */
     public barrels: Barrel[] = [];
     /** The tank's addons, if any. */
@@ -82,11 +84,19 @@ export default class TankBody extends LivingEntity implements BarrelBase {
     private _currentTank: Tank | DevTank = Tank.Basic;
     /** Sets tanks to be invulnerable - example, godmode, or AC */
     public isInvulnerable: boolean = false;
+    public segments: ObjectEntity[];
+    public k: number;
+    public length: number;
 
     public constructor(game: GameServer, camera: CameraEntity, inputs: Inputs) {
         super(game);
         this.cameraEntity = camera;
         this.inputs = inputs;
+        this.isAffectedByRope = false;
+        this.length = 8;
+        this.canchain = true
+        this.segments = [this];
+        this.k = 0.4;
         this.physicsData.values.size = 50;
         this.physicsData.values.sides = 1;
         this.styleData.values.color = Color.Tank;
@@ -256,7 +266,7 @@ export default class TankBody extends LivingEntity implements BarrelBase {
                     if(entity instanceof WepSquare){
             
                     }else{
-                const MAX_DRONES_PER_BARREL2 = 4 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload] * 0.5);
+                const MAX_DRONES_PER_BARREL2 = 3 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload] * 0.375);
                 const barrelsToShoot = this.barrels.filter((e) => e.definition.bullet.type === "necrodrone" && e.droneCount < MAX_DRONES_PER_BARREL2);
     
                 if (barrelsToShoot.length) {
@@ -313,6 +323,10 @@ export default class TankBody extends LivingEntity implements BarrelBase {
             this.barrels = [];
             this.addons = [];
         }
+        this.segments.forEach(segment => 
+            {
+                if (segment instanceof RopeSegment) segment.destroy();
+            });
         super.destroy(animate);
     }
 
@@ -320,7 +334,24 @@ export default class TankBody extends LivingEntity implements BarrelBase {
         TankBody.MAXORBS = this.definition.maxorbs
 
         this.positionData.angle = Math.atan2(this.inputs.mouse.y - this.positionData.values.y, this.inputs.mouse.x - this.positionData.values.x);
+        if(this.canchain == true && this.definition.flags.canChain)
+        {
+            this.canchain = false
+            for (let i = 0; i < this.length; i++){
+            const ropeSegment = new RopeSegment(this);
+           ropeSegment.styleData.color = Color.Border;
+           // ropeSegment.relationsData.team = this.relationsData.team;
+            ropeSegment.relationsData.owner = this
+           this.segments.push(ropeSegment);}
+        }
+        if (this._currentTank !== Tank.Chainer){
+            this.canchain = true
 
+            this.segments.forEach(segment => 
+                {
+                    if (segment instanceof RopeSegment) segment.destroy();
+                });
+        }
         if (this.isInvulnerable) {
             if (this.game.clients.size !== 1 || this.game.arena.state !== ArenaState.OPEN) {
                 // not for ACs
@@ -374,7 +405,6 @@ export default class TankBody extends LivingEntity implements BarrelBase {
             // Damage
             this.damagePerTick = this.cameraEntity.cameraData.statLevels[Stat.BodyDamage] * 6 + 20;
             if (this._currentTank === Tank.Spike) this.damagePerTick *= 1.5;
-            if (this._currentTank === Tank.Saw) this.damagePerTick *= 1.1;
             if (this._currentTank === Tank.autosmasher) this.damagePerTick *= 1.1;
             if (this._currentTank === Tank.Bumper) this.damagePerTick *= 0.375;
             if (this._currentTank === Tank.Bumper) this.damageReduction = 0.375;
@@ -419,5 +449,25 @@ export default class TankBody extends LivingEntity implements BarrelBase {
             x: 0,
             y: 0
         });
+
+        for (let i = 1; i < this.segments.length; i++) 
+        {
+            const a = this.segments[i - 1];
+            const b = this.segments[i];
+            /*const delta = {
+                x: a.positionData.values.x - b.positionData.values.x,
+                y: a.positionData.values.y - b.positionData.values.y
+            }*/
+            const delta = new Vector(a.positionData.values.x - b.positionData.values.x, a.positionData.values.y - b.positionData.values.y);
+            const x = delta.magnitude - Math.max(a.restLength, b.restLength);
+      
+            let force = delta.unitVector.scale(-this.k * x);
+      
+            if (a.isAffectedByRope) a.addAcceleration(force.angle, force.magnitude, false);
+      
+            force = force.scale(-1);
+
+            if (b.isAffectedByRope) b.addAcceleration(force.angle, force.magnitude, false);
+        }
     }
 }

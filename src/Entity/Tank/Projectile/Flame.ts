@@ -35,7 +35,7 @@ export default class Flame extends Bullet {
 
         const statLevels = tank.cameraEntity.cameraData?.values.statLevels.values;
         const bulletDefinition = barrel.definition.bullet;
-        //this.damageReduction = 0.1;
+
         const bulletPenetration = statLevels ? statLevels[Stat.BulletPenetration] : 0;
         this.healthData.values.health = this.healthData.values.maxHealth = bulletDefinition.health;
         this.lifeLength = bulletDefinition.lifeLength * 6 * ((1.5 * bulletPenetration)/5 + 2);

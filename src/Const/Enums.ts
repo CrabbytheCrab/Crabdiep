@@ -244,6 +244,19 @@ export const enum Tank {
     Pulsar        = 167,
     Satellite     = 168,
     Debris        = 169,
+    Quazar        = 170,
+    Blazar        = 171,
+    NeutronStar   = 172,
+    AccretionDisk = 173,
+    Chainer       = 174,
+    Moon          = 175,
+    Snyope        = 176,
+    Hyperion      = 177,
+    Amalthea      = 178,
+    Asteroid      = 179,
+    Charon        = 180,
+    Meteor        = 181,
+    Hydron        = 182,
     Mothership    = 204
 }
 
