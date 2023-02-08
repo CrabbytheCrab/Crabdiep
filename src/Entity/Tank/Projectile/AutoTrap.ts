@@ -54,7 +54,7 @@ const TrapBarrelDefinition1: BarrelDefinition = {
 };
 const TrapBarrelDefinition2: BarrelDefinition = {
     angle: 0,
-    offset: 20,
+    offset: 17,
     size: 65,
     width: 28,
     delay: 0.51,
@@ -78,7 +78,7 @@ const TrapBarrelDefinition2: BarrelDefinition = {
 const TrapBarrelDefinition3: BarrelDefinition = {
     angle: 0,
     offset: -20,
-    size: 65,
+    size: 70,
     width: 35,
     delay: 0.01,
     reload: 2.5,
@@ -100,7 +100,7 @@ const TrapBarrelDefinition3: BarrelDefinition = {
 const TrapBarrelDefinition4: BarrelDefinition = {
     angle: 0,
     offset: 20,
-    size: 65,
+    size: 70,
     width: 35,
     delay: 0.51,
     reload: 2.5,
@@ -163,7 +163,7 @@ export default class AutoTrap extends Bullet implements BarrelBase {
                     absorbtionFactor: 0.1
                 }
             });
-                atuo.baseSize *= 1.35
+                atuo.baseSize *= 1.425
                 atuo.positionData.values.angle = shootAngle
             //atuo.ai.passiveRotation = this.movementAngle
             atuo.styleData.values.flags |= StyleFlags.showsAboveParent;
