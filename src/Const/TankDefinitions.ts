@@ -3336,12 +3336,12 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "drone2",
                     "sizeRatio": 0.8,
-                    "health": 1.5,
-                    "damage": 1,
+                    "health": 1.25,
+                    "damage": 1.25,
                     "speed": 1.75,
                     "scatterRate": 1,
-                    "lifeLength": 3,
-                    "absorbtionFactor": 1
+                    "lifeLength": 3.75,
+                    "absorbtionFactor": 0.75
                 }
             }
         ],
@@ -11008,11 +11008,11 @@ const TankDefinitions = JSON.parse(`[
                     "type": "drone2",
                     "sizeRatio": 0.8,
                     "health": 1.5,
-                    "damage": 1.5,
+                    "damage": 1.25,
                     "speed": 2.5,
                     "scatterRate": 0.3,
                     "lifeLength": 3,
-                    "absorbtionFactor": 1
+                    "absorbtionFactor": 0.5
                 }
             }
         ],
@@ -15019,7 +15019,7 @@ const TankDefinitions = JSON.parse(`[
                 "offset": 0,
                 "size": 71,
                 "width": 29.4,
-                "delay": 0,
+                "delay": 0.6666,
                 "reload": 1.5,
                 "recoil": 0.1,
                 "isTrapezoid": false,
@@ -15041,7 +15041,7 @@ const TankDefinitions = JSON.parse(`[
                 "offset": 0,
                 "size": 71,
                 "width": 29.4,
-                "delay": 0,
+                "delay": 0.6666,
                 "reload": 1.5,
                 "recoil": 0.1,
                 "isTrapezoid": false,
@@ -15063,7 +15063,7 @@ const TankDefinitions = JSON.parse(`[
                 "offset": 0,
                 "size": 83,
                 "width": 29.4,
-                "delay": 0,
+                "delay": 0.3333,
                 "reload": 1.5,
                 "recoil": 0.1,
                 "isTrapezoid": false,
@@ -15082,7 +15082,7 @@ const TankDefinitions = JSON.parse(`[
             },
             {
                 "angle": -0.3490658503988659,
-                "offset": 0,
+                "offset": 0.3333,
                 "size": 83,
                 "width": 29.4,
                 "delay": 0,
@@ -15188,7 +15188,7 @@ const TankDefinitions = JSON.parse(`[
                 "offset": 0,
                 "size": 71,
                 "width": 29.4,
-                "delay": 0,
+                "delay": 0.6666,
                 "reload": 2.5,
                 "recoil": 0.1,
                 "isTrapezoid": false,
@@ -15207,7 +15207,7 @@ const TankDefinitions = JSON.parse(`[
             },
             {
                 "angle": -0.6981317007977318,
-                "offset": 0,
+                "offset": 0.6666,
                 "size": 71,
                 "width": 29.4,
                 "delay": 0,
@@ -15229,7 +15229,7 @@ const TankDefinitions = JSON.parse(`[
             },
             {
                 "angle": 0.3490658503988659,
-                "offset": 0,
+                "offset": 0.3333,
                 "size": 83,
                 "width": 29.4,
                 "delay": 0,
@@ -15251,7 +15251,7 @@ const TankDefinitions = JSON.parse(`[
             },
             {
                 "angle": -0.3490658503988659,
-                "offset": 0,
+                "offset": 0.3333,
                 "size": 83,
                 "width": 29.4,
                 "delay": 0,
@@ -15285,12 +15285,12 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "drone2",
                     "sizeRatio": 0.8,
-                    "health": 1.5,
+                    "health": 1.25,
                     "damage": 1,
                     "speed": 1.75,
                     "scatterRate": 1,
-                    "lifeLength": 3,
-                    "absorbtionFactor": 1
+                    "lifeLength": 3.75,
+                    "absorbtionFactor": 0.75
                 }
             }
         ],
@@ -15304,15 +15304,15 @@ const TankDefinitions = JSON.parse(`[
                 "max": 7
             },
             {
-                "name": "Bullet Damage",
+                "name": "Weapon Damage",
                 "max": 7
             },
             {
-                "name": "Bullet Penetration",
+                "name": "Weapon Health",
                 "max": 7
             },
             {
-                "name": "Bullet Speed",
+                "name": "Weapon Speed",
                 "max": 7
             },
             {
@@ -15612,11 +15612,11 @@ const TankDefinitions = JSON.parse(`[
                     "type": "drone2",
                     "sizeRatio": 1,
                     "health": 2,
-                    "damage": 1,
+                    "damage": 0.75,
                     "speed": 2,
                     "scatterRate": 1,
-                    "lifeLength": 3.5,
-                    "absorbtionFactor": 0.35
+                    "lifeLength": 8,
+                    "absorbtionFactor": 0.25
                 }
             }
         ],
