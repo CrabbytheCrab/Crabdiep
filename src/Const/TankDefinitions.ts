@@ -21769,8 +21769,8 @@ const TankDefinitions = JSON.parse(`[
         "id": 183,
         "name": "Twin Trapper",
         "upgradeMessage": "",
-        "levelRequirement": 15,
-        "upgrades": [],
+        "levelRequirement": 30,
+        "upgrades": [184],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -21829,6 +21829,153 @@ const TankDefinitions = JSON.parse(`[
                     "speed": 2,
                     "scatterRate": 1,
                     "lifeLength": 5,
+                    "absorbtionFactor": 1
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 7
+            },
+            {
+                "name": "Reload",
+                "max": 7
+            },
+            {
+                "name": "Trap Damage",
+                "max": 7
+            },
+            {
+                "name": "Trap Health",
+                "max": 7
+            },
+            {
+                "name": "Trap Speed",
+                "max": 7
+            },
+            {
+                "name": "Body Damage",
+                "max": 7
+            },
+            {
+                "name": "Max Health",
+                "max": 7
+            },
+            {
+                "name": "Health Regen",
+                "max": 7
+            }
+        ]
+    },
+    {
+        "id": 184,
+        "name": "Warkwark",
+        "upgradeMessage": "",
+        "levelRequirement": 45,
+        "upgrades": [],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 0.9,
+        "absorbtionFactor": 1,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": null,
+        "postAddon": null,
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle":-0.1308996938995747,
+                "offset": -28,
+                "size": 60,
+                "width": 38,
+                "delay": 0,
+                "reload": 2,
+                "recoil": 0,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": "trapLauncher",
+                "bullet": {
+                    "type": "trap",
+                    "sizeRatio": 0.8,
+                    "health": 1.6,
+                    "damage": 0.5,
+                    "speed": 2,
+                    "scatterRate": 1,
+                    "lifeLength": 3.5,
+                    "absorbtionFactor": 1
+                }
+            },
+            {
+                "angle":0.1308996938995747,
+                "offset": 28,
+                "size": 60,
+                "width": 38,
+                "delay": 0.5,
+                "reload": 2,
+                "recoil": 0,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": "trapLauncher",
+                "bullet": {
+                    "type": "trap",
+                    "sizeRatio": 0.8,
+                    "health": 1.6,
+                    "damage": 0.5,
+                    "speed": 2,
+                    "scatterRate": 1,
+                    "lifeLength": 3.5,
+                    "absorbtionFactor": 1
+                }
+            },
+            {
+                "angle":-3.0106929596902186,
+                "offset": -28,
+                "size": 60,
+                "width": 38,
+                "delay": 0,
+                "reload": 2,
+                "recoil": 0,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": "trapLauncher",
+                "bullet": {
+                    "type": "trap",
+                    "sizeRatio": 0.8,
+                    "health": 1.6,
+                    "damage": 0.5,
+                    "speed": 2,
+                    "scatterRate": 1,
+                    "lifeLength": 3.5,
+                    "absorbtionFactor": 1
+                }
+            },
+            {
+                "angle":3.0106929596902186,
+                "offset": 28,
+                "size": 60,
+                "width": 38,
+                "delay": 0.5,
+                "reload": 2,
+                "recoil": 0,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": "trapLauncher",
+                "bullet": {
+                    "type": "trap",
+                    "sizeRatio": 0.8,
+                    "health": 1.6,
+                    "damage": 0.5,
+                    "speed": 2,
+                    "scatterRate": 1,
+                    "lifeLength": 3.5,
                     "absorbtionFactor": 1
                 }
             }
