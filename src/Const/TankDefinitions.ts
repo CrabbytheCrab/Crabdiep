@@ -15436,11 +15436,11 @@ const TankDefinitions = JSON.parse(`[
             {
                 "angle": 0,
                 "offset": 0,
-                "size": 60,
+                "size": 65,
                 "width": 52.5,
                 "delay": 0,
                 "reload": 0.475,
-                "recoil": 0.5,
+                "recoil": 0.25,
                 "isTrapezoid": true,
                 "trapezoidDirection": 0,
                 "addon": "machineTrapLauncher",
