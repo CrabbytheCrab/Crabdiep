@@ -22044,7 +22044,7 @@ const TankDefinitions = JSON.parse(`[
                 "size": 65,
                 "width": 40,
                 "delay": 0,
-                "reload": 3.5,
+                "reload": 5,
                 "recoil": 0.75,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
@@ -22056,7 +22056,7 @@ const TankDefinitions = JSON.parse(`[
                     "damage": 0.5,
                     "speed": 1.5,
                     "scatterRate": 1,
-                    "lifeLength": 2.25,
+                    "lifeLength": 3.5,
                     "absorbtionFactor": 1
                 }
             },
@@ -22066,7 +22066,7 @@ const TankDefinitions = JSON.parse(`[
                 "size": 65,
                 "width": 40,
                 "delay": 0.5,
-                "reload": 3.5,
+                "reload": 5,
                 "recoil": 0.75,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
@@ -22078,7 +22078,7 @@ const TankDefinitions = JSON.parse(`[
                     "damage": 0.5,
                     "speed": 1.5,
                     "scatterRate": 1,
-                    "lifeLength": 2.25,
+                    "lifeLength": 3.5,
                     "absorbtionFactor": 1
                 }
             }
