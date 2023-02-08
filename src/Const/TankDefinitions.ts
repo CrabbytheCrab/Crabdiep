@@ -21936,7 +21936,7 @@ const TankDefinitions = JSON.parse(`[
                 }
             },
             {
-                "angle":-3.0106929596902186,
+                "angle":3.0106929596902186,
                 "offset": -28,
                 "size": 60,
                 "width": 38,
@@ -21958,7 +21958,7 @@ const TankDefinitions = JSON.parse(`[
                 }
             },
             {
-                "angle":3.0106929596902186,
+                "angle":-3.0106929596902186,
                 "offset": 28,
                 "size": 60,
                 "width": 38,
