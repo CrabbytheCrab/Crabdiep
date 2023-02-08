@@ -21790,8 +21790,8 @@ const TankDefinitions = JSON.parse(`[
         "barrels": [
             {
                 "angle":-0.1308996938995747,
-                "offset": -27,
-                "size": 60,
+                "offset": -26,
+                "size": 65,
                 "width": 38,
                 "delay": 0,
                 "reload": 2,
@@ -21812,8 +21812,8 @@ const TankDefinitions = JSON.parse(`[
             },
             {
                 "angle":0.1308996938995747,
-                "offset": 27,
-                "size": 60,
+                "offset": 26,
+                "size": 65,
                 "width": 38,
                 "delay": 0.5,
                 "reload": 2,
@@ -21893,8 +21893,8 @@ const TankDefinitions = JSON.parse(`[
         "barrels": [
             {
                 "angle":-0.1308996938995747,
-                "offset": -27,
-                "size": 60,
+                "offset": -26,
+                "size": 65,
                 "width": 38,
                 "delay": 0,
                 "reload": 2,
@@ -21915,8 +21915,8 @@ const TankDefinitions = JSON.parse(`[
             },
             {
                 "angle":0.1308996938995747,
-                "offset": 27,
-                "size": 60,
+                "offset": 26,
+                "size": 65,
                 "width": 38,
                 "delay": 0.5,
                 "reload": 2,
@@ -21937,8 +21937,8 @@ const TankDefinitions = JSON.parse(`[
             },
             {
                 "angle":3.0106929596902186,
-                "offset": -27,
-                "size": 60,
+                "offset": -26,
+                "size": 65,
                 "width": 38,
                 "delay": 0,
                 "reload": 2,
@@ -21959,8 +21959,8 @@ const TankDefinitions = JSON.parse(`[
             },
             {
                 "angle":-3.0106929596902186,
-                "offset": 27,
-                "size": 60,
+                "offset": 26,
+                "size": 65,
                 "width": 38,
                 "delay": 0.5,
                 "reload": 2,
