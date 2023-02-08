@@ -21789,13 +21789,13 @@ const TankDefinitions = JSON.parse(`[
         "borderWidth": 15,
         "barrels": [
             {
-                "angle":0.2617993877991494,
+                "angle":-0.2617993877991494,
                 "offset": -28,
                 "size": 60,
                 "width": 38,
                 "delay": 0,
                 "reload": 2,
-                "recoil": 1,
+                "recoil": 0.75,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
                 "addon": "trapLauncher",
@@ -21806,18 +21806,18 @@ const TankDefinitions = JSON.parse(`[
                     "damage": 0.65,
                     "speed": 2,
                     "scatterRate": 1,
-                    "lifeLength": 8,
+                    "lifeLength": 5,
                     "absorbtionFactor": 1
                 }
             },
             {
-                "angle":0.2617993877991494,
+                "angle":-0.2617993877991494,
                 "offset": 28,
                 "size": 60,
                 "width": 38,
                 "delay": 0.5,
                 "reload": 2,
-                "recoil": 1,
+                "recoil": 0.75,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
                 "addon": "trapLauncher",
@@ -21828,7 +21828,7 @@ const TankDefinitions = JSON.parse(`[
                     "damage": 0.65,
                     "speed": 2,
                     "scatterRate": 1,
-                    "lifeLength": 8,
+                    "lifeLength": 5,
                     "absorbtionFactor": 1
                 }
             }
