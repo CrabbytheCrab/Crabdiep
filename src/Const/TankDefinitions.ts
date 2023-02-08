@@ -21790,7 +21790,7 @@ const TankDefinitions = JSON.parse(`[
         "barrels": [
             {
                 "angle":-0.2617993877991494,
-                "offset": -28,
+                "offset": -30,
                 "size": 60,
                 "width": 38,
                 "delay": 0,
@@ -21811,8 +21811,8 @@ const TankDefinitions = JSON.parse(`[
                 }
             },
             {
-                "angle":-0.2617993877991494,
-                "offset": 28,
+                "angle":0.2617993877991494,
+                "offset": 30,
                 "size": 60,
                 "width": 38,
                 "delay": 0.5,
