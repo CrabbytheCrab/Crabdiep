@@ -54,7 +54,7 @@ const TrapBarrelDefinition1: BarrelDefinition = {
 };
 const TrapBarrelDefinition2: BarrelDefinition = {
     angle: 0,
-    offset: 17,
+    offset: 20,
     size: 65,
     width: 28,
     delay: 0.51,
@@ -72,6 +72,51 @@ const TrapBarrelDefinition2: BarrelDefinition = {
         scatterRate: 2,
         lifeLength: 0.75,
         absorbtionFactor: 0.3
+    }
+};
+
+const TrapBarrelDefinition3: BarrelDefinition = {
+    angle: 0,
+    offset: -20,
+    size: 65,
+    width: 35,
+    delay: 0.01,
+    reload: 2.5,
+    recoil: 0,
+    isTrapezoid: false,
+    trapezoidDirection: 0,
+    addon: null,
+    bullet: {
+        type: "bullet",
+        sizeRatio: 1,
+        health: 0.675,
+        damage: 0.4,
+        speed: 1,
+        scatterRate: 1,
+        lifeLength: 0.75,
+        absorbtionFactor: 0.1
+    }
+};
+const TrapBarrelDefinition4: BarrelDefinition = {
+    angle: 0,
+    offset: 20,
+    size: 65,
+    width: 35,
+    delay: 0.51,
+    reload: 2.5,
+    recoil: 0,
+    isTrapezoid: false,
+    trapezoidDirection: 0,
+    addon: null,
+    bullet: {
+        type: "bullet",
+        sizeRatio: 1,
+        health: 0.675,
+        damage: 0.4,
+        speed: 1,
+        scatterRate: 1,
+        lifeLength: 0.75,
+        absorbtionFactor: 0.1
     }
 };
 export default class AutoTrap extends Bullet implements BarrelBase {
@@ -155,11 +200,19 @@ export default class AutoTrap extends Bullet implements BarrelBase {
         }
         else if(tankDefinition && tankDefinition.id === Tank.Meteor){
             const atuo  = [new AutoTurret(this, [TrapBarrelDefinition1, TrapBarrelDefinition2])];
-                atuo[0].baseSize *= 1.25
+                atuo[0].baseSize *= 1.35
                 atuo[0].positionData.values.angle = shootAngle
             //atuo.ai.passiveRotation = this.movementAngle
             atuo[0].styleData.values.flags |= StyleFlags.showsAboveParent;
             atuo[0].ai.viewRange = 540
+        }
+        else if(tankDefinition && tankDefinition.id === Tank.Arsenal){
+            const atuo  = [new AutoTurret(this, [TrapBarrelDefinition3, TrapBarrelDefinition4])];
+                atuo[0].baseSize *= 1.25
+                atuo[0].positionData.values.angle = shootAngle
+            //atuo.ai.passiveRotation = this.movementAngle
+            atuo[0].styleData.values.flags |= StyleFlags.showsAboveParent;
+            atuo[0].ai.viewRange = 640
         }
         else{
         const atuo = new AutoTurret(this, {
