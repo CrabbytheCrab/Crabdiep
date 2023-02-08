@@ -11757,7 +11757,7 @@ const TankDefinitions = JSON.parse(`[
     {
         "id": 102,
         "name": "Spinner",
-        "upgradeMessage": "Hold right click to reverse rotation",
+        "upgradeMessage": "Hold right click to reverse its rotation",
         "levelRequirement": 30,
         "upgrades": [103, 104,157],
         "flags": {
@@ -11793,9 +11793,9 @@ const TankDefinitions = JSON.parse(`[
                     "sizeRatio": 1,
                     "health": 1.5,
                     "damage": 1.1,
-                    "speed": 0.75,
+                    "speed": 0.65,
                     "scatterRate": 0.3,
-                    "lifeLength": 1,
+                    "lifeLength": 1.25,
                     "absorbtionFactor": 0.25
                 }
             }
@@ -11872,11 +11872,11 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "megaspinner",
                     "sizeRatio": 1,
-                    "health": 4,
-                    "damage": 1.3,
-                    "speed": 0.65,
+                    "health": 3,
+                    "damage": 1.5,
+                    "speed": 0.5,
                     "scatterRate": 0.3,
-                    "lifeLength": 1,
+                    "lifeLength": 1.75,
                     "absorbtionFactor": 0.1
                 }
             }
@@ -11953,11 +11953,11 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "spinner4",
                     "sizeRatio": 1.25,
-                    "health": 1.5,
-                    "damage": 0.8,
+                    "health": 2.5,
+                    "damage": 0.5,
                     "speed": 0.75,
                     "scatterRate": 0.3,
-                    "lifeLength": 1,
+                    "lifeLength": 1.125,
                     "absorbtionFactor": 0.25
                 }
             }
@@ -17826,9 +17826,9 @@ const TankDefinitions = JSON.parse(`[
                     "sizeRatio": 1,
                     "health": 1.5,
                     "damage": 1.1,
-                    "speed": 0.75,
+                    "speed": 0.65,
                     "scatterRate": 0.3,
-                    "lifeLength": 1,
+                    "lifeLength": 1.25,
                     "absorbtionFactor": 0.25
                 }
             }
