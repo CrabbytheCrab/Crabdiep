@@ -259,6 +259,7 @@ export const enum Tank {
     Hydron        = 182,
     TwinTrapper   = 183,
     Warkwark      = 184,
+    Arsenal       = 185,
     Mothership    = 204
 }
 
