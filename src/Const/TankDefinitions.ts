@@ -21637,7 +21637,7 @@ const TankDefinitions = JSON.parse(`[
         ]
     },
     {
-        "id": 183,
+        "id": 182,
         "name": "Hadron",
         "upgradeMessage": "",
         "levelRequirement": 90,
@@ -21766,7 +21766,7 @@ const TankDefinitions = JSON.parse(`[
         ]
     },
     {
-        "id": 184,
+        "id": 183,
         "name": "Twin Trapper",
         "upgradeMessage": "",
         "levelRequirement": 15,
@@ -21789,7 +21789,7 @@ const TankDefinitions = JSON.parse(`[
         "borderWidth": 15,
         "barrels": [
             {
-                "angle":-0.2617993877991494,
+                "angle":-0.17453292519943295,
                 "offset": -28,
                 "size": 60,
                 "width": 38,
@@ -21811,7 +21811,7 @@ const TankDefinitions = JSON.parse(`[
                 }
             },
             {
-                "angle":0.2617993877991494,
+                "angle":0.17453292519943295,
                 "offset": 28,
                 "size": 60,
                 "width": 38,
