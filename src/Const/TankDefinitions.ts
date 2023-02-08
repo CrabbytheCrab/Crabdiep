@@ -266,7 +266,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Twin",
         "upgradeMessage": "",
         "levelRequirement": 15,
-        "upgrades": [9,132, 10, 11, 17, 28, 121],
+        "upgrades": [9,132, 10, 11, 17,183, 28, 121],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -800,7 +800,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Trapper",
         "upgradeMessage": "",
         "levelRequirement": 15,
-        "upgrades": [29, 30, 20, 36, 31,126,134, 140,161],
+        "upgrades": [29, 30, 20, 36, 31,183,126,134, 140,161],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -1211,7 +1211,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Twin Flank",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [40, 35, 42, 41],
+        "upgrades": [40, 35, 42, 41, 184],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -3120,7 +3120,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Flank Trapper",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [81 , 82, 99,98, 129,157],
+        "upgrades": [81 , 82, 99,98,184, 129,157],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -3954,7 +3954,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Engineer",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [84, 98,118,136,151],
+        "upgrades": [84,185, 98,118,136,151],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -15493,7 +15493,7 @@ const TankDefinitions = JSON.parse(`[
     },
     {
         "id": 136,
-        "name": "Arsenal",
+        "name": "Fabricator",
         "upgradeMessage": "",
         "levelRequirement": 45,
         "upgrades": [],
@@ -21770,7 +21770,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Twin Trapper",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [184],
+        "upgrades": [82, 184, 81, 185],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -21976,6 +21976,109 @@ const TankDefinitions = JSON.parse(`[
                     "speed": 2,
                     "scatterRate": 1,
                     "lifeLength": 3.5,
+                    "absorbtionFactor": 1
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 7
+            },
+            {
+                "name": "Reload",
+                "max": 7
+            },
+            {
+                "name": "Trap Damage",
+                "max": 7
+            },
+            {
+                "name": "Trap Health",
+                "max": 7
+            },
+            {
+                "name": "Trap Speed",
+                "max": 7
+            },
+            {
+                "name": "Body Damage",
+                "max": 7
+            },
+            {
+                "name": "Max Health",
+                "max": 7
+            },
+            {
+                "name": "Health Regen",
+                "max": 7
+            }
+        ]
+    },
+    {
+        "id": 185,
+        "name": "Arsenal",
+        "upgradeMessage": "",
+        "levelRequirement": 45,
+        "upgrades": [],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 0.9,
+        "absorbtionFactor": 1,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": null,
+        "postAddon": null,
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle":-0.1308996938995747,
+                "offset": -26,
+                "size": 60,
+                "width": 38,
+                "delay": 0,
+                "reload": 3.5,
+                "recoil": 0.75,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": "engitrapLauncher",
+                "bullet": {
+                    "type": "autotrap",
+                    "sizeRatio": 0.8,
+                    "health": 1.8,
+                    "damage": 0.5,
+                    "speed": 1.5,
+                    "scatterRate": 1,
+                    "lifeLength": 3.75,
+                    "absorbtionFactor": 1
+                }
+            },
+            {
+                "angle":0.1308996938995747,
+                "offset": 26,
+                "size": 60,
+                "width": 38,
+                "delay": 0.5,
+                "reload": 3.5,
+                "recoil": 0.75,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": "engitrapLauncher",
+                "bullet": {
+                    "type": "autotrap",
+                    "sizeRatio": 0.8,
+                    "health": 1.8,
+                    "damage": 0.5,
+                    "speed": 1.5,
+                    "scatterRate": 1,
+                    "lifeLength": 3.75,
                     "absorbtionFactor": 1
                 }
             }
