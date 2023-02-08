@@ -19347,7 +19347,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Debris",
         "upgradeMessage": "",
         "levelRequirement": 75,
-        "upgrades": [180,181,182,183],
+        "upgrades": [179,180,181,182],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
