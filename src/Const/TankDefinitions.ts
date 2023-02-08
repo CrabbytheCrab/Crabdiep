@@ -22056,7 +22056,7 @@ const TankDefinitions = JSON.parse(`[
                     "damage": 0.5,
                     "speed": 1.5,
                     "scatterRate": 1,
-                    "lifeLength": 3.75,
+                    "lifeLength": 2.25,
                     "absorbtionFactor": 1
                 }
             },
@@ -22078,7 +22078,7 @@ const TankDefinitions = JSON.parse(`[
                     "damage": 0.5,
                     "speed": 1.5,
                     "scatterRate": 1,
-                    "lifeLength": 3.75,
+                    "lifeLength": 2.25,
                     "absorbtionFactor": 1
                 }
             }
