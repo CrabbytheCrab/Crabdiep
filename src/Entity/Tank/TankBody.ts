@@ -93,7 +93,7 @@ public canchain: boolean
         this.length = 14;
         this.canchain = true
         this.segments = [this];
-        this.k = 0.3;
+        this.k = 0.1;
         this.physicsData.values.size = 50;
         this.physicsData.values.sides = 1;
         this.styleData.values.color = Color.Tank;
@@ -467,7 +467,7 @@ public canchain: boolean
       
             force = force.scale(-1);
 
-            if (b.isAffectedByRope) b.addAcceleration(force.angle, force.magnitude * 1.25, false);
+            if (b.isAffectedByRope) b.addAcceleration(force.angle, force.magnitude, false);
         }
     }
 }
