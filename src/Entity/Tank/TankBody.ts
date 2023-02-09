@@ -449,7 +449,7 @@ public canchain: boolean
 
         for (let i = 1; i < this.segments.length; i++) 
         {
-            const a = this.segments[i - 1];
+            const a = this.segments[i + 1];
             const b = this.segments[i];
             /*const delta = {
                 x: a.positionData.values.x - b.positionData.values.x,
