@@ -45,14 +45,14 @@ export default class RopeSegment extends LivingEntity {
         this.physicsData.pushFactor = 10;
                 this.physicsData.sides = 6;    
                     this.damagePerTick = 10
-        this.physicsData.size = this.parent.physicsData.size
+        this.physicsData.size = this.parent.physicsData.size * 0.8
         }else{
         this.physicsData.size = this.parent.physicsData.size/8;
         }
          this.physicsData.pushFactor = 3;
         this.physicsData.absorbtionFactor = 0;
         this.physicsData.sides = 1;
-        this.damagePerTick = 8
+        this.damagePerTick = 2
         this.physicsData.absorbtionFactor = 0.1;
         this.styleData.color =  this.parent.rootParent.styleData.color;
         this.damageReduction = 0
