@@ -455,15 +455,15 @@ public canchain: boolean
             const a = this.segments[i - 1];
             const b = this.segments[i];
             /*const delta = {
-                x: a.positionData.values.x - b.positionData.values.x,
-                y: a.positionData.values.y - b.positionData.values.y
+                x: a.positionData.values.x - b.positionData.values.x * 1.5,
+                y: a.positionData.values.y - b.positionData.values.y * 1.5
             }*/
-            const delta = new Vector(a.positionData.values.x - b.positionData.values.x, a.positionData.values.y - b.positionData.values.y);
+            const delta = new Vector((a.positionData.values.x - b.positionData.values.x) * 1.5, (a.positionData.values.y - b.positionData.values.y) * 1.5);
             const x = delta.magnitude - Math.max(a.restLength, b.restLength);
       
             let force = delta.unitVector.scale(-this.k * x);
       
-            //if (a.isAffectedByRope) a.addAcceleration(force.angle, force.magnitude, false);
+            if (a.isAffectedByRope) a.addAcceleration(force.angle, force.magnitude, false);
       
             force = force.scale(-1);
 
