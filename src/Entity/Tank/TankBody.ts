@@ -456,11 +456,11 @@ public canchain: boolean
                 y: a.positionData.values.y - b.positionData.values.y
             }*/
             const delta = new Vector(b.positionData.values.x - a.positionData.values.x, b.positionData.values.y - a.positionData.values.y);
-            const x = delta.magnitude - Math.max(b.restLength, a.restLength);
+            const x = delta.magnitude * 2 - Math.max(b.restLength * 0.5, a.restLength * 0.5);
       
             let force = delta.unitVector.scale(-this.k * x);
       
-            if (b.isAffectedByRope) b.addAcceleration(force.angle* 1.5, force.magnitude, false);
+            if (b.isAffectedByRope) b.addAcceleration(force.angle, force.magnitude, false);
       
             force = force.scale(-1);
 
