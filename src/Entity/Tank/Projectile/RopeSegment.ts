@@ -41,7 +41,7 @@ export default class RopeSegment extends LivingEntity {
         this.relationsData.values.owner =  this.parent;
         this.positionData.x = this.parent.positionData.x;
         this.positionData.y = this.parent.positionData.y;
-        if(this.IsBig == true){
+        if(this.IsBig){
         this.physicsData.size = this.parent.physicsData.size
         }else{
         this.physicsData.size = this.parent.physicsData.size/3;}
