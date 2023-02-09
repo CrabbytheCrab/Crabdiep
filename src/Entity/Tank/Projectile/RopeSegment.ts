@@ -42,13 +42,17 @@ export default class RopeSegment extends LivingEntity {
         this.positionData.x = this.parent.positionData.x;
         this.positionData.y = this.parent.positionData.y;
         if(this.IsBig){
+        this.physicsData.pushFactor = 10;
+                this.physicsData.sides = 6;    
+                    this.damagePerTick = 10
         this.physicsData.size = this.parent.physicsData.size
         }else{
-        this.physicsData.size = this.parent.physicsData.size/3;}
-        this.physicsData.pushFactor = 3;
-        this.physicsData.absorbtionFactor = 0;
-        this.physicsData.sides = 6;
-        this.damagePerTick = 8
+                    this.physicsData.pushFactor = 4,
+        this.physicsData.sides = 1
+        this.physicsData.size = this.parent.physicsData.size/8;
+                this.damagePerTick = 2
+        }
+        this.physicsData.absorbtionFactor = 0.1;
         this.styleData.color =  this.parent.rootParent.styleData.color;
         this.damageReduction = 0
         this.physicsData.flags |= PhysicsFlags.noOwnTeamCollision | PhysicsFlags.canEscapeArena;
@@ -79,10 +83,17 @@ export default class RopeSegment extends LivingEntity {
         //Math.atan2(delta.y, delta.x)
            // this.parent.destroy()
         }
-        if(this.IsBig == true){
+        if(this.IsBig){
+        this.physicsData.pushFactor = 10;
+                this.physicsData.sides = 6;    
+                    this.damagePerTick = 10
         this.physicsData.size = this.parent.physicsData.size
         }else{
-        this.physicsData.size = this.parent.physicsData.size/3;}
+                    this.physicsData.pushFactor = 4,
+        this.physicsData.sides = 0
+        this.physicsData.size = this.parent.physicsData.size/8;
+                this.damagePerTick = 2
+        }
         super.tick(tick);
     }
 }
