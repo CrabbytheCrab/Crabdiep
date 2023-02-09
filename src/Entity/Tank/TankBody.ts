@@ -461,7 +461,7 @@ public canchain: boolean
             const delta = new Vector(a.positionData.values.x - b.positionData.values.x, a.positionData.values.y - b.positionData.values.y);
             const x = delta.magnitude - Math.max(a.restLength, b.restLength);
       
-            let force = delta.unitVector.scale(-this.k -  delta.magnitud);
+            let force = delta.unitVector.scale(-this.k -  delta.magnitude);
       
             if (a.isAffectedByRope) a.addAcceleration(force.angle, force.magnitude, false);
       
