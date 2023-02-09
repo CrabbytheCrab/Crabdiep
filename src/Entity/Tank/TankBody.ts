@@ -339,7 +339,7 @@ public canchain: boolean
            ropeSegment.styleData.color = Color.Border;
            // ropeSegment.relationsData.team = this.relationsData.team;
             ropeSegment.relationsData.owner = this
-                if(i == 8){
+                if(i == 7){
                     ropeSegment.IsBig = true
                 }
            this.segments.push(ropeSegment);}
@@ -459,7 +459,7 @@ public canchain: boolean
                 y: a.positionData.values.y - b.positionData.values.y
             }*/
             const delta = new Vector(a.positionData.values.x - b.positionData.values.x, a.positionData.values.y - b.positionData.values.y);
-            const x = delta.magnitude - Math.max(b.restLength, a.restLength);
+            const x = delta.magnitude - Math.max(a.restLength, b.restLength);
       
             let force = delta.unitVector.scale(-this.k * x);
       
