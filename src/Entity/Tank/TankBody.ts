@@ -96,7 +96,7 @@ public canchain: boolean
         this.length = 8;
         this.canchain = true
         this.segments = [this];
-        this.k = 0.8;
+        this.k = 0.5;
         this.physicsData.values.size = 50;
         this.physicsData.values.sides = 1;
         this.styleData.values.color = Color.Tank;
@@ -459,7 +459,7 @@ public canchain: boolean
                 y: a.positionData.values.y - b.positionData.values.y * 1.5
             }*/
             const delta = new Vector((a.positionData.values.x - b.positionData.values.x) * 1.5, (a.positionData.values.x - b.positionData.values.y) * 1.5);
-            const x = delta.magnitude + Math.max(a.restLength, b.restLength);
+            const x = delta.magnitude - Math.max(a.restLength, b.restLength);
       
             let force = delta.unitVector.scale(-this.k * x);
       
