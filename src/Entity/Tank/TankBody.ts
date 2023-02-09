@@ -468,7 +468,7 @@ public canchain: boolean
             force = force.scale(-1);
 
             if (b.isAffectedByRope) b.addAcceleration(force.angle, force.magnitude, false);
-            this.addAcceleration(-force.angle, force.magnitude * 0.2, true)
+            //this.addAcceleration(-force.angle, force.magnitude * 0.2, true)
         }
     }
 }
