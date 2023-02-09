@@ -456,7 +456,7 @@ public canchain: boolean
                 y: a.positionData.values.y - b.positionData.values.y
             }*/
             const delta = new Vector(b.positionData.values.x - a.positionData.values.x, b.positionData.values.y - a.positionData.values.y);
-            const x = delta.magnitude * 2 - Math.max(b.restLength * 0.5, a.restLength * 0.5);
+            const x = delta.magnitude * 5 - Math.max(b.restLength, a.restLength);
       
             let force = delta.unitVector.scale(-this.k * x);
       
