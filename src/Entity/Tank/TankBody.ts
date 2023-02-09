@@ -339,7 +339,7 @@ public canchain: boolean
            ropeSegment.styleData.color = Color.Border;
            // ropeSegment.relationsData.team = this.relationsData.team;
             ropeSegment.relationsData.owner = this
-                if(i == this.length){
+                if(i == 8){
                     ropeSegment.IsBig = true
                 }
            this.segments.push(ropeSegment);}
@@ -467,7 +467,7 @@ public canchain: boolean
       
             force = force.scale(-1);
 
-            if (b.isAffectedByRope) b.addAcceleration(force.angle, force.magnitude / 2.5, false);
+            if (b.isAffectedByRope) b.addAcceleration(force.angle, force.magnitude * -2.5, false);
         }
     }
 }
