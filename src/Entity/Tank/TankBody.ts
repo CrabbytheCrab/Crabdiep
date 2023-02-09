@@ -449,7 +449,7 @@ public canchain: boolean
 
         for (let i = 1; i < this.segments.length; i++) 
         {
-            const a = this.segments[i + 1];
+            const a = this.segments[i - 1];
             const b = this.segments[i];
             /*const delta = {
                 x: a.positionData.values.x - b.positionData.values.x,
@@ -460,11 +460,11 @@ public canchain: boolean
       
             let force = delta.unitVector.scale(-this.k * x);
       
-            if (a.isAffectedByRope) a.addAcceleration(force.angle, force.magnitude, false);
+            if (b.isAffectedByRope) a.addAcceleration(force.angle, force.magnitude, false);
       
             force = force.scale(-1);
 
-            if (b.isAffectedByRope) b.addAcceleration(force.angle, force.magnitude, false);
+            if (a.isAffectedByRope) b.addAcceleration(force.angle, force.magnitude, false);
         }
     }
 }
