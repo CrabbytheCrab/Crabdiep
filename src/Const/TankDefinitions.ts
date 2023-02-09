@@ -2292,7 +2292,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Trap Guard",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [54,57,61,63,118,127],
+        "upgrades": [54,57,61,63,118,187,127],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -14996,7 +14996,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Split Shot",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [58,34, 66, 50, 133],
+        "upgrades": [58,34, 66, 50,187, 133],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -21770,7 +21770,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Twin Trapper",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [82, 184, 81, 185],
+        "upgrades": [82, 184, 81,187, 185],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -22102,6 +22102,175 @@ const TankDefinitions = JSON.parse(`[
             },
             {
                 "name": "Trap Speed",
+                "max": 7
+            },
+            {
+                "name": "Body Damage",
+                "max": 7
+            },
+            {
+                "name": "Max Health",
+                "max": 7
+            },
+            {
+                "name": "Health Regen",
+                "max": 7
+            }
+        ]
+    },
+    {
+        "id": 187,
+        "name": "Bunker",
+        "upgradeMessage": "",
+        "levelRequirement": 45,
+        "upgrades": [],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 1,
+        "absorbtionFactor": 1,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": null,
+        "postAddon": null,
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle": 0.6981317007977318,
+                "offset": 0,
+                "size": 71,
+                "width": 29.4,
+                "delay": 0.6666,
+                "reload": 3,
+                "recoil": 0.1,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": "trapLauncher",
+                "bullet": {
+                    "type": "trap",
+                    "sizeRatio": 0.8,
+                    "health": 1.5,
+                    "damage": 0.75,
+                    "speed": 1.5,
+                    "scatterRate": 0.3,
+                    "lifeLength": 2.5,
+                    "absorbtionFactor": 1
+                }
+            },
+            {
+                "angle": -0.6981317007977318,
+                "offset": 0,
+                "size": 71,
+                "width": 29.4,
+                "delay": 0.6666,
+                "reload": 3,
+                "recoil": 0.1,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": "trapLauncher",
+                "bullet": {
+                    "type": "trap",
+                    "sizeRatio": 0.8,
+                    "health": 1.5,
+                    "damage": 0.75,
+                    "speed": 1.5,
+                    "scatterRate": 0.3,
+                    "lifeLength": 2.5,
+                    "absorbtionFactor": 1
+                }
+            },
+            {
+                "angle": 0.3490658503988659,
+                "offset": 0,
+                "size": 83,
+                "width": 29.4,
+                "delay": 0.3333,
+                "reload": 3,
+                "recoil": 0.1,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": "trapLauncher",
+                "bullet": {
+                    "type": "trap",
+                    "sizeRatio": 0.8,
+                    "health": 1.5,
+                    "damage": 0.75,
+                    "speed": 1.5,
+                    "scatterRate": 0.3,
+                    "lifeLength": 2.5,
+                    "absorbtionFactor": 1
+                }
+            },
+            {
+                "angle": -0.3490658503988659,
+                "offset": 0.3333,
+                "size": 83,
+                "width": 29.4,
+                "delay": 0.3333,
+                "reload": 3,
+                "recoil": 0.1,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": "trapLauncher",
+                "bullet": {
+                    "type": "trap",
+                    "sizeRatio": 0.8,
+                    "health": 1.5,
+                    "damage": 0.75,
+                    "speed": 1.5,
+                    "scatterRate": 0.3,
+                    "lifeLength": 2.5,
+                    "absorbtionFactor": 1
+                }
+            },
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 95,
+                "width": 42,
+                "delay": 0,
+                "reload": 1.5,
+                "recoil": 0.1,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": null,
+                "bullet": {
+                    "type": "bullet",
+                    "sizeRatio": 1,
+                    "health": 1,
+                    "damage": 1,
+                    "speed": 1,
+                    "scatterRate": 1,
+                    "lifeLength": 1,
+                    "absorbtionFactor": 1
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 7
+            },
+            {
+                "name": "Reload",
+                "max": 7
+            },
+            {
+                "name": "Weapon Damage",
+                "max": 7
+            },
+            {
+                "name": "Weapon Penetration",
+                "max": 7
+            },
+            {
+                "name": "Weapon Speed",
                 "max": 7
             },
             {
