@@ -30,16 +30,21 @@ import LivingEntity from "../../Live";
 export default class RopeSegment extends LivingEntity {
     /** Number of ticks before the trap cant collide with its own team. */
     protected collisionEnd = 0;
+    public IsBig: boolean;
     public parent: TankBody;
 
     public constructor(owner: TankBody) {
         super(owner.game);
         this.parent = owner;
+        this.IsBig = false
         this.relationsData.owner = this.parent;
         this.relationsData.values.owner =  this.parent;
         this.positionData.x = this.parent.positionData.x;
         this.positionData.y = this.parent.positionData.y;
-        this.physicsData.size = this.parent.physicsData.size/3;
+        if(this.IsBig == true){
+        this.physicsData.size = this.parent.physicsData.size
+        }else{
+        this.physicsData.size = this.parent.physicsData.size/3;}
         this.physicsData.pushFactor = 3;
         this.physicsData.absorbtionFactor = 0;
         this.physicsData.sides = 6;
@@ -74,7 +79,10 @@ export default class RopeSegment extends LivingEntity {
         //Math.atan2(delta.y, delta.x)
            // this.parent.destroy()
         }
-        this.physicsData.size = this.parent.physicsData.size/3;
+        if(this.IsBig == true){
+        this.physicsData.size = this.parent.physicsData.size
+        }else{
+        this.physicsData.size = this.parent.physicsData.size/3;}
         super.tick(tick);
     }
 }
