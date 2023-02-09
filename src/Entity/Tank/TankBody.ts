@@ -90,7 +90,7 @@ public canchain: boolean
         this.cameraEntity = camera;
         this.inputs = inputs;
         this.isAffectedByRope = false;
-        this.length = 25;
+        this.length = 14;
         this.canchain = true
         this.segments = [this];
         this.k = 0.4;
@@ -339,7 +339,7 @@ public canchain: boolean
            ropeSegment.styleData.color = Color.Border;
            // ropeSegment.relationsData.team = this.relationsData.team;
             ropeSegment.relationsData.owner = this
-                if(i == 24){
+                if(i == 13){
                     ropeSegment.IsBig = true
                 }
            this.segments.push(ropeSegment);}
@@ -463,11 +463,11 @@ public canchain: boolean
       
             let force = delta.unitVector.scale(-this.k * x);
       
-            if (a.isAffectedByRope) a.addAcceleration(force.angle, force.magnitude * 1.25, false);
+            if (a.isAffectedByRope) a.addAcceleration(force.angle, force.magnitude, false);
       
             force = force.scale(-1);
 
-            if (b.isAffectedByRope) b.addAcceleration(force.angle, force.magnitude, false);
+            if (b.isAffectedByRope) b.addAcceleration(force.angle, force.magnitude * 1.5, false);
         }
     }
 }
