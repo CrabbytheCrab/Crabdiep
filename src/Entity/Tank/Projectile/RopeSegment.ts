@@ -24,6 +24,7 @@ import { PI2 } from "../../../util";
 import ObjectEntity from "../../Object";
 import { GuardObject } from "../Addons";
 import LivingEntity from "../../Live";
+import { Inputs } from "../../AI";
 
 /**
  * The trap class represents the trap (projectile) entity in diep.
@@ -34,19 +35,19 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
     public IsBig: boolean;
     public parent: TankBody;
     public sizeFactor: number;
-    /** The camera entity (used as team) of the rocket. */
     public cameraEntity: Entity;
     /** The reload time of the rocket's barrel. */
     public reloadTime = 1;
     /** The inputs for when to shoot or not. (Rocket) */
-    public inputs = new Inputs();
+    public inputs: Inputs;
     public constructor(owner: TankBody) {
         super(owner.game);
         this.parent = owner;
         this.IsBig = false
-        this.cameraEntity = tank.cameraEntity;
+        this.cameraEntity = this.parent.cameraEntity;
         this.sizeFactor = this.physicsData.values.size / 50;
         this.relationsData.owner = this.parent;
+        this.inputs = new Inputs()
         this.relationsData.values.owner =  this.parent;
         this.positionData.x = this.parent.positionData.x;
         this.positionData.y = this.parent.positionData.y;
