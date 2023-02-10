@@ -22,6 +22,7 @@ import TankBody, { BarrelBase } from "../TankBody";
 import { DevTank } from "../../../Const/DevTankDefinitions";
 import { PI2 } from "../../../util";
 import ObjectEntity from "../../Object";
+import { GuardObject } from "../Addons";
 import LivingEntity from "../../Live";
 
 /**
@@ -46,6 +47,18 @@ export default class RopeSegment extends LivingEntity {
                 this.physicsData.sides = 6;    
                     this.damagePerTick = 10
         this.physicsData.size = this.parent.physicsData.size * 0.625
+            
+        const rotator = new GuardObject(this.game, this, 0, 0.75, 0, 0 )  as GuardObject;
+        rotator.styleData.values.color =  this.parent.rootParent.styleData.color
+        rotator.physicsData.values.sides = 5;
+
+        const offsetRatio = 0;
+        const size = this.physicsData.values.size;
+        rotator.relationsData.values.team = this.relationsData.values.team
+        rotator.physicsData.values.size =  this.physicsData.values.size;
+        rotator.positionData.values.x = offsetRatio * size;
+        rotator.positionData.values.angle = 0;
+        rotator.styleData.zIndex += 2;
         }else{
         this.physicsData.size = this.parent.physicsData.size/8;
         }
