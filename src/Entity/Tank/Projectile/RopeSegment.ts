@@ -91,7 +91,6 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
             const offset = Math.atan2(delta.y, delta.x) + Math.PI / 2
             delta.x = this.parent.positionData.values.x + Math.cos(offset) * this.parent.physicsData.values.size * 0.5 - this.positionData.values.x;
             delta.y = this.parent.positionData.values.y + Math.sin(offset) * this.parent.physicsData.values.size * 0.5 - this.positionData.values.y;
-           this.styleData.color =  Color.Border
        // this.relationsData.owner = this.parent;
         //this.relationsData.team = this.parent.relationsData.team;
         this.positionData.angle += 0.1
@@ -100,6 +99,7 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
         }
         if(this.IsBig){
             if(this.CanSpawn){
+           this.styleData.color =  Color.Border
                         this.styleData.zIndex = this.parent.styleData.zIndex - 15 + this.seg
                                    const rotator = new GuardObject(this.game, this, 1, 1.75, 0, 0 )  as GuardObject;
         rotator.styleData.values.color =  this.parent.rootParent.styleData.color
@@ -110,6 +110,7 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
        rotator.physicsData.size =  this.parent.physicsData.size;
        //rotator.positionData.values.x = offsetRatio * size;
         rotator.positionData.values.angle = 0;
+        rotator.styleData.color =  Color.Barrel
         rotator.styleData.zIndex = this.parent.styleData.zIndex - 14 + this.seg
         rotator.styleData.flags |= StyleFlags.showsAboveParent;
                 this.CanSpawn = false
@@ -120,6 +121,7 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
         this.physicsData.size = this.parent.physicsData.size
         }else{
                         if(this.CanSpawn){
+                                       this.styleData.color =  Color.Barrel
                         this.styleData.zIndex = this.parent.styleData.zIndex - 15 + this.seg
                                             this.CanSpawn = false
             }
