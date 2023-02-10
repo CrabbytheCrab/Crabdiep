@@ -22,30 +22,22 @@ import TankBody, { BarrelBase } from "../TankBody";
 import { DevTank } from "../../../Const/DevTankDefinitions";
 import { PI2 } from "../../../util";
 import ObjectEntity from "../../Object";
-import { GuardObject } from "../Addons";
+import { OverdriveAddon } from "../Addons";
 import LivingEntity from "../../Live";
 
 /**
  * The trap class represents the trap (projectile) entity in diep.
  */
-export default class RopeSegment extends LivingEntity implements BarrelBase {
+export default class RopeSegment extends LivingEntity {
     /** Number of ticks before the trap cant collide with its own team. */
     protected collisionEnd = 0;
     public IsBig: boolean;
     public parent: TankBody;
-    public sizeFactor: number;
-    /** The camera entity (used as team) of the rocket. */
-    public cameraEntity: Entity;
-    /** The reload time of the rocket's barrel. */
-    public reloadTime = 1;
-    /** The inputs for when to shoot or not. (Rocket) */
-    public inputs = new Inputs();
+
     public constructor(owner: TankBody) {
         super(owner.game);
         this.parent = owner;
         this.IsBig = false
-        this.cameraEntity = tank.cameraEntity;
-        this.sizeFactor = this.physicsData.values.size / 50;
         this.relationsData.owner = this.parent;
         this.relationsData.values.owner =  this.parent;
         this.positionData.x = this.parent.positionData.x;
@@ -56,8 +48,9 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
                     this.damagePerTick = 10
         this.physicsData.size = this.parent.physicsData.size * 0.625
             
-        const rotator = new GuardObject(this.game, this, 0, 0.75, 0, 0 )  as GuardObject;
+        const rotator = new OverdriveAddon (1, this)  as OverdriveAddon;
         rotator.styleData.values.color =  this.parent.rootParent.styleData.color
+        rotator.physicsData.values.sides = 5;
 
         const offsetRatio = 0;
         const size = this.physicsData.values.size;
