@@ -93,7 +93,7 @@ public canchain: boolean
         this.length = 9;
         this.canchain = true
         this.segments = [this];
-        this.k = 0.4;
+        this.k = 0.25;
         this.physicsData.values.size = 50;
         this.physicsData.values.sides = 1;
         this.styleData.values.color = Color.Tank;
@@ -466,7 +466,7 @@ public canchain: boolean
       
             let force = delta.unitVector.scale(-this.k * x);
       
-            if (a.isAffectedByRope) a.addAcceleration(force.angle, force.magnitude, false);
+            if (a.isAffectedByRope) a.addAcceleration(force.angle, force.magnitude * 1.5, false);
       
             force = force.scale(-1);
 
