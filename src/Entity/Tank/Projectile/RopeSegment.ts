@@ -47,7 +47,6 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
         this.parent = owner;
         this.IsBig = false
         this.sizeFactor = this.physicsData.values.size / 50;
-        this.styleData.values.zIndex -= 5
         this.relationsData.owner = this.parent;
         this.inputs = new Inputs()
         this.relationsData.values.owner =  this.parent;
@@ -99,7 +98,8 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
         }
         if(this.IsBig){
             if(this.CanSpawn){
-                                   const rotator = new GuardObject(this.game, this, 2, 50.75, 0, 0 )  as GuardObject;
+                        this.styleData.values.zIndex -= 5
+                                   const rotator = new GuardObject(this.game, this, 2, 70.75, 0, 0 )  as GuardObject;
         rotator.styleData.values.color =  this.parent.rootParent.styleData.color
 
         const offsetRatio = 0;
@@ -109,7 +109,7 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
        //rotator.positionData.values.x = offsetRatio * size;
         rotator.positionData.values.angle = 0;
         //rotator.styleData.values.zIndex += 5;
-        rotator.styleData.flags |= StyleFlags.showsAboveParent;
+        //rotator.styleData.flags |= StyleFlags.showsAboveParent;
                 this.CanSpawn = false
             }
         this.physicsData.pushFactor = 10;
@@ -117,6 +117,10 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
                     this.damagePerTick = 10
         this.physicsData.size = this.parent.physicsData.size
         }else{
+                        if(this.CanSpawn){
+                        this.styleData.values.zIndex -= 5
+                                            this.CanSpawn = false
+            }
         this.physicsData.size = this.parent.physicsData.size/8;
         }
         super.tick(tick);
