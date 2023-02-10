@@ -99,7 +99,7 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
         if(this.IsBig){
             if(this.CanSpawn){
                 this.CanSpawn = false
-                        const rotator = new GuardObject(this.game, this, 0, 0.75, 0, 0 )  as GuardObject;
+                        const rotator = new GuardObject(this.game, this, 0, 0.75, 2, 0 )  as GuardObject;
         rotator.styleData.values.color =  this.parent.rootParent.styleData.color
 
         const offsetRatio = 0;
