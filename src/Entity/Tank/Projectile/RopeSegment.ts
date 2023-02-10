@@ -132,7 +132,7 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
         }else{
                         if(this.CanSpawn){
                                        this.styleData.color =  Color.Barrel
-                        this.styleData.zIndex = this.parent.styleData.zIndex - 15 + this.seg
+                        this.styleData.zIndex = this.parent.styleData.zIndex - 25 + this.seg
                                             this.CanSpawn = false
             }
         this.physicsData.size = this.parent.physicsData.size/8;
