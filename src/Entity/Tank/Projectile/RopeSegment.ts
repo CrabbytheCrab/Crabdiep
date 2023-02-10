@@ -24,7 +24,7 @@ import { PI2 } from "../../../util";
 import ObjectEntity from "../../Object";
 import { GuardObject } from "../Addons";
 import LivingEntity from "../../Live";
-import Vector from "../../Physics/Vector";
+import Vector from "../../../Physics/Vector";
 import { Inputs } from "../../AI";
 
 /**
