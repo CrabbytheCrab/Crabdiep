@@ -33,6 +33,7 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
     /** Number of ticks before the trap cant collide with its own team. */
     protected collisionEnd = 0;
     public IsBig: boolean;
+    public CanSpawn: boolean;
     public parent: TankBody;
     public sizeFactor: number;
     public cameraEntity = this;
@@ -42,6 +43,7 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
     public inputs: Inputs;
     public constructor(owner: TankBody) {
         super(owner.game);
+        this.CanSpawn = true
         this.parent = owner;
         this.IsBig = false
         this.sizeFactor = this.physicsData.values.size / 50;
@@ -56,16 +58,6 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
                     this.damagePerTick = 10
         this.physicsData.size = this.parent.physicsData.size * 0.625
             
-        const rotator = new GuardObject(this.game, this, 0, 0.75, 0, 0 )  as GuardObject;
-        rotator.styleData.values.color =  this.parent.rootParent.styleData.color
-
-        const offsetRatio = 0;
-        const size = this.physicsData.values.size;
-        rotator.relationsData.values.team = this.relationsData.values.team
-        rotator.physicsData.values.size =  this.physicsData.values.size;
-        rotator.positionData.values.x = offsetRatio * size;
-        rotator.positionData.values.angle = 0;
-        rotator.styleData.zIndex += 2;
         }else{
         this.physicsData.size = this.parent.physicsData.size/8;
         }
@@ -105,6 +97,19 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
            // this.parent.destroy()
         }
         if(this.IsBig){
+            if(this.CanSpawn){
+                this.Canspawn = false
+                        const rotator = new GuardObject(this.game, this, 0, 0.75, 0, 0 )  as GuardObject;
+        rotator.styleData.values.color =  this.parent.rootParent.styleData.color
+
+        const offsetRatio = 0;
+        const size = this.physicsData.values.size;
+        rotator.relationsData.values.team = this.relationsData.values.team
+        rotator.physicsData.values.size =  this.physicsData.values.size;
+        rotator.positionData.values.x = offsetRatio * size;
+        rotator.positionData.values.angle = 0;
+        rotator.styleData.zIndex += 2;
+            }
         this.physicsData.pushFactor = 10;
                 this.physicsData.sides = 6;    
                     this.damagePerTick = 10
