@@ -44,7 +44,7 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
         super(owner.game);
         this.parent = owner;
         this.IsBig = false
-        this.cameraEntity = this.parent.cameraEntity;
+        this.cameraEntity = this.parent;
         this.sizeFactor = this.physicsData.values.size / 50;
         this.relationsData.owner = this.parent;
         this.inputs = new Inputs()
