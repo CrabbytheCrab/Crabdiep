@@ -121,7 +121,7 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
                     this.damagePerTick = 10
             if(this.parent.inputs.attemptingShot()){
             this.velocity.set(new Vector(0,0));
-                this.magnitude = 0
+                this.velocity.magnitude = 0
                                        this.styleData.color =  Color.Neutral
             }else{
                  this.styleData.color =  Color.Border
