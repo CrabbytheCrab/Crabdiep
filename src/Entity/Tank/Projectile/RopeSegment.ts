@@ -125,7 +125,7 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
                                        this.styleData.color =  this.parent.styleData.color
             }else{
                 this.isAffectedByRope = true
-                 this.styleData.color =  Color.Barrel
+                 this.styleData.color =  Color.Border
             }
         this.physicsData.size = this.parent.physicsData.size
         }else{
