@@ -336,11 +336,12 @@ public canchain: boolean
             this.canchain = false
             for (let i = 0; i < this.length; i++){
             const ropeSegment = new RopeSegment(this);
-           ropeSegment.styleData.color = Color.Border;
+           ropeSegment.styleData.color = Color.Barrel;
            // ropeSegment.relationsData.team = this.relationsData.team;
             ropeSegment.relationsData.owner = this
                 ropeSegment.seg = i
                 if(i == 8){
+                    ropeSegment.styleData.color = Color.Border;
                     ropeSegment.IsBig = true
                 }
            this.segments.push(ropeSegment);}
