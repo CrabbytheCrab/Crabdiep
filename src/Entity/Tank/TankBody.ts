@@ -93,7 +93,7 @@ public canchain: boolean
         this.length = 9;
         this.canchain = true
         this.segments = [this];
-        this.k = 0.15;
+        this.k = 0.025;
         this.physicsData.values.size = 50;
         this.physicsData.values.sides = 1;
         this.styleData.values.color = Color.Tank;
