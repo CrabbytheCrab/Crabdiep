@@ -122,10 +122,10 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
             if(this.parent.inputs.attemptingShot()){
                 this.isAffectedByRope = false
             //this.velocity.set(new Vector(0,0));
-                                       rotator.styleData.color =  this.parent.styleData.color
+                                       this.styleData.color =  this.parent.styleData.color
             }else{
                 this.isAffectedByRope = true
-                 rotator.styleData.color =  Color.Barrel
+                 this.styleData.color =  Color.Barrel
             }
         this.physicsData.size = this.parent.physicsData.size
         }else{
