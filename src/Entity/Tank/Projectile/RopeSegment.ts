@@ -105,8 +105,8 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
         const offsetRatio = 0;
         const size = this.physicsData.values.size;
         rotator.relationsData.values.team = this.relationsData.values.team
-        //rotator.physicsData.values.size =  this.physicsData.values.size * 0.5;
-        //rotator.positionData.values.x = offsetRatio * size;
+       rotator.physicsData.values.size =  this.physicsData.values.size * 0.5;
+       rotator.positionData.values.x = offsetRatio * size;
         rotator.positionData.values.angle = 0;
         rotator.styleData.zIndex =  this.styleData.zIndex + 2;
         rotator.styleData.flags |= StyleFlags.showsAboveParent;
