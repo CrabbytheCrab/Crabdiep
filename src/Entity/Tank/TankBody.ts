@@ -466,11 +466,17 @@ public canchain: boolean
       
             let force = delta.unitVector.scale(-this.k * x);
       
-            if (a.isAffectedByRope) a.addAcceleration(force.angle, force.magnitude * 2, false);
+            if (a.isAffectedByRope){
+                 if(this.inputs.attemptingShot()){
+                a.addAcceleration(force.angle, force.magnitude, false);
+                 }else{
+                     a.addAcceleration(force.angle, force.magnitude * 1.5, false);
+                 }
+            }
       
             force = force.scale(-1);
 
-            if (b.isAffectedByRope) b.addAcceleration(force.angle, force.magnitude, false);
+            if (b.isAffectedByRope) b.addAcceleration(force.angle, force.magnitude * 1.25, false);
             //this.addAcceleration(-force.angle, force.magnitude * 0.2, true)
         }
     }
