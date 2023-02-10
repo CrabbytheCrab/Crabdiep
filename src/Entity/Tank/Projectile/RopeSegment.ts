@@ -36,6 +36,7 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
     public CanSpawn: boolean;
     public parent: TankBody;
     public sizeFactor: number;
+    public seg: number;
     public cameraEntity = this;
     /** The reload time of the rocket's barrel. */
     public reloadTime = 1;
@@ -45,6 +46,7 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
         super(owner.game);
         this.CanSpawn = true
         this.parent = owner;
+        this.seg= 0
         this.IsBig = false
         this.sizeFactor = this.physicsData.values.size / 50;
         this.relationsData.owner = this.parent;
@@ -98,7 +100,7 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
         }
         if(this.IsBig){
             if(this.CanSpawn){
-                        this.styleData.zIndex -= 10
+                        this.styleData.zIndex = this.parent.styleData.zIndex - 1 - this.seg
                                    const rotator = new GuardObject(this.game, this, 1, 1, 0, 0 )  as GuardObject;
         rotator.styleData.values.color =  this.parent.rootParent.styleData.color
 
@@ -108,7 +110,7 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
        rotator.physicsData.values.size =  this.physicsData.values.size * 0.8;
        //rotator.positionData.values.x = offsetRatio * size;
         rotator.positionData.values.angle = 0;
-        //rotator.styleData.zIndex += 5;
+        rotator.styleData.zIndex = this.parent.styleData.zIndex - this.seg
         rotator.styleData.flags |= StyleFlags.showsAboveParent;
                 this.CanSpawn = false
             }
@@ -118,7 +120,7 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
         this.physicsData.size = this.parent.physicsData.size
         }else{
                         if(this.CanSpawn){
-                        this.styleData.zIndex -= 10
+                        this.styleData.zIndex = this.parent.styleData.zIndex - 1 - this.seg
                                             this.CanSpawn = false
             }
         this.physicsData.size = this.parent.physicsData.size/8;
