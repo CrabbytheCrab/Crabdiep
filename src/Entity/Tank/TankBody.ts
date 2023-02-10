@@ -333,6 +333,7 @@ public canchain: boolean
         this.positionData.angle = Math.atan2(this.inputs.mouse.y - this.positionData.values.y, this.inputs.mouse.x - this.positionData.values.x);
         if(this.canchain == true && this.definition.flags.canChain)
         {
+            this.isAffectedByRope = true
             this.canchain = false
             for (let i = 0; i < this.length; i++){
             const ropeSegment = new RopeSegment(this);
@@ -348,7 +349,7 @@ public canchain: boolean
         }
         if (this._currentTank !== Tank.Chainer){
             this.canchain = true
-
+            this.isAffectedByRope = false
             this.segments.forEach(segment => 
                 {
                     if (segment instanceof RopeSegment) segment.destroy();
