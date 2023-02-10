@@ -339,6 +339,7 @@ public canchain: boolean
            ropeSegment.styleData.color = Color.Border;
            // ropeSegment.relationsData.team = this.relationsData.team;
             ropeSegment.relationsData.owner = this
+                ropeSegment.seg = i
                 if(i == 8){
                     ropeSegment.IsBig = true
                 }
