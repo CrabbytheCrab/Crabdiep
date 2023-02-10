@@ -98,18 +98,18 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
         }
         if(this.IsBig){
             if(this.CanSpawn){
-                        this.styleData.values.zIndex -= 5
-                                   const rotator = new GuardObject(this.game, this, 2, 70.75, 0, 0 )  as GuardObject;
+                        this.styleData.zIndex -= 10
+                                   const rotator = new GuardObject(this.game, this, 1, 20.75, 0, 0 )  as GuardObject;
         rotator.styleData.values.color =  this.parent.rootParent.styleData.color
 
         const offsetRatio = 0;
         const size = this.physicsData.values.size;
         rotator.relationsData.values.team = this.relationsData.values.team
-       //rotator.physicsData.values.size =  this.physicsData.values.size * 0.5;
+       rotator.physicsData.values.size =  this.physicsData.values.size * 0.8;
        //rotator.positionData.values.x = offsetRatio * size;
         rotator.positionData.values.angle = 0;
-        //rotator.styleData.values.zIndex += 5;
-        //rotator.styleData.flags |= StyleFlags.showsAboveParent;
+        //rotator.styleData.zIndex += 5;
+        rotator.styleData.flags |= StyleFlags.showsAboveParent;
                 this.CanSpawn = false
             }
         this.physicsData.pushFactor = 10;
@@ -118,7 +118,7 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
         this.physicsData.size = this.parent.physicsData.size
         }else{
                         if(this.CanSpawn){
-                        this.styleData.values.zIndex -= 5
+                        this.styleData.zIndex -= 10
                                             this.CanSpawn = false
             }
         this.physicsData.size = this.parent.physicsData.size/8;
