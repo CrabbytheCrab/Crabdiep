@@ -35,7 +35,7 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
     public IsBig: boolean;
     public parent: TankBody;
     public sizeFactor: number;
-    public cameraEntity: Entity;
+    public cameraEntity = this;
     /** The reload time of the rocket's barrel. */
     public reloadTime = 1;
     /** The inputs for when to shoot or not. (Rocket) */
@@ -44,7 +44,6 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
         super(owner.game);
         this.parent = owner;
         this.IsBig = false
-        this.cameraEntity = this.parent;
         this.sizeFactor = this.physicsData.values.size / 50;
         this.relationsData.owner = this.parent;
         this.inputs = new Inputs()
