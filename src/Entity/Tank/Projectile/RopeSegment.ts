@@ -58,7 +58,7 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
         this.physicsData.pushFactor = 10;
                 this.physicsData.sides = 6;    
                     this.damagePerTick = 10
-        this.physicsData.size = this.parent.physicsData.size * 0.625
+        this.physicsData.size = this.parent.physicsData.size * 0.5
             
         }else{
         this.physicsData.size = this.parent.physicsData.size/8;
@@ -101,7 +101,7 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
         if(this.IsBig){
             if(this.CanSpawn){
                         this.styleData.zIndex = this.parent.styleData.zIndex - 15 + this.seg
-                                   const rotator = new GuardObject(this.game, this, 1, 1, 0, 0 )  as GuardObject;
+                                   const rotator = new GuardObject(this.game, this, 1, 1.25, 0, 0 )  as GuardObject;
         rotator.styleData.values.color =  this.parent.rootParent.styleData.color
 
         const offsetRatio = 0;
