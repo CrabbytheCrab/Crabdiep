@@ -469,7 +469,7 @@ public canchain: boolean
             if (a.isAffectedByRope){
                 if(a == this){
                  if(this.inputs.attemptingShot()){
-                    a.addAcceleration(force.angle, force.magnitude, false);
+                    a.addAcceleration(force.angle, force.magnitude * 0.5, false);
                      }else{
                          a.addAcceleration(force.angle, force.magnitude * 1.5, false);
                  }
