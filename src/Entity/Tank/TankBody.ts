@@ -341,7 +341,6 @@ public canchain: boolean
             ropeSegment.relationsData.owner = this
                 ropeSegment.seg = i
                 if(i == 12){
-                    ropeSegment.styleData.color = Color.Border;
                     ropeSegment.IsBig = true
                 }
            this.segments.push(ropeSegment);}
