@@ -102,22 +102,18 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
             if(this.CanSpawn){
            this.styleData.color =  Color.Border
                         this.styleData.zIndex = this.parent.styleData.zIndex - 15 + this.seg
-                                   const rotator = new GuardObject(this.game, this, 1, 1.5, 0, 0 )  as GuardObject;
+                                   const rotator = new GuardObject(this.game, this, 6, 1.15, 0, 0 )  as GuardObject;
         rotator.styleData.values.color =  this.parent.rootParent.styleData.color
 
         const offsetRatio = 0;
         const size = this.physicsData.values.size;
         rotator.relationsData.values.team = this.relationsData.values.team
-       rotator.physicsData.size =  this.parent.physicsData.size;
        //rotator.positionData.values.x = offsetRatio * size;
         rotator.positionData.values.angle = 0;
-        rotator.styleData.color =  Color.Barrel
-        rotator.styleData.zIndex = this.parent.styleData.zIndex - 14 + this.seg
-        rotator.styleData.flags |= StyleFlags.showsAboveParent;
                 this.CanSpawn = false
             }
         this.physicsData.pushFactor = 10;
-                this.physicsData.sides = 6;    
+                this.physicsData.sides = 0;    
                     this.damagePerTick = 10
             if(this.parent.inputs.attemptingShot()){
                 //this.isAffectedByRope = false
@@ -127,7 +123,7 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
                 this.isAffectedByRope = true
                  this.styleData.color =  Color.Border
             }
-        this.physicsData.size = this.parent.physicsData.size * 0.75
+        this.physicsData.size = this.parent.physicsData.size
         }else{
                         if(this.CanSpawn){
                                        this.styleData.color =  Color.Barrel
