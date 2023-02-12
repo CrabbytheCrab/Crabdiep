@@ -115,14 +115,6 @@ this.styleData.color =  this.parent.rootParent.styleData.color;
             }
         this.physicsData.pushFactor = 10;  
                     this.damagePerTick = 10
-            if(this.parent.inputs.attemptingShot()){
-                //this.isAffectedByRope = false
-            //this.velocity.set(new Vector(0,0));
-                                       //this.styleData.color =  this.parent.styleData.color
-            }else{
-                this.isAffectedByRope = true
-                 this.styleData.color =  Color.Border
-            }
         this.physicsData.size = this.parent.physicsData.size
         }else{
                         if(this.CanSpawn){
