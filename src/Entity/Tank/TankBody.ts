@@ -333,7 +333,6 @@ public canchain: boolean
         this.positionData.angle = Math.atan2(this.inputs.mouse.y - this.positionData.values.y, this.inputs.mouse.x - this.positionData.values.x);
         if(this.canchain == true && this.definition.flags.canChain)
         {
-            this.isAffectedByRope = true
             this.canchain = false
             for (let i = 0; i < this.length; i++){
             const ropeSegment = new RopeSegment(this);
@@ -466,22 +465,11 @@ public canchain: boolean
       
             let force = delta.unitVector.scale(-this.k * x);
       
-            if (a.isAffectedByRope){
-                if(a == this){
-                 if(this.inputs.attemptingShot()){
-                    a.addAcceleration(force.angle, force.magnitude * 0.5, false);
-                     }else{
-                         a.addAcceleration(force.angle, force.magnitude * 1.5, false);
-                 }
-               }
-               else{
-                a.addAcceleration(force.angle, force.magnitude, false);
-               }
-            }
+            if (a.isAffectedByRope)a.addAcceleration(force.angle, force.magnitude, false);
       
             force = force.scale(-1);
 
-            if (b.isAffectedByRope) b.addAcceleration(force.angle, force.magnitude * 1.5, false);
+            if (b.isAffectedByRope) b.addAcceleration(force.angle, force.magnitude, false);
             //this.addAcceleration(-force.angle, force.magnitude * 0.2, true)
         }
     }
