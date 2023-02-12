@@ -59,7 +59,7 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
         this.physicsData.pushFactor = 10;
                 this.physicsData.sides = 6;    
                     this.damagePerTick = 10
-        this.physicsData.size = this.parent.physicsData.size * 0.5
+        this.physicsData.size = this.parent.physicsData.size * 0.25
             
         }else{
         this.physicsData.size = this.parent.physicsData.size/8;
@@ -102,7 +102,7 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
             if(this.CanSpawn){
            this.styleData.color =  Color.Border
                         this.styleData.zIndex = this.parent.styleData.zIndex - 15 + this.seg
-                                   const rotator = new GuardObject(this.game, this, 1, 1.75, 0, 0 )  as GuardObject;
+                                   const rotator = new GuardObject(this.game, this, 1, 1.5, 0, 0 )  as GuardObject;
         rotator.styleData.values.color =  this.parent.rootParent.styleData.color
 
         const offsetRatio = 0;
@@ -120,14 +120,14 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
                 this.physicsData.sides = 6;    
                     this.damagePerTick = 10
             if(this.parent.inputs.attemptingShot()){
-                this.isAffectedByRope = false
+                //this.isAffectedByRope = false
             //this.velocity.set(new Vector(0,0));
-                                       this.styleData.color =  this.parent.styleData.color
+                                       //this.styleData.color =  this.parent.styleData.color
             }else{
                 this.isAffectedByRope = true
                  this.styleData.color =  Color.Border
             }
-        this.physicsData.size = this.parent.physicsData.size
+        this.physicsData.size = this.parent.physicsData.size * 0.75
         }else{
                         if(this.CanSpawn){
                                        this.styleData.color =  Color.Barrel
