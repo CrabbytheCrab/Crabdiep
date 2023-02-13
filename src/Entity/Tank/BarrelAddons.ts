@@ -62,17 +62,17 @@ export class BuilderLauncher extends ObjectEntity {
         //this.positionData.values.angle = Math.PI;
 
         this.physicsData.values.sides = 2;
-        this.physicsData.values.width = barrel.physicsData.values.width;
+        this.physicsData.values.width = barrel.physicsData.values.width/1.75 * 1.27273;
         this.physicsData.values.size = barrel.physicsData.values.width * (20 / 42);
-        this.positionData.values.x = (barrel.physicsData.values.size + this.physicsData.values.size) / 2;
+        this.positionData.values.x = (barrel.physicsData.values.size + this.physicsData.values.size) / 2.5;
     }
 
     public resize() {
         this.styleData.color = this.barrelEntity.styleData.color;
         this.physicsData.sides = 2;
-        this.physicsData.width = this.barrelEntity.physicsData.values.width;
+        this.physicsData.width = this.barrelEntity.physicsData.values.width/1.75 * 1.27273;
         this.physicsData.size = this.barrelEntity.physicsData.values.width * (20 / 42);
-        this.positionData.x = (this.barrelEntity.physicsData.values.size + this.physicsData.values.size) / 2;
+        this.positionData.x = (this.barrelEntity.physicsData.values.size + this.physicsData.values.size) / 2.5;
     }
 
 
