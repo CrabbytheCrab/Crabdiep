@@ -389,7 +389,7 @@ export class Addon {
 
 
     protected createAutoTrapTurrets(count: number) {
-        const rotPerTick = AI.PASSIVE_ROTATION * 2.5;
+        const rotPerTick = AI.PASSIVE_ROTATION * 5;
         const MAX_ANGLE_RANGE = PI2 / 4; // keep within 90º each side
 
         const rotator = this.createGuard(1, .1, 0, rotPerTick) as GuardObject & { turrets: AutoTurret[] };
@@ -402,7 +402,7 @@ export class Addon {
         for (let i = 0; i < count; ++i) {
             const base = new AutoTurret(rotator, AutoTurretTrapDefinition);
             base.influencedByOwnerInputs = true;
-
+            base.baseSize *= 1.125
             const angle = base.ai.inputs.mouse.angle = PI2 * (i / count);
             base.ai.passiveRotation = rotPerTick;
             base.ai.targetFilter = (targetPos) => {
