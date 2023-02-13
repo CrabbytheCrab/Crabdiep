@@ -41,8 +41,8 @@ export default class Trap extends Bullet {
         this.baseSpeed = (barrel.bulletAccel / 2) + 30 - Math.random() * barrel.definition.bullet.scatterRate;
         this.baseAccel = 0;
         this.physicsData.values.sides = bulletDefinition.sides ?? 3;
-        if (this.physicsData.values.flags & PhysicsFlags.noOwnTeamCollision) this.physicsData.values.flags ^= PhysicsFlags.noOwnTeamCollision;
-        //this.physicsData.values.flags |= PhysicsFlags.onlySameOwnerCollision;
+        //if (this.physicsData.values.flags & PhysicsFlags.noOwnTeamCollision) this.physicsData.values.flags ^= PhysicsFlags.noOwnTeamCollision;
+        this.physicsData.values.flags |= PhysicsFlags.onlySameOwnerCollision;
         this.styleData.values.flags |= StyleFlags.isStar;
         this.styleData.values.flags &= ~StyleFlags.hasNoDmgIndicator;
 
