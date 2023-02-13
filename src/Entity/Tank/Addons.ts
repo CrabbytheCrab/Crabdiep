@@ -389,7 +389,7 @@ export class Addon {
 
 
     protected createAutoTrapTurrets(count: number) {
-        const rotPerTick = AI.PASSIVE_ROTATION * 5;
+        const rotPerTick = AI.PASSIVE_ROTATION * 3;
         const MAX_ANGLE_RANGE = PI2 / 4; // keep within 90º each side
 
         const rotator = this.createGuard(1, .1, 0, rotPerTick) as GuardObject & { turrets: AutoTurret[] };
@@ -578,7 +578,7 @@ const AutoTurretMegaDefinition: BarrelDefinition = {
 const AutoTurretTrapDefinition: BarrelDefinition = {
     angle: 0,
     offset: 0,
-    size: 50,
+    size: 49,
     width: 55 * 0.7,
     delay: 0.01,
     reload: 3,
