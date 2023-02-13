@@ -106,11 +106,13 @@ export default class ObjectEntity extends Entity {
     private cachedTick = 0;
     public isAffectedByRope: boolean;
     public restLength: number;
+    public seg: number;
     public constructor(game: GameServer) {
         super(game);
         this.restLength = 0
         this.isAffectedByRope = false
         this.styleData.zIndex = game.entities.zIndex++;
+        this.seg = 0
     }
 
     /** Calls the deletion animation, unless animate is set to false, in that case it instantly deletes. */
