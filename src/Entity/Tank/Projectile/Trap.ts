@@ -63,7 +63,7 @@ export default class Trap extends Bullet {
         super.tick(tick);
 
         if (tick - this.spawnTick === this.collisionEnd) {
-            if (this.physicsData.values.flags & PhysicsFlags.onlySameOwnerCollision) this.physicsData.flags ^= PhysicsFlags.onlySameOwnerCollision;
+            this.physicsData.flags |= PhysicsFlags.onlySameOwnerCollision;
             this.physicsData.values.flags |= PhysicsFlags.noOwnTeamCollision;
         }
     }
