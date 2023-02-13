@@ -37,7 +37,6 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
     public CanSpawn: boolean;
     public parent: TankBody;
     public sizeFactor: number;
-    public seg: number;
     public cameraEntity = this;
     /** The reload time of the rocket's barrel. */
     public reloadTime = 1;
