@@ -137,7 +137,7 @@ export class BuilderLauncherAddon extends BarrelAddon {
     public constructor(owner: Barrel) {
         super(owner);
 
-        this.launcherEntity = new TrapLauncher(owner);
+        this.launcherEntity = new BuilderLauncher(owner);
     }
 }
 export class MachineTrapLauncher extends ObjectEntity {
