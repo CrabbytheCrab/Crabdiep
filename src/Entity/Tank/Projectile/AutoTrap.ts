@@ -78,8 +78,8 @@ const TrapBarrelDefinition2: BarrelDefinition = {
 const TrapBarrelDefinition3: BarrelDefinition = {
     angle: 0,
     offset: -20,
-    size: 70,
-    width: 25,
+    size: 68,
+    width: 26,
     delay: 0.01,
     reload: 2.5,
     recoil: 0,
@@ -100,8 +100,8 @@ const TrapBarrelDefinition3: BarrelDefinition = {
 const TrapBarrelDefinition4: BarrelDefinition = {
     angle: 0,
     offset: 20,
-    size: 70,
-    width: 25,
+    size: 68,
+    width: 26,
     delay: 0.51,
     reload: 2.5,
     recoil: 0,
