@@ -587,7 +587,7 @@ const AutoTurretTrapDefinition: BarrelDefinition = {
     trapezoidDirection: 0,
     addon: "trapLauncher",
     bullet: {
-        type: "trap",
+        type: "block",
         health: 2,
         damage: 1,
         speed: 2.5,
