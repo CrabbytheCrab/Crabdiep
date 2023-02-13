@@ -389,7 +389,7 @@ export class Addon {
 
 
     protected createAutoTrapTurrets(count: number) {
-        const rotPerTick = AI.PASSIVE_ROTATION;
+        const rotPerTick = AI.PASSIVE_ROTATION * 2.5;
         const MAX_ANGLE_RANGE = PI2 / 4; // keep within 90º each side
 
         const rotator = this.createGuard(1, .1, 0, rotPerTick) as GuardObject & { turrets: AutoTurret[] };
@@ -578,21 +578,21 @@ const AutoTurretMegaDefinition: BarrelDefinition = {
 const AutoTurretTrapDefinition: BarrelDefinition = {
     angle: 0,
     offset: 0,
-    size: 43,
-    width: 50 * 0.7,
+    size: 50,
+    width: 55 * 0.7,
     delay: 0.01,
-    reload: 2.5,
+    reload: 3,
     recoil: 0,
     isTrapezoid: false,
     trapezoidDirection: 0,
     addon: "trapLauncher",
     bullet: {
-        type: "block",
-        health: 2,
+        type: "trap",
+        health: 1.75,
         damage: 1,
         speed: 2.5,
         scatterRate: 1,
-        lifeLength: 2,
+        lifeLength: 2.25,
         sizeRatio: 0.8,
         absorbtionFactor: 0.8
     }
