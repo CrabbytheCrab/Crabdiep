@@ -34,7 +34,7 @@ import { CameraEntity } from "../../../Native/Camera";
 const BoomBarrelDefinition: BarrelDefinition = {
     angle: Math.PI / 3,
     offset: 0,
-    size: 66.526,
+    size: 80,
     width: 49.578,
     delay: 0,
     reload: 0.325,
