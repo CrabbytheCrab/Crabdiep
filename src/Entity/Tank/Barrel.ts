@@ -46,7 +46,7 @@ import NecromancerSquare from "./Projectile/NecromancerSquare";
 import MiniMinion from "./Projectile/MiniMinion";
 import MegaMinion from "./Projectile/MegaMinion";
 import Launrocket from "./Projectile/Launrocket";
-import Drone2 from "./Projectile/Drone2";
+import Boomerang from "./Projectile/Boomerang";
 import AutoDrone from "./Projectile/AutoDrone";
 import AutoTrap from "./Projectile/AutoTrap";
 import NecromancerPentagon from "./Projectile/NecromancerPenta";
@@ -285,8 +285,8 @@ export default class Barrel extends ObjectEntity {
             case "launrocket":
                 new Launrocket(this, this.tank, tankDefinition, angle);
                 break;
-            case 'drone2':
-                new Drone2(this, this.tank, tankDefinition, angle);
+            case 'boomerang':
+                new Boomerang(this, this.tank, tankDefinition, angle);
                 break;
             case 'autotrap':
                 new AutoTrap(this, this.tank, tankDefinition, angle);
