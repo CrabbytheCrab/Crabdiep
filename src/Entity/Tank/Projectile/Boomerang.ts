@@ -29,7 +29,7 @@ import { CameraEntity } from "../../../Native/Camera";
 /**
  * The drone class represents the drone (projectile) entity in diep.
  */
-export default class Drone2 extends Bullet {
+export default class Boomerang extends Bullet {
     /** The AI of the drone (for AI mode) */
     public static FOCUS_RADIUS = 850 ** 2;
     public ai: AI;
@@ -82,31 +82,8 @@ export default class Drone2 extends Bullet {
     }
 
     public tick(tick: number) {
-        if (!this.canControlDrones){
-            if(tick - this.spawnTick >= this.lifeLength/8 && this.boom == false){
-                if(this.boom2 == false){
-                    this.boom2 = true
-                this.baseAccel *= 1.5}
-                const delta = {
-                    x: this.positionData.values.x - this.tank.positionData.values.x,
-                    y: this.positionData.values.y - this.tank.positionData.values.y
-                }
-                const base = this.baseAccel;
-            
-                let unitDist = (delta.x ** 2 + delta.y ** 2) / Drone2.MAX_RESTING_RADIUS;
-                const offset = Math.atan2(delta.y, delta.x) + Math.PI / 2
-                delta.x = this.tank.positionData.values.x + Math.cos(offset) * this.tank.physicsData.values.size * 0.5 - this.positionData.values.x;
-                delta.y = this.tank.positionData.values.y + Math.sin(offset) * this.tank.physicsData.values.size * 0.5 - this.positionData.values.y;
-                this.movementAngle = Math.atan2(delta.y, delta.x);
-                if (unitDist < 0.1){ this.baseAccel /= 3;
-                this.destroy()}
-                    this.baseAccel = base;
-
-            }
-
-        }
-        if (this.canControlDrones){
-            if(tick - this.spawnTick >= this.lifeLength/16 && this.boom == false){
+        if (tankDefinition && tankDefinition.id === Tank.Orbiter){
+            if(tick - this.spawnTick >= this.lifeLength/10 && this.boom == false){
 
 
                 const delta = {
@@ -116,12 +93,12 @@ export default class Drone2 extends Bullet {
                 const base = this.baseAccel;
                 const dist = Math.atan2(delta.y, delta.x)
 
-                if (dist < Drone2.FOCUS_RADIUS / 4) { // Half
+                if (dist < Boomerang.FOCUS_RADIUS / 4) { // Half
                     this.movementAngle = this.positionData.values.angle + Math.PI;
-                } else if (dist < Drone2.FOCUS_RADIUS) {
+                } else if (dist < Boomerang.FOCUS_RADIUS) {
                    this.movementAngle = this.positionData.values.angle;
                 } else this.movementAngle = this.positionData.values.angle;
-                let unitDist = (delta.x ** 2 + delta.y ** 2) / Drone2.MAX_RESTING_RADIUS;
+                let unitDist = (delta.x ** 2 + delta.y ** 2) / Boomerang.MAX_RESTING_RADIUS;
                 const offset = Math.atan2(delta.y, delta.x) + Math.PI / 2
                 delta.x = this.tank.positionData.values.x + Math.cos(offset) * this.tank.physicsData.values.size * 3 - this.positionData.values.x;
                 delta.y = this.tank.positionData.values.y + Math.sin(offset) * this.tank.physicsData.values.size * 3 - this.positionData.values.y;
@@ -135,7 +112,28 @@ export default class Drone2 extends Bullet {
                     this.baseAccel = base;
 
             }
-        }
+        }else{
+            if(tick - this.spawnTick >= this.lifeLength/8 && this.boom == false){
+                if(this.boom2 == false){
+                    this.boom2 = true
+                this.baseAccel *= 1.5}
+                const delta = {
+                    x: this.positionData.values.x - this.tank.positionData.values.x,
+                    y: this.positionData.values.y - this.tank.positionData.values.y
+                }
+                const base = this.baseAccel;
+            
+                let unitDist = (delta.x ** 2 + delta.y ** 2) / Boomerang.MAX_RESTING_RADIUS;
+                const offset = Math.atan2(delta.y, delta.x) + Math.PI / 2
+                delta.x = this.tank.positionData.values.x + Math.cos(offset) * this.tank.physicsData.values.size * 0.5 - this.positionData.values.x;
+                delta.y = this.tank.positionData.values.y + Math.sin(offset) * this.tank.physicsData.values.size * 0.5 - this.positionData.values.y;
+                this.movementAngle = Math.atan2(delta.y, delta.x);
+                if (unitDist < 0.1){ this.baseAccel /= 3;
+                this.destroy()}
+                    this.baseAccel = base;
+
+            }
+         }
         this.positionData.angle += 0.3
         super.tick(tick);
         // So that switch tank works, as well as on death
