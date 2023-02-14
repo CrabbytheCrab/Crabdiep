@@ -340,7 +340,7 @@ public canchain: boolean
            // ropeSegment.relationsData.team = this.relationsData.team;
             ropeSegment.relationsData.owner = this
                 ropeSegment.seg = i
-                if(i == 9){
+                if(i == 8){
                     ropeSegment.IsBig = true
                 }
            this.segments.push(ropeSegment);}
