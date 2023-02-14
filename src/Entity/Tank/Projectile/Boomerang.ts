@@ -123,11 +123,10 @@ export default class Boomerang extends Bullet  implements BarrelBase{
         s2.styleData.values.color = this.styleData.values.color;
         s3.styleData.values.color = this.styleData.values.color;
 
-        skimmerBarrels.push(s1, s2);
+        skimmerBarrels.push(s1, s2,s3);
 
         this.inputs = new Inputs();
         this.inputs.flags |= InputFlags.leftclick;
-            }
         }
         // TOD(ABCO:
         // No hardcoded - unless it is hardcoded in diep (all signs show that it might be so far)
