@@ -32,7 +32,7 @@ import { CameraEntity } from "../../../Native/Camera";
  */
 
 const BoomBarrelDefinition: BarrelDefinition = {
-    angle: Math.PI / 3,
+    angle: Math.PI / 3 +  Math.PI / 6,
     offset: 0,
     size: 90,
     width: 49.578,
@@ -102,7 +102,7 @@ export default class Boomerang extends Bullet  implements BarrelBase{
             }
         }(this, {...BoomBarrelDefinition});
         const s2Definition = {...BoomBarrelDefinition};
-        s2Definition.angle += Math.PI/3
+        s2Definition.angle += Math.PI/1.5
         const s2 = new class extends Barrel {
             // Keep the width constant
             protected resize() {
@@ -111,7 +111,7 @@ export default class Boomerang extends Bullet  implements BarrelBase{
             }
         }(this, s2Definition);
         const s3Definition = {...BoomBarrelDefinition};
-        s3Definition.angle -= Math.PI/3
+        s3Definition.angle -= Math.PI/1.5
         const s3 = new class extends Barrel {
             // Keep the width constant
             protected resize() {
