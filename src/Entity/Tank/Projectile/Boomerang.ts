@@ -23,20 +23,51 @@ import { InputFlags, Tank } from "../../../Const/Enums";
 import { PhysicsFlags, StyleFlags } from "../../../Const/Enums";
 import {BarrelDefinition, TankDefinition } from "../../../Const/TankDefinitions";
 import { Entity } from "../../../Native/Entity";
-import { AI, AIState } from "../../AI";
+import { AI, AIState, Inputs } from "../../AI";
 import { BarrelBase } from "../TankBody";
 import { CameraEntity } from "../../../Native/Camera";
 
 /**
  * The drone class represents the drone (projectile) entity in diep.
  */
-export default class Boomerang extends Bullet {
+
+const BoomBarrelDefinition: BarrelDefinition = {
+    angle: Math.PI / 3,
+    offset: 0,
+    size: 66.526,
+    width: 49.578,
+    delay: 0,
+    reload: 0.325,
+    recoil: 0,
+    isTrapezoid: false,
+    trapezoidDirection: 0,
+    addon: null,
+    bullet: {
+        type: "bullet",
+        health: 0.3,
+        damage: 2 / 5,
+        speed: 0.8,
+        scatterRate: 1,
+        lifeLength: 0.25,
+        sizeRatio: 1,
+        absorbtionFactor: 1
+    }
+};
+export default class Boomerang extends Bullet  implements BarrelBase{
     /** The AI of the drone (for AI mode) */
     public static FOCUS_RADIUS = 850 ** 2;
     public ai: AI;
+    private skimmerBarrels: Barrel[];
     //public def: TankDefinition | null;
     public boom: boolean = false
     public boom2: boolean = false
+        public sizeFactor: number;
+    /** The camera entity (used as team) of the rocket. */
+    public cameraEntity: Entity;
+    /** The reload time of the rocket's barrel. */
+    public reloadTime = 1;
+    /** The inputs for when to shoot or not. (Rocket) */
+    public inputs = new Inputs();
     /** The drone's radius of resting state */
     public static MAX_RESTING_RADIUS = 400 ** 2;
     public static BASE_ROTATION = 0.1;
@@ -50,6 +81,8 @@ export default class Boomerang extends Bullet {
         super(barrel, tank, tankDefinition, shootAngle);
         //this.rotationPerTick = direction;
       //  this.def = tankDefinition
+        this.cameraEntity = tank.cameraEntity;
+        this.sizeFactor = this.physicsData.values.size / 50;
         const bulletDefinition = barrel.definition.bullet;
         this.usePosAngle = false;
         this.ai = new AI(this);
@@ -58,7 +91,44 @@ export default class Boomerang extends Bullet {
         if (this.physicsData.values.flags & PhysicsFlags.noOwnTeamCollision) this.physicsData.values.flags ^= PhysicsFlags.noOwnTeamCollision;
         this.physicsData.values.flags |= PhysicsFlags.onlySameOwnerCollision;
         this.styleData.values.flags &= ~StyleFlags.hasNoDmgIndicator;
+        const skimmerBarrels: Barrel[] = this.skimmerBarrels =[];
+            if ( tankDefinition && tankDefinition.id === Tank.Eroder){
+                        const s1 = new class extends Barrel {
+            // Keep the width constant
+            protected resize() {
+                super.resize();
+               // this.physicsData.values.width = this.definition.width
+                // this.physicsData.state.width = 0;
+            }
+        }(this, {...SpinnerBarrelDefinition});
+        const s2Definition = {...SpinnerBarrelDefinition};
+        s2Definition.angle += Math.PI/3
+        const s2 = new class extends Barrel {
+            // Keep the width constant
+            protected resize() {
+                super.resize();
+                //this.physicsData.width = this.definition.width
+            }
+        }(this, SpinnerBarrelDefinition);
+        const s3Definition = {...SpinnerBarrelDefinition};
+        s3Definition.angle -= Math.PI/3
+        const s3 = new class extends Barrel {
+            // Keep the width constant
+            protected resize() {
+                super.resize();
+                //this.physicsData.width = this.definition.width
+            }
+        }(this, SpinnerBarrelDefinition);
+        s1.styleData.values.color = this.styleData.values.color;
+        s2.styleData.values.color = this.styleData.values.color;
+        s3.styleData.values.color = this.styleData.values.color;
 
+        skimmerBarrels.push(s1, s2);
+
+        this.inputs = new Inputs();
+        this.inputs.flags |= InputFlags.leftclick;
+            }
+        }
         // TOD(ABCO:
         // No hardcoded - unless it is hardcoded in diep (all signs show that it might be so far)
         this.deathAccelFactor = 1;
@@ -85,6 +155,8 @@ export default class Boomerang extends Bullet {
     }
 
     public tick(tick: number) {
+        this.sizeFactor = this.physicsData.values.size / 50;
+        this.reloadTime = this.tank.reloadTime;
         if (this.tankDefinition && this.tankDefinition.id === Tank.Orbiter){
             if(tick - this.spawnTick >= this.lifeLength/24 && this.boom == false){
 
@@ -137,7 +209,10 @@ export default class Boomerang extends Bullet {
 
             }
          }
-        this.positionData.angle += 0.3
+       if (this.tankDefinition && this.tankDefinition.id === Tank.Eroder) {
+                    this.positionData.angle += 0.1;
+        }else{
+        this.positionData.angle += 0.3}
         super.tick(tick);
         // So that switch tank works, as well as on death
 
