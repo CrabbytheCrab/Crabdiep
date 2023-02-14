@@ -28,7 +28,7 @@ export type preAddonId = "dombase" | "launcher" |  "pronounced2"|"laucher2"| "la
 export type addonId = preAddonId | postAddonId;
 
 /** The types of projectiles in the game */
-export type projectileId = "bullet"| "block"| "trapspinner"|"orbittrap" | "mine" |"bombdrone"|"striker"| "drone" | "autoswarm" |"trap"| "pentadrone"  |  "autodrone"  |"necrotriangledrone" | "necropentadrone" | "necrodrone" | "minion" | "spinner" | "spinner4" | "megaspinner" | "skimmer" | "rocket" | "swarm" | "flame" | "wall" | "croc" | "launrocket" | "autotrap"| "domminion" | "megaminion" | "miniminion" | "drone2" | "hive" | "blunt" | "blunttrap" | "orbit";
+export type projectileId = "bullet"| "block"| "trapspinner"|"orbittrap" | "mine" |"bombdrone"|"striker"| "drone" | "autoswarm" |"trap"| "pentadrone"  |  "autodrone"  |"necrotriangledrone" | "necropentadrone" | "necrodrone" | "minion" | "spinner" | "spinner4" | "megaspinner" | "skimmer" | "rocket" | "swarm" | "flame" | "wall" | "croc" | "launrocket" | "autotrap"| "domminion" | "megaminion" | "miniminion" | "boomerang" | "hive" | "blunt" | "blunttrap" | "orbit";
 
 /** The types of barrel addons that exist in the game */
 export type barrelAddonId = "trapLauncher" |"blockLauncher"| "mineLauncher" |"reversetrap"|"machineMineLauncher"| "minionLauncher" | "engitrapLauncher" | "swarmLauncher" | "machineTrapLauncher" | "engimachinetrapLauncher";
@@ -3334,7 +3334,7 @@ const TankDefinitions = JSON.parse(`[
                 "trapezoidDirection": 0,
                 "addon": "trapLauncher",
                 "bullet": {
-                    "type": "drone2",
+                    "type": "boomerang",
                     "sizeRatio": 0.8,
                     "health": 1.25,
                     "damage": 1.25,
@@ -11005,7 +11005,7 @@ const TankDefinitions = JSON.parse(`[
                 "addon": "trapLauncher",
                 "canControlDrones": false,
                 "bullet": {
-                    "type": "drone2",
+                    "type": "boomerang",
                     "sizeRatio": 0.8,
                     "health": 1.5,
                     "damage": 1.25,
@@ -15283,7 +15283,7 @@ const TankDefinitions = JSON.parse(`[
                 "trapezoidDirection": 0,
                 "addon": "trapLauncher",
                 "bullet": {
-                    "type": "drone2",
+                    "type": "boomerang",
                     "sizeRatio": 0.8,
                     "health": 1.25,
                     "damage": 1,
@@ -15609,7 +15609,7 @@ const TankDefinitions = JSON.parse(`[
                 "addon": "trapLauncher",
                 "canControlDrones": true,
                 "bullet": {
-                    "type": "drone2",
+                    "type": "boomerang",
                     "sizeRatio": 1,
                     "health": 2,
                     "damage": 0.75,
@@ -21673,7 +21673,7 @@ const TankDefinitions = JSON.parse(`[
                 "trapezoidDirection": 0,
                 "addon": "trapLauncher",
                 "bullet": {
-                    "type": "drone2",
+                    "type": "boomerang",
                     "sizeRatio": 0.8,
                     "health": 3,
                     "damage": 1.5,
@@ -21696,7 +21696,7 @@ const TankDefinitions = JSON.parse(`[
                 "trapezoidDirection": 0,
                 "addon": "trapLauncher",
                 "bullet": {
-                    "type": "drone2",
+                    "type": "boomerang",
                     "sizeRatio": 0.8,
                     "health": 3,
                     "damage": 1.5,
@@ -21719,7 +21719,7 @@ const TankDefinitions = JSON.parse(`[
                 "trapezoidDirection": 0,
                 "addon": "trapLauncher",
                 "bullet": {
-                    "type": "drone2",
+                    "type": "boomerang",
                     "sizeRatio": 0.8,
                     "health": 3,
                     "damage": 1.5,
