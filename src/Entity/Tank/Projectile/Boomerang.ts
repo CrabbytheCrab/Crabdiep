@@ -22,7 +22,6 @@ import Bullet from "./Bullet";
 import { InputFlags, Tank } from "../../../Const/Enums";
 import { PhysicsFlags, StyleFlags } from "../../../Const/Enums";
 import {BarrelDefinition, TankDefinition } from "../../../Const/TankDefinitions";
-import { BarrelBase } from "../TankBody";
 import { Entity } from "../../../Native/Entity";
 import { AI, AIState } from "../../AI";
 import { BarrelBase } from "../TankBody";
@@ -35,7 +34,7 @@ export default class Boomerang extends Bullet {
     /** The AI of the drone (for AI mode) */
     public static FOCUS_RADIUS = 850 ** 2;
     public ai: AI;
-    public def: TankDefinition;
+    //public def: TankDefinition | null;
     public boom: boolean = false
     public boom2: boolean = false
     /** The drone's radius of resting state */
@@ -50,7 +49,7 @@ export default class Boomerang extends Bullet {
     public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number) {
         super(barrel, tank, tankDefinition, shootAngle);
         //this.rotationPerTick = direction;
-        //this.def = tankDefinition
+      //  this.def = tankDefinition
         const bulletDefinition = barrel.definition.bullet;
         this.usePosAngle = false;
         this.ai = new AI(this);
@@ -86,7 +85,7 @@ export default class Boomerang extends Bullet {
     }
 
     public tick(tick: number) {
-        if (this.tankDefinition && this.tankDefinition === Tank.Orbiter){
+        if (this.tankDefinition && this.tankDefinition.id === Tank.Orbiter){
             if(tick - this.spawnTick >= this.lifeLength/24 && this.boom == false){
 
 
