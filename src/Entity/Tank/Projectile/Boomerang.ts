@@ -100,8 +100,8 @@ export default class Boomerang extends Bullet  implements BarrelBase{
                // this.physicsData.values.width = this.definition.width
                 // this.physicsData.state.width = 0;
             }
-        }(this, {...SpinnerBarrelDefinition});
-        const s2Definition = {...SpinnerBarrelDefinition};
+        }(this, {...BoomBarrelDefinition});
+        const s2Definition = {...BoomBarrelDefinition};
         s2Definition.angle += Math.PI/3
         const s2 = new class extends Barrel {
             // Keep the width constant
@@ -109,8 +109,8 @@ export default class Boomerang extends Bullet  implements BarrelBase{
                 super.resize();
                 //this.physicsData.width = this.definition.width
             }
-        }(this, SpinnerBarrelDefinition);
-        const s3Definition = {...SpinnerBarrelDefinition};
+        }(this, BoomBarrelDefinition);
+        const s3Definition = {...BoomBarrelDefinition};
         s3Definition.angle -= Math.PI/3
         const s3 = new class extends Barrel {
             // Keep the width constant
@@ -118,10 +118,7 @@ export default class Boomerang extends Bullet  implements BarrelBase{
                 super.resize();
                 //this.physicsData.width = this.definition.width
             }
-        }(this, SpinnerBarrelDefinition);
-        s1.styleData.values.color = this.styleData.values.color;
-        s2.styleData.values.color = this.styleData.values.color;
-        s3.styleData.values.color = this.styleData.values.color;
+        }(this, BoomBarrelDefinition);
 
         skimmerBarrels.push(s1, s2,s3);
 
