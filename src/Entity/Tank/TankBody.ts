@@ -90,7 +90,7 @@ public canchain: boolean
         this.cameraEntity = camera;
         this.inputs = inputs;
         this.isAffectedByRope = false;
-        this.length = 13;
+        this.length = 9;
         this.canchain = true
         this.segments = [this];
         this.k = 0.25;
@@ -340,7 +340,7 @@ public canchain: boolean
            // ropeSegment.relationsData.team = this.relationsData.team;
             ropeSegment.relationsData.owner = this
                 ropeSegment.seg = i
-                if(i == 12){
+                if(i == 9){
                     ropeSegment.IsBig = true
                 }
            this.segments.push(ropeSegment);}
