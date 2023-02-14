@@ -22322,6 +22322,7 @@ const TankDefinitions = JSON.parse(`[
                 "trapezoidDirection": 0,
                 "addon": "trapLauncher",
                 "bullet": {
+                    "sides": 6,
                     "type": "boomerang",
                     "sizeRatio": 0.8,
                     "health": 1.25,
