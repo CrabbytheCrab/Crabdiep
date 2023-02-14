@@ -33,6 +33,7 @@ export default class Boomerang extends Bullet {
     /** The AI of the drone (for AI mode) */
     public static FOCUS_RADIUS = 850 ** 2;
     public ai: AI;
+    public def: TankDefinition;
     public boom: boolean = false
     public boom2: boolean = false
     /** The drone's radius of resting state */
@@ -47,6 +48,7 @@ export default class Boomerang extends Bullet {
     public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number) {
         super(barrel, tank, tankDefinition, shootAngle);
         //this.rotationPerTick = direction;
+        this.def = tankDefinition
         const bulletDefinition = barrel.definition.bullet;
         this.usePosAngle = false;
         this.ai = new AI(this);
@@ -82,7 +84,7 @@ export default class Boomerang extends Bullet {
     }
 
     public tick(tick: number) {
-        if (tankDefinition && tankDefinition.id === Tank.Orbiter){
+        if (this.def && this.def === Tank.Orbiter){
             if(tick - this.spawnTick >= this.lifeLength/24 && this.boom == false){
 
 
