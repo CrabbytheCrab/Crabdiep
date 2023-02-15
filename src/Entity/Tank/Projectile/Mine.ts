@@ -43,6 +43,7 @@ const Bombshot1: BarrelDefinition = {
     recoil: 1,
     isTrapezoid: false,
     trapezoidDirection: 0,
+    forceFire: true,
     addon: null,
     bullet: {
         type: "bullet",
@@ -64,6 +65,7 @@ const Bombshot2: BarrelDefinition = {
     reload: 1,
     recoil: 1,
     isTrapezoid: false,
+    forceFire: true,
     trapezoidDirection: 0,
     addon: null,
     bullet: {
@@ -177,22 +179,6 @@ export default class Mine extends Bullet implements BarrelBase {
         this.positionData.values.angle = Math.random() * PI2;
     }
     public destroy(animate=true) {
-        if (!animate) this.barrelEntity.droneCount -= 1;
-        super.destroy(animate);
-    }
-    public onKill(killedEntity: LivingEntity) {
-        // TODO(ABC):
-        // Make this, work differently
-        /** @ts-ignore */
-        if (typeof this.parent.onKill === 'function') this.parent.onKill(killedEntity);
-    }
-    public tick(tick: number) {
-        super.tick(tick);
-        this.inputs = new Inputs();
-        this.inputs.flags |= InputFlags.leftclick;
-        if(this.canexploded){
-        if(this.tank.inputs.attemptingRepel() && this.canexplode == true){
-            this.canexploded = false
             if ( this.megaturret || this.canControlDrones){
                 if ( this.megaturret){
             }
@@ -218,13 +204,25 @@ export default class Mine extends Bullet implements BarrelBase {
                  barr.physicsData.values.sides = 0
                  skimmerBarrels.push(barr);
          
-                 } 
-                
-                 
+              }     
         }
-            setTimeout(() => {
+        if (!animate) this.barrelEntity.droneCount -= 1;
+        super.destroy(animate);
+    }
+    public onKill(killedEntity: LivingEntity) {
+        // TODO(ABC):
+        // Make this, work differently
+        /** @ts-ignore */
+        if (typeof this.parent.onKill === 'function') this.parent.onKill(killedEntity);
+    }
+    public tick(tick: number) {
+        super.tick(tick);
+        this.inputs = new Inputs();
+        this.inputs.flags |= InputFlags.leftclick;
+        if(this.canexploded){
+        if(this.tank.inputs.attemptingRepel() && this.canexplode == true){
+            this.canexploded = false
                 this.destroy()
-            }, 45);
 
         this.boom = true
         }
