@@ -44,6 +44,7 @@ const Bombshot1: BarrelDefinition = {
     isTrapezoid: false,
     trapezoidDirection: 0,
     forceFire: true,
+    bulletdie: true,
     addon: null,
     bullet: {
         type: "bullet",
@@ -64,6 +65,7 @@ const Bombshot2: BarrelDefinition = {
     delay: 0,
     reload: 1,
     recoil: 1,
+    bulletdie: true,
     isTrapezoid: false,
     forceFire: true,
     trapezoidDirection: 0,
