@@ -113,7 +113,7 @@ export default class Mine extends Bullet implements BarrelBase {
         this.physicsData.values.sides = bulletDefinition.sides ?? 4;
         if (this.physicsData.values.flags & PhysicsFlags.noOwnTeamCollision) this.physicsData.values.flags ^= PhysicsFlags.noOwnTeamCollision;
         this.physicsData.values.flags |= PhysicsFlags.onlySameOwnerCollision;
-        this.styleData.values.flags |= StyleFlags.isStar;
+        //this.styleData.values.flags |= StyleFlags.isStar;
         this.styleData.values.flags &= ~StyleFlags.hasNoDmgIndicator;
         this.skimmerBarrels =[];
         this.collisionEnd = this.lifeLength >> 3;
