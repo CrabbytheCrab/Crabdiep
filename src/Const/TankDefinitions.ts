@@ -16003,22 +16003,22 @@ const TankDefinitions = JSON.parse(`[
                 "size": 60,
                 "width": 42,
                 "delay": 0,
-                "reload": 2.5,
+                "reload": 1.4,
                 "recoil": 1,
                 "isTrapezoid": true,
                 "canControlDrones": true,
                 "trapezoidDirection": 0,
                 "addon": "machineMineLauncher",
-                "droneCount": 8,
                 "bullet": {
                     "type": "mine",
                     "sizeRatio": 0.8,
-                    "health": 2,
-                    "damage":0.5,
+                    "health": 1.45,
+                    "damage": 1,
                     "speed": 2,
-                    "scatterRate": 1,
-                    "lifeLength": -1,
-                    "absorbtionFactor": 0.5
+                    "scatterRate": 2,
+                    "lifeLength": 1.8,
+                    "absorbtionFactor": 1
+                }
             }
         ],
         "stats": [
