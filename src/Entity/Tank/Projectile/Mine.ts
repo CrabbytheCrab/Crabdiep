@@ -119,7 +119,12 @@ export default class Mine extends Bullet implements BarrelBase {
         this.collisionEnd = this.lifeLength >> 3;
         this.lifeLength = (600 * barrel.definition.bullet.lifeLength) >> 3;
         if (tankDefinition && tankDefinition.id === DevTank.Bouncy) this.collisionEnd = this.lifeLength - 1;
-        
+                if (barrel.definition.bullet.lifeLength !== -1) {
+            this.lifeLength = 88 * barrel.definition.bullet.lifeLength;
+        } else {
+            this.lifeLength = Infinity;
+        }
+        barrel.droneCount += 1;
         const atuo = new AutoTurret(this, {
             angle: 0,
             offset: 0,
@@ -172,6 +177,7 @@ export default class Mine extends Bullet implements BarrelBase {
         this.positionData.values.angle = Math.random() * PI2;
     }
     public destroy(animate=true) {
+        if (!animate) this.barrelEntity.droneCount -= 1;
         super.destroy(animate);
     }
     public onKill(killedEntity: LivingEntity) {
