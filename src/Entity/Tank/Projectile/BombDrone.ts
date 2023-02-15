@@ -268,12 +268,11 @@ export default class BombDrone extends Bullet  implements BarrelBase {
                      } 
                     
                      
-            }
                 setTimeout(() => {
                     this.destroy()
                 }, 15);
-    
             this.boom = true
+            }
         }
         this.tickMixin(tick);
     }
