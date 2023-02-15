@@ -16019,6 +16019,7 @@ const TankDefinitions = JSON.parse(`[
                     "scatterRate": 1,
                     "lifeLength": -1,
                     "absorbtionFactor": 0.5
+               }
             }
         ],
         "stats": [
@@ -16031,15 +16032,15 @@ const TankDefinitions = JSON.parse(`[
                 "max": 7
             },
             {
-                "name": "Trap Damage",
+                "name": "Mine Damage",
                 "max": 7
             },
             {
-                "name": "Trap Health",
+                "name": "Mine Health",
                 "max": 7
             },
             {
-                "name": "Trap Speed",
+                "name": "Mine Speed",
                 "max": 7
             },
             {
