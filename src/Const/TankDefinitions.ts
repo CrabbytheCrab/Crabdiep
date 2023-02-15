@@ -91,6 +91,7 @@ export interface BarrelDefinition {
     /** Whether or not the drones are controllable - only present if `bullet.type` === 'drone'. */
     canControlDrones?: boolean;
     megaturret?: boolean;
+    bulletdie?: boolean;
     invisibile?: boolean;
     /** Whether or not the barrel should always shoot (Trapper Dominator, Defender). */
     forceFire?: boolean;
