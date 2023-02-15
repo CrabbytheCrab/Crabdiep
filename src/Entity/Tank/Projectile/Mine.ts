@@ -88,10 +88,11 @@ export default class Mine extends Bullet implements BarrelBase {
     public inputs = new Inputs();
     protected megaturret: boolean;
     protected canControlDrones: boolean;
-    public canexplode: boolean;
+    public canexploded: boolean;
     public primetimer: number;
     public primetimer2: number;
     public boom: boolean;
+    public canexplode: boolean;
     public skimmerBarrels: Barrel[];
     public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number, parent?: ObjectEntity) {
         super(barrel, tank, tankDefinition, shootAngle);
@@ -108,6 +109,7 @@ export default class Mine extends Bullet implements BarrelBase {
         this.canexplode = false
         this.baseSpeed = (barrel.bulletAccel / 2) + 30 - Math.random() * barrel.definition.bullet.scatterRate;
         this.baseAccel = 0;
+        this.canexploded = true
         this.physicsData.values.sides = bulletDefinition.sides ?? 4;
         if (this.physicsData.values.flags & PhysicsFlags.noOwnTeamCollision) this.physicsData.values.flags ^= PhysicsFlags.noOwnTeamCollision;
         //this.physicsData.values.flags |= PhysicsFlags.onlySameOwnerCollision;
@@ -182,8 +184,9 @@ export default class Mine extends Bullet implements BarrelBase {
         super.tick(tick);
         this.inputs = new Inputs();
         this.inputs.flags |= InputFlags.leftclick;
+        if(this.canexploded){
         if(this.tank.inputs.attemptingRepel() && this.canexplode == true){
-
+            this.canexploded = false
             if ( this.megaturret || this.canControlDrones){
                 if ( this.megaturret){
             }
@@ -218,6 +221,7 @@ export default class Mine extends Bullet implements BarrelBase {
             }, 45);
 
         this.boom = true
+        }
     }
         if (tick - this.spawnTick === this.collisionEnd) {
             if (this.physicsData.values.flags & PhysicsFlags.onlySameOwnerCollision) this.physicsData.flags ^= PhysicsFlags.onlySameOwnerCollision;
