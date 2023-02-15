@@ -342,7 +342,7 @@ export default class Barrel extends ObjectEntity {
 
         this.relationsData.values.team = this.tank.relationsData.values.team;
 
-        if (!this.tank.rootParent.deletionAnimation){
+        if (!this.tank.rootParent.deletionAnimation || this.barrelEntity.definition.bulletdie){
             this.attemptingShot = this.tank.inputs.attemptingShot();
             this.shootCycle.tick();
         }
