@@ -15895,7 +15895,7 @@ const TankDefinitions = JSON.parse(`[
     {
         "id": 140,
         "name": "Mine Layer",
-        "upgradeMessage": "Right click to detonate all primed traps",
+        "upgradeMessage": "Right click to detonate all primed mines",
         "levelRequirement": 30,
         "upgrades": [141, 142],
         "flags": {
@@ -15921,20 +15921,21 @@ const TankDefinitions = JSON.parse(`[
                 "size": 60,
                 "width": 42,
                 "delay": 0,
-                "reload": 3.25,
+                "reload": 4.5,
                 "recoil": 1,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
+                "droneCount": 8,
                 "addon": "mineLauncher",
                 "bullet": {
                     "type": "mine",
                     "sizeRatio": 0.8,
-                    "health": 2.25,
-                    "damage": 1,
+                    "health": 3,
+                    "damage":0.75,
                     "speed": 2,
                     "scatterRate": 1,
-                    "lifeLength": 2.25,
-                    "absorbtionFactor": 1
+                    "lifeLength": -1,
+                    "absorbtionFactor": 0.5
                 }
             }
         ],
@@ -15948,15 +15949,15 @@ const TankDefinitions = JSON.parse(`[
                 "max": 7
             },
             {
-                "name": "Trap Damage",
+                "name": "Mine Damage",
                 "max": 7
             },
             {
-                "name": "Trap Health",
+                "name": "Mine Health",
                 "max": 7
             },
             {
-                "name": "Trap Speed",
+                "name": "Mine Speed",
                 "max": 7
             },
             {
