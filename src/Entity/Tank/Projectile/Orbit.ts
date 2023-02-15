@@ -65,7 +65,8 @@ export default class Orbit extends Bullet {
         this.physicsData.values.pushFactor = 4;
         this.physicsData.values.absorbtionFactor = bulletDefinition.absorbtionFactor;
         this.baseSpeed /= 3;
-
+        if (this.physicsData.values.flags & PhysicsFlags.noOwnTeamCollision) this.physicsData.values.flags ^= PhysicsFlags.noOwnTeamCollision;
+        this.physicsData.values.flags |= PhysicsFlags.onlySameOwnerCollision;
         TankBody.OrbCount += 1;
         this.num = TankBody.OrbCount
         this.ai.movementSpeed = this.ai.aimSpeed = this.baseAccel;
