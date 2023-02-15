@@ -16061,7 +16061,7 @@ const TankDefinitions = JSON.parse(`[
     {
         "id": 142,
         "name": "Bomber",
-        "upgradeMessage": "Right click to detonate all primed minions",
+        "upgradeMessage": "Right click to detonate all primed drones",
         "levelRequirement": 45,
         "upgrades": [],
         "flags": {
@@ -16117,15 +16117,15 @@ const TankDefinitions = JSON.parse(`[
                 "max": 7
             },
             {
-                "name": "Minion Damage",
+                "name": "Drone Damage",
                 "max": 7
             },
             {
-                "name": "Minion Health",
+                "name": "Drone Health",
                 "max": 7
             },
             {
-                "name": "Minion Speed",
+                "name": "Drone Speed",
                 "max": 7
             },
             {
