@@ -39,7 +39,7 @@ const Bombshot1: BarrelDefinition = {
     size: 0,
     width: 75,
     delay: 0,
-    reload: 1,
+    reload: 100,
     recoil: 1,
     isTrapezoid: false,
     trapezoidDirection: 0,
@@ -63,7 +63,7 @@ const Bombshot2: BarrelDefinition = {
     size: 0,
     width: 45,
     delay: 0,
-    reload: 1,
+    reload: 100,
     recoil: 1,
     bulletdie: true,
     isTrapezoid: false,
@@ -181,6 +181,8 @@ export default class Mine extends Bullet implements BarrelBase {
         this.positionData.values.angle = Math.random() * PI2;
     }
     public destroy(animate=true) {
+        if(this.canexplode == true){
+            this.canexplode = false
             if ( this.megaturret || this.canControlDrones){
                 if ( this.megaturret){
             }
@@ -208,6 +210,7 @@ export default class Mine extends Bullet implements BarrelBase {
          
               }     
         }
+     }
         if (!animate) this.barrelEntity.droneCount -= 1;
         super.destroy(animate);
     }
