@@ -99,6 +99,7 @@ export default class BombDrone extends Bullet  implements BarrelBase {
     public inputs = new Inputs();
     public canexplode: boolean;
     public primetimer: number;
+        public canexploded: boolean;
     public death: boolean;
     public primetimer2: number;
     public skimmerBarrels: Barrel[];
@@ -109,7 +110,7 @@ export default class BombDrone extends Bullet  implements BarrelBase {
         this.cameraEntity = tank.cameraEntity;
 
         const bulletDefinition = barrel.definition.bullet;
-
+        this.canexploded = true
         this.usePosAngle = true;
         this.minionBarrel = new Barrel(this, MinionBarrelDefinition2)
         this.minionBarrel.styleData.color = this.styleData.color
@@ -250,8 +251,9 @@ export default class BombDrone extends Bullet  implements BarrelBase {
 
         // So that switch tank works, as well as on death
         if (!Entity.exists(this.barrelEntity)) this.destroy();
-        if(this.tank.inputs.attemptingRepel() && this.canexplode == true){
-            {
+        if(this.canexploded){
+            if(this.tank.inputs.attemptingRepel() && this.canexplode == true){
+                        this.canexploded = false
                 this.inputs = new Inputs();
                 this.inputs.flags |= InputFlags.leftclick;
                     const skimmerBarrels: Barrel[] = this.skimmerBarrels =[]
