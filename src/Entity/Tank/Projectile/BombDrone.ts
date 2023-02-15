@@ -35,20 +35,20 @@ const MinionBarrelDefinition2: BarrelDefinition = {
     angle:  3.141592653589793,
     offset: 0,
     size: 75,
-    width: 44.4,
+    width: 30,
     delay: 0,
-    reload: 1,
+    reload: 0.5,
     recoil: 1.35,
     isTrapezoid: true,
     trapezoidDirection: 0,
     addon: null,
     droneCount: 0,
     bullet: {
-        type: "drone",
+        type: "bullet",
         health: 0.4,
-        damage: 0.275,
+        damage: 0.1,
         speed: 0.8,
-        scatterRate: 1,
+        scatterRate: 2,
         lifeLength: 1,
         sizeRatio: 1,
         absorbtionFactor: 1
@@ -64,6 +64,8 @@ const Bombshot1: BarrelDefinition = {
     recoil: 1,
     isTrapezoid: false,
     trapezoidDirection: 0,
+    forceFire: true,
+    bulletdie: true,
     addon: null,
     bullet: {
         type: "bullet",
@@ -113,13 +115,12 @@ export default class BombDrone extends Bullet  implements BarrelBase {
         this.canexploded = true
         this.usePosAngle = true;
         this.minionBarrel = new Barrel(this, MinionBarrelDefinition2)
-        this.minionBarrel.styleData.color = this.styleData.color
 
         this.ai = new AI(this);
         this.ai.viewRange = 850 * tank.sizeFactor;
         this.ai.targetFilter = (targetPos) => (targetPos.x - this.tank.positionData.values.x) ** 2 + (targetPos.y - this.tank.positionData.values.y) ** 2 <= this.ai.viewRange ** 2; // (1000 ** 2) 1000 radius
         this.canControlDrones = typeof this.barrelEntity.definition.canControlDrones === 'boolean' && this.barrelEntity.definition.canControlDrones;
-        this.physicsData.values.sides = bulletDefinition.sides ?? 1;
+        this.physicsData.values.sides = bulletDefinition.sides ?? 3;
         this.physicsData.values.size *= 1.2;
         this.canexplode = false
         this.death = true
@@ -197,7 +198,21 @@ export default class BombDrone extends Bullet  implements BarrelBase {
     /** Extends LivingEntity.destroy - so that the drone count decreases for the barrel. */
     public destroy(animate=true) {
         if (!animate) this.barrelEntity.droneCount -= 1;
-
+        if(this.canexplode == true){
+            this.canexplode = false
+                this.inputs = new Inputs();
+                this.inputs.flags |= InputFlags.leftclick;
+                    const skimmerBarrels: Barrel[] = this.skimmerBarrels =[]
+                    for (let n = 0; n < 8; n++) {
+                        const barr = new Barrel(this, {
+                         ...Bombshot1,
+                         angle: PI2 * (n / 8)
+                     });
+                     barr.physicsData.values.sides = 0
+                     skimmerBarrels.push(barr);
+             
+                     } 
+        }
         super.destroy(animate);
     }
     
@@ -246,7 +261,7 @@ export default class BombDrone extends Bullet  implements BarrelBase {
 
         
         if (this.canControlDrones && inputs.attemptingRepel()) {
-            this.positionData.angle += Math.PI; 
+            //this.positionData.angle += Math.PI; 
         }
 
         // So that switch tank works, as well as on death
@@ -254,23 +269,8 @@ export default class BombDrone extends Bullet  implements BarrelBase {
         if(this.canexploded){
             if(this.tank.inputs.attemptingRepel() && this.canexplode == true){
                         this.canexploded = false
-                this.inputs = new Inputs();
-                this.inputs.flags |= InputFlags.leftclick;
-                    const skimmerBarrels: Barrel[] = this.skimmerBarrels =[]
-                    for (let n = 0; n < 8; n++) {
-                        const barr = new Barrel(this, {
-                         ...Bombshot1,
-                         angle: PI2 * (n / 8)
-                     });
-                     barr.physicsData.values.sides = 0
-                     skimmerBarrels.push(barr);
-             
-                     } 
-                    
-                     
-                setTimeout(() => {
                     this.destroy()
-                }, 15);
+  
             this.boom = true
             }
         }
