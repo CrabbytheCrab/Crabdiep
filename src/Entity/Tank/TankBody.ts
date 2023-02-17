@@ -406,7 +406,6 @@ public canchain: boolean
             // Damage
             this.damagePerTick = this.cameraEntity.cameraData.statLevels[Stat.BodyDamage] * 6 + 20;
             if (this._currentTank === Tank.Spike) this.damagePerTick *= 1.5;
-            if (this._currentTank === Tank.autosmasher) this.damagePerTick *= 1.1;
             if (this._currentTank === Tank.Bumper) this.damagePerTick *= 0.375;
             if (this._currentTank === Tank.Bumper) this.damageReduction = 0.375;
 
