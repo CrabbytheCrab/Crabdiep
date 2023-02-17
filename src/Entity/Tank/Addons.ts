@@ -973,7 +973,7 @@ class AutoSmasherAddon extends Addon {
             bullet: {
                 type: "bullet",
                 health: 1,
-                damage: 0.8,
+                damage: 0.55,
                 speed: 1.2,
                 scatterRate: 1,
                 lifeLength: 1,
