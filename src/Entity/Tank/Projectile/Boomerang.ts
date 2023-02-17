@@ -85,6 +85,8 @@ export default class Boomerang extends Bullet  implements BarrelBase{
         this.sizeFactor = this.physicsData.values.size / 50;
         const bulletDefinition = barrel.definition.bullet;
         this.usePosAngle = false;
+        if (this.physicsData.values.flags & PhysicsFlags.noOwnTeamCollision) this.physicsData.values.flags ^= PhysicsFlags.noOwnTeamCollision;
+        this.physicsData.values.flags |= PhysicsFlags.onlySameOwnerCollision;
         this.ai = new AI(this);
         this.canControlDrones = typeof this.barrelEntity.definition.canControlDrones === 'boolean' && this.barrelEntity.definition.canControlDrones;
         this.physicsData.values.sides = bulletDefinition.sides ?? 5;
