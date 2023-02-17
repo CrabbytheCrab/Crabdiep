@@ -93,7 +93,6 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
             delta.y = this.parent.positionData.values.y + Math.sin(offset) * this.parent.physicsData.values.size * 0.5 - this.positionData.values.y;
        // this.relationsData.owner = this.parent;
         //this.relationsData.team = this.parent.relationsData.team;
-        this.positionData.angle += 0.1
         //Math.atan2(delta.y, delta.x)
            // this.parent.destroy()
         }
