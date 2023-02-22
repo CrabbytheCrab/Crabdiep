@@ -44,7 +44,7 @@ const BoomBarrelDefinition: BarrelDefinition = {
     addon: null,
     bullet: {
         type: "bullet",
-        health: 0.3,
+        health: 0.5,
         damage: 2 / 5,
         speed: 0.8,
         scatterRate: 1,

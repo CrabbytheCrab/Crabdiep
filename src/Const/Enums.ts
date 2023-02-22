@@ -261,6 +261,7 @@ export const enum Tank {
     Warkwark      = 184,
     Arsenal       = 185,
     Eroder        = 186,
+    Horizon       = 187,
     Mothership    = 204
 }
 
