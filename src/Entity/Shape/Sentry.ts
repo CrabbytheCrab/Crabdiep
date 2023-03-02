@@ -28,7 +28,8 @@ import { Entity } from "../../Native/Entity";
 import AutoTurret from "../Tank/AutoTurret";
 import { BarrelDefinition } from "../../Const/TankDefinitions";
 import Barrel from "../Tank/Barrel";
-import { OverdriveAddon } from "../Tank/Addons";
+import { OverdriveAddon, PronouncedAddon   } from "../Tank/Addons";
+import { normalizeAngle, PI2 } from "../../util";
 
 /**
  * Crasher entity class.
@@ -70,6 +71,7 @@ import { OverdriveAddon } from "../Tank/Addons";
         this.isLarge = true
         const rand = Math.random();
         if(rand < 0.16){
+        this.nameData.values.name = "Protective Crasher";
             let barsss: Barrel;
             let GuardianSpawnerDefinition: BarrelDefinition = {
                 angle: Math.PI,
@@ -77,8 +79,8 @@ import { OverdriveAddon } from "../Tank/Addons";
                 size: 90,
                 width: 63,
                 delay: 0,
-                reload: 1,
-                recoil: 1.25,
+                reload: 0.5,
+                recoil: 1,
                 isTrapezoid: true,
                 trapezoidDirection: 0,
                 addon: null,
@@ -99,7 +101,7 @@ import { OverdriveAddon } from "../Tank/Addons";
                 size: 140,
                 width: 63,
                 delay: 0,
-                reload: 3,
+                reload: 8,
                 recoil: 1,
                 isTrapezoid: false,
                 trapezoidDirection: 0,
@@ -107,11 +109,11 @@ import { OverdriveAddon } from "../Tank/Addons";
                 bullet: {
                     type: "bullet",
                     sizeRatio: 1,
-                    health: 1.5,
-                    damage: 1,
+                    health: 6,
+                    damage: 2,
                     speed: 1.5,
-                    scatterRate: 1,
-                    lifeLength: 1.5,
+                    scatterRate: 0,
+                    lifeLength: 1.25,
                     absorbtionFactor: 1
                 }
             };
@@ -119,6 +121,7 @@ import { OverdriveAddon } from "../Tank/Addons";
             barsss = new Barrel(this, GuardianSpawnerDefinition2);
 
         }else if(rand < 0.33){
+            this.nameData.values.name = "Guard Crasher";
             let barsss: Barrel;
             let GuardianSpawnerDefinition: BarrelDefinition = {
                 angle: Math.PI,
@@ -135,7 +138,7 @@ import { OverdriveAddon } from "../Tank/Addons";
                 canControlDrones: true,
                 bullet: {
                     type: "drone",
-                    sizeRatio: 0.75,
+                    sizeRatio: 0.625,
                     health: 2.5,
                     damage: 1.25,
                     speed: 2,
@@ -147,6 +150,7 @@ import { OverdriveAddon } from "../Tank/Addons";
             barsss = new Barrel(this, GuardianSpawnerDefinition);
         }
         else if(rand < 0.5){
+        this.nameData.values.name = "Watching Crasher";
             let barsss: Barrel;
             let GuardianSpawnerDefinition: BarrelDefinition = {
                 angle: Math.PI,
@@ -218,6 +222,32 @@ import { OverdriveAddon } from "../Tank/Addons";
             barsss = new Barrel(this, GuardianSpawnerDefinition2);
             barsss = new Barrel(this, GuardianSpawnerDefinition3);
         }else if(rand < 0.66){
+        this.nameData.values.name = "Sentry Crasher";
+
+        let barsss: Barrel;
+        let GuardianSpawnerDefinition: BarrelDefinition = {
+            angle: Math.PI,
+            offset: 0,
+            size: 100,
+            width: 62.5,
+            delay: 0,
+            reload: 1,
+            recoil: 1.25,
+            isTrapezoid: true,
+            trapezoidDirection: Math.PI,
+            addon: null,
+            bullet: {
+                type: "bullet",
+                sizeRatio:1,
+                health: 1,
+                damage: 0.3,
+                speed: 1,
+                scatterRate: 1,
+                lifeLength: 0.5,
+                absorbtionFactor: 1
+            }
+        };
+        barsss = new Barrel(this, GuardianSpawnerDefinition);
             let Auto1: BarrelDefinition = {
                 angle: 0,
                 offset: -0,
@@ -284,13 +314,112 @@ import { OverdriveAddon } from "../Tank/Addons";
                     absorbtionFactor: 0.1
                 }
             };
+            let Auto4: BarrelDefinition = {
+                angle: 0,
+                offset: 0,
+                size: 55,
+                width: 50,
+                delay: 0.67,
+                reload: 2,
+                recoil: 0,
+                isTrapezoid: false,
+                trapezoidDirection: 0,
+                addon: null,
+                bullet: {
+                    type: "bullet",
+                    sizeRatio: 1,
+                    health: 2.5,
+                    damage: 0.75,
+                    speed: 2,
+                    scatterRate: 0.3,
+                    lifeLength: 1.5,
+                    absorbtionFactor: 0.1
+                }
+            };
+            let Auto5: BarrelDefinition = {
+                angle: 0,
+                offset: 0,
+                size: 65,
+                width: 50,
+                delay: 0.34,
+                reload: 2,
+                recoil: 0,
+                isTrapezoid: false,
+                trapezoidDirection: 0,
+                addon: null,
+                bullet: {
+                    type: "bullet",
+                    sizeRatio: 1,
+                    health: 2.5,
+                    damage: 0.75,
+                    speed: 2,
+                    scatterRate: 0,
+                    lifeLength: 1.5,
+                    absorbtionFactor: 0.1
+                }
+            };
+            let Auto6: BarrelDefinition = {
+                angle: 0,
+                offset: 0,
+                size: 75,
+                width: 50,
+                delay: 0.01,
+                reload: 2,
+                recoil: 0,
+                isTrapezoid: false,
+                trapezoidDirection: 0,
+                addon: null,
+                bullet: {
+                    type: "bullet",
+                    sizeRatio: 1,
+                    health: 2.5,
+                    damage: 0.75,
+                    speed: 2,
+                    scatterRate: 0,
+                    lifeLength: 1.5,
+                    absorbtionFactor: 0.1
+                }
+            };
             const atuo  = [new AutoTurret(this, [Auto3, Auto2,Auto1])];
+            atuo[0].positionData.values.angle = this.positionData.angle
             atuo[0].baseSize *= 1.75
             atuo[0].positionData.values.angle = this.positionData.values.angle 
         //atuo.ai.passiveRotation = this.movementAngle
         atuo[0].styleData.values.flags |= StyleFlags.showsAboveParent;
         atuo[0].ai.viewRange = this.ai.viewRange
+
+        const MAX_ANGLE_RANGE = PI2 / 3; // keep within 90º each side
+
+        for (let i = 0; i < 2; ++i) {
+            const base  = [new AutoTurret(this, [Auto6, Auto5, Auto4])];
+            base[0].influencedByOwnerInputs = true;
+            base[0].baseSize *= 1.5;
+            base[0].ai.viewRange = 2000;
+           const angle = base[0].ai.inputs.mouse.angle = PI2 * ((i / 3) - (1/6));
+           base[0].ai.passiveRotation = AI.PASSIVE_ROTATION;
+           base[0].positionData.values.y = this.physicsData.values.size * Math.sin(angle) * 0.8;
+           base[0].positionData.values.x = this.physicsData.values.size * Math.cos(angle) * 0.8;
+
+           if (base[0].styleData.values.flags & StyleFlags.showsAboveParent) base[0].styleData.values.flags ^= StyleFlags.showsAboveParent;
+           base[0].physicsData.values.flags |= PositionFlags.absoluteRotation;
+           base[0].ai.targetFilter = (targetPos) => {
+               const pos = base[0].getWorldPosition();
+               const angleToTarget = Math.atan2(targetPos.y - pos.y, targetPos.x - pos.x);
+               
+               const deltaAngle = normalizeAngle(angleToTarget - ((angle + this.positionData.values.angle)));
+
+               return deltaAngle < MAX_ANGLE_RANGE || deltaAngle > (PI2 - MAX_ANGLE_RANGE);
+           }
+           const tickBase = base[0].tick;
+           base[0].tick = (tick: number) => {
+               base[0].positionData.y = this.physicsData.values.size * Math.sin(angle) * 0.8;
+               base[0].positionData.x = this.physicsData.values.size * Math.cos(angle) * 0.8;
+               if (base[0].ai.state === AIState.idle) base[0].positionData.angle = angle + this.positionData.values.angle
+               tickBase.call(base[0], tick);
+           }
+       }
         }else if(rand < 0.83){
+        this.nameData.values.name = "Spinner Crasher";
             let barsss: Barrel;
             let GuardianSpawnerDefinition: BarrelDefinition = {
                 angle: Math.PI,
@@ -363,8 +492,38 @@ import { OverdriveAddon } from "../Tank/Addons";
             barsss = new Barrel(this, GuardianSpawnerDefinition2);
             barsss = new Barrel(this, GuardianSpawnerDefinition3);
         }else{
+
+            let GuardianSpawnerDefinition: BarrelDefinition = {
+                angle: Math.PI,
+                offset: 0,
+                size: 57.5,
+                width: 30,
+                delay: 0,
+                reload: 0.5,
+                recoil: 0,
+                isTrapezoid: true,
+                trapezoidDirection: 0,
+                addon: null,
+                droneCount: 0,
+                bullet: {
+                    type: "drone",
+                    sizeRatio: 1,
+                    health: 1.5,
+                    damage: 1.5,
+                    speed: 2,
+                    scatterRate: 3,
+                    lifeLength: 0.5,
+                    absorbtionFactor: 1
+                }
+            };
+            let barsss: Barrel;
+            barsss = new Barrel(this, GuardianSpawnerDefinition);
+            barsss.physicsData.values.sides = 3
+            barsss.styleData.color = Color.Border
+        this.nameData.values.name = "Stalking Crasher";
         this.healthData.values.health = this.healthData.values.maxHealth = 250;
-        this.damagePerTick = 24;
+        this.physicsData.values.pushFactor =  4;
+        this.damagePerTick = 40;
         this.targettingSpeed = 1.1
         this.invis = true
         new OverdriveAddon(1.8, this,3);
@@ -376,12 +535,12 @@ import { OverdriveAddon } from "../Tank/Addons";
         this.physicsData.values.size =  85 * Math.SQRT1_2;
         this.physicsData.values.sides = 3;
         this.physicsData.values.absorbtionFactor = 0.1;
-        this.physicsData.values.pushFactor =  18;
+        this.physicsData.values.pushFactor =  12;
        
         this.targettingSpeed = 1.4;
         this.styleData.values.color = Color.EnemyCrasher;
 
-        this.scoreReward = 500;
-        this.damagePerTick = 12;
+        this.scoreReward = 450;
+        this.damagePerTick = 20;
     }
 }

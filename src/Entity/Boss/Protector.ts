@@ -31,7 +31,7 @@ const GuardianSpawnerDefinition: BarrelDefinition = {
     width: 84,
     delay: 0,
     reload: 0.5,
-    recoil: 1.25,
+    recoil: 1.5,
     isTrapezoid: true,
     trapezoidDirection: 0,
     addon: null,
@@ -52,7 +52,7 @@ const GuardianSpawnerDefinition2: BarrelDefinition = {
     size: 185,
     width: 84,
     delay: 0,
-    reload: 3,
+    reload: 8,
     recoil: 1,
     isTrapezoid: false,
     trapezoidDirection: 0,
@@ -60,12 +60,12 @@ const GuardianSpawnerDefinition2: BarrelDefinition = {
     bullet: {
         type: "bullet",
         sizeRatio: 1,
-        health: 7.5,
-        damage: 3,
+        health: 15,
+        damage: 5,
         speed: 1.5,
         scatterRate: 0.3,
         lifeLength: 1.5,
-        absorbtionFactor: 1
+        absorbtionFactor: 0.1
     }
 };
 
@@ -96,7 +96,7 @@ export default class Protector extends AbstractBoss {
         const x = this.positionData.values.x,
         y = this.positionData.values.y
           if (this.ai.state === AIState.idle) {
-              super.moveAroundMap();
+              super.moveAroundMapShort();
               this.positionData.angle = Math.atan2(this.inputs.movement.y, this.inputs.movement.x)
           } else {
               this.positionData.angle = Math.atan2(this.ai.inputs.mouse.y - y, this.ai.inputs.mouse.x - x)

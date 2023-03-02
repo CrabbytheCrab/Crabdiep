@@ -69,13 +69,19 @@ export default class Crasher extends AbstractShape {
         this.ai.movementSpeed = this.targettingSpeed;
         if(this.invis){
             if(this.styleData.opacity >= 0.75){
-                this.targettingSpeed = 1.4
+                this.targettingSpeed += 3 - this.targettingSpeed * 0.05
+                this.targettingSpeed = util.constrain(this.targettingSpeed, 0, 3)
             }else{
-                this.targettingSpeed = 0.85
+                this.targettingSpeed = 0.2
             }
             if (this.ai.state === AIState.hasTarget) { // Half
                 this.styleData.opacity += 0.1
-            } else this.styleData.opacity -= 0.025
+                this.damageReduction = 1
+            } else {
+                this.damageReduction = 0.1
+                this.styleData.opacity -= 0.025
+            }
+            
             //this.styleData.opacity -= 0.03
             this.styleData.opacity = util.constrain(this.styleData.values.opacity, 0.05, 1);
         }
@@ -87,7 +93,7 @@ export default class Crasher extends AbstractShape {
             if(!this.canrotate)
             {this.positionData.angle = 
             Math.atan2(this.ai.inputs.mouse.y - this.positionData.values.y, this.ai.inputs.mouse.x - this.positionData.values.x)}
-            else{this.positionData.angle += this.rotationRate * 20}
+            else{this.positionData.angle += 0.4 - this.rotationRate * 0.05}
             this.accel.add({
                 x: this.ai.inputs.movement.x * this.targettingSpeed,
                 y: this.ai.inputs.movement.y * this.targettingSpeed

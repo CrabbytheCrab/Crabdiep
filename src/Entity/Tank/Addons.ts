@@ -840,7 +840,7 @@ class LandmineAddon extends Addon {
     }
 }
 /** The thing underneath Rocketeer and Twister addon. */
-class LauncherAddon extends Addon {
+export class LauncherAddon extends Addon {
     public constructor(owner: BarrelBase) {
         super(owner);
 
@@ -1018,7 +1018,7 @@ class Banshee extends Addon {
     }
 }
 /** The thing above ranger's barrel. */
-class PronouncedAddon extends Addon {
+export class PronouncedAddon extends Addon {
     public constructor(owner: BarrelBase) {
         super(owner);
 

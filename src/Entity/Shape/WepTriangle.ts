@@ -35,20 +35,20 @@ const GuardianSpawnerDefinition: BarrelDefinition = {
     angle: Math.PI,
     offset: 0,
     size: 90,
-    width: 47,
+    width: 58,
     delay: 0,
     reload: 6,
     recoil: 0,
     isTrapezoid: true,
-    trapezoidDirection: 3.141592653589793,
+    trapezoidDirection: 0,
     addon: null,
-    droneCount: 3,
+    droneCount: 2,
     bullet: {
         type: "drone",
         sizeRatio:1,
-        health: 1,
+        health: 3,
         damage: 2,
-        speed: 1.8,
+        speed: 1.5,
         scatterRate: 0,
         lifeLength: -1,
         absorbtionFactor: 0.5,
@@ -94,7 +94,7 @@ export default class WepTriangle extends Triangle implements BarrelBase {
     
         this.sizeFactor = this.physicsData.values.size / 50;
         this.ai = new AI(this);
-        this.ai.viewRange = 800;
+        this.ai.viewRange = 1400;
         this.ai.aimSpeed = (this.ai.movementSpeed);
         this.ai['_findTargetInterval'] = tps;
         this.inputs = this.ai.inputs;
@@ -130,7 +130,7 @@ export default class WepTriangle extends Triangle implements BarrelBase {
                 size: 70,
                 width: 40,
                 delay: 0,
-                reload: 1,
+                reload: 3,
                 recoil: 0,
                 isTrapezoid: false,
                 trapezoidDirection: 0,
@@ -138,8 +138,8 @@ export default class WepTriangle extends Triangle implements BarrelBase {
                 bullet: {
                     type: "bullet",
                     sizeRatio: 1,
-                    health: 1,
-                    damage: 1,
+                    health: 5,
+                    damage: 0.5,
                     speed: 1.5,
                     scatterRate: 0.3,
                     lifeLength: 1,
@@ -147,8 +147,8 @@ export default class WepTriangle extends Triangle implements BarrelBase {
                     color: Color.Neutral
                 }
             });
-            atuo.ai.viewRange = 800;
-            atuo.baseSize *= 1.125
+            atuo.ai.viewRange = 900;
+            atuo.baseSize *= 1.15
             for (let i = 0; i < 3; ++i) {
                 // Add trap launcher
                 this.barrel.push(new Barrel(this, {

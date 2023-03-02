@@ -37,10 +37,17 @@ enum Target {
     TopLeft = 2,
     BottomLeft = 3
 }
-
+enum TargetShort{
+    None = -1,
+    BottomRight = 0,
+    TopRight = 1,
+    TopLeft = 2,
+    BottomLeft = 3
+}
 class BossMovementControl {
     /** Current target on the map. */
     public target: Target = Target.None;
+    public targetshort: TargetShort = TargetShort.None;
 
     /** The boss thats movement is being controlled. */
     public boss: AbstractBoss;
@@ -74,6 +81,40 @@ class BossMovementControl {
         target.y = (target.y - y);
         const dist = target.x ** 2 + target.y ** 2;
         if (dist < 90_000 /* 300 ** 2*/) this.target = (this.target + 1) % 4;
+        else {
+            const angle = Math.atan2(target.y, target.x)
+            this.boss.inputs.movement.x = Math.cos(angle);
+            this.boss.inputs.movement.y = Math.sin(angle);
+        }
+    }
+
+    
+
+    public moveBossShort() {
+        const { x, y } = this.boss.positionData.values;
+        if (this.targetshort === TargetShort.None) {
+            if (x >= 0 && y >= 0) {
+                this.targetshort = TargetShort.BottomRight;
+            } else if (x <= 0 && y >= 0) {
+                this.targetshort = TargetShort.BottomLeft;
+            } else if (x <= 0 && y <= 0) {
+                this.targetshort = TargetShort.TopLeft;
+            }else /*if (x >= 0 && y <= 0)*/ {
+                this.targetshort = TargetShort.TopRight;
+            }
+        }
+
+        const target: VectorAbstract = this.targetshort === TargetShort.BottomRight ?
+            { x: 3 * this.boss.game.arena.arenaData.values.rightX / 20, y: 3 * this.boss.game.arena.arenaData.values.bottomY / 20} : this.targetshort === TargetShort.BottomLeft ?
+            { x: 3 * this.boss.game.arena.arenaData.values.leftX / 20, y: 3 * this.boss.game.arena.arenaData.values.bottomY / 20} : this.targetshort === TargetShort.TopLeft ? 
+            { x: 3 * this.boss.game.arena.arenaData.values.leftX / 20, y: 3 * this.boss.game.arena.arenaData.values.topY / 20} :
+            { x: 3 * this.boss.game.arena.arenaData.values.rightX / 20, y: 3 * this.boss.game.arena.arenaData.values.topY  / 20};
+
+        // Target becomes delta now
+        target.x = (target.x - x);
+        target.y = (target.y - y);
+        const dist = target.x ** 2 + target.y ** 2;
+        if (dist < 90_000 /* 300 ** 2*/) this.targetshort = (this.targetshort + 1) % 4;
         else {
             const angle = Math.atan2(target.y, target.x)
             this.boss.inputs.movement.x = Math.cos(angle);
@@ -150,6 +191,10 @@ export default class AbstractBoss extends LivingEntity {
     protected moveAroundMap() {
         this.movementControl.moveBoss();
     }
+    protected moveAroundMapShort() {
+        this.movementControl.moveBossShort();
+    }
+
 
     /** See LivingEntity.onDeath
      * This broadcasts when people kill it

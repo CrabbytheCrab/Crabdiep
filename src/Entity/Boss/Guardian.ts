@@ -71,7 +71,7 @@ export default class Guardian extends AbstractBoss {
     }
 
     protected moveAroundMap() {
-        super.moveAroundMap();
+        super.moveAroundMapShort();
         this.positionData.angle = Math.atan2(this.inputs.movement.y, this.inputs.movement.x)
     }
 
