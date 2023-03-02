@@ -70,8 +70,8 @@ export default class PillBox extends Bullet {
             x: this.XMouse - this.positionData.values.x,
             y: this.YMouse - this.positionData.values.y
         }
-        this.positionData.angle += util.constrain(this.velocity.angleComponent(this.movementAngle) * .1, 0, 0.3);
-        this.movementAngle +=  (Math.atan2(delta.y, delta.x) - this.movementAngle) * 0.1
+        this.positionData.angle +=  util.constrain(util.constrain(this.velocity.angleComponent(this.movementAngle) * .05, 0, 0.5) - util.constrain(this.velocity.magnitude, 0, 0.2) * 0.5, 0, 0.8);
+        //this.movementAngle +=  (Math.atan2(delta.y, delta.x) - this.movementAngle) * 0.1
         let dist = (delta.x ** 2 + delta.y ** 2) / PillBox.MAX_RESTING_RADIUS;
 
         if (tick - this.spawnTick === this.collisionEnd || dist < 0.1) {

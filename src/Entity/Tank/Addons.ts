@@ -57,7 +57,10 @@ export class Addon {
         return new GuardObject(this.game, this.owner, sides, sizeRatio, offsetAngle, radiansPerTick);
     }
     public createGuard2(): OverdriveAddon {
-        return new OverdriveAddon(1.15, this.owner);
+        return new OverdriveAddon(1.15, this.owner,6);
+    }
+    public createGuard3(): OverdriveAddon {
+        return new OverdriveAddon(1.15, this.owner,3);
     }
     /**
      * `createAutoTurrets` method builds `count` auto turrets around the current
@@ -631,7 +634,7 @@ const AutoTurretMiniDefinition: BarrelDefinition = {
 
 export class OverdriveAddon extends Addon {
     public sizeRatio: number;
-    public constructor(sizeRatio: number, owner: BarrelBase) {
+    public constructor(sizeRatio: number, owner: BarrelBase,sides: number) {
         super(owner);
         sizeRatio *= Math.SQRT1_2
         this.sizeRatio = sizeRatio;
@@ -649,7 +652,7 @@ export class OverdriveAddon extends Addon {
         oversquare.styleData.zIndex -= 2;
         
         oversquare.styleData.values.color = Color.Border;
-        oversquare.physicsData.values.sides = 6;
+        oversquare.physicsData.values.sides = sides;
 
         oversquare.tick = () => {
             const size = this.owner.physicsData.values.size;

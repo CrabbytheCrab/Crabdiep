@@ -19,6 +19,7 @@
 import GameServer from "../../Game";
 import LivingEntity from "../Live";
 import AbstractShape from "./AbstractShape";
+import * as util from "../../util";
 
 import { Color, PositionFlags } from "../../Const/Enums";
 import { AI, AIState } from "../AI";
@@ -35,12 +36,14 @@ export default class Crasher extends AbstractShape {
     public isLarge: boolean;
     /** The max speed the crasher can move when targetting a player.s */
     public targettingSpeed: number;
-
+    public canrotate: boolean
+    public invis: boolean
     public constructor(game: GameServer, large=false) {
         super(game);
 
         this.nameData.values.name = "Crasher";
-
+        this.canrotate = false
+        this.invis = false
        // this.positionData.values.flags |= PositionFlags.canMoveThroughWalls;
         this.healthData.values.health = this.healthData.values.maxHealth = large ? 30 : 10;
         this.physicsData.values.size = (large ? 55 : 35) * Math.SQRT1_2;
@@ -64,12 +67,27 @@ export default class Crasher extends AbstractShape {
     tick(tick: number) {
         this.ai.aimSpeed = 0;
         this.ai.movementSpeed = this.targettingSpeed;
-        
+        if(this.invis){
+            if(this.styleData.opacity >= 0.75){
+                this.targettingSpeed = 1.4
+            }else{
+                this.targettingSpeed = 0.85
+            }
+            if (this.ai.state === AIState.hasTarget) { // Half
+                this.styleData.opacity += 0.1
+            } else this.styleData.opacity -= 0.025
+            //this.styleData.opacity -= 0.03
+            this.styleData.opacity = util.constrain(this.styleData.values.opacity, 0.05, 1);
+        }
         if (this.ai.state === AIState.idle) {
             this.doIdleRotate = true;
+            //this.positionData.angle += this.rotationRate - this.positionData.angle * 0.1;
         } else {
             this.doIdleRotate = false;
-            this.positionData.angle = Math.atan2(this.ai.inputs.mouse.y - this.positionData.values.y, this.ai.inputs.mouse.x - this.positionData.values.x);
+            if(!this.canrotate)
+            {this.positionData.angle = 
+            Math.atan2(this.ai.inputs.mouse.y - this.positionData.values.y, this.ai.inputs.mouse.x - this.positionData.values.x)}
+            else{this.positionData.angle += this.rotationRate * 20}
             this.accel.add({
                 x: this.ai.inputs.movement.x * this.targettingSpeed,
                 y: this.ai.inputs.movement.y * this.targettingSpeed

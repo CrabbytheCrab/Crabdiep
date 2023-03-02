@@ -20,7 +20,7 @@ import GameServer from "../../Game";
 import LivingEntity from "../Live";
 import AbstractShape from "./AbstractShape";
 
-import { Color, PositionFlags } from "../../Const/Enums";
+import { Color, PositionFlags, StyleFlags } from "../../Const/Enums";
 import { AI, AIState } from "../AI";
 import { BarrelBase } from "../Tank/TankBody";
 import Crasher from "./Crasher";
@@ -28,6 +28,7 @@ import { Entity } from "../../Native/Entity";
 import AutoTurret from "../Tank/AutoTurret";
 import { BarrelDefinition } from "../../Const/TankDefinitions";
 import Barrel from "../Tank/Barrel";
+import { OverdriveAddon } from "../Tank/Addons";
 
 /**
  * Crasher entity class.
@@ -68,7 +69,7 @@ import Barrel from "../Tank/Barrel";
         this.inputs = this.ai.inputs;
         this.isLarge = true
         const rand = Math.random();
-        if(rand < 0.33){
+        if(rand < 0.16){
             let barsss: Barrel;
             let GuardianSpawnerDefinition: BarrelDefinition = {
                 angle: Math.PI,
@@ -117,7 +118,7 @@ import Barrel from "../Tank/Barrel";
             barsss = new Barrel(this, GuardianSpawnerDefinition);
             barsss = new Barrel(this, GuardianSpawnerDefinition2);
 
-        }else if(rand < 0.66){
+        }else if(rand < 0.33){
             let barsss: Barrel;
             let GuardianSpawnerDefinition: BarrelDefinition = {
                 angle: Math.PI,
@@ -125,26 +126,27 @@ import Barrel from "../Tank/Barrel";
                 size: 90,
                 width: 67.2,
                 delay: 0,
-                reload: 9,
-                recoil: 1,
+                reload: 4,
+                recoil: 0,
                 isTrapezoid: true,
                 trapezoidDirection: 0,
                 addon: null,
-                droneCount: 12,
+                droneCount: 6,
                 canControlDrones: true,
                 bullet: {
                     type: "drone",
                     sizeRatio: 0.75,
-                    health: 1.5,
-                    damage: 0.5,
+                    health: 2.5,
+                    damage: 1.25,
                     speed: 2,
                     scatterRate: 0,
-                    lifeLength: -1,
-                    absorbtionFactor: 1
+                    lifeLength: 4,
+                    absorbtionFactor: 0.8
                 }
             };
             barsss = new Barrel(this, GuardianSpawnerDefinition);
-        }else{
+        }
+        else if(rand < 0.5){
             let barsss: Barrel;
             let GuardianSpawnerDefinition: BarrelDefinition = {
                 angle: Math.PI,
@@ -170,11 +172,11 @@ import Barrel from "../Tank/Barrel";
             };
             let GuardianSpawnerDefinition2: BarrelDefinition = {
                 angle: 0,
-                offset: 0.4,
-                size: 140,
-                width: 50,
+                offset: 40,
+                size: 110,
+                width: 35,
                 delay: 0,
-                reload: 1.5,
+                reload: 1.2,
                 recoil: 0.75,
                 isTrapezoid: false,
                 trapezoidDirection: 0,
@@ -182,21 +184,21 @@ import Barrel from "../Tank/Barrel";
                 bullet: {
                     type: "bullet",
                     sizeRatio: 1,
-                    health: 1,
+                    health: 2,
                     damage: 0.5,
                     speed: 1,
                     scatterRate: 1,
                     lifeLength: 1.5,
-                    absorbtionFactor: 1
+                    absorbtionFactor: 0.6
                 }
             };
             let GuardianSpawnerDefinition3: BarrelDefinition = {
                 angle: 0,
-                offset: -0.4,
-                size: 130,
-                width: 50,
-                delay: 0.33,
-                reload: 1.5,
+                offset: -40,
+                size: 110,
+                width: 35,
+                delay: 0.5,
+                reload: 1.2,
                 recoil: 0.75,
                 isTrapezoid: false,
                 trapezoidDirection: 0,
@@ -204,40 +206,168 @@ import Barrel from "../Tank/Barrel";
                 bullet: {
                     type: "bullet",
                     sizeRatio: 1,
-                    health: 1,
+                    health: 2,
                     damage: 0.5,
                     speed: 1,
                     scatterRate: 1,
                     lifeLength: 1.5,
-                    absorbtionFactor: 1
-                }
-            };
-            let GuardianSpawnerDefinition4: BarrelDefinition = {
-                angle: 0,
-                offset: -0.4,
-                size: 120,
-                width: 50,
-                delay: 0.66,
-                reload: 1.5,
-                recoil: 0.75,
-                isTrapezoid: false,
-                trapezoidDirection: 0,
-                addon: null,
-                bullet: {
-                    type: "bullet",
-                    sizeRatio: 1,
-                    health: 1,
-                    damage: 0.5,
-                    speed: 1,
-                    scatterRate: 0,
-                    lifeLength: 1.5,
-                    absorbtionFactor: 1
+                    absorbtionFactor: 0.6
                 }
             };
             barsss = new Barrel(this, GuardianSpawnerDefinition);
             barsss = new Barrel(this, GuardianSpawnerDefinition2);
             barsss = new Barrel(this, GuardianSpawnerDefinition3);
-            barsss = new Barrel(this, GuardianSpawnerDefinition4);
+        }else if(rand < 0.66){
+            let Auto1: BarrelDefinition = {
+                angle: 0,
+                offset: -0,
+                size: 95,
+                width: 42,
+                delay: 0.01,
+                reload: 1,
+                recoil: 0,
+                isTrapezoid: false,
+                trapezoidDirection: 0,
+                addon: null,
+                bullet: {
+                    type: "bullet",
+                    sizeRatio: 1,
+                    health: 1.5,
+                    damage: 0.4,
+                    speed: 1,
+                    scatterRate: 1,
+                    lifeLength: 1,
+                    absorbtionFactor: 0.1
+                }
+            };
+            let Auto2: BarrelDefinition = {
+                angle: 0.39269908169872414,
+                offset: 0,
+                size: 88,
+                width: 42,
+                delay: 0.01,
+                reload: 1,
+                recoil: 0,
+                isTrapezoid: false,
+                trapezoidDirection: 0,
+                addon: null,
+                bullet: {
+                    type: "bullet",
+                    sizeRatio: 1,
+                    health: 1.5,
+                    damage: 0.4,
+                    speed: 1,
+                    scatterRate: 1,
+                    lifeLength: 1,
+                    absorbtionFactor: 0.1
+                }
+            };
+            let Auto3: BarrelDefinition = {
+                angle: -0.39269908169872414,
+                offset: 0,
+                size: 88,
+                width: 42,
+                delay: 0.01,
+                reload: 1,
+                recoil: 0,
+                isTrapezoid: false,
+                trapezoidDirection: 0,
+                addon: null,
+                bullet: {
+                    type: "bullet",
+                    sizeRatio: 1,
+                    health: 1.5,
+                    damage: 0.4,
+                    speed: 1,
+                    scatterRate: 1,
+                    lifeLength: 1,
+                    absorbtionFactor: 0.1
+                }
+            };
+            const atuo  = [new AutoTurret(this, [Auto3, Auto2,Auto1])];
+            atuo[0].baseSize *= 1.75
+            atuo[0].positionData.values.angle = this.positionData.values.angle 
+        //atuo.ai.passiveRotation = this.movementAngle
+        atuo[0].styleData.values.flags |= StyleFlags.showsAboveParent;
+        atuo[0].ai.viewRange = this.ai.viewRange
+        }else if(rand < 0.83){
+            let barsss: Barrel;
+            let GuardianSpawnerDefinition: BarrelDefinition = {
+                angle: Math.PI,
+                offset: 0,
+                size: 100,
+                width: 63,
+                delay: 0,
+                reload: 0.5,
+                recoil: 0,
+                isTrapezoid: true,
+                trapezoidDirection: 0,
+                addon: null,
+                bullet: {
+                    type: "bullet",
+                    sizeRatio: 1,
+                    health: 1.5,
+                    damage: 1.5,
+                    speed: 2,
+                    scatterRate: 3,
+                    lifeLength: 0.8,
+                    absorbtionFactor: 1
+                }
+            };
+            let GuardianSpawnerDefinition2: BarrelDefinition = {
+                angle: Math.PI - (2 * Math.PI/3),
+                offset: 0,
+                size: 100,
+                width: 63,
+                delay: 0,
+                reload: 0.5,
+                recoil: 0,
+                isTrapezoid: true,
+                trapezoidDirection: 0,
+                addon: null,
+                bullet: {
+                    type: "bullet",
+                    sizeRatio: 1,
+                    health: 1.5,
+                    damage: 1.5,
+                    speed: 2,
+                    scatterRate: 3,
+                    lifeLength: 0.5,
+                    absorbtionFactor: 1
+                }
+            };
+            let GuardianSpawnerDefinition3: BarrelDefinition = {
+                angle: Math.PI + (2 * Math.PI/3),
+                offset: 0,
+                size: 100,
+                width: 63,
+                delay: 0,
+                reload: 0.5,
+                recoil: 0,
+                isTrapezoid: true,
+                trapezoidDirection: 0,
+                addon: null,
+                bullet: {
+                    type: "bullet",
+                    sizeRatio: 1,
+                    health: 1.5,
+                    damage: 1.5,
+                    speed: 2,
+                    scatterRate: 3,
+                    lifeLength: 0.5,
+                    absorbtionFactor: 1
+                }
+            };
+            this.canrotate = true
+            barsss = new Barrel(this, GuardianSpawnerDefinition);
+            barsss = new Barrel(this, GuardianSpawnerDefinition2);
+            barsss = new Barrel(this, GuardianSpawnerDefinition3);
+        }else{
+        this.healthData.values.health = this.healthData.values.maxHealth = 250;
+        this.damagePerTick = 24;
+        this.targettingSpeed = 1.1
+        this.invis = true
+        new OverdriveAddon(1.8, this,3);
         }
 
         //this.barsss = new Barrel(this, GuardianSpawnerDefinition2);

@@ -262,6 +262,11 @@ export const enum Tank {
     Arsenal       = 185,
     Eroder        = 186,
     Horizon       = 187,
+    FlankMachine  = 188,
+    BulletHell    = 189,
+    TrailBlazer   = 190,
+    Bunker        = 191,
+    Splitter      = 192,
     Mothership    = 204
 }
 
