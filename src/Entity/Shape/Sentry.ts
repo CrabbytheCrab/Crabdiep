@@ -63,11 +63,12 @@ import { normalizeAngle, PI2 } from "../../util";
     public cameraEntity: Entity = this;
     public inputs;
     public reloadTime = 4;
-    public constructor(game: GameServer, large=false) {
+    public constructor(game: GameServer, large=true) {
         super(game, large);
 
         this.sizeFactor = this.physicsData.values.size / 50;
         this.inputs = this.ai.inputs;
+        if(!this.isLarge)
         this.isLarge = true
         const rand = Math.random();
         if(rand < 0.16){
