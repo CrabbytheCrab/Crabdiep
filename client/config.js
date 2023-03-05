@@ -37,7 +37,7 @@ const CHANGELOG = [
     "",
     "Major tank changes",
     "",
-    "81 new tanks to play with(some are based off of tanks fron arras and scenexe),",
+    "100+ new tanks to play with(some are based off of tanks fron arras and scenexe),",
     "Trapper is a tier 2 upgrade from tank,",
     "Single is a tier 2 upgrade from tank serving as a path to Destroyer instead of Machine Gun,",
     "Commander is a tier 2 upgrade from tank serving as a path to Overseer instead of Sniper,",
@@ -46,7 +46,6 @@ const CHANGELOG = [
     "Minions no longer rotate around the mouse,",
     "You have 35 stat points to play with,",
     "And many balance changes like Overlord having a delay to when the drones can spawn(it's still good though)",
-
 ];
 
 const ASM_CONSTS = {
@@ -272,7 +271,8 @@ const MOD_CONFIG = {
         "changelogLoaded": 168632,
         "tankDefinitions": 166572,
         "tankDefinitionsCount": 166576,
-        "commandList": 53064
+        "commandList": 53064,
+        "netColorTable": 49584
     },
     "wasmFunctionHookOffset": {
         "gamemodeButtons": 33,
@@ -301,10 +301,26 @@ const ADDON_MAP = {
 
 const CUSTOM_COMMANDS = [
     {
-        "id": "test",
+        "id": "util_test",
         "description": "Test command to check if custom commands are working, prints 'Hello World' to the console",
         "callback": args => { // array of strings, you need to parse them yourself
             console.log("Hello World");
+        }
+    }, {
+        "id": "util_set_dev_password",
+        "usage": "[password]",
+        "description": "Sets the dev password (reconnect required)",
+        "callback": args => {
+            if(!args[0]) return;
+            window.localStorage.setItem("password", args[0]);
+        }
+    }, {
+        "id": "util_change_scheduler",
+        "usage": "[?scheduler]",
+        "description": "Changes the game's frame scheduler (default: requestAnimationFrame)",
+        "callback": args => {
+            // possible alternative would be setTimeout eg.
+            Module.scheduler = typeof window[args[0]] === "function" ? window[args[0]] : window.requestAnimationFrame;
         }
     }, {
         "id": "util_reload_servers",
