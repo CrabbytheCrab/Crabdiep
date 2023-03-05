@@ -28,7 +28,7 @@ import { Entity } from "../../Native/Entity";
 import AutoTurret from "../Tank/AutoTurret";
 import { BarrelDefinition } from "../../Const/TankDefinitions";
 import Barrel from "../Tank/Barrel";
-import { OverdriveAddon, PronouncedAddon   } from "../Tank/Addons";
+import { OverdriveAddon,} from "../Tank/Addons";
 import { normalizeAngle, PI2 } from "../../util";
 
 /**

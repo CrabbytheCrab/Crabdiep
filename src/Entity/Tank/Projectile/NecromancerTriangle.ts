@@ -43,7 +43,7 @@ export default class NecromancerTriangle extends Drone {
         // this.physicsData.values.size = 55 * Math.SQRT1_2 * bulletDefinition.sizeRatio;
 
         // if (shape.isShiny) this.healthData.values.maxHealth = this.healthData.values.health *= 10
-        this.styleData.values.color = tank.relationsData.values.team?.teamData?.values.teamColor || Color.NecromancerSquare;
+        this.styleData.values.color = tank.relationsData.values.team?.teamData?.values.teamColor || Color.NecromancerTriangle;
         if (this.physicsData.values.flags & PhysicsFlags.noOwnTeamCollision) this.physicsData.values.flags ^= PhysicsFlags.noOwnTeamCollision;
         this.physicsData.values.flags |= PhysicsFlags.onlySameOwnerCollision;
 

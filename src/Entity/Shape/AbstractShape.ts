@@ -54,7 +54,7 @@ export default class AbstractShape extends LivingEntity {
     /** The decided orbit rate, based on the constructor's BASE_ORBIT. *//* @ts-ignore */
     protected orbitRate = (Math.random() < .5 ? -1 : 1) * this.constructor.BASE_ORBIT
     /** The decided rotation rate, based on the constructor's BASE_ROTATION. *//* @ts-ignore */
-    public rotationRate = (Math.random() < .5 ? -1 : 1) * this.constructor.BASE_ROTATION
+    protected rotationRate = (Math.random() < .5 ? -1 : 1) * this.constructor.BASE_ROTATION
     /** The decided velocity of the shape, based on the constructor's BASE_VELOCITY. *//* @ts-ignore */
     protected shapeVelocity = this.constructor.BASE_VELOCITY;
 
