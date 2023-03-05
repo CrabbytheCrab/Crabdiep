@@ -68,11 +68,11 @@ const Bombshot1: BarrelDefinition = {
     addon: null,
     bullet: {
         type: "bullet",
-        health: 1.5,
-        damage: 1,
+        health: 1.25,
+        damage: 0.85,
         speed: 1.2,
         scatterRate: 0.3,
-        lifeLength: 0.45,
+        lifeLength: 0.25,
         sizeRatio: 1,
         absorbtionFactor: 0.3
     }
