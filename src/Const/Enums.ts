@@ -273,6 +273,7 @@ export const enum Tank {
     Splitter      = 192,
     MineSweeper   = 193,
     Sticky        = 194,
+    Wraith        = 195,
     Mothership    = 204
 }
 

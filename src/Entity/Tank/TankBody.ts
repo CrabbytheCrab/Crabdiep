@@ -40,6 +40,7 @@ import WepSquare from "../Shape/WepSquare";
 import { maxPlayerLevel } from "../../config";
 import RopeSegment from "./Projectile/RopeSegment";
 import Vector from "../../Physics/Vector";
+import NecromancerWepSquare from "./Projectile/NecromancerWepSquare";
 
 /**
  * Abstract type of entity which barrels can connect to.
@@ -254,6 +255,28 @@ public canchain: boolean
                 }
 
                 const sunchip = NecromancerSquare.fromShape(barrelToShoot, this, this.definition, entity);
+            }
+        }
+    }
+    if (entity instanceof Square && this.definition.flags.canClaimSquareswep && this.barrels.length) {
+        if(entity instanceof WepSquare){
+
+        }else{
+            // If can claim, pick a random barrel that has drones it can still shoot, then shoot
+            const MAX_DRONES_PER_BARREL = 6 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload] * 0.725);
+            const barrelsToShoot = this.barrels.filter((e) => e.definition.bullet.type === "wepnecrodrone" && e.droneCount < MAX_DRONES_PER_BARREL);
+
+            if (barrelsToShoot.length) {
+                const barrelToShoot = barrelsToShoot[~~(Math.random()*barrelsToShoot.length)];
+
+                // No destroy it on the next tick to make it look more like the way diep does it.
+                entity.destroy(true);
+                if (entity.deletionAnimation) {
+                    entity.deletionAnimation.frame = 0;
+                    entity.styleData.opacity = 1;
+                }
+
+                const sunchip = NecromancerWepSquare.fromShape(barrelToShoot, this, this.definition, entity);
             }
         }
     }

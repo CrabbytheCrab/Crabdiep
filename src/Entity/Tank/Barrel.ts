@@ -60,6 +60,7 @@ import OrbitTrap from "./Projectile/OrbitTrap";
 import Block from "./Projectile/Block";
 import PillBox from "./Projectile/Block";
 import Explosion from "./Projectile/Explosion";
+import NecromancerWepSquare from "./Projectile/NecromancerWepSquare";
 /**
  * Class that determines when barrels can shoot, and when they can't.
  */
@@ -254,6 +255,9 @@ export default class Barrel extends ObjectEntity {
                 break;
             case 'necrodrone':
                 new NecromancerSquare(this, this.tank, tankDefinition, angle);
+                break;
+            case 'wepnecrodrone':
+                new NecromancerWepSquare(this, this.tank, tankDefinition, angle);
                 break;
             case 'swarm':
                 new Swarm(this, this.tank, tankDefinition, angle);

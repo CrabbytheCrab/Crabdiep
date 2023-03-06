@@ -28,7 +28,7 @@ export type preAddonId = "dombase" | "launcher" |  "pronounced2"|"laucher2"| "la
 export type addonId = preAddonId | postAddonId;
 
 /** The types of projectiles in the game */
-export type projectileId = "bullet"| "block"| "explosion"| "trapspinner"|"orbittrap" | "mine" |"bombdrone"|"striker"| "drone" | "autoswarm" |"trap"| "pentadrone"  |  "autodrone"  |"necrotriangledrone" | "necropentadrone" | "necrodrone" | "minion" | "spinner" | "spinner4" | "megaspinner" | "skimmer" | "rocket" | "swarm" | "flame" | "wall" | "croc" | "launrocket" | "autotrap"| "domminion" | "megaminion" | "miniminion" | "boomerang" | "hive" | "blunt" | "blunttrap" | "orbit";
+export type projectileId = "bullet"| "block"| "explosion"| "trapspinner"|"orbittrap" | "mine" |"bombdrone"|"striker"| "drone" | "autoswarm" |"trap"| "pentadrone"  |  "autodrone"  |"necrotriangledrone" | "necropentadrone" | "necrodrone" | "wepnecrodrone"|"minion" | "spinner" | "spinner4" | "megaspinner" | "skimmer" | "rocket" | "swarm" | "flame" | "wall" | "croc" | "launrocket" | "autotrap"| "domminion" | "megaminion" | "miniminion" | "boomerang" | "hive" | "blunt" | "blunttrap" | "orbit";
 
 /** The types of barrel addons that exist in the game */
 export type barrelAddonId = "trapLauncher" |"blockLauncher"| "mineLauncher"  | "stickyLauncher" |"reversetrap"|"machineMineLauncher"| "minionLauncher" | "engitrapLauncher" | "swarmLauncher" | "machineTrapLauncher" | "engimachinetrapLauncher";
@@ -132,6 +132,7 @@ export interface TankDefinition {
         canClaimSquares2?: boolean;
         canClaimTriangles?: boolean;
         canClaimPentagons?: boolean;
+        canClaimSquareswep?: boolean;
         dronecount?: boolean;
         isCelestial?: boolean;
         canChain?: boolean;
@@ -2931,7 +2932,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Spawner",
         "upgradeMessage": "Use your left mouse button to control the minions around your cursor",
         "levelRequirement": 30,
-        "upgrades": [79, 80, 94,117,142,128],
+        "upgrades": [79, 80, 94,117,195,142,128],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -3386,7 +3387,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Sepulcher",
         "upgradeMessage": "Kill squares to possess them",
         "levelRequirement": 30,
-        "upgrades": [72, 77,101, 100,128,164],
+        "upgrades": [72, 77,101, 100,128,164,195],
         "flags": {
             "invisibility": false,
             "canClaimSquares": true,
@@ -16847,7 +16848,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Agent",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [149,150,151,152,128],
+        "upgrades": [149,150,151,152,195,128],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -23344,6 +23345,90 @@ const TankDefinitions = JSON.parse(`[
             },
             {
                 "name": "Mine Speed",
+                "max": 7
+            },
+            {
+                "name": "Body Damage",
+                "max": 7
+            },
+            {
+                "name": "Max Health",
+                "max": 7
+            },
+            {
+                "name": "Health Regen",
+                "max": 7
+            }
+        ]
+    },
+    {
+        "id": 195,
+        "name": "Wraith",
+        "upgradeMessage": "",
+        "levelRequirement": 45,
+        "upgrades": [],
+        "flags": {
+            "invisibility": false,
+            "canClaimSquareswep": true,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 0.9,
+        "absorbtionFactor": 1,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": null,
+        "postAddon": "overdrive",
+        "sides": 4,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 70,
+                "width": 42,
+                "delay": 0.25,
+                "reload": 10,
+                "recoil": 1,
+                "isTrapezoid": true,
+                "trapezoidDirection": 0,
+                "addon": null,
+                "droneCount": 0,
+                "canControlDrones": true,
+                "bullet": {
+                    "type": "wepnecrodrone",
+                    "sizeRatio": 1,
+                    "health": 2,
+                    "damage": 0.42,
+                    "speed": 0.72,
+                    "scatterRate": 0,
+                    "lifeLength": -1,
+                    "absorbtionFactor": 1
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 7
+            },
+            {
+                "name": "Drone Count",
+                "max": 7
+            },
+            {
+                "name": "Drone Damage",
+                "max": 7
+            },
+            {
+                "name": "Drone Health",
+                "max": 7
+            },
+            {
+                "name": "Drone Speed",
                 "max": 7
             },
             {
