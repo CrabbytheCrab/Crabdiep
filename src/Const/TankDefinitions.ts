@@ -28,10 +28,10 @@ export type preAddonId = "dombase" | "launcher" |  "pronounced2"|"laucher2"| "la
 export type addonId = preAddonId | postAddonId;
 
 /** The types of projectiles in the game */
-export type projectileId = "bullet"| "block"| "trapspinner"|"orbittrap" | "mine" |"bombdrone"|"striker"| "drone" | "autoswarm" |"trap"| "pentadrone"  |  "autodrone"  |"necrotriangledrone" | "necropentadrone" | "necrodrone" | "minion" | "spinner" | "spinner4" | "megaspinner" | "skimmer" | "rocket" | "swarm" | "flame" | "wall" | "croc" | "launrocket" | "autotrap"| "domminion" | "megaminion" | "miniminion" | "boomerang" | "hive" | "blunt" | "blunttrap" | "orbit";
+export type projectileId = "bullet"| "block"| "explosion"| "trapspinner"|"orbittrap" | "mine" |"bombdrone"|"striker"| "drone" | "autoswarm" |"trap"| "pentadrone"  |  "autodrone"  |"necrotriangledrone" | "necropentadrone" | "necrodrone" | "minion" | "spinner" | "spinner4" | "megaspinner" | "skimmer" | "rocket" | "swarm" | "flame" | "wall" | "croc" | "launrocket" | "autotrap"| "domminion" | "megaminion" | "miniminion" | "boomerang" | "hive" | "blunt" | "blunttrap" | "orbit";
 
 /** The types of barrel addons that exist in the game */
-export type barrelAddonId = "trapLauncher" |"blockLauncher"| "mineLauncher" |"reversetrap"|"machineMineLauncher"| "minionLauncher" | "engitrapLauncher" | "swarmLauncher" | "machineTrapLauncher" | "engimachinetrapLauncher";
+export type barrelAddonId = "trapLauncher" |"blockLauncher"| "mineLauncher"  | "stickyLauncher" |"reversetrap"|"machineMineLauncher"| "minionLauncher" | "engitrapLauncher" | "swarmLauncher" | "machineTrapLauncher" | "engimachinetrapLauncher";
 
 /** Increase in opacity when taking damage. */
 export const visibilityRateDamage = 0.2;
@@ -3224,7 +3224,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Mega Trapper",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [83, 84, 125, 156, 165],
+        "upgrades": [83, 84, 125, 156, 165, 193],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -14997,7 +14997,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Split Shot",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [58,34, 66, 50,186,187,191, 133],
+        "upgrades": [58,34, 66, 50,187,191, 133],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -15898,7 +15898,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Mine Layer",
         "upgradeMessage": "Right click to detonate all primed mines",
         "levelRequirement": 30,
-        "upgrades": [141, 142],
+        "upgrades": [141, 142,193,194],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -23179,6 +23179,171 @@ const TankDefinitions = JSON.parse(`[
             },
             {
                 "name": "Bullet Speed",
+                "max": 7
+            },
+            {
+                "name": "Body Damage",
+                "max": 7
+            },
+            {
+                "name": "Max Health",
+                "max": 7
+            },
+            {
+                "name": "Health Regen",
+                "max": 7
+            }
+        ]
+    },
+    {
+        "id": 193,
+        "name": "Mine Sweeper",
+        "upgradeMessage": "",
+        "levelRequirement": 45,
+        "upgrades": [],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 0.9,
+        "absorbtionFactor": 1,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": null,
+        "postAddon": null,
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 60,
+                "width": 54.6,
+                "delay": 0,
+                "reload": 6.25,
+                "recoil": 1,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "droneCount": 10,
+                "addon": "mineLauncher",
+                "bullet": {
+                    "type": "mine",
+                    "sizeRatio": 0.8,
+                    "health": 4.5,
+                    "damage":1.1,
+                    "speed": 2,
+                    "scatterRate": 1,
+                    "lifeLength": -1,
+                    "absorbtionFactor": 0.5
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 7
+            },
+            {
+                "name": "Reload",
+                "max": 7
+            },
+            {
+                "name": "Mine Damage",
+                "max": 7
+            },
+            {
+                "name": "Mine Health",
+                "max": 7
+            },
+            {
+                "name": "Mine Speed",
+                "max": 7
+            },
+            {
+                "name": "Body Damage",
+                "max": 7
+            },
+            {
+                "name": "Max Health",
+                "max": 7
+            },
+            {
+                "name": "Health Regen",
+                "max": 7
+            }
+        ]
+    },
+    {
+        "id": 194,
+        "name": "Sticky Bomber",
+        "upgradeMessage": "",
+        "levelRequirement": 45,
+        "upgrades": [],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 0.9,
+        "absorbtionFactor": 1,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": null,
+        "postAddon": null,
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 80,
+                "width": 42,
+                "delay": 0,
+                "reload": 3,
+                "recoil": 0.25,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "droneCount": 8,
+                "addon": "stickyLauncher",
+                "bullet": {
+                    "type": "mine",
+                    "sizeRatio": 0.8,
+                    "health": 4,
+                    "damage":0.1,
+                    "speed": 2,
+                    "scatterRate": 0.3,
+                    "lifeLength": -1,
+                    "absorbtionFactor": 0.25,
+                    "sides":8
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 7
+            },
+            {
+                "name": "Reload",
+                "max": 7
+            },
+            {
+                "name": "Mine Damage",
+                "max": 7
+            },
+            {
+                "name": "Mine Health",
+                "max": 7
+            },
+            {
+                "name": "Mine Speed",
                 "max": 7
             },
             {

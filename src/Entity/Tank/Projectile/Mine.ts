@@ -19,7 +19,7 @@
 import Barrel from "../Barrel";
 import Bullet from "./Bullet";
 
-import { Color, InputFlags, PhysicsFlags, Stat, StyleFlags } from "../../../Const/Enums";
+import { Color, InputFlags, PhysicsFlags, Stat, StyleFlags, Tank } from "../../../Const/Enums";
 import { BarrelDefinition, TankDefinition } from "../../../Const/TankDefinitions";
 import { BarrelBase } from "../TankBody";
 import { DevTank } from "../../../Const/DevTankDefinitions";
@@ -81,6 +81,31 @@ const Bombshot2: BarrelDefinition = {
         absorbtionFactor: 0.3
     }
 };
+
+const Bombshot3: BarrelDefinition = {
+    angle: 0,
+    offset: 0,
+    size: 0,
+    width: 100,
+    delay: 0,
+    reload: 100,
+    recoil: 0,
+    bulletdie: true,
+    isTrapezoid: false,
+    forceFire: true,
+    trapezoidDirection: 0,
+    addon: null,
+    bullet: {
+        type: "explosion",
+        health: 100,
+        damage: 0.5,
+        speed: 0,
+        scatterRate: 0,
+        lifeLength: 5,
+        sizeRatio: 1,
+        absorbtionFactor: 0
+    }
+};
 export default class Mine extends Bullet implements BarrelBase {
     /** Number of ticks before the trap cant collide with its own team. */
     protected collisionEnd = 0;
@@ -117,6 +142,12 @@ export default class Mine extends Bullet implements BarrelBase {
         this.physicsData.values.sides = bulletDefinition.sides ?? 4;
         if (this.physicsData.values.flags & PhysicsFlags.noOwnTeamCollision) this.physicsData.values.flags ^= PhysicsFlags.noOwnTeamCollision;
         this.physicsData.values.flags |= PhysicsFlags.onlySameOwnerCollision;
+        if(this.tankDefinition && this.tankDefinition.id === Tank.Sticky){
+            this.styleData.values.flags |= StyleFlags.isStar;
+            this.physicsData.values.flags |= PhysicsFlags.noOwnTeamCollision;
+        if (this.physicsData.values.flags & PhysicsFlags.onlySameOwnerCollision) this.physicsData.values.flags ^= PhysicsFlags.onlySameOwnerCollision;
+
+        }
         //this.styleData.values.flags |= StyleFlags.isStar;
         this.styleData.values.flags &= ~StyleFlags.hasNoDmgIndicator;
         this.skimmerBarrels =[];
@@ -160,14 +191,27 @@ export default class Mine extends Bullet implements BarrelBase {
         atuo.styleData.color = Color.Border
         const tickBase = atuo.tick;
         atuo.tick = (tick: number) => {
+            atuo.styleData.opacity = this.styleData.opacity
             if(this.canexplode == false)
-            if(this.canControlDrones){
+            if(this.tankDefinition && this.tankDefinition.id === Tank.Detonator){
                 this.primetimer++
                 if(this.primetimer == 30){
                     this.canexplode = true
                     atuo.styleData.color = Color.Box
 
-                }}else{
+                }}else if(this.tankDefinition && this.tankDefinition.id === Tank.MineSweeper){
+                    this.primetimer++
+                    if(this.primetimer == 75){
+                        this.canexplode = true
+                        atuo.styleData.color = Color.Box
+    
+                    }}else if(this.tankDefinition && this.tankDefinition.id === Tank.Sticky){
+                        this.primetimer++
+                        if(this.primetimer == 30){
+                            this.canexplode = true
+                            atuo.styleData.color = Color.Box
+        
+                        }}else{
                     this.primetimer++
                     if(this.primetimer == 60){
                         this.canexplode = true
@@ -183,10 +227,7 @@ export default class Mine extends Bullet implements BarrelBase {
     public destroy(animate=true) {
         if(this.canexplode == true){
             this.canexplode = false
-            if ( this.megaturret || this.canControlDrones){
-                if ( this.megaturret){
-            }
-            if(this.canControlDrones){
+            if(this.tankDefinition && this.tankDefinition.id === Tank.Detonator){
                 const skimmerBarrels: Barrel[] = this.skimmerBarrels =[]
                 for (let n = 0; n < 8; n++) {
                     const barr = new Barrel(this, {
@@ -195,10 +236,25 @@ export default class Mine extends Bullet implements BarrelBase {
                  });
                  barr.physicsData.values.sides = 0
                  skimmerBarrels.push(barr);
-         
-                 }
         }
-    } else{
+    }else if(this.tankDefinition && this.tankDefinition.id === Tank.Sticky){
+        if(this.boom == true){
+        const skimmerBarrels: Barrel[] = this.skimmerBarrels =[]
+            const barr = new Barrel(this, {
+             ...Bombshot3,
+             angle: 0
+         });
+         barr.physicsData.values.sides = 0
+         const tickBase = barr.tick;
+         barr.tick = (tick: number) => {
+            barr.positionData.x = this.positionData.x
+            barr.positionData.y = this.positionData.y
+
+             tickBase.call(barr, tick);
+         }
+         skimmerBarrels.push(barr);
+        }
+} else{
                 const skimmerBarrels: Barrel[] = this.skimmerBarrels =[]
                 for (let n = 0; n < 8; n++) {
                     const barr = new Barrel(this, {
@@ -227,9 +283,8 @@ export default class Mine extends Bullet implements BarrelBase {
         if(this.canexploded){
         if(this.tank.inputs.attemptingRepel() && this.canexplode == true){
             this.canexploded = false
+            this.boom = true
                 this.destroy()
-
-        this.boom = true
         }
     }
         if (tick - this.spawnTick === this.collisionEnd) {

@@ -67,6 +67,7 @@ public turn: number
     }
     public tick(tick: number) {
         super.tick(tick);
+        this.isViewed = true
         this.positionData.angle += 0.3
         const usingAI = this.tank.inputs.deleted || (!this.tank.inputs.attemptingShot() && !this.tank.inputs.attemptingRepel());
         const inputs = this.ai.inputs;

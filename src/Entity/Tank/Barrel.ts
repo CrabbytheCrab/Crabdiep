@@ -59,12 +59,13 @@ import Striker from "./Projectile/Striker";
 import OrbitTrap from "./Projectile/OrbitTrap";
 import Block from "./Projectile/Block";
 import PillBox from "./Projectile/Block";
+import Explosion from "./Projectile/Explosion";
 /**
  * Class that determines when barrels can shoot, and when they can't.
  */
 export class ShootCycle {
     /** The barrel this cycle is keeping track of. */
-    private barrelEntity: Barrel;
+    public barrelEntity: Barrel;
     /** The current position in the cycle. */
     private pos: number;
     /** The last known reload time of the barrel. */
@@ -84,7 +85,7 @@ export class ShootCycle {
         }
 
         const alwaysShoot = (this.barrelEntity.definition.forceFire) ||(this.barrelEntity.definition.bullet.type === 'bombdrone')||(this.barrelEntity.definition.bullet.type === 'autodrone') || (this.barrelEntity.definition.bullet.type === 'pentadrone') || (this.barrelEntity.definition.bullet.type === 'domminion') || (this.barrelEntity.definition.bullet.type === 'megaminion') || (this.barrelEntity.definition.bullet.type === 'miniminion') || (this.barrelEntity.definition.bullet.type === 'minion') || (this.barrelEntity.definition.bullet.type === 'drone') || (this.barrelEntity.definition.bullet.type === 'necrodrone') || (this.barrelEntity.definition.bullet.type === 'necropentadrone') || (this.barrelEntity.definition.bullet.type === 'necrotriangledrone');
-
+        const Orbshot = (this.barrelEntity.definition.bullet.type === 'orbit'||(this.barrelEntity.definition.bullet.type === 'orbittrap'))
         if (this.pos >= reloadTime) {
             // When its not shooting dont shoot, unless its a drone
             if (!this.barrelEntity.attemptingShot && !alwaysShoot) {
@@ -96,7 +97,7 @@ export class ShootCycle {
                 this.pos = reloadTime;
                 return;
             }
-            if (typeof  TankBody.MAXORBS === 'number' && TankBody.OrbCount >= TankBody.MAXORBS) {
+            if (Orbshot && typeof this.barrelEntity.tank.MAXORBS === 'number' && this.barrelEntity.tank.OrbCount >= this.barrelEntity.tank.MAXORBS) {
                 this.pos = reloadTime;
                 return;
             }
@@ -265,6 +266,9 @@ export default class Barrel extends ObjectEntity {
                 break;
             case 'flame':
                 new Flame(this, this.tank, tankDefinition, angle);
+                break;
+            case 'explosion':
+                new Explosion(this, this.tank, tankDefinition, angle);
                 break;
             case 'wall': {
                 let w = new MazeWall(this.game, Math.round(this.tank.inputs.mouse.x / 50) * 50, Math.round(this.tank.inputs.mouse.y / 50) * 50, 250, 250);

@@ -107,8 +107,12 @@ export default class ObjectEntity extends Entity {
     public isAffectedByRope: boolean;
     public restLength: number;
     public seg: number;
+    public MAXORBS: number
+    public OrbCount: number
     public constructor(game: GameServer) {
         super(game);
+        this.MAXORBS = 0
+        this.OrbCount = 0
         this.restLength = 0
         this.isAffectedByRope = false
         this.styleData.zIndex = game.entities.zIndex++;

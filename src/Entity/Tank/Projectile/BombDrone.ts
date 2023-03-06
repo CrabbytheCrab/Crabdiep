@@ -182,6 +182,7 @@ export default class BombDrone extends Bullet  implements BarrelBase {
         atuo.styleData.color = Color.Border
         const tickBase = atuo.tick;
         atuo.tick = (tick: number) => {
+            atuo.styleData.opacity = this.styleData.opacity
             if(this.canexplode == false){
                     this.primetimer++
                     if(this.primetimer == 60){

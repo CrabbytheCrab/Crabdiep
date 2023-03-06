@@ -67,8 +67,8 @@ export default class Orbit extends Bullet {
         this.baseSpeed /= 3;
         if (this.physicsData.values.flags & PhysicsFlags.noOwnTeamCollision) this.physicsData.values.flags ^= PhysicsFlags.noOwnTeamCollision;
         this.physicsData.values.flags |= PhysicsFlags.onlySameOwnerCollision;
-        TankBody.OrbCount += 1;
-        this.num = TankBody.OrbCount
+        this.tank.OrbCount += 1;
+        this.num = this.tank.OrbCount
         this.ai.movementSpeed = this.ai.aimSpeed = this.baseAccel;
         Orbit.dronecount[this.num] += 1;
     }
@@ -77,7 +77,7 @@ export default class Orbit extends Bullet {
     public destroy(animate=true) {
         Orbit.dronecount[this.num] -= 1;
 
-        if (!animate) TankBody.OrbCount -= 1;
+        if (!animate) this.tank.OrbCount -= 1;
 
         super.destroy(animate);
     }
@@ -126,7 +126,7 @@ export default class Orbit extends Bullet {
                 }
         const sizeFactor = this.tank.sizeFactor;
         const base = this.baseAccel;
-            let angle = PI2 * ((this.num)/TankBody.OrbCount)
+            let angle = PI2 * ((this.num)/this.tank.OrbCount)
             const offset = (Math.atan2(delta.y, delta.x) + Math.PI/ 2)
             let dista = 3
                 let angle2 = angle

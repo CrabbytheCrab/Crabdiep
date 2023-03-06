@@ -271,6 +271,8 @@ export const enum Tank {
     TrailBlazer   = 190,
     Bunker        = 191,
     Splitter      = 192,
+    MineSweeper   = 193,
+    Sticky        = 194,
     Mothership    = 204
 }
 

@@ -71,8 +71,8 @@ export default class OrbitTrap extends Bullet {
                 this.baseSpeed /= 3;
         this.collisionEnd = this.lifeLength >> 3;
         this.lifeLength = (600 * barrel.definition.bullet.lifeLength) >> 3;
-        TankBody.OrbCount += 1;
-        this.num = TankBody.OrbCount
+        this.tank.OrbCount += 1;
+        this.num = this.tank.OrbCount
         this.ai.movementSpeed = this.ai.aimSpeed = this.baseAccel;
         this.positionData.values.angle = Math.random() * PI2;
         OrbitTrap.dronecount[this.num] += 1;
@@ -128,7 +128,7 @@ export default class OrbitTrap extends Bullet {
                 }
         const sizeFactor = this.tank.sizeFactor;
         const base = this.baseAccel;
-            let angle = PI2 * ((this.num)/TankBody.OrbCount)
+            let angle = PI2 * ((this.num)/this.tank.OrbCount)
             const offset = (Math.atan2(delta.y, delta.x) + Math.PI/ 2)
             let dista = 3
                 let angle2 = angle
@@ -142,7 +142,7 @@ export default class OrbitTrap extends Bullet {
             if(this.tank.inputs.attemptingRepel()){
         const inputs = this.tank.inputs;
                 OrbitTrap.dronecount[this.num] = 0;
-                TankBody.OrbCount = 0;
+                this.tank.OrbCount = 0;
                 this.fire = true
                 this.angles = Math.atan2((inputs.mouse.y - this.positionData.values.y), (inputs.mouse.x - this.positionData.values.x));
                 this.baseSpeed = (this.barrelEntity.bulletAccel / 2) + 30 - Math.random();
