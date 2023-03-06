@@ -48,7 +48,7 @@ export default class NecromancerWepSquare extends Bullet implements BarrelBase{
     /** The reload time of the skimmer's barrel. */
     public reloadTime = 15;
     /** The inputs for when to shoot or not. (skimmer) */
-    public inputs: Inputs;
+    public inputs = new Inputs();;
     public ai: AI;
 
     /** The drone's radius of resting state */
@@ -132,7 +132,6 @@ export default class NecromancerWepSquare extends Bullet implements BarrelBase{
                 this.physicsData.size = this.definition.size
             }
         }(this, s2Definition);
-        this.inputs = new Inputs();
 
         skimmerBarrels.push(s1, s2);
         this.invisibile = typeof this.barrelEntity.definition.invisibile === 'boolean' && this.barrelEntity.definition.invisibile;
@@ -195,12 +194,8 @@ export default class NecromancerWepSquare extends Bullet implements BarrelBase{
     public tick(tick: number) {
         const usingAI = !this.canControlDrones || this.tank.inputs.deleted || (!this.tank.inputs.attemptingShot() && !this.tank.inputs.attemptingRepel());
         const inputs = !usingAI ? this.tank.inputs : this.ai.inputs;
-
         if (usingAI && this.ai.state === AIState.idle) {
-        } else {
-            this.inputs.flags |= InputFlags.leftclick;
-        }
-        if (usingAI && this.ai.state === AIState.idle) {
+            if(this.inputs.flags && this.inputs.flags == InputFlags.leftclick) this.inputs.flags ^= InputFlags.leftclick;
             const delta = {
                 x: this.positionData.values.x - this.tank.positionData.values.x,
                 y: this.positionData.values.y - this.tank.positionData.values.y
@@ -229,6 +224,7 @@ export default class NecromancerWepSquare extends Bullet implements BarrelBase{
 
             return;
         } else {
+            this.inputs.flags |= InputFlags.leftclick;
             this.positionData.angle = Math.atan2(inputs.mouse.y - this.positionData.values.y, inputs.mouse.x - this.positionData.values.x);
             this.restCycle = false
         }
@@ -236,6 +232,7 @@ export default class NecromancerWepSquare extends Bullet implements BarrelBase{
 
         
         if (this.canControlDrones && inputs.attemptingRepel()) {
+            this.inputs.flags |= InputFlags.leftclick;
             this.positionData.angle += Math.PI; 
         }
 
