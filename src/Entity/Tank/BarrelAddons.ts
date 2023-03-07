@@ -270,6 +270,90 @@ export class MinionLauncherAddon extends BarrelAddon {
 }
 
 
+export class NecMinionLauncher extends ObjectEntity {
+    /** The barrel that this trap launcher is placed on. */
+    public barrelEntity: Barrel;
+
+    /** Resizes the trap launcher; when its barrel owner gets bigger, the trap launcher must as well. */
+    public constructor(barrel: Barrel) {
+        super(barrel.game);
+
+        this.barrelEntity = barrel;
+        this.setParent(barrel);
+        this.relationsData.values.team = barrel;
+        this.physicsData.values.flags = PhysicsFlags._unknown;
+        this.styleData.values.color = Color.Barrel;
+        this.styleData.values.flags|= StyleFlags.showsAboveParent;
+
+        this.physicsData.values.sides = 2;
+        this.physicsData.values.width = barrel.physicsData.values.width* 2;
+        this.physicsData.values.size = barrel.physicsData.values.size * (10 / 50);
+        this.positionData.values.x = (barrel.physicsData.values.size - this.physicsData.values.size) / 2;
+    }
+
+    public resize() {
+        this.physicsData.sides = 2;
+        this.physicsData.width = this.barrelEntity.physicsData.values.width * 2;
+        this.physicsData.size = this.barrelEntity.physicsData.values.size * (10 / 50);
+        this.positionData.x = (this.barrelEntity.physicsData.values.size - this.physicsData.values.size) / 2;
+    }
+
+
+    public tick(tick: number) {
+        super.tick(tick);
+
+        this.resize();
+    }
+}
+
+export class NecMinionLauncher2 extends ObjectEntity {
+    /** The barrel that this trap launcher is placed on. */
+    public barrelEntity: Barrel;
+
+    /** Resizes the trap launcher; when its barrel owner gets bigger, the trap launcher must as well. */
+    public constructor(barrel: Barrel) {
+        super(barrel.game);
+
+        this.barrelEntity = barrel;
+        this.setParent(barrel);
+        this.relationsData.values.team = barrel;
+        this.physicsData.values.flags = PhysicsFlags._unknown;
+        this.styleData.values.color = Color.Barrel;
+        this.styleData.values.flags|= StyleFlags.showsAboveParent;
+
+        this.physicsData.values.sides = 2;
+        this.physicsData.values.width = barrel.physicsData.values.width* 1.25;
+        this.physicsData.values.size = barrel.physicsData.values.size * (20 / 50);
+        this.positionData.values.x = 0;
+    }
+
+    public resize() {
+        this.physicsData.sides = 2;
+        this.physicsData.width = this.barrelEntity.physicsData.values.width * 2;
+        this.physicsData.size = this.barrelEntity.physicsData.values.size * (20 / 50);
+        this.positionData.x = 0;
+    }
+
+
+    public tick(tick: number) {
+        super.tick(tick);
+
+        this.resize();
+    }
+}
+
+export class NecMinionLauncherAddon extends BarrelAddon {
+    /** The actual trap launcher entity */
+    public launcherEntity: MinionLauncher;
+
+    public constructor(owner: Barrel) {
+        super(owner);
+        this.launcherEntity = new NecMinionLauncher(owner);
+        this.launcherEntity = new NecMinionLauncher2(owner);
+    }
+}
+
+
 export class EngiTrapLauncher extends ObjectEntity {
     /** The barrel that this trap launcher is placed on. */
     public barrelEntity: Barrel;
@@ -535,14 +619,14 @@ export class MineLauncher extends ObjectEntity {
         this.styleData.values.color = Color.Barrel;
 
         this.physicsData.values.sides = 2;
-        this.physicsData.values.width = barrel.physicsData.values.width * 1.5;
+        this.physicsData.values.width = barrel.physicsData.values.width * 1.75;
         this.physicsData.values.size = barrel.physicsData.values.width * (20 / 42);
         this.positionData.values.x = (barrel.physicsData.values.size + this.physicsData.values.size) / 2;
     }
 
     public resize() {
         this.physicsData.sides = 2;
-        this.physicsData.width = this.barrelEntity.physicsData.values.width * 1.5;
+        this.physicsData.width = this.barrelEntity.physicsData.values.width * 1.75;
         this.physicsData.size = this.barrelEntity.physicsData.values.width * (20 / 42);
         this.positionData.x = (this.barrelEntity.physicsData.values.size + this.physicsData.values.size) / 2;
     }
@@ -802,6 +886,7 @@ export class StrikerAddon extends BarrelAddon {
     mineLauncher : MineLauncherAddon,
     machineMineLauncher : MineLauncherAddon2,
     stickyLauncher : StickyLauncherAddon,
-    reversetrap : StrikerAddon
+    reversetrap : StrikerAddon,
+    NecLauncher : NecMinionLauncherAddon
 
 }

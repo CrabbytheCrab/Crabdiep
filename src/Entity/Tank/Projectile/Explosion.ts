@@ -42,8 +42,8 @@ export default class Explosion extends Bullet {
     public tick(tick: number) {
         super.tick(tick);
         if (this.physicsData.size < this.sized * 20){
-        this.physicsData.size += this.sized * 2
-        this.styleData.opacity -= 1 / 10;
+        this.physicsData.size += this.sized * 2.5
+        this.styleData.opacity -= 1 / 8;
     }
         if (this.physicsData.size >= this.sized * 20){
             this.destroy(false)

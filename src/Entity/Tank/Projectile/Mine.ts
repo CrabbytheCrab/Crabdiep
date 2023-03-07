@@ -86,7 +86,7 @@ const Bombshot3: BarrelDefinition = {
     angle: 0,
     offset: 0,
     size: 0,
-    width: 100,
+    width: 125,
     delay: 0,
     reload: 100,
     recoil: 0,
@@ -98,7 +98,7 @@ const Bombshot3: BarrelDefinition = {
     bullet: {
         type: "explosion",
         health: 100,
-        damage: 0.5,
+        damage: 0.675,
         speed: 0,
         scatterRate: 0,
         lifeLength: 5,

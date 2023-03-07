@@ -955,7 +955,39 @@ class AutoTurretAddon extends Addon {
         new AutoTurret(owner);
     }
 }
+class PsiAddon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
 
+        const atuo = new AutoTurret(owner, {
+            angle: 0,
+            offset: 0,
+            size: 0,
+            width: 0,
+            delay: 0.01,
+            reload: 1.75,
+            recoil: 0,
+            isTrapezoid: false,
+            trapezoidDirection: 0,
+            addon: null,
+            droneCount: 0,
+            bullet: {
+                type: "drone",
+                sizeRatio: 1,
+                health: 0.75,
+                damage: 0.5,
+                speed: 1,
+                scatterRate: 1,
+                lifeLength: 0.75,
+                absorbtionFactor: 0.1
+            }
+        });
+            atuo.baseSize *= 1
+        //atuo.ai.passiveRotation = this.movementAngle
+        atuo.ai.viewRange = 0
+        atuo.styleData.color = Color.Psy
+    }
+}
 /** Smasher + Centered Auto Turret addon. */
 class AutoSmasherAddon extends Addon {
     public constructor(owner: BarrelBase) {
@@ -1322,5 +1354,6 @@ export const AddonById: Record<addonId, typeof Addon | null> = {
     joint3 : Joint3Addon,
     overdrive : OverDriveAddon,
     droneturret :Banshee, 
-    pronounced2 : PronouncedAddon2
+    pronounced2 : PronouncedAddon2,
+    psiEye: PsiAddon
 }
