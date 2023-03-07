@@ -41,6 +41,7 @@ import { bossSpawningInterval } from "../config";
 import Fortress from "../Entity/Boss/Fortress";
 import Pyromancer from "../Entity/Boss/Pyromancer";
 import Mecha from "../Entity/Boss/Mecha";
+import Beholder from "../Entity/Boss/Beholder";
 
 export const enum ArenaState {
 	/** Alive, open */
@@ -210,9 +211,9 @@ export default class ArenaEntity extends Entity implements TeamGroupEntity {
 		
 		this.boss = new TBoss(this.game);
 	}else{
-		const TBoss = [Guardian, Protector, Summoner, FallenOverlord, FallenPuker, FallenBooster, Defender]
+		const TBoss = [Guardian, Protector,Beholder, Summoner, FallenOverlord, FallenPuker, FallenBooster, Defender]
 		//const TBoss = [Mecha]
-		[~~(Math.random() * 7)];
+		[~~(Math.random() * 8)];
 		
 		this.boss = new TBoss(this.game);
 	}

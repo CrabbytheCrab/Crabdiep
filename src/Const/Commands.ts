@@ -1,6 +1,7 @@
 import Client from "../Client"
 import { AccessLevel } from "../config";
 import AbstractBoss from "../Entity/Boss/AbstractBoss";
+import Beholder from "../Entity/Boss/Beholder";
 import Defender from "../Entity/Boss/Defender";
 import FallenBooster from "../Entity/Boss/FallenBooster";
 import FallenOverlord from "../Entity/Boss/FallenOverlord";
@@ -242,6 +243,7 @@ export const commandCallbacks = {
             ["Summoner", Summoner],
             ["Guardian", Guardian],
             ["Protector", Protector],
+            ["Beholder", Beholder],
             ["FallenOverlord", FallenOverlord],
             ["FallenBooster", FallenBooster],
             ["FallenPuker", FallenPuker],

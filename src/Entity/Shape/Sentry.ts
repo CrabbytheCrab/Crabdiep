@@ -63,7 +63,7 @@ import { normalizeAngle, PI2 } from "../../util";
     public cameraEntity: Entity = this;
     public inputs;
     public reloadTime = 4;
-    public constructor(game: GameServer, large=false) {
+    public constructor(game: GameServer, large=true) {
         super(game, large);
 
         this.sizeFactor = this.physicsData.values.size / 50;
@@ -150,7 +150,7 @@ import { normalizeAngle, PI2 } from "../../util";
             barsss = new Barrel(this, GuardianSpawnerDefinition);
         }
         else if(rand < 0.5){
-        this.nameData.values.name = "Watching Crasher";
+        this.nameData.values.name = "Beholding Crasher";
             let barsss: Barrel;
             let GuardianSpawnerDefinition: BarrelDefinition = {
                 angle: Math.PI,
@@ -314,34 +314,12 @@ import { normalizeAngle, PI2 } from "../../util";
                     absorbtionFactor: 0.1
                 }
             };
-            let Auto4: BarrelDefinition = {
-                angle: 0,
-                offset: 0,
-                size: 55,
-                width: 50,
-                delay: 0.67,
-                reload: 2,
-                recoil: 0,
-                isTrapezoid: false,
-                trapezoidDirection: 0,
-                addon: null,
-                bullet: {
-                    type: "bullet",
-                    sizeRatio: 1,
-                    health: 2.5,
-                    damage: 0.75,
-                    speed: 2,
-                    scatterRate: 0.3,
-                    lifeLength: 1.5,
-                    absorbtionFactor: 0.1
-                }
-            };
             let Auto5: BarrelDefinition = {
                 angle: 0,
                 offset: 0,
                 size: 65,
                 width: 50,
-                delay: 0.34,
+                delay: 0.5,
                 reload: 2,
                 recoil: 0,
                 isTrapezoid: false,
@@ -350,11 +328,11 @@ import { normalizeAngle, PI2 } from "../../util";
                 bullet: {
                     type: "bullet",
                     sizeRatio: 1,
-                    health: 2.5,
-                    damage: 0.75,
+                    health: 1.25,
+                    damage: 1.5,
                     speed: 2,
                     scatterRate: 0,
-                    lifeLength: 1.5,
+                    lifeLength: 1,
                     absorbtionFactor: 0.1
                 }
             };
@@ -372,11 +350,11 @@ import { normalizeAngle, PI2 } from "../../util";
                 bullet: {
                     type: "bullet",
                     sizeRatio: 1,
-                    health: 2.5,
-                    damage: 0.75,
+                    health: 1.25,
+                    damage: 1.5,
                     speed: 2,
                     scatterRate: 0,
-                    lifeLength: 1.5,
+                    lifeLength: 1,
                     absorbtionFactor: 0.1
                 }
             };
@@ -391,7 +369,7 @@ import { normalizeAngle, PI2 } from "../../util";
         const MAX_ANGLE_RANGE = PI2 / 3; // keep within 90º each side
 
         for (let i = 0; i < 2; ++i) {
-            const base  = [new AutoTurret(this, [Auto6, Auto5, Auto4])];
+            const base  = [new AutoTurret(this, [Auto6, Auto5])];
             base[0].influencedByOwnerInputs = true;
             base[0].baseSize *= 1.5;
             base[0].ai.viewRange = 2000;
