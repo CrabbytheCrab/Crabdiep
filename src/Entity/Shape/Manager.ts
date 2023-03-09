@@ -28,6 +28,7 @@ import { Sentry } from "./Sentry";
 import  WepTriangle from "./WepTriangle";
 import  WepSquare from "./WepSquare";
 import WepPentagon from "./WepPentagon";
+import Hexagon from "./Hexagon";
 
 /**
  * Used to balance out shape count in the arena, as well
@@ -39,8 +40,9 @@ export default class ShapeManager {
     /** Arena whose shapes are being managed */
     protected arena: ArenaEntity;
     public sentrychance = 0.1
-    public weaponchance = 0.04
-    public alphachance = 0.5
+    public weaponchance = 0.05
+    public weaponchancenest = 0.1
+    public alphachance = 0.025
     public constructor(arena: ArenaEntity) {
         this.arena = arena;
         this.game = arena.game;
@@ -57,9 +59,12 @@ export default class ShapeManager {
         const {x, y} = this.arena.findSpawnLocation();
         const rightX = this.arena.arenaData.values.rightX;
         const leftX = this.arena.arenaData.values.leftX;
+        const rand = Math.random();
+
         if (Math.max(x, y) < rightX / 10 && Math.min(x, y) > leftX / 10) {
             // Pentagon Nest
-            if(rand2 < this.weaponchance * 1.25){
+            if(rand < 0.995){
+            if(rand2 < this.weaponchancenest){
                 if(rand2 < this.alphachance && this.game.pentalord == false){
 
                 shape = new WepPentagon(this.game, true);
@@ -80,7 +85,14 @@ export default class ShapeManager {
 
             shape.positionData.values.x = x;
             shape.positionData.values.y = y;
-            shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;}
+            shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;
+        }}else{
+            shape = new Hexagon(this.game, Math.random() <= 0.2);
+
+            shape.positionData.values.x = x;
+            shape.positionData.values.y = y;
+            shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;
+        }
         } else if (Math.max(x, y) < rightX / 5 && Math.min(x, y) > leftX / 5) {
             const rand = Math.random();
             // Crasher Zone

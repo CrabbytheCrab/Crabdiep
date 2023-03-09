@@ -48,6 +48,8 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
         this.parent = owner;
         this.seg= 0
         this.IsBig = false
+        this.physicsData.flags |= PhysicsFlags.isBase
+        this.styleData.flags |= StyleFlags.hasNoDmgIndicator
         this.sizeFactor = this.physicsData.values.size / 50;
         this.relationsData.owner = this.parent;
         this.inputs = new Inputs()
@@ -58,7 +60,7 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
         this.physicsData.pushFactor = 10;
                 this.physicsData.sides = 1
                     this.damagePerTick = 10
-        this.physicsData.size = this.parent.physicsData.size
+        this.physicsData.size = this.parent.physicsData.size * 1.25
             
         }else{
         this.physicsData.size = this.parent.physicsData.size/8;
@@ -111,22 +113,23 @@ this.styleData.color =  Color.Barrel;
         rotator.relationsData.values.team = this.relationsData.values.team
        //rotator.positionData.values.x = offsetRatio * size;
         rotator.positionData.values.angle = 0;
-                                   const rotator2 = new GuardObject(this.game, this, 1, 0.8, 0, 0.1 )  as GuardObject;
+                                   const rotator2 = new GuardObject(this.game, this, 1, 1, 0, 0.1 )  as GuardObject;
                        rotator2.styleData.zIndex = this.parent.styleData.zIndex - 6
                 rotator2.styleData.color =  this.parent.rootParent.styleData.color;
                 rotator2.styleData.values.flags |= StyleFlags.showsAboveParent
                 this.CanSpawn = false
             }
         this.physicsData.pushFactor = 10 + (bodyDamage);  
-                    this.damagePerTick = 12 + (bodyDamage * 2)
-        this.physicsData.size = this.parent.physicsData.size
+                    this.damagePerTick = 10 + (bodyDamage * 1.5)
+                    this.physicsData.size = this.parent.physicsData.size * 1.25
+
         }else{
                         if(this.CanSpawn){
                                        this.styleData.color =  Color.Barrel
                         this.styleData.zIndex = this.parent.styleData.zIndex - 25 + this.seg
                                             this.CanSpawn = false
             }
-            this.physicsData.pushFactor = 6 + (bodyDamage/2);  
+            this.physicsData.pushFactor = 3 + (bodyDamage/2);  
         this.physicsData.size = this.parent.physicsData.size/8;
         this.damagePerTick = 5 + (bodyDamage/2)
         }

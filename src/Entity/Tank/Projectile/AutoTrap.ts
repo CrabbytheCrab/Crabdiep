@@ -214,7 +214,35 @@ export default class AutoTrap extends Bullet implements BarrelBase {
             atuo[0].styleData.values.flags |= StyleFlags.showsAboveParent;
             atuo[0].ai.viewRange = 750
         }
-        else{
+        else if (tankDefinition && tankDefinition.id === Tank.Mechanic){
+        const atuo = new AutoTurret(this, {
+            angle: 0,
+            offset: 0,
+            size: 65,
+            width: 35,
+            delay: 0.01,
+            reload: 2,
+            recoil: 0,
+            isTrapezoid: false,
+            trapezoidDirection: 0,
+            addon: null,
+            bullet: {
+                type: "bullet",
+                sizeRatio: 1,
+                health: 0.65,
+                damage: 0.4,
+                speed: 1,
+                scatterRate: 1,
+                lifeLength: 0.75,
+                absorbtionFactor: 0.1
+            }
+        });
+            atuo.baseSize *= 1.25
+            atuo.positionData.values.angle = shootAngle
+        //atuo.ai.passiveRotation = this.movementAngle
+        atuo.styleData.values.flags |= StyleFlags.showsAboveParent;
+        atuo.ai.viewRange = 700
+    }else{
         const atuo = new AutoTurret(this, {
             angle: 0,
             offset: 0,

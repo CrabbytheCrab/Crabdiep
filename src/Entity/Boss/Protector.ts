@@ -23,6 +23,7 @@ import AbstractBoss from "./AbstractBoss";
 import { Color, Tank } from "../../Const/Enums";
 import { AIState } from "../AI";
 import { BarrelDefinition } from "../../Const/TankDefinitions";
+import AutoTurret from "../Tank/AutoTurret";
 
 const GuardianSpawnerDefinition: BarrelDefinition = {
     angle: Math.PI,
@@ -35,6 +36,7 @@ const GuardianSpawnerDefinition: BarrelDefinition = {
     isTrapezoid: true,
     trapezoidDirection: 0,
     addon: null,
+    forceFire: true,
     bullet: {
         type: "bullet",
         sizeRatio:1,
@@ -52,7 +54,7 @@ const GuardianSpawnerDefinition2: BarrelDefinition = {
     size: 185,
     width: 84,
     delay: 0,
-    reload: 8,
+    reload: 7,
     recoil: 1,
     isTrapezoid: false,
     trapezoidDirection: 0,
@@ -60,14 +62,38 @@ const GuardianSpawnerDefinition2: BarrelDefinition = {
     bullet: {
         type: "bullet",
         sizeRatio: 1,
-        health: 15,
+        health: 5,
         damage: 5,
-        speed: 1.5,
+        speed: 1.625,
         scatterRate: 0.3,
         lifeLength: 1.5,
         absorbtionFactor: 0.1
     }
 };
+
+const GuardianSpawnerDefinition3: BarrelDefinition = {
+    angle: 0,
+    offset: 0,
+    size: 110,
+    width: 90,
+    delay: 0.25,
+    reload: 16.5,
+    recoil: 1,
+    isTrapezoid: false,
+    trapezoidDirection: 0,
+    addon: null,
+    bullet: {
+        type: "bullet",
+        sizeRatio: 1,
+        health: 50,
+        damage: 0.5,
+        speed: 1,
+        scatterRate: 0.3,
+        lifeLength: 2.5,
+        absorbtionFactor: 0.1
+    }
+};
+
 
 // The size of Guardian by default
 const GUARDIAN_SIZE = 135;
@@ -86,7 +112,10 @@ export default class Protector extends AbstractBoss {
         this.physicsData.values.size = GUARDIAN_SIZE * Math.SQRT1_2;
         this.physicsData.values.sides = 3;
         this.sizeFactor = 1.0;
-
+        const atuo  = [new AutoTurret(this, [GuardianSpawnerDefinition3])];
+        atuo[0].positionData.values.angle = this.positionData.angle
+        atuo[0].baseSize *= 2.25
+        atuo[0].positionData.values.angle = this.positionData.values.angle 
         this.barrels.push(new Barrel(this, GuardianSpawnerDefinition));
         this.barrels.push(new Barrel(this, GuardianSpawnerDefinition2));
         //this.barrels.push(new Barrel(this, GuardianSpawnerDefinition2));

@@ -20,7 +20,7 @@ import Barrel from "../Barrel";
 import Bullet from "./Bullet";
 import Trap from "./Trap";
 import { Inputs } from "../../AI";
-import { PhysicsFlags, StyleFlags, InputFlags } from "../../../Const/Enums";
+import { PhysicsFlags, StyleFlags, InputFlags, Stat } from "../../../Const/Enums";
 import { TankDefinition } from "../../../Const/TankDefinitions";
 import { BarrelBase } from "../TankBody";
 import { DevTank } from "../../../Const/DevTankDefinitions";
@@ -47,15 +47,15 @@ export default class BluntTrap extends Trap  implements BarrelBase {
         this.cameraEntity = tank.cameraEntity;
         this.inputs = new Inputs()
         this.sizeFactor = this.physicsData.values.size / 50;
-            const smash = new GuardObject(this.game, this, 6, 0.65, 0, .1);
-                       // smash.styleData.zIndex += 2;
-            smash.styleData.values.flags |= StyleFlags.showsAboveParent;
-        
-        if (smash.styleData.values.flags & StyleFlags.showsAboveParent) smash.styleData.values.flags |= StyleFlags.showsAboveParent;
+            const smash = new GuardObject(this.game, this, 3, 2, this.positionData.angle, 0);
+                       // smash.styleData.zIndex += 2;;
+                       smash.styleData.flags |= StyleFlags.isStar
+                       const bulletDefinition = barrel.definition.bullet;
+                       const statLevels = tank.cameraEntity.cameraData?.values.statLevels.values;
+                       const bulletDamage = statLevels ? statLevels[Stat.BulletDamage] : 0;
+        this.physicsData.values.pushFactor =  ((7 / 3) + bulletDamage) * bulletDefinition.damage  * 7.5;
 
-            this.physicsData.values.pushFactor *= 12.5;
         this.tank = tank;
-        const bulletDefinition = barrel.definition.bullet;
         
 
 

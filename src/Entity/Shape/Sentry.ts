@@ -358,20 +358,20 @@ import { normalizeAngle, PI2 } from "../../util";
                     absorbtionFactor: 0.1
                 }
             };
-            const atuo  = [new AutoTurret(this, [Auto3, Auto2,Auto1])];
+            /*const atuo  = [new AutoTurret(this, [Auto3, Auto2,Auto1])];
             atuo[0].positionData.values.angle = this.positionData.angle
             atuo[0].baseSize *= 1.75
             atuo[0].positionData.values.angle = this.positionData.values.angle 
         //atuo.ai.passiveRotation = this.movementAngle
         atuo[0].styleData.values.flags |= StyleFlags.showsAboveParent;
-        atuo[0].ai.viewRange = this.ai.viewRange
+        atuo[0].ai.viewRange = this.ai.viewRange*/
 
         const MAX_ANGLE_RANGE = PI2 / 3; // keep within 90º each side
 
         for (let i = 0; i < 2; ++i) {
-            const base  = [new AutoTurret(this, [Auto6, Auto5])];
+            const base  = [new AutoTurret(this, [Auto3, Auto2,Auto1])];
             base[0].influencedByOwnerInputs = true;
-            base[0].baseSize *= 1.5;
+            base[0].baseSize *= 1.75;
             base[0].ai.viewRange = 2000;
            const angle = base[0].ai.inputs.mouse.angle = PI2 * ((i / 3) - (1/6));
            base[0].ai.passiveRotation = AI.PASSIVE_ROTATION;
@@ -474,13 +474,59 @@ import { normalizeAngle, PI2 } from "../../util";
             let GuardianSpawnerDefinition: BarrelDefinition = {
                 angle: Math.PI,
                 offset: 0,
-                size: 57.5,
-                width: 30,
+                size: 120,
+                width: 35,
                 delay: 0,
                 reload: 0.5,
                 recoil: 0,
                 isTrapezoid: true,
-                trapezoidDirection: 0,
+                trapezoidDirection: Math.PI,
+                addon: null,
+                droneCount: 0,
+                bullet: {
+                    type: "drone",
+                    sizeRatio: 1,
+                    health: 1.5,
+                    damage: 1.5,
+                    speed: 2,
+                    scatterRate: 3,
+                    lifeLength: 0.5,
+                    absorbtionFactor: 1
+                }
+            };
+            let GuardianSpawnerDefinition2: BarrelDefinition = {
+                angle: Math.PI - (2 * Math.PI/3),
+                offset: 0,
+                size: 120,
+                width: 35,
+                delay: 0,
+                reload: 0.5,
+                recoil: 0,
+                isTrapezoid: true,
+                trapezoidDirection: Math.PI,
+                addon: null,
+                droneCount: 0,
+                bullet: {
+                    type: "drone",
+                    sizeRatio: 1,
+                    health: 1.5,
+                    damage: 1.5,
+                    speed: 2,
+                    scatterRate: 3,
+                    lifeLength: 0.5,
+                    absorbtionFactor: 1
+                }
+            };
+            let GuardianSpawnerDefinition3: BarrelDefinition = {
+                angle: Math.PI + (2 * Math.PI/3),
+                offset: 0,
+                size: 120,
+                width: 35,
+                delay: 0,
+                reload: 0.5,
+                recoil: 0,
+                isTrapezoid: true,
+                trapezoidDirection: Math.PI,
                 addon: null,
                 droneCount: 0,
                 bullet: {
@@ -496,7 +542,10 @@ import { normalizeAngle, PI2 } from "../../util";
             };
             let barsss: Barrel;
             barsss = new Barrel(this, GuardianSpawnerDefinition);
-            barsss.physicsData.values.sides = 3
+            barsss.styleData.color = Color.Border
+            barsss = new Barrel(this, GuardianSpawnerDefinition2);
+            barsss.styleData.color = Color.Border
+            barsss = new Barrel(this, GuardianSpawnerDefinition3);
             barsss.styleData.color = Color.Border
         this.nameData.values.name = "Stalking Crasher";
         this.healthData.values.health = this.healthData.values.maxHealth = 250;

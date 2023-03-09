@@ -19,7 +19,7 @@
 import Barrel from "../Barrel";
 import Bullet from "./Bullet";
 
-import { InputFlags } from "../../../Const/Enums";
+import { InputFlags, Stat, Tank } from "../../../Const/Enums";
 import { BarrelDefinition, TankDefinition } from "../../../Const/TankDefinitions";
 import { Entity } from "../../../Native/Entity";
 import { Inputs } from "../../AI";
@@ -47,13 +47,21 @@ export default class Blunt extends Bullet implements BarrelBase{
         this.cameraEntity = tank.cameraEntity;
         this.inputs = new Inputs()
         this.sizeFactor = this.physicsData.values.size / 50;
+        
+        const bulletDefinition = barrel.definition.bullet;
+        const statLevels = tank.cameraEntity.cameraData?.values.statLevels.values;
+        const bulletDamage = statLevels ? statLevels[Stat.BulletDamage] : 0;
+
         this.megaturret = typeof this.barrelEntity.definition.megaturret === 'boolean' && this.barrelEntity.definition.megaturret;
-        if ( this.megaturret){
-            new GuardObject(this.game, this, 6, 1.45, 0, .1);
-            this.physicsData.values.pushFactor *= 25;
+        if (tankDefinition && tankDefinition.id === Tank.Pounder){
+            new GuardObject(this.game, this, 6, 1.3, 0, .1);
+            this.physicsData.values.pushFactor = ((7 / 3) + bulletDamage) * bulletDefinition.damage  * 10;
+        }else        if (tankDefinition && tankDefinition.id === Tank.Flinger){
+            new GuardObject(this.game, this, 6, 1.15, 0, .1);
+            this.physicsData.values.pushFactor = ((7 / 3) + bulletDamage) * bulletDefinition.damage  * 15;
         }else{
             new GuardObject(this.game, this, 6, 1.15, 0, .1);
-            this.physicsData.values.pushFactor *= 10;
+            this.physicsData.values.pushFactor =  ((7 / 3) + bulletDamage) * bulletDefinition.damage  * 5;
         }
     }
     

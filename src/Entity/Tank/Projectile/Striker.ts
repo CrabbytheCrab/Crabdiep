@@ -38,12 +38,14 @@ public turn: number
     public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number, parent?: ObjectEntity) {
         super(barrel, tank, tankDefinition, shootAngle);
         this.timer = 45
-        this.usePosAngle = false;
+        this.usePosAngle = true;
         this.turn = this.movementAngle
         const bulletDefinition = barrel.definition.bullet;
+        
         this.parent = parent ?? tank;
         this.ai = new AI(this);
-        this.ai.viewRange = 400;
+        this.ai.targetFilter = (targetPos) => (targetPos.x - this.positionData.x) ** 2 + (targetPos.y - this.positionData.y) ** 2 <= this.ai.viewRange ** 2; // (1000 ** 2) 1000 radius
+        this.ai.viewRange = 675;
         this.baseSpeed = (barrel.bulletAccel / 2) + 30 - Math.random() * barrel.definition.bullet.scatterRate;
         this.baseAccel = 0;
         this.physicsData.values.sides = bulletDefinition.sides ?? 6;
@@ -69,18 +71,18 @@ public turn: number
         super.tick(tick);
         this.isViewed = true
         this.positionData.angle += 0.3
-        const usingAI = this.tank.inputs.deleted || (!this.tank.inputs.attemptingShot() && !this.tank.inputs.attemptingRepel());
-        const inputs = this.ai.inputs;
+        const usingAI = this.tank.inputs.deleted || (!this.tank.inputs.attemptingRepel());
+        const inputs = !usingAI ? this.tank.inputs : this.ai.inputs;
         this.timer --
-        if(!this.ai.target){
+       /* if(!this.ai.target){
            this.movementAngle =  this.turn 
-        }
-        if(this.ai.target){
+        }*/
+        if(this.ai.target || this.tank.inputs.attemptingRepel()){
         this.movementAngle = Math.atan2(inputs.mouse.y - this.positionData.values.y, inputs.mouse.x - this.positionData.values.x);}
         if(this.timer == 0){
             this.timer = 45
             this.addAcceleration(this.movementAngle, this.baseSpeed * 1.5);
-            this.turn = this.movementAngle
+            //this.turn = this.movementAngle
         }
         if (tick - this.spawnTick === this.collisionEnd) {
             if (this.physicsData.values.flags & PhysicsFlags.onlySameOwnerCollision) this.physicsData.flags ^= PhysicsFlags.onlySameOwnerCollision;

@@ -34,21 +34,21 @@ import AutoTurret from "../AutoTurret";
 const MinionBarrelDefinition2: BarrelDefinition = {
     angle:  3.141592653589793,
     offset: 0,
-    size: 72,
-    width: 34,
+    size: 68,
+    width: 42,
     delay: 0,
-    reload: 0.5,
-    recoil: 1,
+    reload: 3,
+    recoil: 1.2,
     isTrapezoid: true,
     trapezoidDirection: 0,
     addon: null,
     bullet: {
         type: "bullet",
-        health: 0.4,
+        health: 0.1,
         damage: 0.1,
         speed: 0.8,
-        scatterRate: 2,
-        lifeLength: 1,
+        scatterRate: 3,
+        lifeLength: 0.05,
         sizeRatio: 1,
         absorbtionFactor: 1
     }
@@ -69,10 +69,10 @@ const Bombshot1: BarrelDefinition = {
     bullet: {
         type: "bullet",
         health: 1.25,
-        damage: 0.85,
-        speed: 1.2,
+        damage: 0.8,
+        speed: 1,
         scatterRate: 0.3,
-        lifeLength: 0.25,
+        lifeLength: 0.15,
         sizeRatio: 1,
         absorbtionFactor: 0.3
     }
@@ -185,7 +185,7 @@ export default class BombDrone extends Bullet  implements BarrelBase {
             atuo.styleData.opacity = this.styleData.opacity
             if(this.canexplode == false){
                     this.primetimer++
-                    if(this.primetimer == 60){
+                    if(this.primetimer == 90){
                         this.canexplode = true
                         atuo.styleData.color = Color.Box
     
@@ -226,6 +226,8 @@ export default class BombDrone extends Bullet  implements BarrelBase {
         const inputs = !usingAI ? this.tank.inputs : this.ai.inputs;
 
         if (usingAI && this.ai.state === AIState.idle) {
+            if(this.inputs.flags && this.inputs.flags == InputFlags.leftclick) this.inputs.flags ^= InputFlags.leftclick;
+
             const delta = {
                 x: this.positionData.values.x - this.tank.positionData.values.x,
                 y: this.positionData.values.y - this.tank.positionData.values.y
@@ -254,6 +256,7 @@ export default class BombDrone extends Bullet  implements BarrelBase {
 
             return;
         } else {
+            this.inputs.flags |= InputFlags.leftclick;
             this.positionData.angle = Math.atan2(inputs.mouse.y - this.positionData.values.y, inputs.mouse.x - this.positionData.values.x);
             this.restCycle = false
         }

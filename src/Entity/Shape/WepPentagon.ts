@@ -60,7 +60,7 @@ const GuardianSpawnerDefinition: BarrelDefinition = {
 const GuardianSpawnerDefinition2: BarrelDefinition = {
     angle: 0,
     offset: 0,
-    size: 130,
+    size: 125,
     width: 105,
     delay: 0,
     reload: 8,
@@ -72,11 +72,11 @@ const GuardianSpawnerDefinition2: BarrelDefinition = {
     bullet: {
         type: "trap",
         sizeRatio:0.8,
-        health: 4,
-        damage: 6.75,
+        health: 8,
+        damage: 4,
         speed: 2,
         scatterRate: 1,
-        lifeLength: 1,
+        lifeLength: 4.5,
         absorbtionFactor: 0.1,
         color: Color.Neutral
     }
@@ -147,7 +147,7 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
             size: 150,
             width: 100,
             delay: 0,
-            reload: 20,
+            reload: 13,
             recoil: 0,
             isTrapezoid: false,
             trapezoidDirection: 0,
@@ -156,8 +156,8 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
                 type: "bullet",
                 sizeRatio: 1,
                 health: 40,
-                damage: 5,
-                speed: 2,
+                damage: 3,
+                speed: 1.5,
                 scatterRate: 0.3,
                 lifeLength: 1,
                 absorbtionFactor: 0.1,
@@ -241,7 +241,7 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
                 }));
             }
             }
-        this.healthData.values.health = this.healthData.values.maxHealth = (isAlpha ? 7000 : 1500);
+        this.healthData.values.health = this.healthData.values.maxHealth = (isAlpha ? 3000 : 1500);
         this.physicsData.values.size = (isAlpha ? 225 : 93.75) * Math.SQRT1_2;
         this.physicsData.values.sides = 5;
         this.styleData.values.color = shiny ? Color.Shiny : Color.EnemyPentagon;
@@ -252,8 +252,8 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
         this.isAlpha = isAlpha;
         this.isShiny = shiny;
 
-        this.damagePerTick = isAlpha ? 40 : 16;
-        this.scoreReward = isAlpha ? 45000 : 1500;
+        this.damagePerTick = isAlpha ? 60 : 16;
+        this.scoreReward = isAlpha ? 30000 : 1500;
         
         if (shiny) {
             this.scoreReward *= 100;
