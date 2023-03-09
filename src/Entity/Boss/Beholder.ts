@@ -28,8 +28,8 @@ import { BarrelDefinition } from "../../Const/TankDefinitions";
 let GuardianSpawnerDefinition: BarrelDefinition = {
     angle: Math.PI,
     offset: 0,
-    size: 105,
-    width: 95,
+    size: 95,
+    width: 110,
     delay: 0,
     reload: 3,
     recoil: 1.75,
@@ -50,12 +50,12 @@ let GuardianSpawnerDefinition: BarrelDefinition = {
 };
 let GuardianSpawnerDefinition2: BarrelDefinition = {
     angle: 0,
-    offset: 52.5,
+    offset: 30,
     size: 120,
     width: 40,
     delay: 0,
-    reload: 1.2,
-    recoil: 0.75,
+    reload: 1.8,
+    recoil: 0.25,
     isTrapezoid: false,
     trapezoidDirection: 0,
     addon: null,
@@ -72,12 +72,58 @@ let GuardianSpawnerDefinition2: BarrelDefinition = {
 };
 let GuardianSpawnerDefinition3: BarrelDefinition = {
     angle: 0,
-    offset: -52.5,
+    offset: -30,
     size: 120,
     width: 40,
     delay: 0.5,
-    reload: 1.2,
-    recoil: 0.75,
+    reload: 1.8,
+    recoil: 0.25,
+    isTrapezoid: false,
+    trapezoidDirection: 0,
+    addon: null,
+    bullet: {
+        type: "bullet",
+        sizeRatio: 1,
+        health: 8,
+        damage: 0.5,
+        speed: 1,
+        scatterRate: 1,
+        lifeLength: 1.5,
+        absorbtionFactor: 0.6
+    }
+};
+
+
+let GuardianSpawnerDefinition4: BarrelDefinition = {
+    angle: 0,
+    offset: 45,
+    size: 100,
+    width: 40,
+    delay: 0.25,
+    reload: 1.8,
+    recoil: 0.25,
+    isTrapezoid: false,
+    trapezoidDirection: 0,
+    addon: null,
+    bullet: {
+        type: "bullet",
+        sizeRatio: 1,
+        health: 8,
+        damage: 0.5,
+        speed: 1,
+        scatterRate: 1,
+        lifeLength: 1.5,
+        absorbtionFactor: 0.6
+    }
+};
+let GuardianSpawnerDefinition5: BarrelDefinition = {
+    angle: 0,
+    offset: -45,
+    size: 100,
+    width: 40,
+    delay: 0.75,
+    reload: 1.8,
+    recoil: 0.25,
     isTrapezoid: false,
     trapezoidDirection: 0,
     addon: null,
@@ -110,7 +156,8 @@ export default class Beholder extends AbstractBoss {
         this.physicsData.values.size = GUARDIAN_SIZE * Math.SQRT1_2;
         this.physicsData.values.sides = 3;
         this.sizeFactor = 1.0
-
+        this.barrels.push(new Barrel(this, GuardianSpawnerDefinition4));
+        this.barrels.push(new Barrel(this, GuardianSpawnerDefinition5));
         this.barrels.push(new Barrel(this, GuardianSpawnerDefinition));
         this.barrels.push(new Barrel(this, GuardianSpawnerDefinition2));
         this.barrels.push(new Barrel(this, GuardianSpawnerDefinition3));
