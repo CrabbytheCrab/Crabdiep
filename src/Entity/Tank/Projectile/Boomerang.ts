@@ -185,7 +185,28 @@ export default class Boomerang extends Bullet  implements BarrelBase{
                     this.baseAccel = base;
 
             }
+        }else if (this.tankDefinition && this.tankDefinition.id === Tank.Roundabout){
+            
+            if(tick - this.spawnTick >= this.lifeLength/4 && this.boom == false){
+                if(this.boom2 == false){
+                    this.boom2 = true
+                    const delta = {
+                        x: this.positionData.values.x - this.tank.positionData.values.x,
+                        y: this.positionData.values.y - this.tank.positionData.values.y
+                    }
+                    const base = this.baseAccel;
+                
+                    let unitDist = (delta.x ** 2 + delta.y ** 2) / Boomerang.MAX_RESTING_RADIUS;
+                    const offset = Math.atan2(delta.y, delta.x) + Math.PI / 2
+                    delta.x = this.tank.positionData.values.x + Math.cos(offset) * this.tank.physicsData.values.size * 0.5 - this.positionData.values.x;
+                    delta.y = this.tank.positionData.values.y + Math.sin(offset) * this.tank.physicsData.values.size * 0.5 - this.positionData.values.y;
+                    this.movementAngle = Math.atan2(delta.y, delta.x);
+                        this.baseAccel = base;
+                this.baseAccel *= 1.5}
+
+            }
         }else{
+            
             if(tick - this.spawnTick >= this.lifeLength/8 && this.boom == false){
                 if(this.boom2 == false){
                     this.boom2 = true
@@ -206,7 +227,7 @@ export default class Boomerang extends Bullet  implements BarrelBase{
                     this.baseAccel = base;
 
             }
-         }
+        }
        if (this.tankDefinition && this.tankDefinition.id === Tank.Eroder) {
                     this.positionData.angle += 0.1;
         }else{

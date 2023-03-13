@@ -24,6 +24,11 @@ import TankBody from "./Tank/TankBody";
 import { visibilityRateDamage } from "../Const/TankDefinitions";
 import { StyleFlags } from "../Const/Enums";
 import { HealthGroup } from "../Native/FieldGroups";
+import Bullet from "./Tank/Projectile/Bullet";
+import Drone from "./Tank/Projectile/Drone";
+import Trap from "./Tank/Projectile/Trap";
+import AutoTrap from "./Tank/Projectile/AutoTrap";
+import { AutoSwarm } from "./Tank/Projectile/AutoSwarm";
 
 /**
  * An Abstract class for all entities with health.
@@ -173,12 +178,13 @@ export default class LivingEntity extends ObjectEntity {
 
         // It's cached
         const collidedEntities = this.findCollisions();
-
         for (let i = 0; i < collidedEntities.length; ++i) {
+                if(collidedEntities[i].cangoThroughRope && this.isAffectedByRope){ continue;}
+                else{
             if (!(collidedEntities[i] instanceof LivingEntity)) continue;
-
             if (collidedEntities[i].relationsData.values.team !== this.relationsData.values.team) {
                 LivingEntity.applyDamage(collidedEntities[i] as LivingEntity, this);
+            }
             }
         }
     }

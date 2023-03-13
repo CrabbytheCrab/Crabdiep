@@ -94,7 +94,7 @@ export default class WepTriangle extends Triangle implements BarrelBase {
     
         this.sizeFactor = this.physicsData.values.size / 50;
         this.ai = new AI(this);
-        this.ai.viewRange = 1400;
+        this.ai.viewRange = 1800;
         this.ai.aimSpeed = (this.ai.movementSpeed);
         this.ai['_findTargetInterval'] = tps;
         this.inputs = this.ai.inputs;

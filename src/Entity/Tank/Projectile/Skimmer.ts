@@ -26,7 +26,6 @@ import { BarrelDefinition, TankDefinition } from "../../../Const/TankDefinitions
 import { BarrelBase } from "../TankBody";
 import AutoTurret from "../AutoTurret";
 import ObjectEntity from "../../Object";
-import RopeSegment from "./RopeSegment";
 import Vector from "../../../Physics/Vector";
 
 /**

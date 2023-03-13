@@ -28,7 +28,7 @@ import ObjectEntity from "../../Object";
 /**
  * The bullet class represents the bullet entity in diep.
  */
-export default class Bullet extends LivingEntity {
+export default class BulletAlt extends LivingEntity {
     /** The barrel that the bullet is being shot from. */
     protected barrelEntity: Barrel;
     /** The tick this entity was created in. */
@@ -94,15 +94,14 @@ export default class Bullet extends LivingEntity {
         this.healthData.values.health = this.healthData.values.maxHealth = (1.5 * bulletPenetration + 2) * bulletDefinition.health;
         this.damagePerTick = (7 + bulletDamage * 3) * bulletDefinition.damage;
         this.damageReduction = 0.25;
-        this.cangoThroughRope = true
 
         this.lifeLength = bulletDefinition.lifeLength * 72;
 
         const {x, y} = tank.getWorldPosition();
-        
+        this.cangoThroughRope = true
         this.positionData.values.x = x + (Math.cos(shootAngle) * barrel.physicsData.values.size) - Math.sin(shootAngle) * barrel.definition.offset * sizeFactor;
         this.positionData.values.y = y + (Math.sin(shootAngle) * barrel.physicsData.values.size) + Math.cos(shootAngle) * barrel.definition.offset * sizeFactor;
-        this.positionData.values.angle = shootAngle;
+        this.movementAngle = 0;
     }
 
     /** Extends LivingEntity.onKill - passes kill to the owner. */
@@ -117,7 +116,7 @@ export default class Bullet extends LivingEntity {
         super.tick(tick);
 
         if (tick === this.spawnTick + 1) this.addAcceleration(this.movementAngle, this.baseSpeed);
-        else this.maintainVelocity(this.usePosAngle ? this.positionData.values.angle : this.movementAngle, this.baseAccel);
+        else this.maintainVelocity(this.movementAngle, this.baseAccel);
 
         if (tick - this.spawnTick >= this.lifeLength) this.destroy(true);
         // TODO(ABC):

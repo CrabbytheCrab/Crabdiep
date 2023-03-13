@@ -38,9 +38,9 @@ import NecromancerTriangle from "./Projectile/NecromancerTriangle";
 import Triangle from "../Shape/Triangle";
 import WepSquare from "../Shape/WepSquare";
 import { maxPlayerLevel } from "../../config";
-import RopeSegment from "./Projectile/RopeSegment";
 import Vector from "../../Physics/Vector";
 import NecromancerWepSquare from "./Projectile/NecromancerWepSquare";
+import RopeSegment from "./Projectile/RopeSegment";
 
 /**
  * Abstract type of entity which barrels can connect to.
@@ -89,7 +89,7 @@ public canchain: boolean
         this.cameraEntity = camera;
         this.inputs = inputs;
         this.isAffectedByRope = false;
-        this.length = 9;
+        this.length = 13;
         this.canchain = true
         this.segments = [this];
         this.k = 0.25;
@@ -361,7 +361,7 @@ public canchain: boolean
            // ropeSegment.relationsData.team = this.relationsData.team;
             ropeSegment.relationsData.owner = this
                 ropeSegment.seg = i
-                if(i == 8){
+                if(i == this.length - 1){
                     ropeSegment.IsBig = true
                 }
            this.segments.push(ropeSegment);}
@@ -484,11 +484,11 @@ public canchain: boolean
       
             let force = delta.unitVector.scale(-this.k * x);
       
-            if (a.isAffectedByRope)a.addAcceleration(force.angle, force.magnitude/ (0.3 * b.seg + 1), false);
+            if (a.isAffectedByRope)a.addAcceleration(force.angle, force.magnitude, false);
       
             force = force.scale(-1);
 
-            if (b.isAffectedByRope) b.addAcceleration(force.angle, force.magnitude/ (0.3 * b.seg + 1), false);
+            if (b.isAffectedByRope) b.addAcceleration(force.angle, force.magnitude, false);
             //this.addAcceleration(-force.angle, force.magnitude * 0.2, true)
         }
     }

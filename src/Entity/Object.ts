@@ -109,6 +109,7 @@ export default class ObjectEntity extends Entity {
     public seg: number;
     public MAXORBS: number
     public OrbCount: number
+    public cangoThroughRope: boolean;
     public constructor(game: GameServer) {
         super(game);
         this.MAXORBS = 0
@@ -117,6 +118,7 @@ export default class ObjectEntity extends Entity {
         this.isAffectedByRope = false
         this.styleData.zIndex = game.entities.zIndex++;
         this.seg = 0
+        this.cangoThroughRope = false
     }
 
     /** Calls the deletion animation, unless animate is set to false, in that case it instantly deletes. */
