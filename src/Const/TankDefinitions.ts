@@ -16691,8 +16691,8 @@ const TankDefinitions = JSON.parse(`[
                 "angle": 0,
                 "offset": 0,
                 "size": 70,
-                "width": 21,
-                "delay": 0.1,
+                "width": 26,
+                "delay": 0.25,
                 "reload": 4,
                 "recoil": 1,
                 "isTrapezoid": true,
@@ -16703,20 +16703,20 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "drone",
                     "sizeRatio": 1,
-                    "health": 1,
+                    "health": 1.1,
                     "damage": 0.3,
                     "speed": 1.2,
                     "scatterRate": 0,
                     "lifeLength": -1,
-                    "absorbtionFactor": 1
+                    "absorbtionFactor": 0.25
                 }
             },
             {
                 "angle": 1.2566370614359172,
                 "offset": 0,
                 "size": 70,
-                "width": 21,
-                "delay": 0.1,
+                "width": 26,
+                "delay": 0.25,
                 "reload": 4,
                 "recoil": 1,
                 "isTrapezoid": true,
@@ -16727,20 +16727,20 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "drone",
                     "sizeRatio": 1,
-                    "health": 1,
+                    "health": 1.1,
                     "damage": 0.3,
                     "speed": 1.2,
                     "scatterRate": 0,
                     "lifeLength": -1,
-                    "absorbtionFactor": 1
+                    "absorbtionFactor": 0.25
                 }
             },
             {
                 "angle": -1.2566370614359172,
                 "offset": 0,
                 "size": 70,
-                "width": 21,
-                "delay": 0.1,
+                "width": 26,
+                "delay": 0.25,
                 "reload": 4,
                 "recoil": 1,
                 "isTrapezoid": true,
@@ -16751,20 +16751,20 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "drone",
                     "sizeRatio": 1,
-                    "health": 1,
+                    "health": 1.1,
                     "damage": 0.3,
                     "speed": 1.2,
                     "scatterRate": 0,
                     "lifeLength": -1,
-                    "absorbtionFactor": 1
+                    "absorbtionFactor": 0.25
                 }
             },
             {
                 "angle": 2.5132741228718345,
                 "offset": 0,
                 "size": 70,
-                "width": 21,
-                "delay": 0.1,
+                "width": 26,
+                "delay": 0.25,
                 "reload": 4,
                 "recoil": 1,
                 "isTrapezoid": true,
@@ -16775,20 +16775,20 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "drone",
                     "sizeRatio": 1,
-                    "health": 1,
+                    "health": 1.1,
                     "damage": 0.3,
                     "speed": 1.2,
                     "scatterRate": 0,
                     "lifeLength": -1,
-                    "absorbtionFactor": 1
+                    "absorbtionFactor": 0.25
                 }
             },
             {
                 "angle": -2.5132741228718345,
                 "offset": 0,
                 "size": 70,
-                "width": 21,
-                "delay": 0.1,
+                "width": 26,
+                "delay": 0.25,
                 "reload": 4,
                 "recoil": 1,
                 "isTrapezoid": true,
@@ -16799,12 +16799,12 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "drone",
                     "sizeRatio": 1,
-                    "health": 1,
+                    "health": 1.1,
                     "damage": 0.3,
                     "speed": 1.2,
                     "scatterRate": 0,
                     "lifeLength": -1,
-                    "absorbtionFactor": 1
+                    "absorbtionFactor": 0.25
                 }
             }
         ],
