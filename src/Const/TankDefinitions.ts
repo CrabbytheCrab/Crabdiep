@@ -28,7 +28,7 @@ export type preAddonId = "dombase" | "launcher" |  "pronounced2"|"laucher2"| "la
 export type addonId = preAddonId | postAddonId;
 
 /** The types of projectiles in the game */
-export type projectileId = "bullet"| "block"| "explosion"| "trapspinner"|"orbittrap" | "mine" |"bombdrone"|"striker"| "drone" | "autoswarm" |"trap"| "pentadrone"  |  "autodrone"  |"necrotriangledrone" | "necropentadrone" | "necrodrone" | "wepnecrodrone"|"minion" | "spinner" | "spinner4" | "megaspinner" | "skimmer" | "rocket" | "swarm" | "flame" | "wall" | "croc" | "launrocket" | "autotrap"| "domminion" | "megaminion" | "miniminion" | "boomerang" | "hive" | "blunt" | "blunttrap" | "orbit";
+export type projectileId = "bullet"| "block"| "homingrocket" |"homing" |"explosion"| "trapspinner"|"orbittrap" | "mine" |"bombdrone"|"striker"| "drone" | "autoswarm" |"trap"| "pentadrone"  |  "autodrone"  |"necrotriangledrone" | "necropentadrone" | "necrodrone" | "wepnecrodrone"|"minion" | "spinner" | "spinner4" | "megaspinner" | "skimmer" | "rocket" | "swarm" | "flame" | "wall" | "croc" | "launrocket" | "autotrap"| "domminion" | "megaminion" | "miniminion" | "boomerang" | "hive" | "blunt" | "blunttrap" | "orbit";
 
 /** The types of barrel addons that exist in the game */
 export type barrelAddonId = "trapLauncher" |"blockLauncher"| "NecLauncher"| "mineLauncher"  | "stickyLauncher" |"reversetrap"|"machineMineLauncher"| "minionLauncher" | "engitrapLauncher" | "swarmLauncher" | "machineTrapLauncher" | "engimachinetrapLauncher";
@@ -372,7 +372,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Sniper",
         "upgradeMessage": "",
         "levelRequirement": 15,
-        "upgrades": [12, 13, 14,31, 138, 158],
+        "upgrades": [12, 13, 14,31, 138,196, 158],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -941,7 +941,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Triple Shot",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [33,34,35,117],
+        "upgrades": [33,34,35,117,197],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -1897,7 +1897,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Gunner",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [53, 49,50, 96, 54, 192, 62],
+        "upgrades": [53, 49,50, 96, 54, 192,187, 62],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -2744,7 +2744,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Launcher",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [68,69,70,114,143],
+        "upgrades": [68,69,70,114,143,198],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -8268,13 +8268,13 @@ const TankDefinitions = JSON.parse(`[
                 "droneCount": 4294967295,
                 "canControlDrones": false,
                 "bullet": {
-                    "type": "swarm",
+                    "type": "hive",
                     "sizeRatio": 0.7,
                     "health": 1.25,
                     "damage": 0.45,
                     "speed": 2,
                     "scatterRate": 1,
-                    "lifeLength": 0.5,
+                    "lifeLength": 0.75,
                     "absorbtionFactor": 1
                 }
             },
@@ -8292,13 +8292,13 @@ const TankDefinitions = JSON.parse(`[
                 "droneCount": 4294967295,
                 "canControlDrones": false,
                 "bullet": {
-                    "type": "swarm",
+                    "type": "hive",
                     "sizeRatio": 0.7,
                     "health": 1.25,
                     "damage": 0.45,
                     "speed": 2,
                     "scatterRate": 1,
-                    "lifeLength": 0.5,
+                    "lifeLength": 0.75,
                     "absorbtionFactor": 1
                 }
             },
@@ -12974,7 +12974,7 @@ const TankDefinitions = JSON.parse(`[
                     "damage": 0.15,
                     "speed": 2,
                     "scatterRate": 1,
-                    "lifeLength": 0.5,
+                    "lifeLength": 0.75,
                     "absorbtionFactor": 1
                 }
             },
@@ -12998,7 +12998,7 @@ const TankDefinitions = JSON.parse(`[
                     "damage": 0.15,
                     "speed": 2,
                     "scatterRate": 1,
-                    "lifeLength": 0.5,
+                    "lifeLength": 0.75,
                     "absorbtionFactor": 1
                 }
             },
@@ -13022,7 +13022,7 @@ const TankDefinitions = JSON.parse(`[
                     "damage": 0.15,
                     "speed": 2,
                     "scatterRate": 1,
-                    "lifeLength": 0.5,
+                    "lifeLength": 0.75,
                     "absorbtionFactor": 1
                 }
             }
@@ -13105,7 +13105,7 @@ const TankDefinitions = JSON.parse(`[
                     "damage": 0.15,
                     "speed": 2,
                     "scatterRate": 1,
-                    "lifeLength": 0.5,
+                    "lifeLength": 0.75,
                     "absorbtionFactor": 1
                 }
             },
@@ -13129,7 +13129,7 @@ const TankDefinitions = JSON.parse(`[
                     "damage": 0.15,
                     "speed": 2,
                     "scatterRate": 1,
-                    "lifeLength": 0.5,
+                    "lifeLength": 0.75,
                     "absorbtionFactor": 1
                 }
             },
@@ -13153,7 +13153,7 @@ const TankDefinitions = JSON.parse(`[
                     "damage": 0.15,
                     "speed": 2,
                     "scatterRate": 1,
-                    "lifeLength": 0.5,
+                    "lifeLength": 0.75,
                     "absorbtionFactor": 1
                 }
             },
@@ -13177,7 +13177,7 @@ const TankDefinitions = JSON.parse(`[
                     "damage": 0.15,
                     "speed": 2,
                     "scatterRate": 1,
-                    "lifeLength": 0.5,
+                    "lifeLength": 0.75,
                     "absorbtionFactor": 1
                 }
             },
@@ -13201,7 +13201,7 @@ const TankDefinitions = JSON.parse(`[
                     "damage": 0.15,
                     "speed": 2,
                     "scatterRate": 1,
-                    "lifeLength": 0.5,
+                    "lifeLength": 0.75,
                     "absorbtionFactor": 1
                 }
             },
@@ -13225,7 +13225,7 @@ const TankDefinitions = JSON.parse(`[
                     "damage": 0.15,
                     "speed": 2,
                     "scatterRate": 1,
-                    "lifeLength": 0.5,
+                    "lifeLength": 0.75,
                     "absorbtionFactor": 1
                 }
             }
@@ -23387,6 +23387,385 @@ const TankDefinitions = JSON.parse(`[
             },
             {
                 "name": "Drone Speed",
+                "max": 7
+            },
+            {
+                "name": "Body Damage",
+                "max": 7
+            },
+            {
+                "name": "Max Health",
+                "max": 7
+            },
+            {
+                "name": "Health Regen",
+                "max": 7
+            }
+        ]
+    },
+    {
+        "id": 196,
+        "name": "Seaker",
+        "upgradeMessage": "",
+        "levelRequirement": 30,
+        "upgrades": [197, 198],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 0.9,
+        "absorbtionFactor": 1,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": null,
+        "postAddon": null,
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 95,
+                "width": 42,
+                "delay": 0,
+                "reload": 1,
+                "recoil": 1,
+                "isTrapezoid": true,
+                "trapezoidDirection": 3.141592653589793,
+                "addon": null,
+                "bullet": {
+                    "type": "homing",
+                    "sizeRatio": 1,
+                    "health": 0.75,
+                    "damage": 1,
+                    "speed": 1.25,
+                    "scatterRate": 0.3,
+                    "lifeLength": 1,
+                    "absorbtionFactor": 1
+                }
+            },
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 60,
+                "width": 58.8,
+                "delay": 0,
+                "reload": 1,
+                "recoil": 1,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": null,
+                "droneCount": 0,
+                "bullet": {
+                    "type": "drone",
+                    "sizeRatio": 0,
+                    "health": 0,
+                    "damage": 1,
+                    "speed": 1.25,
+                    "scatterRate": 0.3,
+                    "lifeLength": 0,
+                    "absorbtionFactor": 1
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 7
+            },
+            {
+                "name": "Reload",
+                "max": 7
+            },
+            {
+                "name": "Bullet Damage",
+                "max": 7
+            },
+            {
+                "name": "Bullet Penetration",
+                "max": 7
+            },
+            {
+                "name": "Bullet Speed",
+                "max": 7
+            },
+            {
+                "name": "Body Damage",
+                "max": 7
+            },
+            {
+                "name": "Max Health",
+                "max": 7
+            },
+            {
+                "name": "Health Regen",
+                "max": 7
+            }
+        ]
+    },
+    {
+        "id": 197,
+        "name": "Helix",
+        "upgradeMessage": "",
+        "levelRequirement": 45,
+        "upgrades": [],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 0.9,
+        "absorbtionFactor": 1,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": null,
+        "postAddon": null,
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle": -0.39269908169872414,
+                "offset": 0,
+                "size": 95,
+                "width": 33.6,
+                "delay": 0.5,
+                "reload": 1,
+                "recoil": 1,
+                "isTrapezoid": true,
+                "trapezoidDirection": 3.141592653589793,
+                "addon": null,
+                "bullet": {
+                    "type": "homing",
+                    "sizeRatio": 1,
+                    "health": 0.75,
+                    "damage": 0.6,
+                    "speed": 1.25,
+                    "scatterRate": 0.3,
+                    "lifeLength": 1,
+                    "absorbtionFactor": 1
+                }
+            },
+            {
+                "angle": -0.39269908169872414,
+                "offset": 0,
+                "size": 60,
+                "width": 47.04,
+                "delay": 0,
+                "reload": 1,
+                "recoil": 1,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": null,
+                "droneCount": 0,
+                "bullet": {
+                    "type": "drone",
+                    "sizeRatio": 0,
+                    "health": 0,
+                    "damage": 1,
+                    "speed": 1.25,
+                    "scatterRate": 0.3,
+                    "lifeLength": 0,
+                    "absorbtionFactor": 1
+                }
+            },
+            {
+                "angle": 0.39269908169872414,
+                "offset": 0,
+                "size": 95,
+                "width": 33.6,
+                "delay": 0.5,
+                "reload": 1,
+                "recoil": 1,
+                "isTrapezoid": true,
+                "trapezoidDirection": 3.141592653589793,
+                "addon": null,
+                "bullet": {
+                    "type": "homing",
+                    "sizeRatio": 1,
+                    "health": 0.75,
+                    "damage": 0.6,
+                    "speed": 1.25,
+                    "scatterRate": 0.3,
+                    "lifeLength": 1,
+                    "absorbtionFactor": 1
+                }
+            },
+            {
+                "angle": 0.39269908169872414,
+                "offset": 0,
+                "size": 60,
+                "width": 47.04,
+                "delay": 0,
+                "reload": 1,
+                "recoil": 1,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": null,
+                "droneCount": 0,
+                "bullet": {
+                    "type": "drone",
+                    "sizeRatio": 0,
+                    "health": 0,
+                    "damage": 1,
+                    "speed": 1.25,
+                    "scatterRate": 0.3,
+                    "lifeLength": 0,
+                    "absorbtionFactor": 1
+                }
+            },
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 100,
+                "width": 42,
+                "delay": 0,
+                "reload": 1,
+                "recoil": 1,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": null,
+                "bullet": {
+                    "type": "bullet",
+                    "sizeRatio": 1,
+                    "health": 1,
+                    "damage": 0.6,
+                    "speed": 1,
+                    "scatterRate": 1,
+                    "lifeLength": 1,
+                    "absorbtionFactor": 1
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 7
+            },
+            {
+                "name": "Reload",
+                "max": 7
+            },
+            {
+                "name": "Bullet Damage",
+                "max": 7
+            },
+            {
+                "name": "Bullet Penetration",
+                "max": 7
+            },
+            {
+                "name": "Bullet Speed",
+                "max": 7
+            },
+            {
+                "name": "Body Damage",
+                "max": 7
+            },
+            {
+                "name": "Max Health",
+                "max": 7
+            },
+            {
+                "name": "Health Regen",
+                "max": 7
+            }
+        ]
+    },
+    {
+        "id": 198,
+        "name": "Missiler",
+        "upgradeMessage": "",
+        "levelRequirement": 45,
+        "upgrades": [],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 0.85,
+        "absorbtionFactor": 1,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": "launchersmall",
+        "postAddon": null,
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 80,
+                "width": 50,
+                "delay": 0,
+                "reload": 3,
+                "recoil": 3,
+                "isTrapezoid": true,
+                "trapezoidDirection":  3.141592653589793,
+                "addon": null,
+                "bullet": {
+                    "type": "homingrocket",
+                    "sizeRatio": 1,
+                    "health": 2.5,
+                    "damage": 0.8,
+                    "speed": 0.55,
+                    "scatterRate": 0.3,
+                    "lifeLength": 1,
+                    "absorbtionFactor": 0.1
+                }
+            },
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 60,
+                "width": 70,
+                "delay": 0,
+                "reload": 1,
+                "recoil": 1,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": null,
+                "droneCount": 0,
+                "bullet": {
+                    "type": "drone",
+                    "sizeRatio": 0,
+                    "health": 0,
+                    "damage": 1,
+                    "speed": 1.25,
+                    "scatterRate": 0.3,
+                    "lifeLength": 0,
+                    "absorbtionFactor": 1
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 7
+            },
+            {
+                "name": "Reload",
+                "max": 7
+            },
+            {
+                "name": "Rocket Damage",
+                "max": 7
+            },
+            {
+                "name": "Rocket Penetration",
+                "max": 7
+            },
+            {
+                "name": "Rocket Speed",
                 "max": 7
             },
             {

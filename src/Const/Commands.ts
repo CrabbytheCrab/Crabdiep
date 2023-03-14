@@ -122,7 +122,7 @@ export const commandDefinitions = {
         id: CommandID.adminSummon,
         usage: "[entityName] [?count] [?x] [?y]",
         description: "Spawns entities at a certain location",
-        permissionLevel: AccessLevel.FullAccess
+        permissionLevel: AccessLevel.BetaAccess
     },
     admin_kill_all: {
         id: CommandID.adminKillAll,

@@ -276,6 +276,9 @@ export const enum Tank {
     MineSweeper   = 193,
     Sticky        = 194,
     Wraith        = 195,
+    Seaker        = 196,
+    Helix         = 197,
+    Missile       = 198,
     Mothership    = 204
 }
 

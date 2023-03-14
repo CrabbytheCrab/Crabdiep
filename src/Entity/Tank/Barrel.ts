@@ -61,6 +61,8 @@ import Block from "./Projectile/Block";
 import PillBox from "./Projectile/Block";
 import Explosion from "./Projectile/Explosion";
 import NecromancerWepSquare from "./Projectile/NecromancerWepSquare";
+import HomingBullet from "./Projectile/HomingBullet";
+import Seakingrocket from "./Projectile/Seakingrocket";
 /**
  * Class that determines when barrels can shoot, and when they can't.
  */
@@ -310,6 +312,12 @@ export default class Barrel extends ObjectEntity {
                 break;
             case 'blunt':
                 new Blunt(this, this.tank, tankDefinition, angle);
+                break;
+            case 'homing':
+                new HomingBullet(this, this.tank, tankDefinition, angle);
+                break;
+            case 'homingrocket':
+                new Seakingrocket(this, this.tank, tankDefinition, angle);
                 break;
             case 'blunttrap':
                 new BluntTrap(this, this.tank, tankDefinition, angle);
