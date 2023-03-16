@@ -63,6 +63,7 @@ import Explosion from "./Projectile/Explosion";
 import NecromancerWepSquare from "./Projectile/NecromancerWepSquare";
 import HomingBullet from "./Projectile/HomingBullet";
 import Seakingrocket from "./Projectile/Seakingrocket";
+import Orbitrocket from "./Projectile/Orbitrocket";
 /**
  * Class that determines when barrels can shoot, and when they can't.
  */
@@ -88,7 +89,7 @@ export class ShootCycle {
         }
 
         const alwaysShoot = (this.barrelEntity.definition.forceFire) ||(this.barrelEntity.definition.bullet.type === 'bombdrone')||(this.barrelEntity.definition.bullet.type === 'autodrone') || (this.barrelEntity.definition.bullet.type === 'pentadrone') || (this.barrelEntity.definition.bullet.type === 'domminion') || (this.barrelEntity.definition.bullet.type === 'megaminion') || (this.barrelEntity.definition.bullet.type === 'miniminion') || (this.barrelEntity.definition.bullet.type === 'minion') || (this.barrelEntity.definition.bullet.type === 'drone') || (this.barrelEntity.definition.bullet.type === 'necrodrone') || (this.barrelEntity.definition.bullet.type === 'necropentadrone') || (this.barrelEntity.definition.bullet.type === 'necrotriangledrone');
-        const Orbshot = (this.barrelEntity.definition.bullet.type === 'orbit'||(this.barrelEntity.definition.bullet.type === 'orbittrap'))
+        const Orbshot = (this.barrelEntity.definition.bullet.type === 'orbit'|| this.barrelEntity.definition.bullet.type === 'orbitrocket'||(this.barrelEntity.definition.bullet.type === 'orbittrap'))
         if (this.pos >= reloadTime) {
             // When its not shooting dont shoot, unless its a drone
             if (!this.barrelEntity.attemptingShot && !alwaysShoot) {
@@ -249,6 +250,9 @@ export default class Barrel extends ObjectEntity {
             case 'orbit':
                 new Orbit(this, this.tank, tankDefinition, angle);
                 break;
+            case 'orbitrocket':
+                new Orbitrocket(this, this.tank, tankDefinition, angle);
+            break;
                 case 'orbittrap':
                     new OrbitTrap(this, this.tank, tankDefinition, angle);
                     break;

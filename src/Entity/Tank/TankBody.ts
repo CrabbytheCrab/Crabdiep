@@ -158,6 +158,9 @@ public canchain: boolean
         if(this.definition.flags.isCelestial){
             this.physicsData.values.size *= 1.5
             this.baseSize *= 1.5
+            camera.maxlevel = 90
+        }else{
+                camera.maxlevel = 45
         }
         this.baseSize = tank.sides === 4 ? Math.SQRT2 * 32.5 : tank.sides === 16 ? Math.SQRT2 * 25 :this.definition.flags.isCelestial ? Math.SQRT2 * 47.5 : 50;
         this.physicsData.absorbtionFactor = this.isInvulnerable ? 0 : tank.absorbtionFactor;
@@ -192,7 +195,7 @@ public canchain: boolean
     public onKill(entity: LivingEntity) {
         this.scoreData.score = this.cameraEntity.cameraData.score += entity.scoreReward;
 
-        if (entity instanceof TankBody && entity.scoreReward && Math.max(this.cameraEntity.cameraData.values.level, maxPlayerLevel) - entity.cameraEntity.cameraData.values.level <= 20 || entity instanceof AbstractBoss) {
+        if (entity instanceof TankBody && entity.scoreReward && Math.max(this.cameraEntity.cameraData.values.level, this.cameraEntity.maxlevel) - entity.cameraEntity.cameraData.values.level <= 20 || entity instanceof AbstractBoss) {
             if (this.cameraEntity instanceof ClientCamera) this.cameraEntity.client.notify("You've killed " + (entity.nameData.values.name || "an unnamed tank"));
         }
 

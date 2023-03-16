@@ -24,7 +24,7 @@ import { TeamGroup } from "../../Native/FieldGroups";
 
 export type TeamGroupEntity = Entity & { teamData: TeamGroup }
 
-export const ColorsTeamName: Record<Color, string> = {
+export const ColorsTeamName: { [K in Color]?: string } = {
     [Color.Border]: "BORDER",
     [Color.Barrel]: "BARREL",
     [Color.Tank]: "TANK",
@@ -43,11 +43,12 @@ export const ColorsTeamName: Record<Color, string> = {
     [Color.EnemyTank]: "ENEMY",
     [Color.NecromancerSquare]: "SUNCHIP",
     [Color.Fallen]: "FALLEN",
-        [Color.NecromancerPentagon]: "Chip",
+    [Color.NecromancerPentagon]: "Chip",
     [Color.NecromancerTriangle]: "Doritos",
-    [Color.EnemyHexagon]: "Hexagon",
+    [Color.EnemyHexagon]: "HEXAGON",
     [Color.Psy]: "Psy",
-    [Color.kMaxColors]: "UNKNOWN"
+    [Color.EnemyHeptagon]: "HEPTAGON",
+    [Color.EnemyOctagon]: "OCTAGON",
 }
 
 export class TeamEntity extends Entity implements TeamGroupEntity {
@@ -57,7 +58,7 @@ export class TeamEntity extends Entity implements TeamGroupEntity {
     /** Used for notifications in team based gamemodes */
     public teamName: string;
 
-    public constructor(game: GameServer, color: Color, name: string = ColorsTeamName[color]) {
+    public constructor(game: GameServer, color: Color, name: string = ColorsTeamName[color] || "UNKNOWN") {
         super(game);
 
         this.teamData.values.teamColor = color;

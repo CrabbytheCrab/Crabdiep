@@ -231,8 +231,10 @@ export default class Hive extends Bullet {
     }
 
     public tick(tick: number) {
+        super.tick(tick);
         const usingAI = !this.canControlDrones || this.tank.inputs.deleted || (!this.tank.inputs.attemptingShot() && !this.tank.inputs.attemptingRepel());
         const inputs = !usingAI ? this.tank.inputs : this.inputs;
+
             this.inputs = new Inputs();
             const target = this.findTarget(tick);
 
@@ -246,7 +248,7 @@ export default class Hive extends Bullet {
 
             if (!Entity.exists(this.barrelEntity)) this.destroy();
 
-            this.tickMixin(tick);
+            //this.tickMixin(tick);
 
             this.baseAccel = base;
 
@@ -281,7 +283,7 @@ export default class Hive extends Bullet {
     
                 if (!Entity.exists(this.barrelEntity)) this.destroy();
     
-                this.tickMixin(tick);
+               // this.tickMixin(tick);
     
                 this.baseAccel = base;
     
@@ -297,6 +299,6 @@ export default class Hive extends Bullet {
         // So that switch tank works, as well as on death
         if (!Entity.exists(this.barrelEntity)) this.destroy();
 
-        this.tickMixin(tick);
+        //this.tickMixin(tick);
     }
 }

@@ -39,8 +39,8 @@ export default class HomingBullet extends Bullet {
     public viewRange: number
     private _creationTick: number;
     public state = AIState.idle;
-    public movementSpeed = 10;
-    public aimSpeed = 10;
+    public movementSpeed = 10000;
+    public aimSpeed = 1000;
     /** If the AI should predict enemy's movements, and aim accordingly. */
     public doAimPrediction: boolean = true;
     private _findTargetInterval: number = 2;
@@ -50,7 +50,7 @@ export default class HomingBullet extends Bullet {
         this.viewRange = 300 * tank.sizeFactor
         this._creationTick = this.game.tick;
         this.targetFilter = () => true;
-        this.movementSpeed = this.aimSpeed = this.baseAccel;
+       // this.movementSpeed = this.aimSpeed = this.baseAccel;
 
     }
 
@@ -180,23 +180,31 @@ export default class HomingBullet extends Bullet {
         this.inputs.movement.magnitude = 1;
         this.inputs.movement.angle = Math.atan2(this.inputs.mouse.y - ownerPos.y, this.inputs.mouse.x - ownerPos.x);
     }
-    public tick(tick: number) {
+
+    /** This allows for factory to hook in before the entity moves. */
+    protected tickMixin(tick: number) {
         super.tick(tick);
+    }
+    public tick(tick: number) {
         const target = this.findTarget(tick);
         if (!target) {
-            this.inputs.flags = 0;
             this.state = AIState.idle;
             const base = this.baseAccel;
 
             this.baseAccel = base;
 
+
+        this.tickMixin(tick);
+            
             return;
+            
         }
         if(target){
             this.state = AIState.hasTarget;
-            this.inputs.flags |= InputFlags.leftclick;
-            this.aimAt(target);
-            this.positionData.angle = Math.atan2(this.inputs.mouse.y - this.positionData.values.y, this.inputs.mouse.x - this.positionData.values.x);
+            //this.aimAt(target);
+            this.positionData.angle = Math.atan2(target.positionData.y - this.positionData.y, target.positionData.x - this.positionData.x);
         }
+        this.tickMixin(tick);
+
     }
 }
