@@ -17,10 +17,14 @@
 */
 
 import { maxPlayerLevel } from "../config";
+import TankBody from "../Entity/Tank/TankBody";
+import { CameraEntity } from "../Native/Camera";
+import { Entity } from "../Native/Entity";
 
 /**
  * The IDs for all the team colors, by name.
  */
+
 export const enum Color {
     Border = 0,
     Barrel = 1,
@@ -44,7 +48,9 @@ export const enum Color {
     NecromancerTriangle = 19,
     EnemyHexagon = 20,
     Psy = 21,
-    kMaxColors = 22
+    kMaxColors = 22,
+    EnemyHeptagon = 23,
+    EnemyOctagon = 24
 }
 
 /**
@@ -71,9 +77,11 @@ export const ColorsHexCode: Record<Color, number> = {
     [Color.Fallen]: 0xC0C0C0,
     [Color.NecromancerPentagon]: 0x71B8DE,
     [Color.NecromancerTriangle]: 0xF98966,
-    [Color.EnemyHexagon]: 0xFB9541,
+    [Color.EnemyHexagon]: 0xFCA644,
     [Color.Psy]: 0xD341DB,
-    [Color.kMaxColors]: 0x000000
+    [Color.kMaxColors]: 0x000000,
+    [Color.EnemyHeptagon]: 0x38B764,
+    [Color.EnemyOctagon]: 0x4A66BD,
 }
 
 /**
@@ -279,6 +287,7 @@ export const enum Tank {
     Seaker        = 196,
     Helix         = 197,
     Missile       = 198,
+    Orbital       = 199,
     Mothership    = 204
 }
 
@@ -442,11 +451,8 @@ export const enum NameFlags {
  * 
  * `[index: level]->score at level`
  */
-export const levelToScoreTable = Array(maxPlayerLevel).fill(0);
 
-for (let i = 1; i < maxPlayerLevel; ++i) {
-    levelToScoreTable[i] = levelToScoreTable[i - 1] + (40 / 9 * 1.06 ** (i - 1) * Math.min(31, i));
-}
+
 
 /**
  * Credits to CX for discovering this.
@@ -456,9 +462,20 @@ for (let i = 1; i < maxPlayerLevel; ++i) {
  * 
  * `(level)->score at level`
  */
-export function levelToScore(level: number): number {
-    if (level >= maxPlayerLevel) return levelToScoreTable[maxPlayerLevel - 1];
-    if (level <= 0) return 0;
+export function levelToScore(level: number, camera: CameraEntity): number {
+    const levelToScoreTable = Array(camera.maxlevel).fill(0)
+    for (let i = 1; i < camera.maxlevel; ++i) {
+        const player = camera.cameraData.values.player;
+        if(Entity.exists(player) && player instanceof TankBody){
+            if (player.definition.flags.isCelestial){
+        levelToScoreTable[i] = levelToScoreTable[i - 1] + (90 / 9 * 1.06 ** (i - 1) * Math.min(31, i));
 
+            }else{
+        levelToScoreTable[i] = levelToScoreTable[i - 1] + (40 / 9 * 1.06 ** (i - 1) * Math.min(31, i));
+        }
+    }
+        }
+    if (level >= camera.maxlevel) return levelToScoreTable[camera.maxlevel - 1];
+    if (level <= 0) return 0;
     return levelToScoreTable[level - 1];
 }

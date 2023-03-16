@@ -21,7 +21,7 @@ import ObjectEntity from "../Entity/Object";
 
 import { Entity, EntityStateFlags } from "./Entity";
 import { CameraGroup, RelationsGroup } from "./FieldGroups";
-import { CameraFlags, ClientBound, levelToScore, levelToScoreTable, PhysicsFlags, Stat } from "../Const/Enums";
+import { CameraFlags, ClientBound, levelToScore, PhysicsFlags, Stat } from "../Const/Enums";
 import { getTankById } from "../Const/TankDefinitions";
 import { removeFast } from "../util";
 
@@ -34,7 +34,7 @@ import { maxPlayerLevel } from "../config";
 export class CameraEntity extends Entity {
     /** Always existant camera field group. Present in all GUI/camera entities. */
     public cameraData: CameraGroup = new CameraGroup(this);
-
+public maxlevel = 45
     /** The current size of the tank the camera is in charge of. Calculated with level stuff */
     public sizeFactor: number = 1;
 
@@ -43,9 +43,9 @@ export class CameraEntity extends Entity {
         const previousLevel = this.cameraData.values.level;
         this.cameraData.level = level;
         this.sizeFactor = Math.pow(1.01, level - 1);
-        this.cameraData.levelbarMax = level < maxPlayerLevel ? 1 : 0; // quick hack, not correct values
-        if (level <= maxPlayerLevel) {
-            this.cameraData.score = levelToScore(level);
+        this.cameraData.levelbarMax = level < this.maxlevel ? 1 : 0; // quick hack, not correct values
+        if (level <= this.maxlevel) {
+            this.cameraData.score = levelToScore(level,this);
 
             const player = this.cameraData.values.player;
             if (Entity.exists(player) && player instanceof TankBody) {
@@ -55,7 +55,7 @@ export class CameraEntity extends Entity {
         }
 
         // Update stats available
-        const statIncrease = ClientCamera.calculateStatCount(level) - ClientCamera.calculateStatCount(previousLevel);
+        const statIncrease = ClientCamera.calculateStatCount(level,this) - ClientCamera.calculateStatCount(previousLevel,this);
         this.cameraData.statsAvailable += statIncrease;
 
         this.setFieldFactor(getTankById(this.cameraData.values.tank)?.fieldFactor || 1);
@@ -68,6 +68,18 @@ export class CameraEntity extends Entity {
 
     public tick(tick: number) {
         if (Entity.exists(this.cameraData.values.player)) {
+            const levelToScoreTable = Array(this.maxlevel).fill(0)
+            for (let i = 1; i < this.maxlevel; ++i) {
+                const player = this.cameraData.values.player;
+                if(Entity.exists(player) && player instanceof TankBody){
+                    if (player.definition.flags.isCelestial){
+                    levelToScoreTable[i] = levelToScoreTable[i - 1] + (90/ 9 * 1.06 ** (i - 1) * Math.min(31, i));
+        
+                }else{
+                    levelToScoreTable[i] = levelToScoreTable[i - 1] + (90 / 9 * 1.06 ** (i - 1) * Math.min(31, i));
+                }
+            }
+        }
             const focus = this.cameraData.values.player;
             if (!(this.cameraData.values.flags & CameraFlags.usesCameraCoords) && focus instanceof ObjectEntity) {
                 this.cameraData.cameraX = focus.rootParent.positionData.values.x;
@@ -80,7 +92,7 @@ export class CameraEntity extends Entity {
 
                 const score = this.cameraData.values.score;
                 let newLevel = this.cameraData.values.level;
-                while (newLevel < levelToScoreTable.length && score - levelToScore(newLevel + 1) >= 0) newLevel += 1
+                while (newLevel < levelToScoreTable.length && score - levelToScore(newLevel + 1,this) >= 0) newLevel += 1
 
                 if (newLevel !== this.cameraData.values.level) {
                     this.setLevel(newLevel);
@@ -88,8 +100,8 @@ export class CameraEntity extends Entity {
                 }
 
                 if (newLevel < levelToScoreTable.length) {
-                    const levelScore = levelToScore(this.cameraData.values.level)
-                    this.cameraData.levelbarMax = levelToScore(this.cameraData.values.level + 1) - levelScore;
+                    const levelScore = levelToScore(this.cameraData.values.level,this)
+                    this.cameraData.levelbarMax = levelToScore(this.cameraData.values.level + 1,this) - levelScore;
                     this.cameraData.levelbarProgress = score - levelScore;
                 }
 
@@ -117,11 +129,22 @@ export default class ClientCamera extends CameraEntity {
     public spectatee: ObjectEntity | null = null;
 
     /** Calculates the amount of stats available at a specific level. */
-    public static calculateStatCount(level: number) {
-        if (level <= 0) return 0;
-        if (level <= 28) return level - 1;
+    public static calculateStatCount(level: number, camera: CameraEntity) {
+        const player = camera.cameraData.values.player;
+        let extrapoints = 0
+        if(Entity.exists(player) && player instanceof TankBody){
+            if (player.definition.flags.isCelestial){
+                extrapoints = 25
+                if (level <= 0) return 0;
+                if (level <= 28) return level - 1;
 
-        return Math.floor(level / 3) + 20;
+            }else{
+                if (level <= 0) return 0;
+                if (level <= 28) return level - 1;
+            }
+            
+        }
+        return Math.floor(level / 3) + 20 + extrapoints;
     }
 
     public constructor(game: GameServer, client: Client) {

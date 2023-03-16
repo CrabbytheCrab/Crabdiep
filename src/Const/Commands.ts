@@ -14,6 +14,7 @@ import Pyromancer from "../Entity/Boss/Pyromancer";
 import Summoner from "../Entity/Boss/Summoner";
 import LivingEntity from "../Entity/Live";
 import ArenaCloser from "../Entity/Misc/ArenaCloser";
+import BlackHole from "../Entity/Misc/BlackHole";
 import FallenAC from "../Entity/Misc/Boss/FallenAC";
 import FallenSpike from "../Entity/Misc/Boss/FallenSpike";
 import Dominator from "../Entity/Misc/Dominator";
@@ -122,7 +123,7 @@ export const commandDefinitions = {
         id: CommandID.adminSummon,
         usage: "[entityName] [?count] [?x] [?y]",
         description: "Spawns entities at a certain location",
-        permissionLevel: AccessLevel.FullAccess
+        permissionLevel: AccessLevel.BetaAccess
     },
     admin_kill_all: {
         id: CommandID.adminKillAll,
@@ -240,6 +241,7 @@ export const commandCallbacks = {
             ["Defender", Defender],
             ["Fortress", Fortress],
             ["Pyromancer", Pyromancer],
+            ["BlackHole", BlackHole],
             ["Mecha", Mecha],
             ["Summoner", Summoner],
             ["Guardian", Guardian],

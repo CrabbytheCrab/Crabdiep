@@ -26,21 +26,18 @@ import { Color, ArenaFlags, PhysicsFlags } from "../../Const/Enums";
 import { NameGroup } from "../../Native/FieldGroups";
 import AbstractShape from "../../Entity/Shape/AbstractShape";
 import { SandboxShapeManager } from "../Sandbox";
+import LivingEntity from "../../Entity/Live";
 
 /**
  * Only spawns crashers
  */
 class CustomShapeManager extends SandboxShapeManager {
-    protected spawnShape(): AbstractShape {
-        const {x, y} = this.arena.findSpawnLocation();
-
-        const penta = new Pentagon(this.game, Math.random() < 0.25, Math.random() < 0.1);
-
-        penta.positionData.values.x = Math.sign(x) * (Math.abs(x) - 200);
-        penta.positionData.values.y = Math.sign(y) * (Math.abs(y) - 200);
-        penta.relationsData.values.owner = penta.relationsData.values.team = this.arena;
-
-        return penta;
+    protected get wantedShapes() {
+        let i = 0;
+        for (const client of this.game.clients) {
+            if (client.camera) i += 1;
+        }
+        return 0;
     }
 }
 
@@ -57,14 +54,14 @@ export default class BallArena extends ArenaEntity {
         this.arenaData.values.flags |= ArenaFlags.canUseCheats;
         this.updateBounds(2500, 2500);
 
-        const ball = new ObjectEntity(game);
+        const ball = new LivingEntity(game);
         ball.nameData = new NameGroup(ball);
         ball.nameData.values.name = "im pacman"
         ball.physicsData.values.sides = 1;
         ball.styleData.values.color = Color.ScoreboardBar;
         ball.physicsData.values.size = 100;
-        ball.physicsData.values.absorbtionFactor = 10;
-        ball.physicsData.values.flags |= PhysicsFlags.isBase | PhysicsFlags.noOwnTeamCollision;
+        ball.physicsData.values.absorbtionFactor = 0;
+        ball.damageReduction = 0
         ball.relationsData.values.team = ball;
     }
 }
