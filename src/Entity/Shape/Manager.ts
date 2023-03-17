@@ -174,7 +174,7 @@ export default class ShapeManager {
     }
 
     protected get wantedShapes() {
-        return 1000;
+        return 2500;
     }
 
     public tick() {
@@ -198,7 +198,10 @@ export default class ShapeManager {
 
         while (count < wantedShapes) {
             this.spawnShape();
-            count += 1;
+            this.spawnShape();
+            this.spawnShape();
+            this.spawnShape();
+            count += 4;
         }
     }
 }
