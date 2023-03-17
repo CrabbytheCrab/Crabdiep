@@ -49,19 +49,19 @@ class CustomShapeManager extends ShapeManager {
             if (Math.max(x, y) < rightX / 5 && Math.min(x, y) > leftX / 5) {
                 // Pentagon Nest
                 if(rand < 0.08){
-                    shape = new Octagon(this.game, Math.random() <= 0.05,Math.random() < 0.0025);
+                    shape = new Octagon(this.game, Math.random() <= 0.1,Math.random() < 0.0025);
         
                     shape.positionData.values.x = x;
                     shape.positionData.values.y = y;
                     shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;}
               else if(rand < 0.3){
-                shape = new Heptagon(this.game, Math.random() <= 0.05,Math.random() < 0.0025);
+                shape = new Heptagon(this.game, Math.random() <= 0.1,Math.random() < 0.0025);
     
                 shape.positionData.values.x = x;
                 shape.positionData.values.y = y;
                 shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;
             }else{
-                shape = new Hexagon(this.game, Math.random() <= 0.05,Math.random() < 0.0025);
+                shape = new Hexagon(this.game, Math.random() <= 0.1,Math.random() < 0.0025);
     
                 shape.positionData.values.x = x;
                 shape.positionData.values.y = y;
