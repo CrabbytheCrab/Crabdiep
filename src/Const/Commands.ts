@@ -21,7 +21,9 @@ import Dominator from "../Entity/Misc/Dominator";
 import ObjectEntity from "../Entity/Object";
 import AbstractShape from "../Entity/Shape/AbstractShape";
 import Crasher from "../Entity/Shape/Crasher";
+import Heptagon from "../Entity/Shape/Heptagon";
 import Hexagon from "../Entity/Shape/Hexagon";
+import Octagon from "../Entity/Shape/Octagon";
 import Pentagon from "../Entity/Shape/Pentagon";
 import { Sentry } from "../Entity/Shape/Sentry";
 import Square from "../Entity/Shape/Square";
@@ -255,6 +257,8 @@ export const commandCallbacks = {
             ["ArenaCloser", ArenaCloser],
             ["Crasher", Crasher],
             ["Sentry", Sentry],
+            ["Octagon", Octagon],
+            ["Heptagon", Heptagon],
             ["Hexagon", Hexagon],
             ["Pentagon", Pentagon],
             ["Square", Square],

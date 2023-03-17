@@ -50,7 +50,8 @@ export const enum Color {
     Psy = 21,
     kMaxColors = 22,
     EnemyHeptagon = 23,
-    EnemyOctagon = 24
+    EnemyOctagon = 24,
+    White = 25
 }
 
 /**
@@ -82,6 +83,7 @@ export const ColorsHexCode: Record<Color, number> = {
     [Color.kMaxColors]: 0x000000,
     [Color.EnemyHeptagon]: 0x38B764,
     [Color.EnemyOctagon]: 0x4A66BD,
+    [Color.White]: 0xFFFFFF
 }
 
 /**
@@ -288,6 +290,9 @@ export const enum Tank {
     Helix         = 197,
     Missile       = 198,
     Orbital       = 199,
+    Neutron       = 200,
+    Sputnik       = 201,
+    Oort          = 202,
     Mothership    = 204
 }
 

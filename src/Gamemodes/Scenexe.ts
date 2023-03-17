@@ -46,22 +46,22 @@ class CustomShapeManager extends ShapeManager {
             const leftX = this.arena.arenaData.values.leftX;
             const rand = Math.random();
     
-            if (Math.max(x, y) < rightX / 10 && Math.min(x, y) > leftX / 10) {
+            if (Math.max(x, y) < rightX / 5 && Math.min(x, y) > leftX / 5) {
                 // Pentagon Nest
                 if(rand < 0.08){
-                    shape = new Octagon(this.game, Math.random() <= 0.05,Math.random() < 0.00024414062);
+                    shape = new Octagon(this.game, Math.random() <= 0.05,Math.random() < 0.0025);
         
                     shape.positionData.values.x = x;
                     shape.positionData.values.y = y;
                     shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;}
               else if(rand < 0.3){
-                shape = new Heptagon(this.game, Math.random() <= 0.05,Math.random() < 0.00024414062);
+                shape = new Heptagon(this.game, Math.random() <= 0.05,Math.random() < 0.0025);
     
                 shape.positionData.values.x = x;
                 shape.positionData.values.y = y;
                 shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;
             }else{
-                shape = new Hexagon(this.game, Math.random() <= 0.05,Math.random() < 0.00024414062);
+                shape = new Hexagon(this.game, Math.random() <= 0.05,Math.random() < 0.0025);
     
                 shape.positionData.values.x = x;
                 shape.positionData.values.y = y;
@@ -71,25 +71,25 @@ class CustomShapeManager extends ShapeManager {
                 // Fields of Shapes
                 const rand = Math.random();
                 if (rand < .05) {
-                    shape = new Hexagon(this.game, false,Math.random() < 0.00024414062);
+                    shape = new Hexagon(this.game, false,Math.random() < 0.0025);
     
                     shape.positionData.values.x = x;
                     shape.positionData.values.y = y;
                     shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;
                 }else if (rand < .15) {
-                    shape = new Pentagon(this.game,Math.random() < 0.00024414062);
+                    shape = new Pentagon(this.game,Math.random() < 0.001,Math.random() < 0.0025);
     
                     shape.positionData.values.x = x;
                     shape.positionData.values.y = y;
                     shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;
                 } else if (rand < .35) { // < 16%
-                        shape = new Triangle(this.game,Math.random() < 0.00024414062);
+                        shape = new Triangle(this.game,Math.random() < 0.0025);
     
                         shape.positionData.values.x = x;
                         shape.positionData.values.y = y;
                         shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;
                 } else { // if rand < 80%
-                  shape = new Square(this.game,Math.random() < 0.00024414062);
+                  shape = new Square(this.game,Math.random() < 0.0025);
     
                         shape.positionData.values.x = x;
                         shape.positionData.values.y = y;
@@ -102,7 +102,7 @@ class CustomShapeManager extends ShapeManager {
 }
 
 export default class Scenexe extends ArenaEntity {
-    public timer = 8000
+    public timer = 1600
 	protected shapes: ShapeManager = new CustomShapeManager(this);
 
     public constructor(game: GameServer) {
@@ -114,7 +114,7 @@ export default class Scenexe extends ArenaEntity {
         this.timer--
         if(this.timer <= 0){
             new BlackHole(this.game)
-            this.timer = 8000
+            this.timer = 1600
         }
     }
 }
