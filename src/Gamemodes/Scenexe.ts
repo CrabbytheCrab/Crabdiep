@@ -46,22 +46,22 @@ class CustomShapeManager extends ShapeManager {
             const leftX = this.arena.arenaData.values.leftX;
             const rand = Math.random();
     
-            if (Math.max(x, y) < rightX / 5 && Math.min(x, y) > leftX / 5) {
+            if (Math.max(x, y) < rightX / 3 && Math.min(x, y) > leftX / 3) {
                 // Pentagon Nest
                 if(rand < 0.08){
-                    shape = new Octagon(this.game, Math.random() <= 0.1,Math.random() < 0.0025);
+                    shape = new Octagon(this.game, Math.random() <= 0.1,Math.random() < 0.005);
         
                     shape.positionData.values.x = x;
                     shape.positionData.values.y = y;
                     shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;}
               else if(rand < 0.3){
-                shape = new Heptagon(this.game, Math.random() <= 0.1,Math.random() < 0.0025);
+                shape = new Heptagon(this.game, Math.random() <= 0.1,Math.random() < 0.005);
     
                 shape.positionData.values.x = x;
                 shape.positionData.values.y = y;
                 shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;
             }else{
-                shape = new Hexagon(this.game, Math.random() <= 0.1,Math.random() < 0.0025);
+                shape = new Hexagon(this.game, Math.random() <= 0.1,Math.random() < 0.005);
     
                 shape.positionData.values.x = x;
                 shape.positionData.values.y = y;
@@ -96,6 +96,8 @@ class CustomShapeManager extends ShapeManager {
                         shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;
                 }
             }
+        shape.scoreReward *= this.arena.shapeScoreRewardMultiplier;
+
                 return shape;
             // this.shapeCount += 1;
         }
@@ -107,7 +109,7 @@ export default class Scenexe extends ArenaEntity {
 
     public constructor(game: GameServer) {
         super(game);
-        this.shapeScoreRewardMultiplier = 2.0;
+        this.shapeScoreRewardMultiplier = 2.5;
         this.updateBounds(30000, 30000);
     }
     public tick(tick: number) {
