@@ -107,6 +107,7 @@ export default class Scenexe extends ArenaEntity {
 
     public constructor(game: GameServer) {
         super(game);
+        this.shapeScoreRewardMultiplier = 2.0;
         this.updateBounds(30000, 30000);
     }
     public tick(tick: number) {
