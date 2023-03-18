@@ -16,7 +16,9 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>
 */
 
+import { PhysicsFlags, Color, StyleFlags, Tank, PositionFlags } from "../Const/Enums";
 import BlackHole from "../Entity/Misc/BlackHole";
+import { TeamEntity } from "../Entity/Misc/TeamEntity";
 import AbstractShape from "../Entity/Shape/AbstractShape";
 import Crasher from "../Entity/Shape/Crasher";
 import Heptagon from "../Entity/Shape/Heptagon";
@@ -105,6 +107,7 @@ class CustomShapeManager extends ShapeManager {
 
 export default class Scenexe extends ArenaEntity {
     public timer = 1600
+    public celestial = new TeamEntity(this.game, Color.EnemyCrasher)
 	protected shapes: ShapeManager = new CustomShapeManager(this);
 
     public constructor(game: GameServer) {
@@ -116,7 +119,7 @@ export default class Scenexe extends ArenaEntity {
         super.tick(tick);
         this.timer--
         if(this.timer <= 0){
-            new BlackHole(this.game)
+            new BlackHole(this.game, this.celestial)
             this.timer = 1600
         }
     }

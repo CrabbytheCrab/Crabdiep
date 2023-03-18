@@ -18750,7 +18750,7 @@ const TankDefinitions = JSON.parse(`[
                     "damage": 1.2,
                     "speed": 1,
                     "scatterRate": 1,
-                    "lifeLength": 1,
+                    "lifeLength": 0.5,
                     "absorbtionFactor": 0.75
                 }
             },
@@ -18772,7 +18772,7 @@ const TankDefinitions = JSON.parse(`[
                     "damage": 1.2,
                     "speed": 1,
                     "scatterRate": 1,
-                    "lifeLength": 1,
+                    "lifeLength": 0.5,
                     "absorbtionFactor": 0.75
                 }
             },
@@ -18794,7 +18794,7 @@ const TankDefinitions = JSON.parse(`[
                     "damage": 1.2,
                     "speed": 1,
                     "scatterRate": 1,
-                    "lifeLength": 1,
+                    "lifeLength": 0.5,
                     "absorbtionFactor": 0.75
                 } 
             }
@@ -18843,7 +18843,7 @@ const TankDefinitions = JSON.parse(`[
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
-            "devOnly": false,
+            "devOnly": true,
             "isCelestial": true
         },
         "visibilityRateShooting": 0.23,
@@ -18873,10 +18873,10 @@ const TankDefinitions = JSON.parse(`[
                     "type": "bullet",
                     "sizeRatio": 1,
                     "health": 1,
-                    "damage": 0.9,
+                    "damage": 0.75,
                     "speed": 1,
                     "scatterRate": 1,
-                    "lifeLength": 1,
+                    "lifeLength": 0.5,
                     "absorbtionFactor": 0.75
                 }
             },
@@ -18895,10 +18895,10 @@ const TankDefinitions = JSON.parse(`[
                     "type": "bullet",
                     "sizeRatio": 1,
                     "health": 1,
-                    "damage": 0.9,
+                    "damage": 0.75,
                     "speed": 1,
                     "scatterRate": 1,
-                    "lifeLength": 1,
+                    "lifeLength": 0.5,
                     "absorbtionFactor": 0.75
                 }
             },
@@ -18917,10 +18917,10 @@ const TankDefinitions = JSON.parse(`[
                     "type": "bullet",
                     "sizeRatio": 1,
                     "health": 1,
-                    "damage": 0.9,
+                    "damage": 0.75,
                     "speed": 1,
                     "scatterRate": 1,
-                    "lifeLength": 1,
+                    "lifeLength": 0.5,
                     "absorbtionFactor": 0.75
                 } 
             },
@@ -18939,10 +18939,10 @@ const TankDefinitions = JSON.parse(`[
                     "type": "bullet",
                     "sizeRatio": 1,
                     "health": 1,
-                    "damage": 0.9,
+                    "damage": 0.75,
                     "speed": 1,
                     "scatterRate": 1,
-                    "lifeLength": 1,
+                    "lifeLength": 0.5,
                     "absorbtionFactor": 0.75
                 }
             },
@@ -18961,10 +18961,10 @@ const TankDefinitions = JSON.parse(`[
                     "type": "bullet",
                     "sizeRatio": 1,
                     "health": 1,
-                    "damage": 0.9,
+                    "damage": 0.75,
                     "speed": 1,
                     "scatterRate": 1,
-                    "lifeLength": 1,
+                    "lifeLength": 0.5,
                     "absorbtionFactor": 0.75
                 }
             },
@@ -18983,10 +18983,10 @@ const TankDefinitions = JSON.parse(`[
                     "type": "bullet",
                     "sizeRatio": 1,
                     "health": 1,
-                    "damage": 0.9,
+                    "damage": 0.75,
                     "speed": 1,
                     "scatterRate": 1,
-                    "lifeLength": 1,
+                    "lifeLength": 0.5,
                     "absorbtionFactor": 0.75
                 } 
             }
@@ -20852,9 +20852,9 @@ const TankDefinitions = JSON.parse(`[
                     "sizeRatio": 1,
                     "health": 0.8,
                     "damage": 0.6,
-                    "speed": 1.25,
+                    "speed": 1,
                     "scatterRate": 0,
-                    "lifeLength": 1.75,
+                    "lifeLength": 0.85,
                     "absorbtionFactor": 1
                 }
             },
@@ -20876,9 +20876,9 @@ const TankDefinitions = JSON.parse(`[
                     "sizeRatio": 1,
                     "health": 0.8,
                     "damage": 0.6,
-                    "speed": 1.25,
+                    "speed": 1,
                     "scatterRate": 0,
-                    "lifeLength": 1.75,
+                    "lifeLength": 0.85,
                     "absorbtionFactor": 1
                 }
             },
@@ -20900,9 +20900,9 @@ const TankDefinitions = JSON.parse(`[
                     "sizeRatio": 1,
                     "health": 0.8,
                     "damage": 0.6,
-                    "speed": 1.25,
+                    "speed": 1,
                     "scatterRate": 0,
-                    "lifeLength": 1.75,
+                    "lifeLength": 0.85,
                     "absorbtionFactor": 1
                 }
             },
@@ -20924,9 +20924,9 @@ const TankDefinitions = JSON.parse(`[
                     "sizeRatio": 1,
                     "health": 0.8,
                     "damage": 0.6,
-                    "speed": 1.25,
+                    "speed": 1,
                     "scatterRate": 0,
-                    "lifeLength": 1.75,
+                    "lifeLength": 0.85,
                     "absorbtionFactor": 1
                 }
             },
@@ -20948,9 +20948,9 @@ const TankDefinitions = JSON.parse(`[
                     "sizeRatio": 1,
                     "health": 0.8,
                     "damage": 0.6,
-                    "speed": 1.25,
+                    "speed": 1,
                     "scatterRate": 0,
-                    "lifeLength": 1.75,
+                    "lifeLength": 0.85,
                     "absorbtionFactor": 1
                 }
             },
@@ -20972,9 +20972,9 @@ const TankDefinitions = JSON.parse(`[
                     "sizeRatio": 1,
                     "health": 0.8,
                     "damage": 0.6,
-                    "speed": 1.25,
+                    "speed": 1,
                     "scatterRate": 0,
-                    "lifeLength": 1.75,
+                    "lifeLength": 0.85,
                     "absorbtionFactor": 1
                 }
             },
@@ -23874,7 +23874,7 @@ const TankDefinitions = JSON.parse(`[
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
-            "devOnly": false,
+            "devOnly": true,
             "isCelestial": true
         },
         "visibilityRateShooting": 0.23,
