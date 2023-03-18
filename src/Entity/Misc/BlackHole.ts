@@ -40,10 +40,11 @@ export default class BlackHole extends ObjectEntity implements BarrelBase{
     public reloadTime = 15;
     /** The inputs for when to shoot or not. (croc skimmer) */
     public inputs: Inputs;
+    public team: TeamEntity
     //public tank:TankBody
-    public constructor(game: GameServer) {
+    public constructor(game: GameServer, team: TeamEntity) {
         super(game);
-        
+        this.team = team
       //  this.tank = 
       const {x, y} = this.game.arena.findSpawnLocation()
       this.positionData.values.x = x;
@@ -59,7 +60,7 @@ export default class BlackHole extends ObjectEntity implements BarrelBase{
         this.positionData.values.flags |= PositionFlags.absoluteRotation;
         this.physicsData.values.sides = 1;
        this.physicsData.flags   |= PhysicsFlags.showsOnMap;
-        this.physicsData.pushFactor = -2;
+        this.physicsData.pushFactor = -0.5;
         this.physicsData.values.absorbtionFactor = 0;
     this.lifetime = 2000
     const rotator = new GuardObject(this.game, this, 3, 1.5, 0, 0.2)  
@@ -69,6 +70,7 @@ export default class BlackHole extends ObjectEntity implements BarrelBase{
     rotator2.styleData.values.color = Color.White
     rotator2.styleData.values.flags |= StyleFlags.showsAboveParent
     rotator2.styleData.opacity = 0
+    this.relationsData.values.team = new TeamEntity(this.game, Color.EnemyCrasher, "Celestial");
 
     const tickBase = rotator2.tick;
     rotator2.tick = (tick: number) => {
@@ -109,7 +111,7 @@ export default class BlackHole extends ObjectEntity implements BarrelBase{
                 if(!entity.definition.flags.isCelestial && entity.scoreData.score >= 146655){
                     this.receiveKnockback(entities[i]);
                     entity.setTank(Tank.Nova)
-                    entity.relationsData.values.team = new TeamEntity(this.game, Color.EnemyCrasher)
+                    entity.relationsData.values.team = this.team
                     entity.styleData.color = Color.EnemyCrasher
                 }
             }

@@ -427,6 +427,7 @@ public canchain: boolean
 
         // Update stat related
         updateStats: {
+            if(!this.definition.flags.isCelestial){
             // Damage
             this.damagePerTick = this.cameraEntity.cameraData.statLevels[Stat.BodyDamage] * 6 + 20;
             if (this._currentTank === Tank.Spike) this.damagePerTick *= 1.5;
@@ -455,6 +456,24 @@ public canchain: boolean
             if (this._currentTank === Tank.Bumper) {this.physicsData.pushFactor = 100;}else{this.physicsData.pushFactor = 8}
             // Reload
             this.reloadTime = 15 * Math.pow(0.914, this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]);
+        }else{
+                        // Damage
+            this.damagePerTick = this.cameraEntity.cameraData.statLevels[Stat.BodyDamage] * 9 + 30;
+
+            // Max Health
+            const maxHealthCache = this.healthData.values.maxHealth;
+
+            
+             this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth] * 40
+            if (this.healthData.values.health === maxHealthCache) this.healthData.health = this.healthData.maxHealth; // just in case
+            else if (this.healthData.values.maxHealth !== maxHealthCache) {
+                this.healthData.health *= this.healthData.values.maxHealth / maxHealthCache
+            }
+
+            // Regen
+            this.regenPerTick = (this.healthData.values.maxHealth * 2 * (this.cameraEntity.cameraData.values.statLevels.values[Stat.HealthRegen] * 1.25) + this.healthData.values.maxHealth) / 25000;
+            // Reload
+            this.reloadTime = 15 * Math.pow(0.914, this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]);
         }
 
         this.scoreData.score = this.cameraEntity.cameraData.values.score;
@@ -464,6 +483,7 @@ public canchain: boolean
             // Dont worry about invulnerability here - not gonna be invulnerable while flashing ever (see setInvulnerability)
             this.damageReduction = 1.0;
         }
+    }
 
         this.accel.add({
             x: this.inputs.movement.x * this.cameraEntity.cameraData.values.movementSpeed,
