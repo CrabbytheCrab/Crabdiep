@@ -193,7 +193,11 @@ public canchain: boolean
     }
     /** See LivingEntity.onKill */
     public onKill(entity: LivingEntity) {
+        if (entity instanceof TankBody){
+        this.scoreData.score = this.cameraEntity.cameraData.score += entity.cameraEntity.cameraData.score/2;}else{
         this.scoreData.score = this.cameraEntity.cameraData.score += entity.scoreReward;
+            
+        }
 
         if (entity instanceof TankBody && entity.scoreReward && Math.max(this.cameraEntity.cameraData.values.level, entity.cameraEntity.maxlevel) - entity.cameraEntity.cameraData.values.level <= 20 || entity instanceof AbstractBoss) {
             if (this.cameraEntity instanceof ClientCamera) this.cameraEntity.client.notify("You've killed " + (entity.nameData.values.name || "an unnamed tank"));
@@ -337,7 +341,7 @@ public canchain: boolean
         if (!animate && Entity.exists(this.cameraEntity)) {
             if (this.cameraEntity.cameraData.player === this) {
                 this.cameraEntity.cameraData.deathTick = this.game.tick;
-                this.cameraEntity.cameraData.respawnLevel = Math.min(Math.max(this.cameraEntity.cameraData.values.level - 1, 1), Math.floor(Math.sqrt(this.cameraEntity.cameraData.values.level) * 3.2796));
+                this.cameraEntity.cameraData.respawnLevel = this.cameraEntity.cameraData.score/2
             }
 
             // Wipe this nonsense
