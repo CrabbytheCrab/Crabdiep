@@ -19,7 +19,7 @@
 import GameServer from "../../Game";
 import ObjectEntity from "../Object";
 
-import { PhysicsFlags, Color, StyleFlags, Tank, PositionFlags, Stat } from "../../Const/Enums";
+import { PhysicsFlags, Color, StyleFlags, Tank, PositionFlags, Stat, StatCount } from "../../Const/Enums";
 import LivingEntity from "../Live";
 import TankBody, { BarrelBase } from "../Tank/TankBody";
 import { TeamEntity } from "./TeamEntity";
@@ -116,15 +116,10 @@ export default class BlackHole extends ObjectEntity implements BarrelBase{
                     entity.relationsData.values.team = this.team
                     entity.styleData.color = Color.EnemyCrasher
                     entity.cameraEntity.cameraData.values.spawnTick = 0
+                    for (let i = 0; i < StatCount; ++i) {
+                        entity.cameraEntity.cameraData.values.statLevels.values[i] = 0;
+                    }
                     entity.cameraEntity.cameraData.statsAvailable += 35
-                    entity.cameraEntity.cameraData.statLevels[Stat.MovementSpeed] = 0
-                    entity.cameraEntity.cameraData.statLevels[Stat.Reload] = 0
-                    entity.cameraEntity.cameraData.statLevels[Stat.BulletDamage] = 0
-                    entity.cameraEntity.cameraData.statLevels[Stat.BulletPenetration] = 0
-                    entity.cameraEntity.cameraData.statLevels[Stat.BulletSpeed] = 0
-                    entity.cameraEntity.cameraData.statLevels[Stat.BodyDamage] = 0
-                    entity.cameraEntity.cameraData.statLevels[Stat.MaxHealth] = 0
-                    entity.cameraEntity.cameraData.statLevels[Stat.HealthRegen] = 0
                 }
             }
         }

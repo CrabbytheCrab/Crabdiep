@@ -386,7 +386,7 @@ export default class Client {
                 const tank = camera.cameraData.player = camera.relationsData.owner = camera.relationsData.parent = new TankBody(this.game, camera, this.inputs);
                 tank.setTank(Tank.Basic);
                 this.game.arena.spawnPlayer(tank, this);
-                camera.setLevel(camera.cameraData.values.respawnLevel);
+                camera.cameraData.score = camera.cameraData.values.respawnLevel
 
                 tank.nameData.values.name = name;
                 if (this.hasCheated()) this.setHasCheated(true);
