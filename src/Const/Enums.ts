@@ -484,3 +484,21 @@ export function levelToScore(level: number, camera: CameraEntity): number {
     if (level <= 0) return 0;
     return levelToScoreTable[level - 1];
 }
+
+
+export function scoreToLevel(level: number, camera: CameraEntity): number {
+        const player = camera.cameraData.values.player;
+    for (let i = 1; i < camera.maxlevel; ++i) {
+        if(Entity.exists(player) && player instanceof TankBody){
+            if (player.definition.flags.isCelestial){
+                level = level - (90 * 9 / 1.06 ^ (i + 1) / Math.max(31,i));
+
+            }else{
+                level = level - (40 * 9 / 1.06 ^ (i + 1) / Math.max(31,i));
+    }
+        }
+    }
+    if (level >= camera.maxlevel) return camera.maxlevel - 1;
+    if (level <= 0) return 0;
+    return level
+}
