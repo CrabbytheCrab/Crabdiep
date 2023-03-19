@@ -53,7 +53,7 @@ export default class BlackHole extends ObjectEntity implements BarrelBase{
         this.viewRange = 180
         this.inputs = new Inputs()
         this.sizeFactor = this.physicsData.values.size / 50;
-        
+        this.styleData.zIndex = 1
         //this.damageReduction = 0
         this.styleData.flags |= StyleFlags.hasNoDmgIndicator
         this.physicsData.values.size = 180;
@@ -117,7 +117,8 @@ export default class BlackHole extends ObjectEntity implements BarrelBase{
                     entity.styleData.color = Color.EnemyCrasher
                     entity.cameraEntity.cameraData.values.spawnTick = 0
                     for (let i = 0; i < StatCount; ++i) {
-                        entity.cameraEntity.cameraData.values.statLevels.values[i] = 0;
+                        
+                        entity.cameraEntity.cameraData.values.statLevels.values[i] -= entity.cameraEntity.cameraData.values.statLevels.values[i] ;
                     }
                     entity.cameraEntity.cameraData.statsAvailable += 35
                 }
