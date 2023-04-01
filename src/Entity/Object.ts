@@ -215,7 +215,7 @@ export default class ObjectEntity extends Entity {
     }
 
     /** Applies knockback after hitting `entity` */
-    protected receiveKnockback(entity: ObjectEntity) {
+    public receiveKnockback(entity: ObjectEntity) {
         let kbMagnitude = this.physicsData.values.absorbtionFactor * entity.physicsData.values.pushFactor;
         let kbAngle: number;
         let diffY = this.positionData.values.y - entity.positionData.values.y;
@@ -275,7 +275,7 @@ export default class ObjectEntity extends Entity {
 
         // TODO(speed):
         // and the for loop
-        const entities = this.game.entities.collisionManager.retrieveEntitiesByEntity(this);
+        const entities = this.game.entities.collisionManager.retrieve(this.positionData.values.x, this.positionData.values.y, this.physicsData.size,this.physicsData.size);
         for (let i = 0; i < entities.length; ++i) {
             const entity = entities[i];
             if (entity === this) continue;

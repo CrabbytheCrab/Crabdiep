@@ -45,7 +45,7 @@ export default class Octagon extends AbstractShape {
         this.isAlpha = isAlpha;
         this.isShiny = shiny;
 
-        this.damagePerTick = isAlpha ? 40 : 21;
+        this.damagePerTick = isAlpha ? 35 : 20;
         this.scoreReward = isAlpha ? 96000 : 12800;
         
         if (shiny) {

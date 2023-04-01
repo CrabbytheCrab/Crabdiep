@@ -25,6 +25,7 @@ import { Entity } from "../../Native/Entity";
 import LivingEntity from "../Live";
 import { normalizeAngle, PI2 } from "../../util";
 import Barrel from "./Barrel";
+import AiTank from "../Misc/AiTank";
 
 /**
  * Abstract class to represent an addon in game.
@@ -113,6 +114,56 @@ export class Addon {
 
         return rotator;
     }
+
+
+    protected createAutoTurrets1(count: number) {
+        const rotPerTick = AI.PASSIVE_ROTATION;
+        const MAX_ANGLE_RANGE = PI2 / 4; // keep within 90º each side
+
+        const rotator = this.createGuard(1, .1, 0, rotPerTick) as GuardObject & { turrets: AutoTurret[] };
+        rotator.turrets = [];
+
+        const ROT_OFFSET = 0.8;
+
+        if (rotator.styleData.values.flags & StyleFlags.isVisible) rotator.styleData.values.flags ^= StyleFlags.isVisible;
+
+        for (let i = 0; i < count; ++i) {
+                       const base = new AutoTurret(this.owner, AutoTurretMiniDefinition);
+            base.influencedByOwnerInputs = true;
+
+            const angle = base.ai.inputs.mouse.angle = PI2 * ((i / count) - 1 / (count * 2));
+            //base.ai.passiveRotation = rotPerTick;
+            base.ai.targetFilter = (targetPos) => {
+                const pos = base.getWorldPosition();
+                const angleToTarget = Math.atan2(targetPos.y - pos.y, targetPos.x - pos.x);
+                
+                const deltaAngle = normalizeAngle(angleToTarget - ((angle + this.owner.positionData.values.angle)));
+
+                return deltaAngle < MAX_ANGLE_RANGE || deltaAngle > (PI2 - MAX_ANGLE_RANGE);
+            }
+
+            base.positionData.values.y = this.owner.physicsData.values.size * Math.sin(angle) * ROT_OFFSET;
+            base.positionData.values.x = this.owner.physicsData.values.size * Math.cos(angle) * ROT_OFFSET;
+
+            if (base.styleData.values.flags & StyleFlags.showsAboveParent) base.styleData.values.flags ^= StyleFlags.showsAboveParent;
+            base.physicsData.values.flags |= PositionFlags.absoluteRotation;
+
+            const tickBase = base.tick;
+            base.tick = (tick: number) => {
+                base.positionData.y = this.owner.physicsData.values.size * Math.sin(angle) * ROT_OFFSET;
+                base.positionData.x = this.owner.physicsData.values.size * Math.cos(angle) * ROT_OFFSET;
+
+                tickBase.call(base, tick);
+
+                if (base.ai.state === AIState.idle) base.positionData.angle = angle + this.owner.positionData.values.angle;
+            }
+
+            rotator.turrets.push(base);
+        }
+
+        return rotator;
+    }
+
 
     protected createAutoMachineTurrets(count: number) {
         const rotPerTick = AI.PASSIVE_ROTATION * 6;
@@ -992,7 +1043,6 @@ class PsiAddon extends Addon {
 class AutoSmasherAddon extends Addon {
     public constructor(owner: BarrelBase) {
         super(owner);
-
         this.createGuard(6, 1.15, 0, .1);
         const base = new AutoTurret(owner, {
             angle: 0,
@@ -1032,6 +1082,14 @@ class Auto3Addon extends Addon {
         super(owner);
 
         this.createAutoTurrets(3);
+    }
+}
+
+class Auto1Addon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+
+        this.createAutoTurrets1(1);
     }
 }
 class Joint3Addon extends Addon {
@@ -1355,5 +1413,6 @@ export const AddonById: Record<addonId, typeof Addon | null> = {
     overdrive : OverDriveAddon,
     droneturret :Banshee, 
     pronounced2 : PronouncedAddon2,
+    cuck : Auto1Addon,
     psiEye: PsiAddon
 }

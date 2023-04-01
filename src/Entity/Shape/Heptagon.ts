@@ -40,12 +40,13 @@ export default class Heptagon extends AbstractShape {
         this.styleData.values.color = shiny ? Color.Shiny : Color.EnemyHeptagon;
 
         this.physicsData.values.absorbtionFactor = isAlpha ? 0.025 : 0.25;
-        this.physicsData.values.pushFactor = 16;
+        this.physicsData.values.pushFactor = 11;
+
 
         this.isAlpha = isAlpha;
         this.isShiny = shiny;
 
-        this.damagePerTick = isAlpha ? 32 : 18;
+        this.damagePerTick = isAlpha ? 30 : 18;
         this.scoreReward = isAlpha ? 20000 : 2730;
         
         if (shiny) {

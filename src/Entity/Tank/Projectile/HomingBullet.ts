@@ -40,6 +40,8 @@ export default class HomingBullet extends Bullet {
     private _creationTick: number;
     public state = AIState.idle;
     public movementSpeed = 10000;
+    public static DECTECTRANGE = 140 ** 2;
+
     public aimSpeed = 1000;
     /** If the AI should predict enemy's movements, and aim accordingly. */
     public doAimPrediction: boolean = true;
@@ -202,8 +204,13 @@ export default class HomingBullet extends Bullet {
         if(target){
             this.state = AIState.hasTarget;
             //this.aimAt(target);
+            const dist = (target.positionData.y - this.positionData.y) ** 2 + (target.positionData.x - this.positionData.x) ** 2
+            if (dist > HomingBullet.DECTECTRANGE / 4) { // Half
+
             this.positionData.angle = Math.atan2(target.positionData.y - this.positionData.y, target.positionData.x - this.positionData.x);
+            this.addAcceleration(Math.atan2(target.positionData.y - this.positionData.y, target.positionData.x - this.positionData.x), this.baseSpeed/4)
         }
+    }
         this.tickMixin(tick);
 
     }

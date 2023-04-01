@@ -64,6 +64,10 @@ import NecromancerWepSquare from "./Projectile/NecromancerWepSquare";
 import HomingBullet from "./Projectile/HomingBullet";
 import Seakingrocket from "./Projectile/Seakingrocket";
 import Orbitrocket from "./Projectile/Orbitrocket";
+import { AI } from "../AI";
+import { CameraEntity } from "../../Native/Camera";
+import AiTank from "../Misc/AiTank";
+import { Sentry } from "../Shape/Sentry";
 /**
  * Class that determines when barrels can shoot, and when they can't.
  */
@@ -313,6 +317,8 @@ export default class Barrel extends ObjectEntity {
                 break;
             case 'necrotriangledrone':
                 new NecromancerTriangle(this, this.tank, tankDefinition, angle);
+                break;
+            case 'tank':
                 break;
             case 'blunt':
                 new Blunt(this, this.tank, tankDefinition, angle);
