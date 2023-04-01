@@ -2455,7 +2455,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Destroyer",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [64, 59 ,68,124,103, 65, 83,75, 94, 203],
+        "upgrades": [64, 59 ,68,124,103, 65, 83,75, 94, 202],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -24263,7 +24263,7 @@ const TankDefinitions = JSON.parse(`[
         ]
     },
     {
-        "id": 203,
+        "id": 202,
         "name": "Cuck",
         "upgradeMessage": "",
         "levelRequirement": 45,
