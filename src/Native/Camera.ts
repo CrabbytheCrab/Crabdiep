@@ -151,7 +151,6 @@ export default class ClientCamera extends CameraEntity {
         super(game);
 
         this.client = client;
-
         this.cameraData.values.respawnLevel = this.cameraData.values.level = this.cameraData.values.score = 1;
 
         this.cameraData.values.FOV = .35;

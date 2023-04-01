@@ -293,6 +293,7 @@ export const enum Tank {
     Neutron       = 200,
     Sputnik       = 201,
     Oort          = 202,
+    Cuck          = 203,
     Mothership    = 204
 }
 

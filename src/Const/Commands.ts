@@ -12,6 +12,7 @@ import Mecha from "../Entity/Boss/Mecha";
 import Protector from "../Entity/Boss/Protector";
 import Pyromancer from "../Entity/Boss/Pyromancer";
 import Summoner from "../Entity/Boss/Summoner";
+import Titan from "../Entity/Boss/Titan";
 import LivingEntity from "../Entity/Live";
 import ArenaCloser from "../Entity/Misc/ArenaCloser";
 import BlackHole from "../Entity/Misc/BlackHole";
@@ -83,7 +84,7 @@ export const commandDefinitions = {
         id: CommandID.gameSetScore,
         usage: "[score]",
         description: "Changes your score to the given whole number",
-        permissionLevel: AccessLevel.FullAccess
+        permissionLevel: AccessLevel.BetaAccess
     },
     game_set_stat: {
         id: CommandID.gameSetStat,
@@ -246,6 +247,7 @@ export const commandCallbacks = {
             ["BlackHole", BlackHole],
             ["Mecha", Mecha],
             ["Summoner", Summoner],
+            ["Titan", Titan],
             ["Guardian", Guardian],
             ["Protector", Protector],
             ["Beholder", Beholder],

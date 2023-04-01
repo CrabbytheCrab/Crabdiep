@@ -20,7 +20,7 @@ import DevTankDefinitions, { DevTank } from "./DevTankDefinitions";
 import { Tank, Color } from "./Enums";
 
 /** The types of post addons that exist in the game, by their id. */
-export type postAddonId = "dompronounced" | "auto5" | "auto3" | "overdrive"| "psiEye" | "autosmasher" | "spike" | "pronounced"  | "rammer"| "bumper"|"smasher" | "landmine" | "autoturret"  | "joint3"  | "weirdspike" | "auto2" | "auto7" | "autorocket" | "spiesk" | "saw" | "megasmasher" | "mega3" | "stalker3" | "auto4" | "bigautoturret"| "droneturret";
+export type postAddonId = "dompronounced" | "auto5" |"cuck" |"auto3" | "overdrive"| "psiEye" | "autosmasher" | "spike" | "pronounced"  | "rammer"| "bumper"|"smasher" | "landmine" | "autoturret"  | "joint3"  | "weirdspike" | "auto2" | "auto7" | "autorocket" | "spiesk" | "saw" | "megasmasher" | "mega3" | "stalker3" | "auto4" | "bigautoturret"| "droneturret";
 
 /** The types of post addons that exist in the game, by their id. */
 export type preAddonId = "dombase" | "launcher" |  "pronounced2"|"laucher2"| "launchersmall";
@@ -28,7 +28,7 @@ export type preAddonId = "dombase" | "launcher" |  "pronounced2"|"laucher2"| "la
 export type addonId = preAddonId | postAddonId;
 
 /** The types of projectiles in the game */
-export type projectileId = "bullet"| "block"| "homingrocket" |"orbitrocket"|"homing" |"explosion"| "trapspinner"|"orbittrap" | "mine" |"bombdrone"|"striker"| "drone" | "autoswarm" |"trap"| "pentadrone"  |  "autodrone"  |"necrotriangledrone" | "necropentadrone" | "necrodrone" | "wepnecrodrone"|"minion" | "spinner" | "spinner4" | "megaspinner" | "skimmer" | "rocket" | "swarm" | "flame" | "wall" | "croc" | "launrocket" | "autotrap"| "domminion" | "megaminion" | "miniminion" | "boomerang" | "hive" | "blunt" | "blunttrap" | "orbit";
+export type projectileId = "bullet"| "block"| "homingrocket" | "tank" |"orbitrocket"|"homing" |"explosion"| "trapspinner"|"orbittrap" | "mine" |"bombdrone"|"striker"| "drone" | "autoswarm" |"trap"| "pentadrone"  |  "autodrone"  |"necrotriangledrone" | "necropentadrone" | "necrodrone" | "wepnecrodrone"|"minion" | "spinner" | "spinner4" | "megaspinner" | "skimmer" | "rocket" | "swarm" | "flame" | "wall" | "croc" | "launrocket" | "autotrap"| "domminion" | "megaminion" | "miniminion" | "boomerang" | "hive" | "blunt" | "blunttrap" | "orbit";
 
 /** The types of barrel addons that exist in the game */
 export type barrelAddonId = "trapLauncher" |"blockLauncher"| "NecLauncher"| "mineLauncher"  | "stickyLauncher" |"reversetrap"|"machineMineLauncher"| "minionLauncher" | "engitrapLauncher" | "swarmLauncher" | "machineTrapLauncher" | "engimachinetrapLauncher";
@@ -2455,7 +2455,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Destroyer",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [64, 59 ,68,124,103, 65, 83,75, 94],
+        "upgrades": [64, 59 ,68,124,103, 65, 83,75, 94, 203],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -15698,7 +15698,7 @@ const TankDefinitions = JSON.parse(`[
                     "type": "orbit",
                     "sizeRatio": 1,
                     "health": 1,
-                    "damage": 0.575,
+                    "damage": 0.625,
                     "speed": 1.25,
                     "scatterRate": 0,
                     "lifeLength": 1,
@@ -23812,7 +23812,7 @@ const TankDefinitions = JSON.parse(`[
                 "size": 75,
                 "width": 50,
                 "delay": 0,
-                "reload": 3,
+                "reload": 4,
                 "recoil": 1,
                 "isTrapezoid": true,
                 "trapezoidDirection": 3.141592653589793,
@@ -23822,8 +23822,8 @@ const TankDefinitions = JSON.parse(`[
                     "type": "orbitrocket",
                     "sizeRatio": 1,
                     "health": 3,
-                    "damage": 0.4,
-                    "speed": 0.85,
+                    "damage": 0.55,
+                    "speed": 1.2,
                     "scatterRate": 0,
                     "lifeLength": 1,
                     "absorbtionFactor": 1
@@ -24259,6 +24259,87 @@ const TankDefinitions = JSON.parse(`[
             {
                 "name": "Health Regen",
                 "max": 10
+            }
+        ]
+    },
+    {
+        "id": 203,
+        "name": "Cuck",
+        "upgradeMessage": "",
+        "levelRequirement": 45,
+        "upgrades": [],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 1,
+        "absorbtionFactor": 1,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": null,
+        "postAddon": "cuck",
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 95,
+                "width": 71.4,
+                "delay": 0,
+                "reload": 4,
+                "recoil": 15,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": null,
+                "bullet": {
+                    "type": "bullet",
+                    "sizeRatio": 1,
+                    "health": 2,
+                    "damage": 3,
+                    "speed": 0.7,
+                    "scatterRate": 1,
+                    "lifeLength": 1,
+                    "absorbtionFactor": 0.1
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 7
+            },
+            {
+                "name": "Reload",
+                "max": 7
+            },
+            {
+                "name": "Bullet Damage",
+                "max": 7
+            },
+            {
+                "name": "Bullet Penetration",
+                "max": 7
+            },
+            {
+                "name": "Bullet Speed",
+                "max": 7
+            },
+            {
+                "name": "Body Damage",
+                "max": 7
+            },
+            {
+                "name": "Max Health",
+                "max": 7
+            },
+            {
+                "name": "Health Regen",
+                "max": 7
             }
         ]
     }

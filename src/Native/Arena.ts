@@ -42,6 +42,7 @@ import Fortress from "../Entity/Boss/Fortress";
 import Pyromancer from "../Entity/Boss/Pyromancer";
 import Mecha from "../Entity/Boss/Mecha";
 import Beholder from "../Entity/Boss/Beholder";
+import Titan from "../Entity/Boss/Titan";
 
 export const enum ArenaState {
 	/** Alive, open */
@@ -205,9 +206,9 @@ export default class ArenaEntity extends Entity implements TeamGroupEntity {
 	protected spawnBoss() {
 		const rand = Math.random();
 		if (rand < .25) {
-		const TBoss = [Fortress,Pyromancer]
+		const TBoss = [Fortress,Pyromancer, Mecha, Titan]
 		//const TBoss = [Mecha]
-		[~~(Math.random() * 2)];
+		[~~(Math.random() * 4)];
 		
 		this.boss = new TBoss(this.game);
 	}else{
