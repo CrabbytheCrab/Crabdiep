@@ -479,13 +479,14 @@ public Accend(){
             // Max Health
             const maxHealthCache = this.healthData.values.maxHealth;
 
-            if (this._currentTank === Tank.Abyss) this.regenPerTick *= 2;
+            if (this._currentTank === Tank.Abyss) this.regenPerTick *= 1.5;
+            if (this._currentTank === Tank.Chasm || this._currentTank === Tank.Void) this.regenPerTick *= 0.75;
             
             if (this._currentTank === Tank.Abyss){
-                this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth] * 1.5) * 75;}
+                this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth] * 1.5) * 60;}
                 else if (this._currentTank === Tank.Comet){
-                    this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth]) * 25;}
-                    else{ this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth] * 50}
+                    this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth]) * 20;}
+                    else{ this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth] * 40}
             if (this.healthData.values.health === maxHealthCache) this.healthData.health = this.healthData.maxHealth; // just in case
             else if (this.healthData.values.maxHealth !== maxHealthCache) {
                 this.healthData.health *= this.healthData.values.maxHealth / maxHealthCache

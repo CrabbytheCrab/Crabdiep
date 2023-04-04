@@ -24673,7 +24673,7 @@ const TankDefinitions = JSON.parse(`[
         "invisibilityRate": 0.03,
         "fieldFactor": 0.9,
         "absorbtionFactor": 0.2,
-        "speed": 1.6,
+        "speed": 2,
         "maxHealth": 75,
         "preAddon": null,
         "postAddon": "comet",
