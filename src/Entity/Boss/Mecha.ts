@@ -114,7 +114,7 @@ export default class Mecha extends AbstractBoss {
     public constructor(game: GameServer) {
         super(game);
         this.nameData.values.name = 'Mecha';
-        this.styleData.values.color = Color.Barrel;
+        this.styleData.values.color = Color.NecromancerPentagon;
         this.relationsData.values.team = this.game.arena;
         this.physicsData.values.size = DEFENDER_SIZE * Math.SQRT1_2;
         this.healthData.values.health = this.healthData.values.maxHealth = 6000;

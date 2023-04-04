@@ -325,7 +325,12 @@ public canchain: boolean
       
         this.isInvulnerable = invulnerable;
     }
-
+public Accend(){
+    this.damageReduction = 0;
+    this.cameraEntity.cameraData.spawnTick = 0
+    for (let i = 0; i < StatCount; ++i) this.cameraEntity.cameraData.statLevels[i as Stat] = 0;
+    this.cameraEntity.cameraData.statsAvailable += 35
+}
     /** See LivingEntity.onDeath */
    public onDeath(killer: LivingEntity) {
         if (!(this.cameraEntity instanceof ClientCamera)) return this.cameraEntity.delete();
@@ -357,7 +362,13 @@ public canchain: boolean
 
     public tick(tick: number) {
         this.MAXORBS = this.definition.maxorbs
-
+        if (this.inputs.attemptingShot()){
+            this.forcemulti = 2 - this.forcemulti * 0.1
+        }else if(this.inputs.attemptingRepel()){
+            this.forcemulti = 0.5 - this.forcemulti * 0.1
+        }else{
+            this.forcemulti = 1 - this.forcemulti * 0.1
+        }
         this.positionData.angle = Math.atan2(this.inputs.mouse.y - this.positionData.values.y, this.inputs.mouse.x - this.positionData.values.x);
         if(this.canchain == true && this.definition.flags.canChain)
         {
@@ -463,12 +474,18 @@ public canchain: boolean
         }else{
                         // Damage
             this.damagePerTick = this.cameraEntity.cameraData.statLevels[Stat.BodyDamage] * 9 + 30;
+            if (this._currentTank === Tank.Void) this.damagePerTick *= 1.5;
 
             // Max Health
             const maxHealthCache = this.healthData.values.maxHealth;
 
+            if (this._currentTank === Tank.Abyss) this.regenPerTick *= 2;
             
-             this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth] * 40
+            if (this._currentTank === Tank.Abyss){
+                this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth] * 1.5) * 75;}
+                else if (this._currentTank === Tank.Comet){
+                    this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth]) * 25;}
+                    else{ this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth] * 50}
             if (this.healthData.values.health === maxHealthCache) this.healthData.health = this.healthData.maxHealth; // just in case
             else if (this.healthData.values.maxHealth !== maxHealthCache) {
                 this.healthData.health *= this.healthData.values.maxHealth / maxHealthCache
@@ -511,11 +528,11 @@ public canchain: boolean
       
             let force = delta.unitVector.scale(-this.k * x);
       
-            if (a.isAffectedByRope)a.addAcceleration(force.angle, force.magnitude, false);
+            if (a.isAffectedByRope)a.addAcceleration(force.angle, force.magnitude * this.forcemulti, false);
       
             force = force.scale(-1);
 
-            if (b.isAffectedByRope) b.addAcceleration(force.angle, force.magnitude, false);
+            if (b.isAffectedByRope) b.addAcceleration(force.angle, force.magnitude * this.forcemulti, false);
             //this.addAcceleration(-force.angle, force.magnitude * 0.2, true)
         }
     }

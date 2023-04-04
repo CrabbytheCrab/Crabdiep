@@ -182,7 +182,7 @@ export default class Client {
                 }
                 this.incomingCache[header][0] = data;
             } else {
-                util.log("Suspicious activies have been avoided");
+                util.log("Sus activies have been avoidezd");
                 return this.ban();
             }
         });
@@ -498,7 +498,7 @@ export default class Client {
                 executeCommand(this, cmd, args);
                 return;
             default:
-                util.log("Suspicious activies have been evaded")
+                util.log("Sus activies have been evaded")
                 return this.ban();
         }
     }

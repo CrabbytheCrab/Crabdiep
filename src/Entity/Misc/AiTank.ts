@@ -77,7 +77,8 @@ this.super = false
 
     public tick(tick: number) {
         if (!this.barrels.length) return super.tick(tick)
-
+this.scoreData.score = 0
+this.cameraEntity.cameraData.score = 0
         this.inputs = this.ai.inputs;
 
         if (this.ai.state === AIState.idle) {
@@ -104,24 +105,75 @@ if(this.yes){
             def.maxHealth = 50;
             }else{
                 this.camera.setLevel(30);
-                for (let i = Stat.MovementSpeed; i > Stat.MovementSpeed; ++i)  this.camera.cameraData.values.statLevels.values[i] = 4;
+                for (let i = Stat.MovementSpeed; i > Stat.MovementSpeed; ++i)  this.camera.cameraData.values.statLevels.values[i] = 3;
                 this.camera.cameraData.values.statLevels.values[Stat.MovementSpeed] = 1;
         
             const def = (this.definition = Object.assign({}, this.definition));
             def.maxHealth = 75;
             const tonk = Math.random()
-                if(tonk > 0.75){
+                if(tonk < 0.1){
                     this.setTank(Tank.Spewer);
-                }else if(tonk > 0.5){
+                    this.camera.cameraData.values.statLevels.values[Stat.Reload] = 5;
+                    this.camera.cameraData.values.statLevels.values[Stat.BulletDamage] = 5;
+                    this.camera.cameraData.values.statLevels.values[Stat.BulletPenetration] = 6;
+                    this.camera.cameraData.values.statLevels.values[Stat.BulletSpeed] = 0;
+                    this.camera.cameraData.values.statLevels.values[Stat.MovementSpeed] = 3;
+                }else if(tonk < 0.2){
                     this.setTank(Tank.Destroyer);
-                }else if (tonk > 0.25){
+                    this.camera.cameraData.values.statLevels.values[Stat.Reload] = 4;
+                    this.camera.cameraData.values.statLevels.values[Stat.BulletDamage] = 5;
+                    this.camera.cameraData.values.statLevels.values[Stat.BulletPenetration] = 3;
+                    this.camera.cameraData.values.statLevels.values[Stat.BulletSpeed] = 4;
+                }else if (tonk < 0.3){
                     this.setTank(Tank.Spawner);
-                }else{
+                    this.camera.cameraData.values.statLevels.values[Stat.Reload] = 4;
+                    this.camera.cameraData.values.statLevels.values[Stat.BulletDamage] = 4;
+                    this.camera.cameraData.values.statLevels.values[Stat.BulletPenetration] = 4;
+                    this.camera.cameraData.values.statLevels.values[Stat.BulletSpeed] = 6;
+                }else if (tonk < 0.4){
                     this.setTank(Tank.Smasher);
                     this.camera.cameraData.values.statLevels.values[Stat.MovementSpeed] = 3;
                     this.camera.cameraData.values.statLevels.values[Stat.HealthRegen] = 6;
                     this.camera.cameraData.values.statLevels.values[Stat.MaxHealth] = 6;
                     this.camera.cameraData.values.statLevels.values[Stat.BodyDamage] = 6;
+                    this.ai.viewRange = 2400;
+                }else if (tonk < 0.5){
+                    this.setTank(Tank.TriAngle);
+                    this.camera.cameraData.values.statLevels.values[Stat.MovementSpeed] = 2;
+                    this.camera.cameraData.values.statLevels.values[Stat.MaxHealth] = 5;
+                    this.camera.cameraData.values.statLevels.values[Stat.BodyDamage] = 5;
+                    this.camera.cameraData.values.statLevels.values[Stat.Reload] = 5;
+                }else if (tonk < 0.6){
+                    this.setTank(Tank.auto3);
+                    this.camera.cameraData.values.statLevels.values[Stat.Reload] = 6;
+                    this.camera.cameraData.values.statLevels.values[Stat.BulletDamage] = 4;
+                    this.camera.cameraData.values.statLevels.values[Stat.BulletPenetration] = 4;
+                    this.camera.cameraData.values.statLevels.values[Stat.BulletSpeed] = 4;
+                }else if (tonk < 0.7){
+                    this.setTank(Tank.Boomerang);
+                    this.camera.cameraData.values.statLevels.values[Stat.Reload] = 4;
+                    this.camera.cameraData.values.statLevels.values[Stat.BulletDamage] = 4;
+                    this.camera.cameraData.values.statLevels.values[Stat.BulletPenetration] = 5;
+                    this.camera.cameraData.values.statLevels.values[Stat.BulletSpeed] = 5;
+                }else if (tonk < 0.8){
+                    this.setTank(Tank.Hunter);
+                    this.camera.cameraData.values.statLevels.values[Stat.Reload] = 2;
+                    this.camera.cameraData.values.statLevels.values[Stat.BulletDamage] = 6;
+                    this.camera.cameraData.values.statLevels.values[Stat.BulletPenetration] = 4;
+                    this.camera.cameraData.values.statLevels.values[Stat.BulletSpeed] = 6;
+                    this.ai.viewRange = 2400;
+                }else if (tonk < 0.9){
+                    this.setTank(Tank.TripleShot);
+                    this.camera.cameraData.values.statLevels.values[Stat.Reload] = 5;
+                    this.camera.cameraData.values.statLevels.values[Stat.BulletDamage] = 4;
+                    this.camera.cameraData.values.statLevels.values[Stat.BulletPenetration] = 4;
+                    this.camera.cameraData.values.statLevels.values[Stat.BulletSpeed] = 5;
+                }else{
+                    this.setTank(Tank.QuadTank);
+                    this.camera.cameraData.values.statLevels.values[Stat.Reload] = 7;
+                    this.camera.cameraData.values.statLevels.values[Stat.BulletDamage] = 6;
+                    this.camera.cameraData.values.statLevels.values[Stat.BulletPenetration] = 5;
+                    this.camera.cameraData.values.statLevels.values[Stat.BulletSpeed] = 0;
                 }
             }
             this.yes = false

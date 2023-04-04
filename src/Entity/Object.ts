@@ -105,6 +105,7 @@ export default class ObjectEntity extends Entity {
     /** Tick that the cache was taken. */
     private cachedTick = 0;
     public isAffectedByRope: boolean;
+    public forcemulti: number;
     public restLength: number;
     public seg: number;
     public MAXORBS: number
@@ -115,6 +116,7 @@ export default class ObjectEntity extends Entity {
         this.MAXORBS = 0
         this.OrbCount = 0
         this.restLength = 0
+        this.forcemulti = 1
         this.isAffectedByRope = false
         this.styleData.zIndex = game.entities.zIndex++;
         this.seg = 0

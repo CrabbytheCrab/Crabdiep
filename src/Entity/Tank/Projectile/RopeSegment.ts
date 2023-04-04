@@ -122,9 +122,9 @@ this.styleData.color =  Color.Barrel;
                         this.styleData.zIndex = this.parent.styleData.zIndex - 25 + this.seg
                                             this.CanSpawn = false
             }
-            this.physicsData.pushFactor = 3 + (bodyDamage/2);  
+            this.physicsData.pushFactor = 0;  
         this.physicsData.size = this.parent.physicsData.size/8;
-        this.damagePerTick = 5 + (bodyDamage/2)
+        this.damagePerTick = 0
         }
         super.tick(tick);
     }

@@ -179,12 +179,9 @@ export default class LivingEntity extends ObjectEntity {
         // It's cached
         const collidedEntities = this.findCollisions();
         for (let i = 0; i < collidedEntities.length; ++i) {
-                if(collidedEntities[i].cangoThroughRope && this.isAffectedByRope){ continue;}
-                else{
             if (!(collidedEntities[i] instanceof LivingEntity)) continue;
             if (collidedEntities[i].relationsData.values.team !== this.relationsData.values.team) {
                 LivingEntity.applyDamage(collidedEntities[i] as LivingEntity, this);
-            }
             }
         }
     }

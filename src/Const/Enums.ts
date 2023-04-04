@@ -292,9 +292,15 @@ export const enum Tank {
     Orbital       = 199,
     Neutron       = 200,
     Sputnik       = 201,
-    Oort          = 202,
-    Cuck          = 203,
-    Mothership    = 204
+    Cuck          = 202,
+    Oort          = 203,
+    Chasm         = 204,
+    Void          = 205,
+    Comet         = 206,
+    Abyss         = 207,
+    Sprinkler     = 208, 
+    auto3Tank     = 209,
+    Mothership    = 2000
 }
 
 /**

@@ -236,8 +236,8 @@ export class Addon {
         if (rotator.styleData.values.flags & StyleFlags.isVisible) rotator.styleData.values.flags ^= StyleFlags.isVisible;
 
         for (let i = 0; i < count; ++i) {
-                       const base = new AutoTurret(this.owner, {...AutoTurretMiniDefinition, reload:1.5, delay:0.25});
-            base.influencedByOwnerInputs = true;
+                       const base = new AutoTurret(this.owner, {...AutoTurretMiniDefinition, reload:1, delay:0.25});
+            base.influencedByOwnerInputs = false;
 
             const angle = base.ai.inputs.mouse.angle = PI2 * ((i / count) - 1 / (count * 2));
             //base.ai.passiveRotation = rotPerTick;
@@ -253,7 +253,7 @@ export class Addon {
             base.positionData.values.y = this.owner.physicsData.values.size * Math.sin(angle) * ROT_OFFSET;
             base.positionData.values.x = this.owner.physicsData.values.size * Math.cos(angle) * ROT_OFFSET;
 
-            if (base.styleData.values.flags & StyleFlags.showsAboveParent) base.styleData.values.flags ^= StyleFlags.showsAboveParent;
+           // if (base.styleData.values.flags & StyleFlags.showsAboveParent) base.styleData.values.flags ^= StyleFlags.showsAboveParent;
             base.physicsData.values.flags |= PositionFlags.absoluteRotation;
 
             const tickBase = base.tick;
@@ -275,7 +275,7 @@ export class Addon {
         const rotPerTick = AI.PASSIVE_ROTATION;
         const MAX_ANGLE_RANGE = PI2; // keep within 90º each side
         const MAX_ANGLE_RANGE2 = PI2; // keep within 90º each side
-        const rotator = this.createGuard(1, .1, 0, rotPerTick) as GuardObject & { turrets: AutoTurret[] };
+        const rotator = new GuardObject3(this.game, this.owner,1, .1, 0, rotPerTick) as GuardObject3 & { turrets: AutoTurret[] };
         rotator.turrets = [];
         //rotator.joints = [];
                 rotator.styleData.values.zIndex += 2;
@@ -283,6 +283,17 @@ export class Addon {
             rotator.styleData.values.flags |= StyleFlags.showsAboveParent;
         if (rotator.styleData.values.flags & StyleFlags.isVisible) rotator.styleData.values.flags ^= StyleFlags.isVisible;
         if (rotator.styleData.values.flags & StyleFlags.showsAboveParent) rotator.styleData.values.flags |= StyleFlags.showsAboveParent;
+        
+        const tickBaserot = rotator.tick;
+        rotator.tick = (tick: number) => {
+        
+        if (rotator.styleData.zIndex !== this.owner.styleData.zIndex + 1){
+            rotator.styleData.zIndex !== this.owner.styleData.zIndex + 1
+        }
+        //base.positionData.values.x += rotator.physicsData.values.size * Math.cos(MAX_ANGLE_RANGE2)  * ROT_OFFSET;
+
+        tickBaserot.call(rotator, tick);
+        }
         for (let i = 0; i < count; ++i) {
             const base = new AutoTurret(rotator, {...AutoTurretMiniDefinition, reload:1.2});
                     base.styleData.values.zIndex += 2;
@@ -567,7 +578,7 @@ const dronebarrel: BarrelDefinition = {
     size: 95,
     width: 42,
     delay: 0,
-    reload: 1,
+    reload: 1.2,
     recoil: 0,
     isTrapezoid: false,
     trapezoidDirection: 0,
@@ -576,7 +587,7 @@ const dronebarrel: BarrelDefinition = {
         type: "bullet",
         sizeRatio:1,
         health: 1,
-        damage: 1,
+        damage: 0.65,
         speed: 1,
         scatterRate: 1,
         lifeLength: 1,
@@ -839,6 +850,70 @@ this.styleData.flags |= StyleFlags.showsAboveParent
     }
 }
 
+
+export class GuardObject3 extends ObjectEntity implements BarrelBase {
+    /***** From BarrelBase *****/
+    public inputs: Inputs;
+    public cameraEntity: Entity;
+    public reloadTime: number;
+
+    /** Helps the class determine size ratio as well as who is the owner */
+    public owner: BarrelBase;
+    /** To store the size ratio (in compared to the owner) */
+    public sizeRatio: number;
+    /** Radians per tick, how many radians the guard will rotate in a tick */
+    public radiansPerTick: number;
+
+    public constructor(game: GameServer, owner: BarrelBase, sides: number, sizeRatio: number, offsetAngle: number, radiansPerTick: number) {
+        super(game);
+
+        this.owner = owner;
+        this.inputs = owner.inputs;
+        this.cameraEntity = owner.cameraEntity;
+        // It's weird, but it's how it works
+        sizeRatio *= Math.SQRT1_2
+        this.sizeRatio = sizeRatio;
+        this.radiansPerTick = radiansPerTick;
+
+        this.setParent(owner);
+        this.relationsData.values.owner = owner;
+        this.relationsData.values.team = owner.relationsData.values.team;
+this.styleData.zIndex += 2
+this.styleData.flags |= StyleFlags.showsAboveParent
+        this.styleData.values.color = Color.Border;
+        this.positionData.values.flags |= PositionFlags.absoluteRotation;
+        this.positionData.values.angle = offsetAngle;
+        this.physicsData.values.sides = sides;
+        this.reloadTime = owner.reloadTime;
+        this.physicsData.values.size = owner.physicsData.values.size * sizeRatio;
+    }
+
+    
+    /**
+     * Size factor, used for calculation of the turret and base size.
+     */
+    get sizeFactor() {
+        return this.owner.sizeFactor;
+    }
+
+    /**
+     * Called (if ever) similarly to LivingEntity.onKill
+     * Spreads onKill to owner
+     */
+    public onKill(killedEntity: LivingEntity) {
+        if (!(this.owner instanceof LivingEntity)) return;
+        this.owner.onKill(killedEntity);
+    }
+
+    public tick(tick: number): void {
+        this.reloadTime = this.owner.reloadTime;
+        this.physicsData.size = this.sizeRatio * this.owner.physicsData.values.size;
+        this.positionData.angle += this.radiansPerTick
+        // It won't ever do any collisions, so no need to tick the object
+        // super.tick(tick);
+    }
+}
+
 /** Spikes addon. */
 class SpikeAddon extends Addon {
     public constructor(owner: BarrelBase) {
@@ -872,6 +947,41 @@ class OverDriveAddon extends Addon {
 
         const b = new GuardObject2(this.game, this.owner, 4, 0.55, 0, 0);;
         b.styleData.color = Color.Barrel
+    }
+}
+
+
+class SpinnerAddon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+
+        const rotator = new GuardObject3(this.game, owner, 1, .8, 0, 0.1) as GuardObject3 & { turrets: Barrel[] };
+        rotator.styleData.color = Color.Barrel
+        for (let i = 0; i < 6; ++i) {
+            const AutoTurretDefinition: BarrelDefinition = {
+                angle: PI2/6 * i,
+                offset: 0,
+                size: 55,
+                width: 25,
+                delay: 0.01,
+                reload: 0.8,
+                recoil: 0,
+                isTrapezoid: false,
+                trapezoidDirection: 0,
+                addon: null,
+                bullet: {
+                    type: "bullet",
+                    health: 1,
+                    damage: 0.3,
+                    speed: 1.2,
+                    scatterRate: 1,
+                    lifeLength: 1,
+                    sizeRatio: 1,
+                    absorbtionFactor: 1
+                }
+            }
+            const base = new Barrel(rotator, AutoTurretDefinition);
+        }
     }
 }
 class BumperAddon extends Addon {
@@ -1103,7 +1213,6 @@ class Joint3Addon extends Addon {
 class Banshee extends Addon {
     public constructor(owner: BarrelBase) {
         super(owner);
-        this.createDrones(3)
         this.createAutoTurretsWeak(3);
     }
 }
@@ -1378,6 +1487,330 @@ class RammerAddon extends Addon {
         this.createGuard2();
     }
 }
+
+class ChasmAddon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+        //owner.positionData.values.angle
+        
+        const pronounce = new ObjectEntity(this.game);
+        const size = this.owner.physicsData.values.size;
+
+        pronounce.setParent(this.owner);
+        pronounce.relationsData.values.owner = this.owner;
+        pronounce.relationsData.values.team = this.owner.relationsData.values.team
+
+        pronounce.physicsData.values.size = size * 1.2;
+
+        pronounce.styleData.values.color = Color.Border;
+        pronounce.physicsData.values.sides = 3;
+        const tickBase = pronounce.tick;
+
+        pronounce.tick = (tick: number) => {
+            const size = this.owner.physicsData.values.size;
+
+            pronounce.physicsData.size = size * 1.2;
+            tickBase.call(pronounce, tick);
+        }
+
+
+        const pronounce2 = new ObjectEntity(this.game);
+
+        pronounce2.setParent(this.owner);
+        pronounce2.relationsData.values.owner = this.owner;
+        pronounce2.relationsData.values.team = this.owner.relationsData.values.team
+
+        pronounce2.physicsData.values.size = size * 0.75;
+
+            pronounce2.styleData.values.color = this.owner.styleData.color;
+            pronounce2.styleData.values.flags |= StyleFlags.showsAboveParent
+        pronounce2.physicsData.values.sides = 3;
+        const tickBase2 = pronounce2.tick;
+
+        pronounce2.tick = (tick: number) => {
+            const size = this.owner.physicsData.values.size;
+
+            pronounce2.physicsData.size = size * 0.75;
+            tickBase2.call(pronounce2, tick);
+        }
+
+
+
+        const pronounce3 = new ObjectEntity(this.game);
+
+        pronounce3.setParent(this.owner);
+        pronounce3.relationsData.values.owner = this.owner;
+        pronounce3.relationsData.values.team = this.owner.relationsData.values.team
+
+        pronounce3.physicsData.values.size = size * 0.5;
+
+        pronounce3.styleData.values.color = this.owner.styleData.color;
+        pronounce3.styleData.values.flags |= StyleFlags.showsAboveParent
+        pronounce3.physicsData.values.sides = 3;
+        const tickBase3 = pronounce3.tick;
+
+        pronounce3.tick = (tick: number) => {
+            const size = this.owner.physicsData.values.size;
+
+            pronounce3.physicsData.size = size * 0.5;
+            tickBase3.call(pronounce3, tick);
+        }
+    }
+}
+
+class VoidAddon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+        //owner.positionData.values.angle
+        
+        const pronounce = new ObjectEntity(this.game);
+        const size = this.owner.physicsData.values.size;
+
+        pronounce.setParent(this.owner);
+        pronounce.relationsData.values.owner = this.owner;
+        pronounce.relationsData.values.team = this.owner.relationsData.values.team
+
+        pronounce.physicsData.values.size = size * 1.4;
+
+        pronounce.styleData.values.color = Color.Border;
+        pronounce.physicsData.values.sides = 3;
+        const tickBase = pronounce.tick;
+
+        pronounce.tick = (tick: number) => {
+            const size = this.owner.physicsData.values.size;
+
+            pronounce.physicsData.size = size * 1.4;
+            tickBase.call(pronounce, tick);
+        }
+
+
+        const pronounce2 = new ObjectEntity(this.game);
+
+        pronounce2.setParent(this.owner);
+        pronounce2.relationsData.values.owner = this.owner;
+        pronounce2.relationsData.values.team = this.owner.relationsData.values.team
+
+        pronounce2.physicsData.values.size = size * 0.75;
+
+            pronounce2.styleData.values.color = this.owner.styleData.color;
+            pronounce2.styleData.values.flags |= StyleFlags.showsAboveParent
+        pronounce2.physicsData.values.sides = 3;
+        const tickBase2 = pronounce2.tick;
+
+        pronounce2.tick = (tick: number) => {
+            const size = this.owner.physicsData.values.size;
+
+            pronounce2.physicsData.size = size * 0.75;
+            tickBase2.call(pronounce2, tick);
+        }
+
+
+
+        const pronounce3 = new ObjectEntity(this.game);
+
+        pronounce3.setParent(this.owner);
+        pronounce3.relationsData.values.owner = this.owner;
+        pronounce3.relationsData.values.team = this.owner.relationsData.values.team
+
+        pronounce3.physicsData.values.size = size * 0.5;
+
+        pronounce3.styleData.values.color = this.owner.styleData.color;
+        pronounce3.styleData.values.flags |= StyleFlags.showsAboveParent
+        pronounce3.physicsData.values.sides = 3;
+        const tickBase3 = pronounce3.tick;
+
+        pronounce3.tick = (tick: number) => {
+            const size = this.owner.physicsData.values.size;
+
+            pronounce3.physicsData.size = size * 0.5;
+            tickBase3.call(pronounce3, tick);
+        }
+    }
+}
+
+class CometAddon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+        //owner.positionData.values.angle
+        
+        const pronounce = new ObjectEntity(this.game);
+        const size = this.owner.physicsData.values.size;
+
+        pronounce.setParent(this.owner);
+        pronounce.relationsData.values.owner = this.owner;
+        pronounce.relationsData.values.team = this.owner.relationsData.values.team
+
+        pronounce.physicsData.values.size = size * 1.2;
+
+        pronounce.styleData.values.color = Color.Border;
+        pronounce.physicsData.values.sides = 3;
+        const tickBase = pronounce.tick;
+
+        pronounce.tick = (tick: number) => {
+            const size = this.owner.physicsData.values.size;
+
+            pronounce.physicsData.size = size * 1.2;
+            tickBase.call(pronounce, tick);
+        }
+
+
+        const pronounce2 = new ObjectEntity(this.game);
+
+        pronounce2.setParent(this.owner);
+        pronounce2.relationsData.values.owner = this.owner;
+        pronounce2.relationsData.values.team = this.owner.relationsData.values.team
+
+        pronounce2.physicsData.values.size = size * 0.925;
+        pronounce2.positionData.values.angle = Math.PI;
+
+            pronounce2.styleData.values.color = Color.Border;
+            pronounce2.styleData.values.flags |= StyleFlags.showsAboveParent | StyleFlags.isStar
+        pronounce2.physicsData.values.sides = 3;
+        const tickBase2 = pronounce2.tick;
+
+        pronounce2.tick = (tick: number) => {
+            const size = this.owner.physicsData.values.size;
+//            pronounce2.positionData.angle = this.owner.positionData.angle + Math.PI
+
+            pronounce2.physicsData.size = size * 0.8;
+            tickBase2.call(pronounce2, tick);
+        }
+
+
+
+        const pronounce3 = new ObjectEntity(this.game);
+
+        pronounce3.setParent(this.owner);
+        pronounce3.relationsData.values.owner = this.owner;
+        pronounce3.relationsData.values.team = this.owner.relationsData.values.team
+
+        pronounce3.physicsData.values.size = size * 0.5;
+
+        pronounce3.styleData.values.color = this.owner.styleData.color;
+        pronounce3.styleData.values.flags |= StyleFlags.showsAboveParent
+        pronounce3.physicsData.values.sides = 3;
+        const tickBase3 = pronounce3.tick;
+
+        pronounce3.tick = (tick: number) => {
+            const size = this.owner.physicsData.values.size;
+
+            pronounce3.physicsData.size = size * 0.5;
+            tickBase3.call(pronounce3, tick);
+        }
+    }
+}
+
+
+class AbyssAddon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+        //owner.positionData.values.angle
+        
+        const pronounce = new ObjectEntity(this.game);
+        const size = this.owner.physicsData.values.size;
+
+        pronounce.setParent(this.owner);
+        pronounce.relationsData.values.owner = this.owner;
+        pronounce.relationsData.values.team = this.owner.relationsData.values.team
+
+        pronounce.physicsData.values.size = size * 1.2;
+
+        pronounce.styleData.values.color = Color.Border;
+        pronounce.physicsData.values.sides = 3;
+        const tickBase = pronounce.tick;
+
+        pronounce.tick = (tick: number) => {
+            const size = this.owner.physicsData.values.size;
+
+            pronounce.physicsData.size = size * 1.2;
+            tickBase.call(pronounce, tick);
+        }
+
+
+        const pronounce2 = new ObjectEntity(this.game);
+
+        pronounce2.setParent(this.owner);
+        pronounce2.relationsData.values.owner = this.owner;
+        pronounce2.relationsData.values.team = this.owner.relationsData.values.team
+
+        pronounce2.physicsData.values.size = size * 0.8;
+
+            pronounce2.styleData.values.color = this.owner.styleData.color;
+            pronounce2.styleData.values.flags |= StyleFlags.showsAboveParent
+        pronounce2.physicsData.values.sides = 3;
+        const tickBase2 = pronounce2.tick;
+
+        pronounce2.tick = (tick: number) => {
+            const size = this.owner.physicsData.values.size;
+
+            pronounce2.physicsData.size = size * 0.8;
+            tickBase2.call(pronounce2, tick);
+        }
+
+
+
+        const pronounce3 = new ObjectEntity(this.game);
+
+        pronounce3.setParent(this.owner);
+        pronounce3.relationsData.values.owner = this.owner;
+        pronounce3.relationsData.values.team = this.owner.relationsData.values.team
+
+        pronounce3.physicsData.values.size = size * 0.6;
+
+        pronounce3.styleData.values.color = this.owner.styleData.color;
+        pronounce3.styleData.values.flags |= StyleFlags.showsAboveParent
+        pronounce3.physicsData.values.sides = 3;
+        const tickBase3 = pronounce3.tick;
+
+        pronounce3.tick = (tick: number) => {
+            const size = this.owner.physicsData.values.size;
+
+            pronounce3.physicsData.size = size * 0.6;
+            tickBase3.call(pronounce3, tick);
+        }
+
+    const pronounce4 = new ObjectEntity(this.game);
+
+    pronounce4.setParent(this.owner);
+    pronounce4.relationsData.values.owner = this.owner;
+    pronounce4.relationsData.values.team = this.owner.relationsData.values.team
+
+    pronounce4.physicsData.values.size = size * 0.4;
+
+    pronounce4.styleData.values.color = this.owner.styleData.color;
+    pronounce4.styleData.values.flags |= StyleFlags.showsAboveParent
+    pronounce4.physicsData.values.sides = 3;
+    const tickBase4 = pronounce4.tick;
+
+    pronounce4.tick = (tick: number) => {
+        const size = this.owner.physicsData.values.size;
+
+        pronounce4.physicsData.size = size * 0.4;
+        tickBase4.call(pronounce4, tick);
+    }
+
+    const pronounce5 = new ObjectEntity(this.game);
+
+    pronounce5.setParent(this.owner);
+    pronounce5.relationsData.values.owner = this.owner;
+    pronounce5.relationsData.values.team = this.owner.relationsData.values.team
+
+    pronounce5.physicsData.values.size = size * 0.2;
+
+    pronounce5.styleData.values.color = this.owner.styleData.color;
+    pronounce5.styleData.values.flags |= StyleFlags.showsAboveParent
+    pronounce5.physicsData.values.sides = 3;
+    const tickBase5 = pronounce5.tick;
+
+    pronounce5.tick = (tick: number) => {
+        const size = this.owner.physicsData.values.size;
+
+        pronounce5.physicsData.size = size * 0.2;
+        tickBase5.call(pronounce5, tick);
+    }
+}
+}
+
 /**
  * All addons in the game by their ID.
  */
@@ -1394,6 +1827,12 @@ export const AddonById: Record<addonId, typeof Addon | null> = {
     landmine: LandmineAddon,
     autoturret: AutoTurretAddon,
     // not part of diep
+    autoturret3: AutoTurretAddon,
+    spinner: SpinnerAddon,
+    chasm: ChasmAddon,
+    void: VoidAddon,
+    comet: CometAddon,
+    abyss: AbyssAddon,
     weirdspike: WeirdSpikeAddon,
     auto7: Auto7Addon,
     auto2: Auto2Addon,

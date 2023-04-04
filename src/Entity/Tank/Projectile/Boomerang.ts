@@ -155,7 +155,7 @@ export default class Boomerang extends Bullet  implements BarrelBase{
     public tick(tick: number) {
         this.sizeFactor = this.physicsData.values.size / 50;
         this.reloadTime = this.tank.reloadTime;
-        if (this.tankDefinition && this.tankDefinition.id === Tank.Orbiter){
+        if (this.tankDefinition && this.tankDefinition.id === Tank.Orbiter ||  this.tankDefinition && this.tankDefinition.id === Tank.Oort){
             if(tick - this.spawnTick >= this.lifeLength/24 && this.boom == false){
 
 

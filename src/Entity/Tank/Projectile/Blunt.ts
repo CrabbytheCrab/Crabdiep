@@ -55,13 +55,15 @@ export default class Blunt extends Bullet implements BarrelBase{
         this.megaturret = typeof this.barrelEntity.definition.megaturret === 'boolean' && this.barrelEntity.definition.megaturret;
         if (tankDefinition && tankDefinition.id === Tank.Pounder){
             new GuardObject(this.game, this, 6, 1.3, 0, .1);
-            this.physicsData.values.pushFactor = ((7 / 3) + bulletDamage) * bulletDefinition.damage  * 10;
+            this.physicsData.values.pushFactor = ((7 / 3) + bulletDamage) * bulletDefinition.damage  * 6;
         }else        if (tankDefinition && tankDefinition.id === Tank.Flinger){
-            new GuardObject(this.game, this, 6, 1.15, 0, .1);
-            this.physicsData.values.pushFactor = ((7 / 3) + bulletDamage) * bulletDefinition.damage  * 15;
+            new GuardObject(this.game, this, 1, 1.75, 0, .1);
+            //this.baseAccel = (35 * 3) * this.barrelEntity.definition.bullet.speed;
+            this.addAcceleration(this.movementAngle, this.baseSpeed * 2);
+            this.physicsData.values.pushFactor = ((7 / 3) + bulletDamage) * bulletDefinition.damage  * 9;
         }else{
             new GuardObject(this.game, this, 6, 1.15, 0, .1);
-            this.physicsData.values.pushFactor =  ((7 / 3) + bulletDamage) * bulletDefinition.damage  * 5;
+            this.physicsData.values.pushFactor =  ((7 / 3) + bulletDamage) * bulletDefinition.damage  * 3;
         }
     }
     

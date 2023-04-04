@@ -120,7 +120,7 @@ public multiplierdirect: number
     public destroy(animate = true) {
         super.destroy(animate);
         this.physicsData.pushFactor = 200
-        const entities = this.game.entities.collisionManager.retrieve(this.positionData.values.x, this.positionData.values.y, this.viewRange, this.viewRange);
+        const entities =this.findCollisions()
         for (let i = 0; i < entities.length; ++i) {
             const entity = entities[i];
             
@@ -134,15 +134,13 @@ public multiplierdirect: number
                     this.receiveKnockback(entities[i]);
                     entity.setTank(Tank.Nova)
                     entity.styleData.values.flags |= StyleFlags.isFlashing;
-                    entity.damageReduction = 0.0;
-                    entity.damageReduction = 0;
                     entity.relationsData.values.team = this.team
                     entity.styleData.color = Color.EnemyCrasher
-                    entity.cameraEntity.cameraData.values.spawnTick = 0
+                    entity.damageReduction = 0.0;
+                    entity.damageReduction = 0;
+                    entity.cameraEntity.cameraData.spawnTick = this.game.tick;
                     for (let i = 0; i < StatCount; ++i) entity.cameraEntity.cameraData.statLevels[i as Stat] = 0;
-                    for (let i = 0; i < StatCount; ++i) entity.cameraEntity.cameraData.statLimits[i as Stat] = 10;
-                    for (let i = 0; i < StatCount; ++i) entity.cameraEntity.cameraData.statsAvailable -=1
-                    entity.cameraEntity.cameraData.statsAvailable += 35
+                    entity.cameraEntity.cameraData.statsAvailable = 45
                 }
             }
         }
@@ -183,7 +181,7 @@ public multiplierdirect: number
                 partical.physicsData.sides = 1
             }
         }
-        const entities = this.game.entities.collisionManager.retrieve(this.positionData.values.x, this.positionData.values.y, this.physicsData.size,this.physicsData.size);
+        const entities = this.findCollisions()
         this.viewRange = this.physicsData.size
         for (let i = 0; i < entities.length; ++i) {
             const entity = entities[i];
@@ -199,21 +197,14 @@ public multiplierdirect: number
             if (!(entity.relationsData.values.owner === null || !(entity.relationsData.values.owner instanceof ObjectEntity))) continue; // Don't target entities who have an object owner
             if (entity instanceof TankBody) {
                 if(!entity.definition.flags.isCelestial && entity.scoreData.score >= 146655){
-                    let kbAngle: number;
-                    let diffY = this.positionData.values.y - entity.positionData.values.y;
-                    let diffX = this.positionData.values.x - entity.positionData.values.x;
-                    // Prevents drone stacking etc
-                    if (diffX === 0 && diffY === 0) kbAngle = Math.random() * util.PI2;
-                    else kbAngle = Math.atan2(diffY, diffX);
-                    //entity.addAcceleration( kbAngle, 0.5);
                 }else{
                     let kbAngle: number;
                     let diffY = this.positionData.values.y - entity.positionData.values.y;
                     let diffX = this.positionData.values.x - entity.positionData.values.x;
                     // Prevents drone stacking etc
                     if (diffX === 0 && diffY === 0) kbAngle = Math.random() * util.PI2;
-                    else kbAngle = Math.atan2(diffY, diffX);
-                    //entity.addAcceleration( kbAngle, -2);
+                    else {kbAngle = Math.atan2(diffY, diffX);
+                    entity.addAcceleration( kbAngle, -2);}
 
                 }
             }

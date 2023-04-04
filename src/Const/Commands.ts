@@ -90,13 +90,13 @@ export const commandDefinitions = {
         id: CommandID.gameSetStat,
         usage: "[stat num] [points]",
         description: "Set the value of one of your statuses. Values can be greater than the capacity. [stat num] is equivalent to the number that appears in the UI",
-        permissionLevel: AccessLevel.FullAccess
+        permissionLevel: AccessLevel.BetaAccess
     },
     game_set_stat_max: {
         id: CommandID.gameSetStatMax,
         usage: "[stat num] [max]",
         description: "Set the max value of one of your statuses. [stat num] is equivalent to the number that appears in the UI",
-        permissionLevel: AccessLevel.FullAccess
+        permissionLevel: AccessLevel.BetaAccess
     },
     game_add_upgrade_points: {
         id: CommandID.gameAddUpgradePoints,
