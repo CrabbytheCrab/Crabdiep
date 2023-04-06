@@ -577,6 +577,11 @@ export default class Client {
         this.write().u8(ClientBound.Notification).stringNT(text).u32(color).float(time).stringNT(id).send();
     }
 
+
+    public notifypeepeepoopoo() {
+        this.write().u8(ClientBound.ResetStats).send();
+    }
+
     /** Terminates the connection and related things. */
     public terminate() {
         if (this.terminated) return;

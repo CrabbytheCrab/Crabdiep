@@ -479,13 +479,15 @@ public Accend(){
             // Max Health
             const maxHealthCache = this.healthData.values.maxHealth;
 
-            if (this._currentTank === Tank.Abyss) this.regenPerTick *= 1.5;
-            if (this._currentTank === Tank.Chasm || this._currentTank === Tank.Void) this.regenPerTick *= 0.75;
+            if (this._currentTank === Tank.Abyss) this.regenPerTick *= 1.25;
+            if (this._currentTank === Tank.Chasm || this._currentTank === Tank.Void || this._currentTank == Tank.Comet) this.regenPerTick *= 0.5;
             
             if (this._currentTank === Tank.Abyss){
-                this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth] * 1.5) * 60;}
+                this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth] * 1.5) * 45;}
                 else if (this._currentTank === Tank.Comet){
                     this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth]) * 20;}
+                    else if (this._currentTank === Tank.Void || this._currentTank === Tank.Chasm){
+                        this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth]) * 30;}
                     else{ this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth] * 40}
             if (this.healthData.values.health === maxHealthCache) this.healthData.health = this.healthData.maxHealth; // just in case
             else if (this.healthData.values.maxHealth !== maxHealthCache) {
