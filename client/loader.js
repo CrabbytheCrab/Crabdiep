@@ -62,6 +62,7 @@ Module.commandDefinitions = null;
 Module.textInput = document.getElementById("textInput");
 Module.textInputContainer = document.getElementById("textInputContainer");
 
+Module.point = () => Module.input.set_convar("game_stats_build", ""); 
 // permission level is sent to client in the accept packet
 Module.permissionLevel = -1;
 
@@ -1225,6 +1226,9 @@ class ASMConsts {
         };
         ws.onmessage = function(e) {
             const view = new Uint8Array(e.data);
+            if (view[0] === 0x0c) {
+                Module.input.set_convar("game_stats_build", ""); 
+            }
             if(view[0] === 7) {
                 let out = 0, i = 0, at = 1;
                 while(view[at] & 0x80) {
@@ -1239,6 +1243,9 @@ class ASMConsts {
             Module.HEAP8.set(view, ptr);
             ws.events.push([1, ptr, view.length]);
             Module.exports.checkWS();
+
+
+            
         };
         for (let i = 0; i < Module.cp5.sockets.length; ++i) {
             if (Module.cp5.sockets[i] != null)
