@@ -16,8 +16,11 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>
 */
 
+import Client from "../Client";
 import { PhysicsFlags, Color, StyleFlags, Tank, PositionFlags } from "../Const/Enums";
+import AiTank from "../Entity/Misc/AiTank";
 import BlackHole from "../Entity/Misc/BlackHole";
+import TeamBase from "../Entity/Misc/TeamBase";
 import { TeamEntity } from "../Entity/Misc/TeamEntity";
 import AbstractShape from "../Entity/Shape/AbstractShape";
 import Crasher from "../Entity/Shape/Crasher";
@@ -32,12 +35,18 @@ import Triangle from "../Entity/Shape/Triangle";
 import WepPentagon from "../Entity/Shape/WepPentagon";
 import WepSquare from "../Entity/Shape/WepSquare";
 import WepTriangle from "../Entity/Shape/WepTriangle";
+import TankBody from "../Entity/Tank/TankBody";
 import GameServer from "../Game";
 import ArenaEntity from "../Native/Arena";
 
 /**
  * Scenexe Gamemode Arena
  */
+const arenaSize = 30000;
+const baseWidth = 2230;
+const domBaseSize = baseWidth / 2;
+const CELL_SIZE = 635;
+const GRID_SIZE = 40;
 
 class CustomShapeManager extends ShapeManager {
         protected spawnShape(): AbstractShape {
@@ -106,21 +115,42 @@ class CustomShapeManager extends ShapeManager {
 }
 
 export default class Scenexe extends ArenaEntity {
-    public timer = 1600
+    public playerTeamMap: Map<Client, TeamBase> = new Map();
+    public timer = 1500
     public celestial = new TeamEntity(this.game, Color.EnemyCrasher)
 	protected shapes: ShapeManager = new CustomShapeManager(this);
-
+    public blueTeamBase: TeamBase;
+    /** Red Team entity */
+    public redTeamBase: TeamBase;
     public constructor(game: GameServer) {
         super(game);
         this.shapeScoreRewardMultiplier = 2.5;
         this.updateBounds(30000, 30000);
+
+        this.updateBounds(arenaSize * 2, arenaSize * 2);
+        this.blueTeamBase = new TeamBase(game, new TeamEntity(this.game, Color.TeamBlue), -arenaSize + baseWidth / 2, 0, arenaSize * 2, baseWidth);
+        this.redTeamBase = new TeamBase(game, new TeamEntity(this.game, Color.TeamRed), arenaSize - baseWidth / 2, 0, arenaSize * 2, baseWidth);
     }
     public tick(tick: number) {
         super.tick(tick);
         this.timer--
         if(this.timer <= 0){
+            //new AiTank(this.game)
             new BlackHole(this.game, this.celestial)
-            this.timer = 1600
+            this.timer = 1500
         }
+    }
+    public spawnPlayer(tank: TankBody, client: Client) {
+        tank.positionData.values.y = arenaSize * Math.random() - arenaSize;
+
+        const xOffset = (Math.random() - 0.5) * baseWidth;
+        
+        const base = this.playerTeamMap.get(client) || [this.blueTeamBase, this.redTeamBase][0|Math.random()*2];
+        tank.relationsData.values.team = base.relationsData.values.team;
+        tank.styleData.values.color = base.styleData.values.color;
+        tank.positionData.values.x = base.positionData.values.x + xOffset;
+        this.playerTeamMap.set(client, base);
+
+        if (client.camera) client.camera.relationsData.team = tank.relationsData.values.team;
     }
 }
