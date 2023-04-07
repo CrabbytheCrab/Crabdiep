@@ -32,7 +32,7 @@ export default class Hexagon extends AbstractShape {
     public constructor(game: GameServer, isAlpha=false, shiny=(Math.random() < 0.1) && !isAlpha) {
         super(game);
         
-        this.nameData.values.name = isAlpha ? "Omega Hexagon" : "Hexagon";
+        this.nameData.values.name = isAlpha ? "Beta Hexagon" : "Hexagon";
 
         this.healthData.values.health = this.healthData.values.maxHealth = (isAlpha ? 8000 : 900);
         this.physicsData.values.size = (isAlpha ? 324 : 100) * Math.SQRT1_2;

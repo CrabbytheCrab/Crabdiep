@@ -21704,7 +21704,7 @@ const TankDefinitions = JSON.parse(`[
                     "sizeRatio": 0.8,
                     "health": 3,
                     "damage": 1.5,
-                    "speed": 3,
+                    "speed": 5,
                     "scatterRate": 1,
                     "lifeLength": 2.5,
                     "absorbtionFactor": 0.75
@@ -21727,7 +21727,7 @@ const TankDefinitions = JSON.parse(`[
                     "sizeRatio": 0.8,
                     "health": 3,
                     "damage": 1.5,
-                    "speed": 3,
+                    "speed": 5,
                     "scatterRate": 1,
                     "lifeLength": 2.5,
                     "absorbtionFactor": 0.75
@@ -21750,7 +21750,7 @@ const TankDefinitions = JSON.parse(`[
                     "sizeRatio": 0.8,
                     "health": 3,
                     "damage": 1.5,
-                    "speed": 3,
+                    "speed": 5,
                     "scatterRate": 1,
                     "lifeLength": 2.5,
                     "absorbtionFactor": 0.75
@@ -22182,12 +22182,12 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "sides": 6,
                     "type": "boomerang",
-                    "sizeRatio": 0.8,
-                    "health": 1.25,
+                    "sizeRatio": 0.9,
+                    "health": 1.5,
                     "damage": 1,
-                    "speed": 1,
+                    "speed": 1.5,
                     "scatterRate": 1,
-                    "lifeLength": 3.75,
+                    "lifeLength": 3.5,
                     "absorbtionFactor": 0.75
                 }
             }
@@ -24160,7 +24160,7 @@ const TankDefinitions = JSON.parse(`[
                 "isTrapezoid": true,
                 "trapezoidDirection": 0,
                 "addon": null,
-                "droneCount": 3,
+                "droneCount": 2,
                 "canControlDrones": true,
                 "bullet": {
                     "type": "autodrone",
@@ -24184,7 +24184,7 @@ const TankDefinitions = JSON.parse(`[
                 "isTrapezoid": true,
                 "trapezoidDirection": 0,
                 "addon": null,
-                "droneCount": 3,
+                "droneCount": 2,
                 "canControlDrones": true,
                 "bullet": {
                     "type": "autodrone",
@@ -24208,7 +24208,7 @@ const TankDefinitions = JSON.parse(`[
                 "isTrapezoid": true,
                 "trapezoidDirection": 0,
                 "addon": null,
-                "droneCount": 3,
+                "droneCount": 2,
                 "canControlDrones": true,
                 "bullet": {
                     "type": "autodrone",
@@ -24232,7 +24232,7 @@ const TankDefinitions = JSON.parse(`[
                 "isTrapezoid": true,
                 "trapezoidDirection": 0,
                 "addon": null,
-                "droneCount": 3,
+                "droneCount": 2,
                 "canControlDrones": true,
                 "bullet": {
                     "type": "autodrone",
@@ -24256,7 +24256,7 @@ const TankDefinitions = JSON.parse(`[
                 "isTrapezoid": true,
                 "trapezoidDirection": 0,
                 "addon": null,
-                "droneCount": 3,
+                "droneCount": 2,
                 "canControlDrones": true,
                 "bullet": {
                     "type": "autodrone",
@@ -24280,7 +24280,7 @@ const TankDefinitions = JSON.parse(`[
                 "isTrapezoid": true,
                 "trapezoidDirection": 0,
                 "addon": null,
-                "droneCount": 3,
+                "droneCount": 2,
                 "canControlDrones": true,
                 "bullet": {
                     "type": "autodrone",
@@ -24672,7 +24672,7 @@ const TankDefinitions = JSON.parse(`[
         "visibilityRateMoving": 0.08,
         "invisibilityRate": 0.03,
         "fieldFactor": 0.9,
-        "absorbtionFactor": 0.2,
+        "absorbtionFactor": 0.5,
         "speed": 1.75,
         "maxHealth": 75,
         "preAddon": null,

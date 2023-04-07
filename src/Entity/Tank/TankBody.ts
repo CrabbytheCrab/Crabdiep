@@ -160,7 +160,7 @@ public canchain: boolean
             this.baseSize *= 1.5
             camera.maxlevel = 90
         }else{
-                camera.maxlevel = 45
+                camera.maxlevel = 60
         }
         this.baseSize = tank.sides === 4 ? Math.SQRT2 * 32.5 : tank.sides === 16 ? Math.SQRT2 * 25 :this.definition.flags.isCelestial ? Math.SQRT2 * 47.5 : 50;
         this.physicsData.absorbtionFactor = this.isInvulnerable ? 0 : tank.absorbtionFactor;
