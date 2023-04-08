@@ -174,7 +174,7 @@ export default class ShapeManager {
     }
 
     protected get wantedShapes() {
-        return 1500;
+        return 1000;
     }
 
     public tick() {
@@ -202,7 +202,12 @@ export default class ShapeManager {
             this.spawnShape();
             this.spawnShape();
             this.spawnShape();
-            count += 5;
+            this.spawnShape();
+            this.spawnShape();
+            this.spawnShape();
+            this.spawnShape();
+            this.spawnShape();
+            count += 10;
         }
     }
 }
