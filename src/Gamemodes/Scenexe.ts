@@ -42,7 +42,7 @@ import ArenaEntity from "../Native/Arena";
 /**
  * Scenexe Gamemode Arena
  */
-const arenaSize = 30000;
+const arenaSize = 10000;
 const baseWidth = 2230;
 const domBaseSize = baseWidth / 2;
 const CELL_SIZE = 635;
@@ -116,7 +116,7 @@ class CustomShapeManager extends ShapeManager {
 
 export default class Scenexe extends ArenaEntity {
     public playerTeamMap: Map<Client, TeamBase> = new Map();
-    public timer = 1500
+    public timer = 900
     public celestial = new TeamEntity(this.game, Color.EnemyCrasher)
 	protected shapes: ShapeManager = new CustomShapeManager(this);
     public blueTeamBase: TeamBase;
@@ -124,8 +124,8 @@ export default class Scenexe extends ArenaEntity {
     public redTeamBase: TeamBase;
     public constructor(game: GameServer) {
         super(game);
-        this.shapeScoreRewardMultiplier = 2.5;
-        this.updateBounds(30000, 30000);
+        this.shapeScoreRewardMultiplier = 4;
+        this.updateBounds(10000, 10000);
 
         this.updateBounds(arenaSize * 2, arenaSize * 2);
         this.blueTeamBase = new TeamBase(game, new TeamEntity(this.game, Color.TeamBlue), -arenaSize + baseWidth / 2, 0, arenaSize * 2, baseWidth);
@@ -137,7 +137,7 @@ export default class Scenexe extends ArenaEntity {
         if(this.timer <= 0){
             //new AiTank(this.game)
             new BlackHole(this.game, this.celestial)
-            this.timer = 1500
+            this.timer = 900
         }
     }
     public spawnPlayer(tank: TankBody, client: Client) {
