@@ -199,7 +199,7 @@ public canchain: boolean
             
         }
 
-        if (entity instanceof TankBody && entity.scoreReward && Math.max(this.cameraEntity.cameraData.values.level, entity.cameraEntity.maxlevel) - entity.cameraEntity.cameraData.values.level <= 20 || entity instanceof AbstractBoss) {
+        if (entity instanceof TankBody && entity.scoreReward || entity instanceof AbstractBoss) {
             if (this.cameraEntity instanceof ClientCamera) this.cameraEntity.client.notify("You've killed " + (entity.nameData.values.name || "an unnamed tank"));
         }
 
