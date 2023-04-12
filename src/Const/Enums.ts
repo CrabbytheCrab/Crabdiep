@@ -299,7 +299,7 @@ export const enum Tank {
     Comet         = 206,
     Abyss         = 207,
     Sprinkler     = 208, 
-    auto3Tank     = 209,
+    Crow          = 209,
     Mothership    = 2000
 }
 
