@@ -69,7 +69,7 @@ public canchain: boolean
     public barrels: Barrel[] = [];
     /** The tank's addons, if any. */
     private addons: Addon[] = [];
-
+    private _currentColor: Color = Color.Tank;
     /** Size of the tank at level 1. Defined by tank loader.  */
     public baseSize = 50;
     /** The definition of the currentTank */
@@ -89,7 +89,7 @@ public canchain: boolean
         this.cameraEntity = camera;
         this.inputs = inputs;
         this.isAffectedByRope = false;
-        this.length = 13;
+        this.length = 8;
         this.canchain = true
         this.segments = [this];
         this.k = 0.25;
@@ -160,12 +160,13 @@ public canchain: boolean
             this.baseSize *= 1.5
             camera.maxlevel = 90
         }else{
-                camera.maxlevel = 60
+            camera.maxlevel = maxPlayerLevel
+
         }
-        this.baseSize = tank.sides === 4 ? Math.SQRT2 * 32.5 : tank.sides === 16 ? Math.SQRT2 * 25 :this.definition.flags.isCelestial ? Math.SQRT2 * 47.5 : 50;
+        this.baseSize = tank.baseSizeOverride ?? tank.sides === 4 ? Math.SQRT2 * 32.5 : tank.sides === 16 ? Math.SQRT2 * 25 : this.definition.flags.isCelestial ? Math.SQRT2 * 47.5 : 50;
         this.physicsData.absorbtionFactor = this.isInvulnerable ? 0 : tank.absorbtionFactor;
         if (tank.absorbtionFactor === 0) this.positionData.flags |= PositionFlags.canMoveThroughWalls;
-        else if (this.positionData.flags & PositionFlags.canMoveThroughWalls) this.positionData.flags ^= PositionFlags.canMoveThroughWalls
+        else if (this.positionData.flags & PositionFlags.canMoveThroughWalls) this.positionData.flags ^= PositionFlags.canMoveThroughWalls;
 
         camera.cameraData.tank = this._currentTank = id;
         if (tank.upgradeMessage && camera instanceof ClientCamera) camera.client.notify(tank.upgradeMessage);
@@ -361,13 +362,17 @@ public Accend(){
     }
 
     public tick(tick: number) {
+        if (this.definition.sides === 2) {
+            this.physicsData.width = this.physicsData.size * (this.definition.widthRatio ?? 1);
+            if (this.definition.flags.displayAsTrapezoid === true) this.physicsData.flags |= PhysicsFlags.isTrapezoid;
+        } else if (this.definition.flags.displayAsStar === true) this.styleData.flags |= StyleFlags.isStar;
         this.MAXORBS = this.definition.maxorbs
         if (this.inputs.attemptingShot()){
-            this.forcemulti = 2 - this.forcemulti * 0.1
+            this.forcemulti = 2
         }else if(this.inputs.attemptingRepel()){
-            this.forcemulti = 0.5 - this.forcemulti * 0.1
+            this.forcemulti = 0.5
         }else{
-            this.forcemulti = 1 - this.forcemulti * 0.1
+            this.forcemulti = 1
         }
         this.positionData.angle = Math.atan2(this.inputs.mouse.y - this.positionData.values.y, this.inputs.mouse.x - this.positionData.values.x);
         if(this.canchain == true && this.definition.flags.canChain)

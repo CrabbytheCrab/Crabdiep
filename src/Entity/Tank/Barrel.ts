@@ -68,6 +68,7 @@ import { AI } from "../AI";
 import { CameraEntity } from "../../Native/Camera";
 import AiTank from "../Misc/AiTank";
 import { Sentry } from "../Shape/Sentry";
+import Bouncer from "./Projectile/Bouncer";
 /**
  * Class that determines when barrels can shoot, and when they can't.
  */
@@ -153,7 +154,7 @@ export default class Barrel extends ObjectEntity {
         this.definition = barrelDefinition;
 
         // Begin Loading Definition
-        this.styleData.values.color = Color.Barrel;
+        this.styleData.values.color = this.definition.color ?? Color.Barrel;
         this.physicsData.values.sides = 2;
         if (barrelDefinition.isTrapezoid) this.physicsData.values.flags |= PhysicsFlags.isTrapezoid;
 
@@ -166,8 +167,8 @@ export default class Barrel extends ObjectEntity {
 
         this.physicsData.values.width = this.definition.width * sizeFactor;
         this.positionData.values.angle = this.definition.angle + (this.definition.trapezoidDirection);
-        this.positionData.values.x = Math.cos(this.definition.angle) * size / 2 - Math.sin(this.definition.angle) * this.definition.offset * sizeFactor;
-        this.positionData.values.y = Math.sin(this.definition.angle) * size / 2 + Math.cos(this.definition.angle) * this.definition.offset * sizeFactor;
+        this.positionData.values.x = Math.cos(this.definition.angle) * (size / 2 + (this.definition.distance || 0)) - Math.sin(this.definition.angle) * this.definition.offset * sizeFactor;
+        this.positionData.values.y = Math.sin(this.definition.angle) * (size / 2 + (this.definition.distance || 0)) + Math.cos(this.definition.angle) * this.definition.offset * sizeFactor;
 
         // addons are below barrel, use StyleFlags.aboveParent to go above parent
         if (barrelDefinition.addon) {
@@ -306,6 +307,9 @@ export default class Barrel extends ObjectEntity {
             case 'boomerang':
                 new Boomerang(this, this.tank, tankDefinition, angle);
                 break;
+            case 'bouncer':
+                new Bouncer(this, this.tank, tankDefinition, angle);
+                break;
             case 'autotrap':
                 new AutoTrap(this, this.tank, tankDefinition, angle);
                 break;
@@ -350,8 +354,8 @@ export default class Barrel extends ObjectEntity {
 
         this.physicsData.width = this.definition.width * sizeFactor;
         this.positionData.angle = this.definition.angle + (this.definition.trapezoidDirection);
-        this.positionData.x = Math.cos(this.definition.angle) * size / 2 - Math.sin(this.definition.angle) * this.definition.offset * sizeFactor;
-        this.positionData.y = Math.sin(this.definition.angle) * size / 2 + Math.cos(this.definition.angle) * this.definition.offset * sizeFactor;
+        this.positionData.x = Math.cos(this.definition.angle) * (size / 2 + (this.definition.distance || 0)) - Math.sin(this.definition.angle) * this.definition.offset * sizeFactor;
+        this.positionData.y = Math.sin(this.definition.angle) * (size / 2 + (this.definition.distance || 0)) + Math.cos(this.definition.angle) * this.definition.offset * sizeFactor;
 
         // Updates bullet accel too
         const iseffectedbyspeed = (this.definition.bullet.type === 'trapspinner'  || this.definition.bullet.type === 'spinner' || this.definition.bullet.type === 'spinner4' || this.definition.bullet.type === 'megaspinner')
@@ -369,7 +373,7 @@ export default class Barrel extends ObjectEntity {
         this.relationsData.values.team = this.tank.relationsData.values.team;
 
         if (!this.tank.rootParent.deletionAnimation || this.definition.bulletdie){
-            this.attemptingShot = this.tank.inputs.attemptingShot();
+            this.attemptingShot = this.definition.inverseFire? this.tank.inputs.attemptingRepel() : this.tank.inputs.attemptingShot();
             this.shootCycle.tick();
         }
 

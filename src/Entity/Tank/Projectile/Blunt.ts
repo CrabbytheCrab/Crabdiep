@@ -59,7 +59,6 @@ export default class Blunt extends Bullet implements BarrelBase{
         }else        if (tankDefinition && tankDefinition.id === Tank.Flinger){
             new GuardObject(this.game, this, 1, 1.75, 0, .1);
             //this.baseAccel = (35 * 3) * this.barrelEntity.definition.bullet.speed;
-            this.addAcceleration(this.movementAngle, this.baseSpeed * 2);
             this.physicsData.values.pushFactor = ((7 / 3) + bulletDamage) * bulletDefinition.damage  * 9;
         }else{
             new GuardObject(this.game, this, 6, 1.15, 0, .1);

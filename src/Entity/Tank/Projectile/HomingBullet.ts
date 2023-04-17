@@ -207,8 +207,9 @@ export default class HomingBullet extends Bullet {
             const dist = (target.positionData.y - this.positionData.y) ** 2 + (target.positionData.x - this.positionData.x) ** 2
             if (dist > HomingBullet.DECTECTRANGE / 4) { // Half
 
-            this.positionData.angle = Math.atan2(target.positionData.y - this.positionData.y, target.positionData.x - this.positionData.x);
-            this.addAcceleration(Math.atan2(target.positionData.y - this.positionData.y, target.positionData.x - this.positionData.x), this.baseSpeed/4)
+            this.movementAngle = Math.atan2(target.positionData.y - this.positionData.y, target.positionData.x - this.positionData.x);
+            this.velocity.angle = Math.atan2(target.positionData.y - this.positionData.y, target.positionData.x - this.positionData.x)
+            
         }
     }
         this.tickMixin(tick);

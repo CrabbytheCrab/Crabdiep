@@ -29,6 +29,7 @@ import Drone from "./Tank/Projectile/Drone";
 import Trap from "./Tank/Projectile/Trap";
 import AutoTrap from "./Tank/Projectile/AutoTrap";
 import { AutoSwarm } from "./Tank/Projectile/AutoSwarm";
+import RopeSegment from "./Tank/Projectile/RopeSegment";
 
 /**
  * An Abstract class for all entities with health.
