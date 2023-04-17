@@ -49,7 +49,7 @@ const DevTankDefinitions: TankDefinition[] = [
         name: "Developer",
         upgradeMessage: "Use your right mouse button to teleport to where your mouse is",
         // upgrades dont have any affect
-        upgrades: [],
+        upgrades: [145,146, -15,91,92,93,106,107, -13],
         barrels: [
             {
                 angle: 0,

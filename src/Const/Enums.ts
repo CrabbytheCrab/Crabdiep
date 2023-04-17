@@ -300,6 +300,11 @@ export const enum Tank {
     Abyss         = 207,
     Sprinkler     = 208, 
     Crow          = 209,
+    Log           = 210,
+    Falcon        = 211,
+    Bouncer       = 212,
+    Curveball     = 213,
+    Flooder       = 214,
     Mothership    = 2000
 }
 

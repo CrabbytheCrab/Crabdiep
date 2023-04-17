@@ -57,7 +57,7 @@ class CustomShapeManager extends ShapeManager {
             const leftX = this.arena.arenaData.values.leftX;
             const rand = Math.random();
     
-            if (Math.max(x, y) < rightX / 3 && Math.min(x, y) > leftX / 3) {
+            if (Math.max(x, y) < rightX / 4 && Math.min(x, y) > leftX / 4) {
                 // Pentagon Nest
                 if(rand < 0.08){
                     shape = new Octagon(this.game, Math.random() <= 0.1,Math.random() < 0.005);
@@ -119,17 +119,10 @@ export default class Scenexe extends ArenaEntity {
     public timer = 900
     public celestial = new TeamEntity(this.game, Color.EnemyCrasher)
 	protected shapes: ShapeManager = new CustomShapeManager(this);
-    public blueTeamBase: TeamBase;
-    /** Red Team entity */
-    public redTeamBase: TeamBase;
     public constructor(game: GameServer) {
         super(game);
-        this.shapeScoreRewardMultiplier = 4;
-        this.updateBounds(10000, 10000);
-
-        this.updateBounds(arenaSize * 2, arenaSize * 2);
-        this.blueTeamBase = new TeamBase(game, new TeamEntity(this.game, Color.TeamBlue), -arenaSize + baseWidth / 2, 0, arenaSize * 2, baseWidth);
-        this.redTeamBase = new TeamBase(game, new TeamEntity(this.game, Color.TeamRed), arenaSize - baseWidth / 2, 0, arenaSize * 2, baseWidth);
+        this.shapeScoreRewardMultiplier = 2;
+        this.updateBounds(24000, 24000);
     }
     public tick(tick: number) {
         super.tick(tick);
@@ -141,16 +134,6 @@ export default class Scenexe extends ArenaEntity {
         }
     }
     public spawnPlayer(tank: TankBody, client: Client) {
-        tank.positionData.values.y = arenaSize * Math.random() - arenaSize;
-
-        const xOffset = (Math.random() - 0.5) * baseWidth;
-        
-        const base = this.playerTeamMap.get(client) || [this.blueTeamBase, this.redTeamBase][0|Math.random()*2];
-        tank.relationsData.values.team = base.relationsData.values.team;
-        tank.styleData.values.color = base.styleData.values.color;
-        tank.positionData.values.x = base.positionData.values.x + xOffset;
-        this.playerTeamMap.set(client, base);
-
-        if (client.camera) client.camera.relationsData.team = tank.relationsData.values.team;
+        tank.cameraEntity.maxlevel = 60;
     }
 }
