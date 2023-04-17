@@ -14,6 +14,7 @@ import Pyromancer from "../Entity/Boss/Pyromancer";
 import Summoner from "../Entity/Boss/Summoner";
 import Titan from "../Entity/Boss/Titan";
 import LivingEntity from "../Entity/Live";
+import AiTank from "../Entity/Misc/AiTank";
 import ArenaCloser from "../Entity/Misc/ArenaCloser";
 import BlackHole from "../Entity/Misc/BlackHole";
 import FallenAC from "../Entity/Misc/Boss/FallenAC";
@@ -207,7 +208,8 @@ export const commandCallbacks = {
           ["Dominator", Dominator],
           ["Shape", AbstractShape],
           ["Boss", AbstractBoss],
-          ["AutoTurret", AutoTurret]
+          ["AutoTurret", AutoTurret],
+          ["AiTank", AiTank]
         ] as [string, typeof ObjectEntity][]).get(entityArg)
 
         if (!TEntity || !client.camera?.game.entities.AIs.length) return;
