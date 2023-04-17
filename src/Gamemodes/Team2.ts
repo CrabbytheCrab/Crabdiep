@@ -93,7 +93,7 @@ export default class Teams2Arena extends ArenaEntity {
         tank.styleData.values.color = base.styleData.values.color;
         tank.positionData.values.x = base.positionData.values.x + xOffset;
         this.playerTeamMap.set(client, base);
-
+        tank.cameraEntity.setLevel(45)
         if (client.camera) client.camera.relationsData.team = tank.relationsData.values.team;
     }
 }
