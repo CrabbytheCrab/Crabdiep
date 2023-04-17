@@ -127,9 +127,9 @@ server.listen(PORT, () => {
     const ffa = new GameServer(wss, "ffa", "FFA");
     const team = new GameServer(wss, "teams", "Teams Chaos");
     const sbx = new GameServer(wss, "sandbox", "Sandbox");
-    //const scenexe = new GameServer(wss, "scenexe", "Scenexe");
+    const scenexe = new GameServer(wss, "scenexe", "Scenexe");
     //const maze = new GameServer(wss, "maze", "Maze");
-    games.push(ffa,team,sbx);
+    games.push(ffa,team,scenexe,sbx);
 
     util.saveToLog("Servers up", "All servers booted up.", 0x37F554);
     util.log("Dumping endpoint -> gamemode routing table");
