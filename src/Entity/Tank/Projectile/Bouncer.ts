@@ -56,7 +56,8 @@ export default class Bouncer extends Bullet {
             const collidedEntities = this.findCollisions();
             for (let i = 0; i < collidedEntities.length; ++i) {
                 if (collidedEntities[i] instanceof TankBody || collidedEntities[i] instanceof AbstractShape || collidedEntities[i] instanceof MazeWall){
-                    this.velocity.angle = Math.atan2(collidedEntities[i].positionData.y - this.positionData.y, collidedEntities[i].positionData.x - this.positionData.x) + Math.PI
+                    this.velocity.angle >= Math.PI/2? this.velocity.angle = Math.atan2(collidedEntities[i].positionData.y - this.positionData.y, collidedEntities[i].positionData.x - this.positionData.x) +  -Math.PI 
+                    : this.velocity.angle = Math.atan2(collidedEntities[i].positionData.y - this.positionData.y, collidedEntities[i].positionData.x - this.positionData.x) + Math.PI
                     this.movementAngle = this.velocity.angle
                 }
             }

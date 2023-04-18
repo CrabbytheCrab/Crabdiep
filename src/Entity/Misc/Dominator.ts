@@ -16,7 +16,7 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>
 */
 
-import { Color, NameFlags, Tank } from "../../Const/Enums";
+import { ClientBound, Color, ColorsHexCode, NameFlags, Tank } from "../../Const/Enums";
 import ArenaEntity from "../../Native/Arena";
 import { CameraEntity } from "../../Native/Camera";
 import { AI, AIState, Inputs } from "../AI";
@@ -24,6 +24,7 @@ import LivingEntity from "../Live";
 import Bullet from "../Tank/Projectile/Bullet";
 import TankBody from "../Tank/TankBody";
 import TeamBase from "./TeamBase";
+import { TeamEntity } from "./TeamEntity";
 
 /**
  * Dominator Tank
@@ -41,7 +42,7 @@ export default class Dominator extends TankBody {
     public constructor(arena: ArenaEntity, base: TeamBase, pTankId: Tank | null = null) {
         let tankId: Tank;
         if (pTankId === null) {
-            const r = Math.random() * 2;
+            const r = Math.random() * 5;
 
          if (r < 1) tankId = Tank.DominatorD;
             else if (r < 2) tankId = Tank.DominatorG;
@@ -86,12 +87,24 @@ export default class Dominator extends TankBody {
     }
 
     public onDeath(killer: LivingEntity) {
+        const team = this.relationsData.values.team;
+        const teamIsATeam = team instanceof TeamEntity;
+        const killerTeam = killer.relationsData.values.team;
+        const killerTeamIsATeam = killerTeam instanceof TeamEntity;
         if (this.relationsData.values.team === this.game.arena && killer instanceof TankBody) {
             this.relationsData.team = killer.relationsData.values.team || this.game.arena;
             this.styleData.color = this.relationsData.team.teamData?.teamColor || killer.styleData.values.color;
+            let message = `The ${this.nameData.name} is now controlled by ${killerTeamIsATeam ? killerTeam.teamName : (killer.nameData?.values.name || "an unnamed tank")}`
+            this.game.broadcast().u8(ClientBound.Notification).stringNT(message).u32(killerTeamIsATeam ? ColorsHexCode[killerTeam.teamData.values.teamColor] : 0x000000).float(10000).stringNT("").send();
+            // If mothership has a team name, use it, otherwise just say has destroyed a mothership
         } else {
             this.relationsData.team = this.game.arena
             this.styleData.color = this.game.arena.teamData.teamColor;
+            this.game.broadcast()
+            .u8(ClientBound.Notification)
+            // If mothership has a team name, use it, otherwise just say has destroyed a mothership
+            let message = `The ${this.nameData.name} is being contested`
+            this.game.broadcast().u8(ClientBound.Notification).stringNT(message).u32(ColorsHexCode[this.game.arena.teamData.teamColor]).float(10000).stringNT("").send();
         }
 
         this.base.styleData.color = this.styleData.values.color;

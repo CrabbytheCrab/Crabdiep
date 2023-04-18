@@ -37,13 +37,13 @@ export default class Drone extends Bullet {
 
     /** Used let the drone go back to the player in time. */
     public restCycle = true;
-
+    public canrepel
     /** Cached prop of the definition. */
     protected canControlDrones: boolean;
 
-    public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number) {
+    public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number, canrepel: boolean = true) {
         super(barrel, tank, tankDefinition, shootAngle);
-
+        this.canrepel = canrepel
         const bulletDefinition = barrel.definition.bullet;
 
         this.usePosAngle = true;
@@ -126,7 +126,7 @@ export default class Drone extends Bullet {
 
 
         
-        if (this.canControlDrones && inputs.attemptingRepel()) {
+        if (this.canControlDrones && inputs.attemptingRepel() && this.canrepel) {
             this.positionData.angle += Math.PI; 
         }
 

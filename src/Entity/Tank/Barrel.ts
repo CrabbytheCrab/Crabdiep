@@ -244,8 +244,11 @@ export default class Barrel extends ObjectEntity {
                 new Mine(this, this.tank, tankDefinition, angle, this.rootParent);
                 break;
             case 'drone':
-                new Drone(this, this.tank, tankDefinition, angle);
+                new Drone(this, this.tank, tankDefinition, angle, true);
                 break;
+            case 'dronenorep':
+                new Drone(this, this.tank, tankDefinition, angle, false);
+                break
                 case 'bombdrone':
                     new BombDrone(this, this.tank, tankDefinition, angle);
                     break;
