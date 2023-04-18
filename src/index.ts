@@ -129,7 +129,8 @@ server.listen(PORT, () => {
     const sbx = new GameServer(wss, "sandbox", "Sandbox(SCENEXE IS GONE!!!!!!!!!!)");
     //const scenexe = new GameServer(wss, "scenexe", "Scenexe");
     //const maze = new GameServer(wss, "maze", "Maze");
-    games.push(ffa,team,sbx);
+    const dom = new GameServer(wss, "dom", "Domination");
+    games.push(ffa,dom,sbx);
 
     util.saveToLog("Servers up", "All servers booted up.", 0x37F554);
     util.log("Dumping endpoint -> gamemode routing table");

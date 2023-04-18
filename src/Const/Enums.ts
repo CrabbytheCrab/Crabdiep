@@ -305,6 +305,8 @@ export const enum Tank {
     Bouncer       = 212,
     Curveball     = 213,
     Flooder       = 214,
+    Hydra         = 215,
+    Outlet        = 216,
     Mothership    = 2000
 }
 
