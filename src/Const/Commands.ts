@@ -1,5 +1,5 @@
 import Client from "../Client"
-import { AccessLevel } from "../config";
+import { AccessLevel, maxPlayerLevel } from "../config";
 import AbstractBoss from "../Entity/Boss/AbstractBoss";
 import Beholder from "../Entity/Boss/Beholder";
 import Defender from "../Entity/Boss/Defender";
@@ -14,7 +14,6 @@ import Pyromancer from "../Entity/Boss/Pyromancer";
 import Summoner from "../Entity/Boss/Summoner";
 import Titan from "../Entity/Boss/Titan";
 import LivingEntity from "../Entity/Live";
-import AiTank from "../Entity/Misc/AiTank";
 import ArenaCloser from "../Entity/Misc/ArenaCloser";
 import BlackHole from "../Entity/Misc/BlackHole";
 import FallenAC from "../Entity/Misc/Boss/FallenAC";
@@ -41,6 +40,8 @@ import { saveToVLog } from "../util";
 import { Stat, StatCount, StyleFlags } from "./Enums";
 import { getTankByName } from "./TankDefinitions"
 
+const RELATIVE_POS_REGEX = new RegExp(/~(-?\d+)?/);
+
 export const enum CommandID {
     gameSetTank = "game_set_tank",
     gameSetLevel = "game_set_level",
@@ -50,8 +51,8 @@ export const enum CommandID {
     gameAddUpgradePoints = "game_add_upgrade_points",
     gameTeleport = "game_teleport",
     gameClaim = "game_claim",
-    adminGodmode = "admin_godmode",
-    adminSummon= "admin_summon",
+    gameGodmode = "game_godmode",
+    adminSummon = "admin_summon",
     adminKillAll = "admin_kill_all",
     adminKillEntity = "admin_kill_entity",
     adminCloseArena = "admin_close_arena"
@@ -62,10 +63,11 @@ export interface CommandDefinition {
     usage?: string,
     description?: string,
     permissionLevel: AccessLevel,
+    isCheat: boolean
 }
 
 export interface CommandCallback {
-    (client: Client, ...args: string[]): void 
+    (client: Client, ...args: string[]): string | void 
 }
 
 export const commandDefinitions = {
@@ -73,77 +75,90 @@ export const commandDefinitions = {
         id: CommandID.gameSetTank,
         usage: "[tank]",
         description: "Changes your tank to the given class",
-        permissionLevel: AccessLevel.BetaAccess
+        permissionLevel: AccessLevel.BetaAccess,
+        isCheat: true
     },
     game_set_level: {
         id: CommandID.gameSetLevel,
         usage: "[level]",
         description: "Changes your level to the given whole number",
-        permissionLevel: AccessLevel.FullAccess
+        permissionLevel: AccessLevel.BetaAccess,
+        isCheat: true
     },
     game_set_score: {
         id: CommandID.gameSetScore,
         usage: "[score]",
         description: "Changes your score to the given whole number",
-        permissionLevel: AccessLevel.BetaAccess
+        permissionLevel: AccessLevel.BetaAccess,
+        isCheat: true
     },
     game_set_stat: {
         id: CommandID.gameSetStat,
         usage: "[stat num] [points]",
         description: "Set the value of one of your statuses. Values can be greater than the capacity. [stat num] is equivalent to the number that appears in the UI",
-        permissionLevel: AccessLevel.BetaAccess
+        permissionLevel: AccessLevel.FullAccess,
+        isCheat: true
     },
     game_set_stat_max: {
         id: CommandID.gameSetStatMax,
         usage: "[stat num] [max]",
         description: "Set the max value of one of your statuses. [stat num] is equivalent to the number that appears in the UI",
-        permissionLevel: AccessLevel.BetaAccess
+        permissionLevel: AccessLevel.FullAccess,
+        isCheat: true
     },
     game_add_upgrade_points: {
         id: CommandID.gameAddUpgradePoints,
         usage: "[points]",
         description: "Add upgrade points",
-        permissionLevel: AccessLevel.FullAccess
+        permissionLevel: AccessLevel.FullAccess,
+        isCheat: true
     },
     game_teleport: {
         id: CommandID.gameTeleport,
         usage: "[x] [y]",
         description: "Teleports you to the given position",
-        permissionLevel: AccessLevel.FullAccess
+        permissionLevel: AccessLevel.FullAccess,
+        isCheat: true
     },
     game_claim: {
         id: CommandID.gameClaim,
         usage: "[entityName]",
         description: "Attempts claiming an entity of the given type",
-        permissionLevel: AccessLevel.FullAccess
+        permissionLevel: AccessLevel.BetaAccess,
+        isCheat: false
     },
-    admin_godmode: {
-        id: CommandID.adminGodmode,
-        usage: "[?activate]",
-        description: "Toggles godmode, if given an activate argument (on / off) sets it instead",
-        permissionLevel: AccessLevel.FullAccess
+    game_godmode: {
+        id: CommandID.gameGodmode,
+        usage: "[?value]",
+        description: "Set the godemode. Toggles if [value] is not specified",
+        permissionLevel: AccessLevel.FullAccess,
+        isCheat: true
     },
     admin_summon: {
         id: CommandID.adminSummon,
         usage: "[entityName] [?count] [?x] [?y]",
         description: "Spawns entities at a certain location",
-        permissionLevel: AccessLevel.BetaAccess
+        permissionLevel: AccessLevel.FullAccess,
+        isCheat: false
     },
     admin_kill_all: {
         id: CommandID.adminKillAll,
         description: "Kills all entities in the arena",
-        permissionLevel: AccessLevel.FullAccess
+        permissionLevel: AccessLevel.FullAccess,
+        isCheat: false
     },
     admin_kill_entity: {
         id: CommandID.adminKillEntity,
         usage: "[entityName]",
         description: "Kills all entities of the given type (might include self)",
-        permissionLevel: AccessLevel.FullAccess
+        permissionLevel: AccessLevel.FullAccess,
+        isCheat: false
     },
     admin_close_arena: {
         id: CommandID.adminCloseArena,
         description: "Closes the current arena",
-        permissionLevel: AccessLevel.FullAccess
+        permissionLevel: AccessLevel.FullAccess,
+        isCheat: false
     }
 } as Record<CommandID, CommandDefinition>
 
@@ -152,13 +167,15 @@ export const commandCallbacks = {
         const tankDef = getTankByName(tankNameArg);
         const player = client.camera?.cameraData.player;
         if (!tankDef || !Entity.exists(player) || !(player instanceof TankBody)) return;
+        if (tankDef.flags.devOnly && client.accessLevel !== AccessLevel.FullAccess) return;
         player.setTank(tankDef.id);
     },
     game_set_level: (client: Client, levelArg: string) => {
         const level = parseInt(levelArg);
         const player = client.camera?.cameraData.player;
         if (isNaN(level) || !Entity.exists(player) || !(player instanceof TankBody)) return;
-        client.camera?.setLevel(level);
+        const finalLevel = client.accessLevel == AccessLevel.FullAccess ? level : Math.min(maxPlayerLevel, level);
+        client.camera?.setLevel(finalLevel);
     },
     game_set_score: (client: Client, scoreArg: string) => {
         const score = parseInt(scoreArg);
@@ -193,10 +210,11 @@ export const commandCallbacks = {
         camera.statsAvailable += points;
     },
     game_teleport: (client: Client, xArg: string, yArg: string) => {
-        const x = parseInt(xArg);
-        const y = parseInt(yArg);
         const player = client.camera?.cameraData.player;
-        if (isNaN(x) || isNaN(y) || !Entity.exists(player) || !(player instanceof TankBody)) return;
+        if (!Entity.exists(player) || !(player instanceof ObjectEntity)) return;
+        const x = xArg.match(RELATIVE_POS_REGEX) ? player.positionData.x + parseInt(xArg.slice(1) || "0", 10) : parseInt(xArg, 10);
+        const y = yArg.match(RELATIVE_POS_REGEX) ? player.positionData.y + parseInt(yArg.slice(1) || "0", 10) : parseInt(yArg, 10);
+        if (isNaN(x) || isNaN(y)) return;
         player.positionData.x = x;
         player.positionData.y = y;
         player.setVelocity(0, 0);
@@ -208,8 +226,7 @@ export const commandCallbacks = {
           ["Dominator", Dominator],
           ["Shape", AbstractShape],
           ["Boss", AbstractBoss],
-          ["AutoTurret", AutoTurret],
-          ["AiTank", AiTank]
+          ["AutoTurret", AutoTurret]
         ] as [string, typeof ObjectEntity][]).get(entityArg)
 
         if (!TEntity || !client.camera?.game.entities.AIs.length) return;
@@ -221,7 +238,7 @@ export const commandCallbacks = {
             return;
         }
     },
-    admin_godmode: (client: Client, activeArg?: string) => {
+    game_godmode: (client: Client, activeArg?: string) => {
         const player = client.camera?.cameraData.player;
         if (!Entity.exists(player) || !(player instanceof TankBody)) return;
 
@@ -236,11 +253,25 @@ export const commandCallbacks = {
                 player.setInvulnerability(!player.isInvulnerable);
                 break;
         }
+
+        const godmodeState = player.isInvulnerable ? "ON" : "OFF";
+        return `God mode: ${godmodeState}`;
     },
     admin_summon: (client: Client, entityArg: string, countArg?: string, xArg?: string, yArg?: string) => {
         const count = countArg ? parseInt(countArg) : 1;
-        const x = parseInt(xArg || "");
-        const y = parseInt(yArg || "");
+        let x = parseInt(xArg || "0", 10);
+        let y = parseInt(yArg || "0", 10);
+
+        const player = client.camera?.cameraData.player;
+        if (Entity.exists(player) && player instanceof ObjectEntity) {
+            if (xArg && xArg.match(RELATIVE_POS_REGEX)) {
+                x = player.positionData.x + parseInt(xArg.slice(1) || "0", 10);
+            }
+            if (yArg && yArg.match(RELATIVE_POS_REGEX)) {
+                y = player.positionData.y + parseInt(yArg.slice(1) || "0", 10);
+            }
+        }
+
         const game = client.camera?.game;
         const TEntity = new Map([
             ["Defender", Defender],
@@ -321,5 +352,11 @@ export const executeCommand = (client: Client, cmd: string, args: string[]) => {
         return saveToVLog(`${client.toString()} tried to run the command ${cmd} with a permission that was too low`);
     }
 
-    commandCallbacks[cmd as CommandID](client, ...args);
+    const commandDefinition = commandDefinitions[cmd as CommandID];
+    if (commandDefinition.isCheat) client.setHasCheated(true);
+
+    const response = commandCallbacks[cmd as CommandID](client, ...args);
+    if (response) {
+        client.notify(response, 0x00ff00, 5000, `cmd-callback${commandDefinition.id}`);
+    }
 }
