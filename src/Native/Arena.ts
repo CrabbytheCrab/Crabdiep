@@ -179,6 +179,7 @@ export default class ArenaEntity extends Entity implements TeamGroupEntity {
 	 */
 	public close() {
 		for (const client of this.game.clients) {
+			if(client.camera?.teamData)
 			client.notify("Arena closed: No players can join", 0xFF0000, -1);
 		}
 
@@ -206,19 +207,18 @@ export default class ArenaEntity extends Entity implements TeamGroupEntity {
 	protected spawnBoss() {
 		const rand = Math.random();
 		if (rand < .25) {
-	//	const TBoss = [Fortress,Pyromancer, Mecha, Titan]
-	const TBoss = Titan
+	const TBoss = [Fortress,Pyromancer, Mecha, Titan]
+
 
 		//const TBoss = [Mecha]
-		//[~~(Math.random() * 4)];
+		[~~(Math.random() * 4)];
 		
 		this.boss = new TBoss(this.game);
 	}else{
-		//const TBoss = [Guardian, Protector,Beholder, Summoner, FallenOverlord, FallenPuker, FallenBooster, Defender]
+		const TBoss = [Guardian, Protector,Beholder, Summoner, FallenOverlord, FallenPuker, FallenBooster, Defender]
 		//const TBoss = [Mecha]
-	const TBoss = Titan
 
-		//[~~(Math.random() * 8)];
+		[~~(Math.random() * 8)];
 		
 		this.boss = new TBoss(this.game);
 	}

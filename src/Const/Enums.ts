@@ -307,6 +307,13 @@ export const enum Tank {
     Flooder       = 214,
     Hydra         = 215,
     Outlet        = 216,
+    SideArm       = 217,
+    Plug          = 218,
+    Charger       = 219,
+    SplitTrapper  = 220,
+    MicroSmasher  = 221,
+    Capacitor     = 222,
+    Hommer        = 223,
     Mothership    = 2000
 }
 

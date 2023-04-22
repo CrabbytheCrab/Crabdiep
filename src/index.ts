@@ -125,8 +125,8 @@ server.listen(PORT, () => {
     //
     // NOTES(0): As of now, both servers run on the same process (and thread) here
     const ffa = new GameServer(wss, "ffa", "FFA");
-    const team = new GameServer(wss, "teams", "Teams Chaos");
-    const sbx = new GameServer(wss, "sandbox", "Sandbox(SCENEXE IS GONE!!!!!!!!!!)");
+    //const team = new GameServer(wss, "teams", "Teams Chaos");
+    const sbx = new GameServer(wss, "sandbox", "Sandbox");
     //const scenexe = new GameServer(wss, "scenexe", "Scenexe");
     //const maze = new GameServer(wss, "maze", "Maze");
     const dom = new GameServer(wss, "dom", "Domination");
