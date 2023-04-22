@@ -63,10 +63,10 @@ export default class Blunt extends Bullet implements BarrelBase{
             this.deff = true
             new GuardObject(this.game, this, 1, 1.75, 0, .1);
             //this.baseAccel = (35 * 3) * this.barrelEntity.definition.bullet.speed;
-            this.physicsData.values.pushFactor = ((7 / 3) + bulletDamage) * bulletDefinition.damage  * 9;
+            this.physicsData.values.pushFactor = ((7 / 3) + bulletDamage) * bulletDefinition.damage  * 10;
         }else{
             new GuardObject(this.game, this, 6, 1.15, 0, .1);
-            this.physicsData.values.pushFactor =  ((7 / 3) + bulletDamage) * bulletDefinition.damage  * 3;
+            this.physicsData.values.pushFactor =  ((7 / 3) + bulletDamage) * bulletDefinition.damage  * 4;
         }
     }
     
@@ -82,6 +82,7 @@ export default class Blunt extends Bullet implements BarrelBase{
                     this.velocity.angle >= Math.PI/2? this.velocity.angle = Math.atan2(collidedEntities[i].positionData.y - this.positionData.y, collidedEntities[i].positionData.x - this.positionData.x) +  -Math.PI 
                     : this.velocity.angle = Math.atan2(collidedEntities[i].positionData.y - this.positionData.y, collidedEntities[i].positionData.x - this.positionData.x) + Math.PI
                     this.movementAngle = this.velocity.angle
+                    this.baseSpeed *= 1.5
                 }
             }
         }

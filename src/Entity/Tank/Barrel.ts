@@ -93,7 +93,7 @@ export class ShootCycle {
             this.reloadTime = reloadTime;
         }
 
-        const alwaysShoot = (this.barrelEntity.definition.forceFire) ||(this.barrelEntity.definition.bullet.type === 'bombdrone')||(this.barrelEntity.definition.bullet.type === 'autodrone') || (this.barrelEntity.definition.bullet.type === 'pentadrone') || (this.barrelEntity.definition.bullet.type === 'domminion') || (this.barrelEntity.definition.bullet.type === 'megaminion') || (this.barrelEntity.definition.bullet.type === 'miniminion') || (this.barrelEntity.definition.bullet.type === 'minion') || (this.barrelEntity.definition.bullet.type === 'drone') || (this.barrelEntity.definition.bullet.type === 'necrodrone') || (this.barrelEntity.definition.bullet.type === 'necropentadrone') || (this.barrelEntity.definition.bullet.type === 'necrotriangledrone');
+        const alwaysShoot = (this.barrelEntity.definition.forceFire) ||(this.barrelEntity.definition.bullet.type === 'dronenorep') ||(this.barrelEntity.definition.bullet.type === 'bombdrone')||(this.barrelEntity.definition.bullet.type === 'autodrone') || (this.barrelEntity.definition.bullet.type === 'pentadrone') || (this.barrelEntity.definition.bullet.type === 'domminion') || (this.barrelEntity.definition.bullet.type === 'megaminion') || (this.barrelEntity.definition.bullet.type === 'miniminion') || (this.barrelEntity.definition.bullet.type === 'minion') || (this.barrelEntity.definition.bullet.type === 'drone') || (this.barrelEntity.definition.bullet.type === 'necrodrone') || (this.barrelEntity.definition.bullet.type === 'necropentadrone') || (this.barrelEntity.definition.bullet.type === 'necrotriangledrone');
         const Orbshot = (this.barrelEntity.definition.bullet.type === 'orbit'|| this.barrelEntity.definition.bullet.type === 'orbitrocket'||(this.barrelEntity.definition.bullet.type === 'orbittrap'))
         if (this.pos >= reloadTime) {
             // When its not shooting dont shoot, unless its a drone
@@ -357,8 +357,13 @@ export default class Barrel extends ObjectEntity {
 
         this.physicsData.width = this.definition.width * sizeFactor;
         this.positionData.angle = this.definition.angle + (this.definition.trapezoidDirection);
-        this.positionData.x = Math.cos(this.definition.angle) * (size / 2 + (this.definition.distance || 0)) - Math.sin(this.definition.angle) * this.definition.offset * sizeFactor;
-        this.positionData.y = Math.sin(this.definition.angle) * (size / 2 + (this.definition.distance || 0)) + Math.cos(this.definition.angle) * this.definition.offset * sizeFactor;
+        if(this.definition.distance !== undefined){
+            this.positionData.x = Math.cos(this.definition.angle) * (size * this.definition.distance) - Math.sin(this.definition.angle) * this.definition.offset * sizeFactor;
+            this.positionData.y = Math.sin(this.definition.angle) * (size * this.definition.distance) + Math.cos(this.definition.angle) * this.definition.offset * sizeFactor;
+        }else{
+            this.positionData.x = Math.cos(this.definition.angle) * (size / 2 + (this.definition.distance || 0)) - Math.sin(this.definition.angle) * this.definition.offset * sizeFactor;
+            this.positionData.y = Math.sin(this.definition.angle) * (size / 2 + (this.definition.distance || 0)) + Math.cos(this.definition.angle) * this.definition.offset * sizeFactor;
+        }
 
         // Updates bullet accel too
         const iseffectedbyspeed = (this.definition.bullet.type === 'trapspinner'  || this.definition.bullet.type === 'spinner' || this.definition.bullet.type === 'spinner4' || this.definition.bullet.type === 'megaspinner')

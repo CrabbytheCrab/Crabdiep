@@ -60,7 +60,6 @@ this.super = false
         
         this.nameData.values.name = "4I T4nK"
         
-        this.scoreReward = 0;
         
         camera.cameraData.values.player = this;
 
@@ -77,8 +76,6 @@ this.super = false
 
     public tick(tick: number) {
         if (!this.barrels.length) return super.tick(tick)
-this.scoreData.score = 0
-this.cameraEntity.cameraData.score = 0
         this.inputs = this.ai.inputs;
 
         if (this.ai.state === AIState.idle) {

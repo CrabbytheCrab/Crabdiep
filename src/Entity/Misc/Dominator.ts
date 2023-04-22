@@ -97,6 +97,12 @@ export default class Dominator extends TankBody {
             let message = `The ${this.nameData.name} is now controlled by ${killerTeamIsATeam ? killerTeam.teamName : (killer.nameData?.values.name || "an unnamed tank")}`
             this.game.broadcast().u8(ClientBound.Notification).stringNT(message).u32(killerTeamIsATeam ? ColorsHexCode[killerTeam.teamData.values.teamColor] : 0x000000).float(10000).stringNT("").send();
             // If mothership has a team name, use it, otherwise just say has destroyed a mothership
+
+            for (const client of this.game.clients) {
+                if(client.camera?.teamData?.teamColor == this.teamData?.teamColor){
+                    client.notify("Press H to take control of the dominator", killerTeamIsATeam ? ColorsHexCode[killerTeam.teamData.values.teamColor] : 0x000000, 10000);
+                }
+            }
         } else {
             this.relationsData.team = this.game.arena
             this.styleData.color = this.game.arena.teamData.teamColor;

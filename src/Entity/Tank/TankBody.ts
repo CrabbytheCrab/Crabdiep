@@ -389,6 +389,9 @@ public Accend(){
                 }
            this.segments.push(ropeSegment);}
         }
+        if(this._currentTank == Tank.MicroSmasher){
+            this.baseSize = (25 - (12.5/10 * this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload])) * Math.SQRT2
+        }
         if (this._currentTank !== Tank.Chainer){
             this.canchain = true
             this.isAffectedByRope = false

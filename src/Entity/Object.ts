@@ -110,6 +110,7 @@ export default class ObjectEntity extends Entity {
     public seg: number;
     public MAXORBS: number
     public OrbCount: number
+    public borscount = new Array(100);
     public cangoThroughRope: boolean;
     public constructor(game: GameServer) {
         super(game);

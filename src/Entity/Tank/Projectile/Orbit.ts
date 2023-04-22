@@ -50,8 +50,8 @@ export default class Orbit extends Bullet {
     public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number) {
         super(barrel, tank, tankDefinition, shootAngle);
         //this.rotationPerTick = direction;
-        Orbit.dronecount = Orbit.dronecount.filter(val => val !== this.num)
-        Orbit.dronecount.push()
+        this.tank.borscount = this.tank.borscount.filter(val => val !== this.num)
+        this.tank.borscount.push()
         const bulletDefinition = barrel.definition.bullet;
         this.usePosAngle = false;
         this.ai = new AI(this);
@@ -70,12 +70,12 @@ export default class Orbit extends Bullet {
         this.tank.OrbCount += 1;
         this.num = this.tank.OrbCount
         this.ai.movementSpeed = this.ai.aimSpeed = this.baseAccel;
-        Orbit.dronecount[this.num] += 1;
+        this.tank.borscount[this.num] += 1;
     }
 
     /** Extends LivingEntity.destroy - so that the drone count decreases for the barrel. */
     public destroy(animate=true) {
-        Orbit.dronecount[this.num] -= 1;
+        this.tank.borscount[this.num] -= 1;
 
         if (!animate) this.tank.OrbCount -= 1;
 
@@ -92,17 +92,17 @@ export default class Orbit extends Bullet {
         const bulletSpeed = statLevels ? statLevels[Stat.BulletSpeed] : 0;
         let shifted = false;
         for (let n = 0; n < this.num; n++) {
-            if (Orbit.dronecount[n] === 0) {
-                Orbit.dronecount[this.num] -= 1;            
+            if (this.tank.borscount[n] === 0) {
+                this.tank.borscount[this.num] -= 1;            
                 this.num--;
                 shifted = true;
                 //only let it move down once at a time, prevents overlaps and weird stuff
                 break;
             }
         }
-        if (!shifted && Orbit.dronecount[this.num] > 1) {
+        if (!shifted && this.tank.borscount[this.num] > 1) {
             //this.num++;
-            Orbit.dronecount[this.num] -= 1;
+            this.tank.borscount[this.num] -= 1;
         }
         if(this.fire == true){
             this.timer++

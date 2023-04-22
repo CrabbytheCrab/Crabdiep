@@ -42,6 +42,7 @@ export default class FallenPuker extends AbstractBoss {
             this.barrels.push(new Barrel(this, def));
         }
     }
+    public static FOCUS_RADIUS = 1000 ** 2;
 
     protected moveAroundMap() {
       const x = this.positionData.values.x,
@@ -51,6 +52,11 @@ export default class FallenPuker extends AbstractBoss {
             this.positionData.angle = Math.atan2(this.inputs.movement.y, this.inputs.movement.x)
         } else {
             this.positionData.angle = Math.atan2(this.ai.inputs.mouse.y - y, this.ai.inputs.mouse.x - x)
+            const dist = this.ai.inputs.mouse.distanceToSQ(this.positionData.values);
+
+            if (dist < FallenPuker.FOCUS_RADIUS / 4) { // Half
+                this.velocity.angle = this.positionData.angle + Math.PI;
+            } 
         }
     }
 

@@ -145,10 +145,10 @@ export default class OrbitTrap extends Bullet {
                 this.tank.OrbCount = 0;
                 this.fire = true
                 this.angles = Math.atan2((inputs.mouse.y - this.positionData.values.y), (inputs.mouse.x - this.positionData.values.x));
-                this.baseSpeed = (this.barrelEntity.bulletAccel / 2) + 30 - Math.random();
+                this.baseSpeed = (this.barrelEntity.bulletAccel / 2) + 30;
                 this.movementAngle = this.angles
                 this.baseAccel = 0.25
-                this.addAcceleration(this.movementAngle, this.baseSpeed);
+                this.addAcceleration(this.movementAngle, this.baseSpeed * 0.5);
                 //this.barrelEntity.droneCount =0
                 this.lifeLength = (600 * this.barrelEntity.definition.bullet.lifeLength) >> 3;
 

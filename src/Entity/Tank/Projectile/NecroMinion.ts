@@ -1,17 +1,14 @@
 /*
     DiepCustom - custom tank game server that shares diep.io's WebSocket protocol
     Copyright (C) 2022 ABCxFF (github.com/ABCxFF)
-
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
     by the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU Affero General Public License for more details.
-
     You should have received a copy of the GNU Affero General Public License
     along with this program. If not, see <https://www.gnu.org/licenses/>
 */
@@ -19,11 +16,14 @@
 import Barrel from "../Barrel";
 import Drone from "./Drone";
 
-import { InputFlags, PhysicsFlags } from "../../../Const/Enums";
+import { InputFlags, PhysicsFlags, Tank } from "../../../Const/Enums";
 import { BarrelDefinition, TankDefinition } from "../../../Const/TankDefinitions";
 import { Entity } from "../../../Native/Entity";
 import { AIState, Inputs } from "../../AI";
 import { BarrelBase } from "../TankBody";
+import AutoTurret from "../AutoTurret";
+import LivingEntity from "../../Live";
+import Minion from "./Minion";
 
 /**
  * Barrel definition for the factory minion's barrel.
@@ -32,7 +32,7 @@ import { BarrelBase } from "../TankBody";
     angle: 0,
     offset: 0,
     size: 80,
-    width: 40,
+    width: 50.4,
     delay: 0,
     reload: 1,
     recoil: 1.35,
@@ -42,24 +42,23 @@ import { BarrelBase } from "../TankBody";
     bullet: {
         type: "bullet",
         health: 0.4,
-        damage: 0.275,
-        speed: 0.95,
-        scatterRate: 1.2,
-        lifeLength: 0.8,
+        damage: 0.4,
+        speed: 0.8,
+        scatterRate: 1,
+        lifeLength: 1,
         sizeRatio: 1,
         absorbtionFactor: 1
     }
 };
-
 /**
  * The drone class represents the minion (projectile) entity in diep.
  */
-export default class MiniMinion extends Drone implements BarrelBase {
+export default class NecroMinion extends Drone implements BarrelBase {
     /** Size of the focus the minions orbit. */
-    public static FOCUS_RADIUS = 500 ** 2;
+    public static FOCUS_RADIUS = 850 ** 2;
 
     /** The minion's barrel */
-    private minionBarrel: Barrel;
+    public minionBarrel: Barrel[] = [];
 
     /** The size ratio of the rocket. */
     public sizeFactor: number;
@@ -69,15 +68,20 @@ export default class MiniMinion extends Drone implements BarrelBase {
     public reloadTime = 1;
     /** The inputs for when to shoot or not. (Rocket) */
     public inputs = new Inputs();
-
+public idx: number | null;
     public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number) {
         super(barrel, tank, tankDefinition, shootAngle);
+        this.idx = null
+        if (tankDefinition){
+            this.idx = tankDefinition.id
+        }
+        const bulletDefinition = barrel.definition.bullet;
 
         this.inputs = this.ai.inputs;
-        this.ai.viewRange = 2500;
+        this.ai.viewRange = 900;
         this.usePosAngle = false;
 
-        this.physicsData.values.sides = 1;
+        this.physicsData.values.sides = bulletDefinition.sides ?? 1;
         this.physicsData.values.size *= 1.2;
         
         if (this.physicsData.values.flags & PhysicsFlags.noOwnTeamCollision) this.physicsData.values.flags ^= PhysicsFlags.noOwnTeamCollision;
@@ -87,16 +91,29 @@ export default class MiniMinion extends Drone implements BarrelBase {
 
         this.sizeFactor = this.physicsData.values.size / 50;
         this.cameraEntity = tank.cameraEntity;
-
-        this.minionBarrel = new Barrel(this, MinionBarrelDefinition);
         this.ai.movementSpeed = this.ai.aimSpeed = this.baseAccel;
     }
+    public static fromTank(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shape: LivingEntity): NecroMinion {
+        const chip = new NecroMinion(barrel, tank, tankDefinition, shape.positionData.values.angle);
+        chip.physicsData.values.sides = shape.physicsData.values.sides;
+        chip.physicsData.values.size = shape.physicsData.values.size;
+        chip.positionData.values.x = shape.positionData.values.x;
+        chip.positionData.values.y = shape.positionData.values.y;
+        chip.positionData.values.angle = shape.positionData.values.angle;
+        /** @ts-ignore */
+        const shapeDamagePerTick: number = shape.damagePerTick;
 
+        chip.damagePerTick *= shapeDamagePerTick / 8;
+        chip.healthData.values.maxHealth = (chip.healthData.values.health *= (shapeDamagePerTick / 8));
+        return chip;
+    }
     /** This allows for factory to hook in before the entity moves. */
     protected tickMixin(tick: number) {
         this.sizeFactor = this.physicsData.values.size / 50;
         this.reloadTime = this.tank.reloadTime;
-
+        if(this.idx === Tank.Snyope){
+            this.positionData.values.angle += 0.1
+        }
         const usingAI = !this.canControlDrones || !this.tank.inputs.attemptingShot() && !this.tank.inputs.attemptingRepel();
         const inputs = !usingAI ? this.tank.inputs : this.ai.inputs;
 
@@ -107,10 +124,10 @@ export default class MiniMinion extends Drone implements BarrelBase {
 
             const dist = inputs.mouse.distanceToSQ(this.positionData.values);
 
-            if (dist < MiniMinion.FOCUS_RADIUS / 4) { // Half
+            if (dist < Minion.FOCUS_RADIUS / 4) { // Half
                 this.movementAngle = this.positionData.values.angle + Math.PI;
-            } else if (dist < MiniMinion.FOCUS_RADIUS) {
-                this.movementAngle = this.positionData.values.angle + Math.PI / 2;
+            } else if (dist < Minion.FOCUS_RADIUS) {
+                this.movementAngle = this.positionData.values.angle
             } else this.movementAngle = this.positionData.values.angle;
         }
 
