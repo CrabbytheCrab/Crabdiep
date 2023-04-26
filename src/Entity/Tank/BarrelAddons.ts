@@ -129,6 +129,99 @@ export class TrapLauncher extends ObjectEntity {
     }
 }
 
+export class AutoLauncherAddon extends BarrelAddon {
+    /** The actual trap launcher entity */
+    public launcherEntity: BuilderLauncher;
+
+    public constructor(owner: Barrel) {
+        super(owner);
+
+        this.launcherEntity = new AutoLauncher(owner);
+    }
+}
+export class AutoLauncher extends ObjectEntity {
+    /** The barrel that this trap launcher is placed on. */
+    public barrelEntity: Barrel;
+
+    /** Resizes the trap launcher; when its barrel owner gets bigger, the trap launcher must as well. */
+    public constructor(barrel: Barrel) {
+        super(barrel.game);
+
+        this.barrelEntity = barrel;
+        this.setParent(barrel);
+        this.relationsData.values.team = barrel;
+        this.physicsData.values.flags = PhysicsFlags._unknown;
+        this.styleData.values.color = Color.Barrel;
+
+        this.physicsData.values.sides = 1;
+        this.physicsData.values.width = barrel.physicsData.values.width * (25 / 50);
+        this.physicsData.values.size = barrel.physicsData.values.width * (25 / 50);
+        this.positionData.values.x = barrel.barrelData.trapezoidDirection == Math.PI ?
+        (-barrel.physicsData.values.size + this.physicsData.values.size) / 1.5 :
+        (barrel.physicsData.values.size - this.physicsData.values.size) / 1.5;
+    }
+
+    public resize() {
+        this.physicsData.sides = 1;
+        this.physicsData.width = this.barrelEntity.physicsData.values.width * (25 / 50);
+        this.physicsData.size = this.barrelEntity.physicsData.values.width * (25 / 50);
+        this.positionData.x = this.barrelEntity.barrelData.trapezoidDirection == Math.PI ?
+        (-this.barrelEntity.physicsData.size + this.physicsData.size) / 1.5 :
+        (this.barrelEntity.physicsData.size - this.physicsData.size) / 1.5;
+    }
+
+
+    public tick(tick: number) {
+        super.tick(tick);
+
+        this.resize();
+    }
+}
+
+
+export class GrowLauncherAddon extends BarrelAddon {
+    /** The actual trap launcher entity */
+    public launcherEntity: BuilderLauncher;
+
+    public constructor(owner: Barrel) {
+        super(owner);
+
+        this.launcherEntity = new GrowLauncher(owner);
+    }
+}
+export class GrowLauncher extends ObjectEntity {
+    /** The barrel that this trap launcher is placed on. */
+    public barrelEntity: Barrel;
+
+    /** Resizes the trap launcher; when its barrel owner gets bigger, the trap launcher must as well. */
+    public constructor(barrel: Barrel) {
+        super(barrel.game);
+
+        this.barrelEntity = barrel;
+        this.setParent(barrel);
+        this.relationsData.values.team = barrel;
+        this.styleData.values.color = Color.Barrel;
+        this.styleData.values.flags|= StyleFlags.showsAboveParent;
+        this.physicsData.values.sides = 2;
+        this.physicsData.values.width = barrel.physicsData.values.width * 1.2
+        this.physicsData.values.size = barrel.physicsData.values.width * (27 / 42);
+        this.positionData.values.x = (barrel.physicsData.values.size/1.25 - this.physicsData.values.size) / 2
+    }
+
+    public resize() {
+        this.physicsData.sides = 2;
+        this.physicsData.width = this.barrelEntity.physicsData.values.width * 1.2;
+        this.physicsData.size = this.barrelEntity.physicsData.values.width * (27 / 42);
+        this.positionData.x = (this.barrelEntity.physicsData.values.size/1.25 - this.physicsData.values.size) /2
+    }
+
+
+    public tick(tick: number) {
+        super.tick(tick);
+
+        this.resize();
+    }
+}
 
 
 
@@ -934,7 +1027,9 @@ export class StrikerAddon extends BarrelAddon {
     machineMineLauncher : MineLauncherAddon2,
     stickyLauncher : StickyLauncherAddon,
     reversetrap : StrikerAddon,
+    growLauncher: GrowLauncherAddon,
     bounceLauncher: BounceLauncherAddon,
-    NecLauncher : NecMinionLauncherAddon
+    NecLauncher : NecMinionLauncherAddon,
+    autoLauncher: AutoLauncherAddon
 
 }

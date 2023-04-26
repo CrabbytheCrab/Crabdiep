@@ -210,8 +210,7 @@ public canchain: boolean
 
         if (entity instanceof Triangle && this.definition.flags.canClaimTriangles && this.barrels.length) {
             // If can claim, pick a random barrel that has drones it can still shoot, then shoot
-            const MAX_DRONES_PER_BARREL = 2 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]/1.85);
-            const barrelsToShoot = this.barrels.filter((e) => e.definition.bullet.type === "necrotriangledrone" && e.droneCount < MAX_DRONES_PER_BARREL);
+            const barrelsToShoot = this.barrels.filter((e) => e.definition.bullet.type === "necrotriangledrone" && this.DroneCount < this.MAXDRONES);
 
             if (barrelsToShoot.length) {
                 const barrelToShoot = barrelsToShoot[~~(Math.random()*barrelsToShoot.length)];
@@ -228,8 +227,7 @@ public canchain: boolean
     }
         if (entity instanceof Pentagon && this.definition.flags.canClaimPentagons && this.barrels.length) {
             // If can claim, pick a random barrel that has drones it can still shoot, then shoot
-            const MAX_DRONES_PER_BARREL = 5;
-            const barrelsToShoot = this.barrels.filter((e) => e.definition.bullet.type === "necropentadrone" && e.droneCount < MAX_DRONES_PER_BARREL);
+            const barrelsToShoot = this.barrels.filter((e) => e.definition.bullet.type === "necropentadrone" && this.DroneCount < this.MAXDRONES);
 
             if (barrelsToShoot.length) {
                 const barrelToShoot = barrelsToShoot[~~(Math.random()*barrelsToShoot.length)];
@@ -249,8 +247,7 @@ public canchain: boolean
 
         }else{
             // If can claim, pick a random barrel that has drones it can still shoot, then shoot
-            const MAX_DRONES_PER_BARREL = 9 + this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload];
-            const barrelsToShoot = this.barrels.filter((e) => e.definition.bullet.type === "necrodrone" && e.droneCount < MAX_DRONES_PER_BARREL);
+            const barrelsToShoot = this.barrels.filter((e) => e.definition.bullet.type === "necrodrone" && this.DroneCount < this.MAXDRONES);
 
             if (barrelsToShoot.length) {
                 const barrelToShoot = barrelsToShoot[~~(Math.random()*barrelsToShoot.length)];
@@ -271,8 +268,7 @@ public canchain: boolean
 
         }else{
             // If can claim, pick a random barrel that has drones it can still shoot, then shoot
-            const MAX_DRONES_PER_BARREL = 6 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload] * 0.725);
-            const barrelsToShoot = this.barrels.filter((e) => e.definition.bullet.type === "wepnecrodrone" && e.droneCount < MAX_DRONES_PER_BARREL);
+            const barrelsToShoot = this.barrels.filter((e) => e.definition.bullet.type === "wepnecrodrone" && this.DroneCount < this.MAXDRONES);
 
             if (barrelsToShoot.length) {
                 const barrelToShoot = barrelsToShoot[~~(Math.random()*barrelsToShoot.length)];
@@ -292,8 +288,7 @@ public canchain: boolean
                     if(entity instanceof WepSquare){
             
                     }else{
-                const MAX_DRONES_PER_BARREL2 = 3 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload] * 0.375);
-                const barrelsToShoot = this.barrels.filter((e) => e.definition.bullet.type === "necrodrone" && e.droneCount < MAX_DRONES_PER_BARREL2);
+                const barrelsToShoot = this.barrels.filter((e) => e.definition.bullet.type === "necrodrone" && this.DroneCount < this.MAXDRONES);
     
                 if (barrelsToShoot.length) {
                     const barrelToShoot = barrelsToShoot[~~(Math.random()*barrelsToShoot.length)];
@@ -456,6 +451,12 @@ public Accend(){
             if (this._currentTank === Tank.Spike) this.damagePerTick *= 1.5;
             if (this._currentTank === Tank.Bumper) this.damagePerTick *= 0.375;
             if (this._currentTank === Tank.Bumper) this.damageReduction = 0.375;
+            if (this._currentTank === Tank.Maleficitor ||this._currentTank === Tank.Caster || this._currentTank === Tank.Wizard) this.MAXDRONES = 6 + this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload];
+            if (this._currentTank === Tank.Necromancer) this.MAXDRONES = 12 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]);
+            if (this._currentTank === Tank.Dronemare) this.MAXDRONES = 2 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]/2);
+            if (this._currentTank === Tank.Wraith) this.MAXDRONES = 4 + this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]
+            if (this._currentTank === Tank.Animator) this.MAXDRONES = 4 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]/2);
+            if (this._currentTank === Tank.Lich) this.MAXDRONES = 5
 
             // Max Health
             const maxHealthCache = this.healthData.values.maxHealth;

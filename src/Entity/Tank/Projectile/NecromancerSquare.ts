@@ -44,8 +44,9 @@ export default class NecromancerSquare extends Drone {
         this.ai.viewRange = 900;
 
         this.physicsData.values.sides = 4;
+        this.physicsData.values.size = 55 * Math.SQRT1_2;
         // this.physics.values.size = 55 * Math.SQRT1_2 * bulletDefinition.sizeRatio;
-
+        this.tank.DroneCount += 1;
         // if (shape.isShiny) this.health.values.maxHealth = this.health.values.health *= 10
         this.styleData.values.color = tank.relationsData.values.team?.teamData?.values.teamColor || Color.NecromancerSquare;
         if (this.physicsData.values.flags & PhysicsFlags.noOwnTeamCollision) this.physicsData.values.flags ^= PhysicsFlags.noOwnTeamCollision;
@@ -64,7 +65,7 @@ export default class NecromancerSquare extends Drone {
         this.physicsData.values.pushFactor = 4;
         this.physicsData.values.absorbtionFactor = bulletDefinition.absorbtionFactor;
 
-        this.baseSpeed = 0;
+        this.baseSpeed /= 3;
     }
 
     /** Given a shape, it will create a necromancer square using stats from the shape */
@@ -77,12 +78,17 @@ export default class NecromancerSquare extends Drone {
         sunchip.positionData.values.angle = shape.positionData.values.angle;
         
         const shapeDamagePerTick: number = shape['damagePerTick'];
+        sunchip.baseSpeed = 0;
 
         sunchip.damagePerTick *= shapeDamagePerTick / 8;
         sunchip.healthData.values.maxHealth = (sunchip.healthData.values.health *= (shapeDamagePerTick / 8));
         return sunchip;
     }
+    public destroy(animate=true) {
+        if (!animate) this.tank.DroneCount -= 1;
 
+        super.destroy(animate);
+    }
 
     public tick(tick: number) {
         super.tick(tick);

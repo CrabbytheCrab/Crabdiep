@@ -65,6 +65,8 @@ export class AutoSwarm extends Drone  implements BarrelBase {
             atuo.baseSize *= 1.25
           //  atuo.positionData.values.angle = shootAngle
             atuo.ai.viewRange = 1200
+            atuo.positionData.values.angle = shootAngle
+
     }
 
     // TODO:

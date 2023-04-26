@@ -38,6 +38,7 @@ export default class NecromancerPentagon extends Drone {
         
         this.ai = new AI(this);
         this.ai.viewRange = 1200;
+        this.tank.DroneCount += 1;
 
         this.physicsData.values.sides = 5;
         this.physicsData.values.size = 75 * Math.SQRT1_2;
@@ -60,10 +61,15 @@ export default class NecromancerPentagon extends Drone {
 
         this.physicsData.values.pushFactor = 4;
         this.physicsData.values.absorbtionFactor = bulletDefinition.absorbtionFactor;
+        this.physicsData.values.size =  75 * Math.SQRT1_2;
 
-        this.baseSpeed = 0;
+        this.baseSpeed /= 3;
     }
+    public destroy(animate=true) {
+        if (!animate) this.tank.DroneCount -= 1;
 
+        super.destroy(animate);
+    }
     /** Given a shape, it will create a necromancer square using stats from the shape */
     public static fromShape(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shape: LivingEntity): NecromancerPentagon {
         const chip = new NecromancerPentagon(barrel, tank, tankDefinition, shape.positionData.values.angle);
@@ -76,6 +82,7 @@ export default class NecromancerPentagon extends Drone {
         /** @ts-ignore */
         const shapeDamagePerTick: number = shape.damagePerTick;
 
+        chip.baseSpeed = 0;
         chip.damagePerTick *= shapeDamagePerTick / 8;
         chip.healthData.values.maxHealth = (chip.healthData.values.health *= (shapeDamagePerTick / 8));
         return chip;

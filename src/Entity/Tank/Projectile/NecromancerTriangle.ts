@@ -34,11 +34,12 @@ export default class NecromancerTriangle extends Drone {
         super(barrel, tank, tankDefinition, shootAngle);
 
         const bulletDefinition = barrel.definition.bullet;
+        this.tank.DroneCount += 1
         
         this.ai = new AI(this);
         this.ai.viewRange = 1200;
 
-        this.physicsData.values.sides = 5;
+        this.physicsData.values.sides = 3;
         this.physicsData.values.size = 75 * Math.SQRT1_2;
         // this.physicsData.values.size = 55 * Math.SQRT1_2 * bulletDefinition.sizeRatio;
 
@@ -58,11 +59,16 @@ export default class NecromancerTriangle extends Drone {
         this.deathAccelFactor = 1;
 
         this.physicsData.values.pushFactor = 4;
+        this.physicsData.values.size = 55 * Math.SQRT1_2;
         this.physicsData.values.absorbtionFactor = bulletDefinition.absorbtionFactor;
 
-        this.baseSpeed = 0;
+        this.baseSpeed /= 3;
     }
+    public destroy(animate=true) {
+        if (!animate) this.tank.DroneCount -= 1;
 
+        super.destroy(animate);
+    }
     /** Given a shape, it will create a necromancer square using stats from the shape */
     public static fromShape(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shape: LivingEntity): NecromancerTriangle {
         const chip = new NecromancerTriangle(barrel, tank, tankDefinition, shape.positionData.values.angle);
@@ -74,6 +80,7 @@ export default class NecromancerTriangle extends Drone {
         
         /** @ts-ignore */
         const shapeDamagePerTick: number = shape.damagePerTick;
+        chip.baseSpeed = 0;
 
         chip.damagePerTick *= shapeDamagePerTick / 8;
         chip.healthData.values.maxHealth = (chip.healthData.values.health *= (shapeDamagePerTick / 8));

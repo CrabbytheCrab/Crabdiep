@@ -77,6 +77,7 @@ export default class AutoDrone extends Bullet  implements BarrelBase{
                     absorbtionFactor: 0.1
                 }
             });
+                atuo.positionData.values.angle = shootAngle
                 atuo.baseSize *= 1.35
               //  atuo.positionData.values.angle = shootAngle
                 atuo.ai.viewRange = 1500}else{
@@ -105,7 +106,8 @@ export default class AutoDrone extends Bullet  implements BarrelBase{
                     });
                         atuo.baseSize *= 1.25
                       //  atuo.positionData.values.angle = shootAngle
-                        atuo.ai.viewRange = 1000
+                atuo.positionData.values.angle = shootAngle
+                atuo.ai.viewRange = 1000
                 }
         this.sizeFactor = this.physicsData.values.size / 50;
         this.ai = new AI(this);

@@ -115,6 +115,53 @@ export class Addon {
         return rotator;
     }
 
+    protected createAutoAutoTurrets(count: number) {
+        const rotPerTick = AI.PASSIVE_ROTATION;
+        const MAX_ANGLE_RANGE = PI2 / 4; // keep within 90º each side
+
+        const rotator = this.createGuard(1, .1, 0, rotPerTick) as GuardObject & { turrets: AutoTurret[] };
+        rotator.turrets = [];
+
+        const ROT_OFFSET = 0.8;
+
+        if (rotator.styleData.values.flags & StyleFlags.isVisible) rotator.styleData.values.flags ^= StyleFlags.isVisible;
+
+        for (let i = 0; i < count; ++i) {
+            const base = new AutoTurret(rotator, AutoAutoTurretMiniDefinition);
+            base.influencedByOwnerInputs = true;
+
+            const angle = base.ai.inputs.mouse.angle = PI2 * (i / count);
+            base.ai.passiveRotation = rotPerTick;
+            base.ai.targetFilter = (targetPos) => {
+                const pos = base.getWorldPosition();
+                const angleToTarget = Math.atan2(targetPos.y - pos.y, targetPos.x - pos.x);
+                
+                const deltaAngle = normalizeAngle(angleToTarget - ((angle + rotator.positionData.values.angle)));
+
+                return deltaAngle < MAX_ANGLE_RANGE || deltaAngle > (PI2 - MAX_ANGLE_RANGE);
+            }
+
+            base.positionData.values.y = this.owner.physicsData.values.size * Math.sin(angle) * ROT_OFFSET;
+            base.positionData.values.x = this.owner.physicsData.values.size * Math.cos(angle) * ROT_OFFSET;
+
+            if (base.styleData.values.flags & StyleFlags.showsAboveParent) base.styleData.values.flags ^= StyleFlags.showsAboveParent;
+            base.physicsData.values.flags |= PositionFlags.absoluteRotation;
+
+            const tickBase = base.tick;
+            base.tick = (tick: number) => {
+                base.positionData.y = this.owner.physicsData.values.size * Math.sin(angle) * ROT_OFFSET;
+                base.positionData.x = this.owner.physicsData.values.size * Math.cos(angle) * ROT_OFFSET;
+
+                tickBase.call(base, tick);
+
+                if (base.ai.state === AIState.idle) base.positionData.angle = angle + rotator.positionData.values.angle;
+            }
+
+            rotator.turrets.push(base);
+        }
+
+        return rotator;
+    }
 
     protected createAutoTurrets1(count: number) {
         const rotPerTick = AI.PASSIVE_ROTATION;
@@ -687,6 +734,29 @@ const AutoTurretMiniDefinition: BarrelDefinition = {
     }
 };
 
+
+const AutoAutoTurretMiniDefinition: BarrelDefinition = {
+    angle: 0,
+    offset: 0,
+    size: 60,
+    width: 50 * 0.7,
+    delay: 0.01,
+    reload: 2,
+    recoil: 0,
+    isTrapezoid: false,
+    trapezoidDirection: 0,
+    addon: "autoLauncher",
+    bullet: {
+        type: "autobullet",
+        health: 1,
+        damage: 0.4,
+        speed: 0.9,
+        scatterRate: 1,
+        lifeLength: 1.2,
+        sizeRatio: 1,
+        absorbtionFactor: 1
+    }
+};
 /**
  * A smasher-like guard object.
  * Read (addons.md on diepindepth)[https://github.com/ABCxFF/diepindepth/blob/main/extras/addons.md]
@@ -1032,6 +1102,37 @@ export class LauncherAddon extends Addon {
     }
 }
 
+export class LauncherTallAddon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+
+        const launcher = new ObjectEntity(this.game);
+        const sizeRatio = 80 * Math.SQRT2 / 50;
+        const widthRatio = 32.8571428571        / 50;
+        const size = this.owner.physicsData.values.size;
+
+        launcher.setParent(this.owner);
+        launcher.relationsData.values.owner = this.owner;
+        launcher.relationsData.values.team = this.owner.relationsData.values.team;
+
+        launcher.physicsData.values.size = sizeRatio * size;
+        launcher.physicsData.values.width = widthRatio * size;
+        launcher.positionData.values.x = launcher.physicsData.values.size / 2;
+
+        launcher.styleData.values.color = Color.Barrel;
+        launcher.physicsData.values.flags |= PhysicsFlags.isTrapezoid;
+        launcher.physicsData.values.sides = 2;
+
+        launcher.tick = () => {
+            const size = this.owner.physicsData.values.size;
+
+            launcher.physicsData.size = sizeRatio * size;
+            launcher.physicsData.width = widthRatio * size;
+            launcher.positionData.x = launcher.physicsData.values.size / 2;
+        }
+    }
+}
+
 class LauncherSmallAddon extends Addon {
     public constructor(owner: BarrelBase) {
         super(owner);
@@ -1194,7 +1295,13 @@ class Auto3Addon extends Addon {
         this.createAutoTurrets(3);
     }
 }
+class AutoAuto3Addon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
 
+        this.createAutoAutoTurrets(3);
+    }
+}
 class Auto1Addon extends Addon {
     public constructor(owner: BarrelBase) {
         super(owner);
@@ -1853,5 +1960,7 @@ export const AddonById: Record<addonId, typeof Addon | null> = {
     droneturret :Banshee, 
     pronounced2 : PronouncedAddon2,
     cuck : Auto1Addon,
-    psiEye: PsiAddon
+    launchertall : LauncherTallAddon,
+    psiEye: PsiAddon,
+    autoauto3: AutoAuto3Addon
 }

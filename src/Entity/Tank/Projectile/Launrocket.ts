@@ -36,7 +36,7 @@ const RocketBarrelDefinition: BarrelDefinition = {
     size: 70,
     width: 46.472,
     delay: 0,
-    reload: 0.3,
+    reload: 0.5,
     recoil: 4.5,
     isTrapezoid: false,
     trapezoidDirection: 0,
@@ -44,10 +44,10 @@ const RocketBarrelDefinition: BarrelDefinition = {
     bullet: {
         type: "bullet",
         health: 0.4,
-        damage: 4 / 5,
-        speed: 1.5,
+        damage: 0.5,
+        speed: 1.25,
         scatterRate: 1,
-        lifeLength: 0.35,
+        lifeLength: 0.2,
         sizeRatio: 1,
         absorbtionFactor: 1
     }

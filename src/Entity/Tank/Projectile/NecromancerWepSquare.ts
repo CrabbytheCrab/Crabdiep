@@ -62,10 +62,12 @@ export default class NecromancerWepSquare extends BulletAlt implements BarrelBas
     protected canControlDrones: boolean;
     public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number) {
         super(barrel, tank, tankDefinition, shootAngle);
+        this.tank.DroneCount += 1
 
         const bulletDefinition = barrel.definition.bullet;
 
         this.usePosAngle = true;
+        this.physicsData.values.size = 55 * Math.SQRT1_2;
         
         this.ai = new AI(this);
         this.ai.viewRange = 850 * tank.sizeFactor;
@@ -189,7 +191,7 @@ export default class NecromancerWepSquare extends BulletAlt implements BarrelBas
 
         this.ai.movementSpeed = this.ai.aimSpeed = this.baseAccel;
 
-        this.baseSpeed = 0;
+        this.baseSpeed /= 3;
     }
 
     /** Given a shape, it will create a necromancer square using stats from the shape */
@@ -205,6 +207,7 @@ export default class NecromancerWepSquare extends BulletAlt implements BarrelBas
 
         wepsunchip.damagePerTick *= shapeDamagePerTick / 8;
         wepsunchip.healthData.values.maxHealth = (wepsunchip.healthData.values.health *= (shapeDamagePerTick / 8));
+        wepsunchip.baseSpeed = 0;
         return wepsunchip;
     }
 
@@ -264,7 +267,7 @@ export default class NecromancerWepSquare extends BulletAlt implements BarrelBas
         this.tickMixin(tick);
     }
     public destroy(animate=true) {
-        if (!animate) this.barrelEntity.droneCount -= 1;
+        if (!animate) this.tank.DroneCount -= 1;
 
         super.destroy(animate);
     }

@@ -109,13 +109,17 @@ export default class ObjectEntity extends Entity {
     public restLength: number;
     public seg: number;
     public MAXORBS: number
+    public MAXDRONES: number
     public OrbCount: number
+    public DroneCount: number
     public borscount = new Array(100);
     public cangoThroughRope: boolean;
     public constructor(game: GameServer) {
         super(game);
+        this.MAXDRONES = 0
         this.MAXORBS = 0
         this.OrbCount = 0
+        this.DroneCount = 0
         this.restLength = 0
         this.forcemulti = 1
         this.isAffectedByRope = false

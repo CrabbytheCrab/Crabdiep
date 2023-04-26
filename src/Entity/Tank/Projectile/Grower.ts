@@ -23,38 +23,30 @@ import { PhysicsFlags, Stat, StyleFlags, Tank } from "../../../Const/Enums";
 import { TankDefinition } from "../../../Const/TankDefinitions";
 import { BarrelBase } from "../TankBody";
 
-export default class Flame extends Bullet {
+export default class Grower extends Bullet {
     public sized: number
+    public acc:number
     public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number) {
         super(barrel, tank, tankDefinition, shootAngle);
         this.sized = this.physicsData.values.size
-        this.baseSpeed *= 0.4;
-        this.baseAccel *= 0.4;
-        this.physicsData.values.sides = 1;
-        this.physicsData.values.absorbtionFactor = this.physicsData.values.pushFactor = 0;
-
-        const statLevels = tank.cameraEntity.cameraData?.values.statLevels.values;
-        const bulletDefinition = barrel.definition.bullet;
-
-        const bulletPenetration = statLevels ? statLevels[Stat.BulletPenetration] : 0;
-        this.healthData.values.health = this.healthData.values.maxHealth = bulletDefinition.health;
-        this.lifeLength = bulletDefinition.lifeLength * 6 * ((1.5 * bulletPenetration)/5 + 2);
+        this.acc = this.baseAccel
 
     }
 
     public tick(tick: number) {
+
         super.tick(tick);
-        if (this.tankDefinition && this.tankDefinition.id === Tank.Pyro){
-            if (this.physicsData.size < this.sized * 12){
-                this.physicsData.size += this.sized/3
-                this.baseAccel *= 1.05
-                this.baseSpeed *= 1.05
+        if (this.tankDefinition && this.tankDefinition.id === Tank.SteamRoller){
+            if (this.physicsData.size < this.sized * 6){
+                this.physicsData.size += this.sized/30
+                this.damageReduction -= 0.15/180
+                this.baseAccel -= this.acc/270
+
             }
         }else{
-            if (this.physicsData.size < this.sized * 10){
-                this.physicsData.size += this.sized/5
-                this.baseAccel *= 1.05
-                this.baseSpeed *= 1.05
+            if (this.physicsData.size < this.sized * 4){
+                this.physicsData.size += this.sized/20
+                this.baseAccel -= this.acc/80
             }
         }
         //this.damageReduction += 1 / 25;

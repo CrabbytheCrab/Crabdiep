@@ -20,31 +20,33 @@ import Barrel from "../Barrel";
 import Bullet from "./Bullet";
 
 import { InputFlags } from "../../../Const/Enums";
-import { BarrelDefinition, TankDefinition } from "../../../Const/TankDefinitions";
 import { Entity } from "../../../Native/Entity";
 import { Inputs } from "../../AI";
+import { BarrelDefinition, TankDefinition } from "../../../Const/TankDefinitions";
 import { BarrelBase } from "../TankBody";
+import AutoTurret from "../AutoTurret";
 
 /**
  * Barrel definition for the rocketeer rocket's barrel.
  */
+
 const RocketBarrelDefinition: BarrelDefinition = {
     angle: Math.PI,
     offset: 0,
     size: 70,
-    width:  54.239,
+    width: 46.472,
     delay: 0,
-    reload: 0.15,
-    recoil: 3.3,
-    isTrapezoid: true,
+    reload: 0.5,
+    recoil: 4.5,
+    isTrapezoid: false,
     trapezoidDirection: 0,
     addon: null,
     bullet: {
         type: "bullet",
-        health: 0.3,
-        damage: 0.6,
-        speed: 1.5,
-        scatterRate: 5,
+        health: 0.4,
+        damage: 0.5,
+        speed: 1.25,
+        scatterRate: 1,
         lifeLength: 0.2,
         sizeRatio: 1,
         absorbtionFactor: 1
@@ -54,9 +56,9 @@ const RocketBarrelDefinition: BarrelDefinition = {
 /**
  * Represents all rocketeer rockets in game.
  */
-export default class Rocket extends Bullet implements BarrelBase {
+export default class AutoRocket extends Bullet implements BarrelBase {
     /** The rocket's barrel */
-    private rocketBarrel: Barrel;
+    private launrocketBarrel: Barrel;
 
     /** The size ratio of the rocket. */
     public sizeFactor: number;
@@ -74,15 +76,41 @@ export default class Rocket extends Bullet implements BarrelBase {
         this.cameraEntity = tank.cameraEntity;
 
         this.sizeFactor = this.physicsData.values.size / 50;
+        const launrocketBarrel = this.launrocketBarrel = new Barrel(this, {...RocketBarrelDefinition});
+        launrocketBarrel.styleData.values.color = this.styleData.values.color;
 
-        const rocketBarrel = this.rocketBarrel = new Barrel(this, {...RocketBarrelDefinition});
-        rocketBarrel.styleData.values.color = this.styleData.values.color;
+        const atuo = new AutoTurret(this, {
+            angle: 0,
+            offset: 0,
+            size: 65,
+            width: 35,
+            delay: 0.01,
+            reload: 1,
+            recoil: 0,
+            isTrapezoid: false,
+            trapezoidDirection: 0,
+            addon: null,
+            bullet: {
+                type: "bullet",
+                sizeRatio: 1,
+                health: 1,
+                damage: 0.4,
+                speed: 1.2,
+                scatterRate: 1,
+                lifeLength: 0.75,
+                absorbtionFactor: 0.1
+            }
+        });
+            atuo.baseSize *= 1.25
+          //  atuo.positionData.values.angle = shootAngle
+                atuo.positionData.values.angle = shootAngle
+                atuo.ai.viewRange = 1000
     }
 
     public tick(tick: number) {
         this.sizeFactor = this.physicsData.values.size / 50;
         this.reloadTime = this.tank.reloadTime;
-        //if (!this.deletionAnimation && this.rocketBarrel) this.rocketBarrel.definition.width = ((this.barrelEntity.definition.width / 2) * RocketBarrelDefinition.width) / this.physicsData.values.size;
+        //if (!this.deletionAnimation && this.launrocketBarrel) this.launrocketBarrel.definition.width = ((this.barrelEntity.definition.width / 2) * RocketBarrelDefinition.width) / this.physicsData.values.size;
 
         super.tick(tick);
 
