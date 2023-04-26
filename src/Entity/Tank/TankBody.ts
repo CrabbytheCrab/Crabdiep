@@ -395,12 +395,12 @@ public Accend(){
                     if (segment instanceof RopeSegment) segment.destroy();
                 });
         }
-        if (this.isInvulnerable) {
+      /*  if (this.isInvulnerable) {
             if (this.game.clients.size !== 1 || this.game.arena.state !== ArenaState.OPEN) {
                 // not for ACs
                 if (this.cameraEntity instanceof ClientCamera) this.setInvulnerability(false);
             }
-        }
+        }*/
         if (!this.deletionAnimation && !this.inputs.deleted) this.physicsData.size = this.baseSize * this.cameraEntity.sizeFactor;
         else this.regenPerTick = 0;
 
