@@ -329,6 +329,9 @@ export const enum Tank {
     Actuator      = 236,
     Blaster       = 237,
     Shotgun       = 238,
+    MegaCannon    = 239,
+    Inquisition   = 240,
+    ScatterShot   = 241,
     Mothership    = 2000
 }
 

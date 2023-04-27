@@ -352,7 +352,7 @@ export default class Client {
                 }
                 if (flags & InputFlags.levelup) {
                     // If full access, or if the game allows cheating and lvl is < maxLevel, or if the player is a BT access level and lvl is < maxLevel
-                    if ((this.accessLevel === config.AccessLevel.FullAccess) || (camera.cameraData.values.level < camera.maxlevel && ((this.game.arena.arenaData.values.flags & ArenaFlags.canUseCheats) || (this.accessLevel === config.AccessLevel.BetaAccess)))) {
+                    if (camera.cameraData.values.level < camera.maxlevel) {
                         this.setHasCheated(true);
                         
                         camera.setLevel(camera.cameraData.values.level + 1);
