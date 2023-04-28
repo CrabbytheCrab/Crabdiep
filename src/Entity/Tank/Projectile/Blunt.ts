@@ -54,7 +54,15 @@ export default class Blunt extends Bullet implements BarrelBase{
         const bulletDefinition = barrel.definition.bullet;
         const statLevels = tank.cameraEntity.cameraData?.values.statLevels.values;
         const bulletDamage = statLevels ? statLevels[Stat.BulletDamage] : 0;
-
+        if (this.tankDefinition && this.tankDefinition.id == Tank.FunEnder){
+        
+            this.baseSpeed *= 2
+            this.baseAccel /= 2
+            this.physicsData.size *= 1 + ((0.5 * Math.random()) -0.25)
+            this.baseSpeed *= 1 + ((0.4 * Math.random()) -0.2)
+            this.baseAccel *= 1 + ((0.5 * Math.random()) -0.25)
+        }
+    
         this.megaturret = typeof this.barrelEntity.definition.megaturret === 'boolean' && this.barrelEntity.definition.megaturret;
         if (tankDefinition && tankDefinition.id === Tank.Pounder){
             new GuardObject(this.game, this, 6, 1.3, 0, .1);
@@ -64,6 +72,9 @@ export default class Blunt extends Bullet implements BarrelBase{
             new GuardObject(this.game, this, 1, 1.75, 0, .1);
             //this.baseAccel = (35 * 3) * this.barrelEntity.definition.bullet.speed;
             this.physicsData.values.pushFactor = ((7 / 3) + bulletDamage) * bulletDefinition.damage  * 10;
+        }else        if (tankDefinition && tankDefinition.id === Tank.FunEnder){
+            new GuardObject(this.game, this, 6, 1.15, 0, .1);
+            this.physicsData.values.pushFactor = ((7 / 3) + bulletDamage) * bulletDefinition.damage  * 6;
         }else{
             new GuardObject(this.game, this, 6, 1.15, 0, .1);
             this.physicsData.values.pushFactor =  ((7 / 3) + bulletDamage) * bulletDefinition.damage  * 4;
@@ -74,6 +85,16 @@ export default class Blunt extends Bullet implements BarrelBase{
         this.sizeFactor = this.physicsData.values.size / 50;
         this.reloadTime = this.tank.reloadTime;
         super.tick(tick);
+        if (this.tankDefinition && this.tankDefinition.id == Tank.FunEnder){
+            if (tick <= this.spawnTick + 5){
+            }else{
+                const bulletDefinition = this.barrelEntity.definition.bullet;
+                const statLevels = this.tank.cameraEntity.cameraData?.values.statLevels.values;
+                const bulletDamage = statLevels ? statLevels[Stat.BulletDamage] : 0;
+                const falloff = ((7 + bulletDamage * 3) * bulletDefinition.damage)/2;
+                this.damagePerTick = falloff   
+            }
+        }
     if (this.deff){
         if (this.isPhysical && !(this.deletionAnimation)) {
             const collidedEntities = this.findCollisions();

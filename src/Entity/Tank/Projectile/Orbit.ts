@@ -112,6 +112,10 @@ export default class Orbit extends Bullet {
             }
         }
             if(this.fire == false){
+                if(this.num > 0 &&   this.tank.borscount[this.num- 1])
+                {
+                    this.num -= 1
+                }
                 
             if (!Entity.exists(this.barrelEntity)) this.destroy()
             this.lifeLength = Infinity;
