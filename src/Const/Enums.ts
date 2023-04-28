@@ -332,6 +332,10 @@ export const enum Tank {
     MegaCannon    = 239,
     Inquisition   = 240,
     ScatterShot   = 241,
+    ArrasPenta    = 242,
+    Heavy         = 243,
+    FunEnder      = 244,
+    Hell          = 245,
     Mothership    = 2000
 }
 
