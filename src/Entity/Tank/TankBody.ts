@@ -451,11 +451,11 @@ public Accend(){
             if (this._currentTank === Tank.Spike) this.damagePerTick *= 1.5;
             if (this._currentTank === Tank.Bumper) this.damagePerTick *= 0.375;
             if (this._currentTank === Tank.Bumper) this.damageReduction = 0.375;
-            if (this._currentTank === Tank.Maleficitor ||this._currentTank === Tank.Caster || this._currentTank === Tank.Wizard) this.MAXDRONES = 6 + this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload];
-            if (this._currentTank === Tank.Necromancer) this.MAXDRONES = 12 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]);
-            if (this._currentTank === Tank.Dronemare) this.MAXDRONES = 2 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]/2);
+            if (this._currentTank === Tank.Maleficitor ||this._currentTank === Tank.Caster || this._currentTank === Tank.Wizard) this.MAXDRONES = 11 + this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload];
+            if (this._currentTank === Tank.Necromancer) this.MAXDRONES = 22 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload] * 2);
+            if (this._currentTank === Tank.Dronemare) this.MAXDRONES = 5 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]/2);
             if (this._currentTank === Tank.Wraith) this.MAXDRONES = 4 + this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]
-            if (this._currentTank === Tank.Animator) this.MAXDRONES = 4 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]/2);
+            if (this._currentTank === Tank.Animator) this.MAXDRONES = 10 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]/2);
             if (this._currentTank === Tank.Lich) this.MAXDRONES = 5
 
             // Max Health
