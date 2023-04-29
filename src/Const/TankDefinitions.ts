@@ -11478,7 +11478,7 @@ const TankDefinitions = JSON.parse(`[
         "speed": 1,
         "maxHealth": 50,
         "preAddon": null,
-        "postAddon": "autoturret",
+        "postAddon": null,
         "sides": 5,
         "borderWidth": 15,
         "barrels": [
@@ -11715,26 +11715,27 @@ const TankDefinitions = JSON.parse(`[
             {
                 "angle": 3.141592653589793,
                 "offset": 0,
-                "size": 60,
+                "size": 65,
                 "width": 42,
-                "delay": 0,
-                "reload": 6,
+                "delay": 0.5,
+                "reload": 10,
                 "recoil": 1,
                 "isTrapezoid": true,
                 "trapezoidDirection": 0,
                 "addon": null,
-                "droneCount": 3,
+                "droneCount": 0,
                 "canControlDrones": true,
+                 
                 "bullet": {
-                    "type": "drone",
+                    "type": "necrotriangledrone",
                     "sizeRatio": 1,
                     "health": 2,
-                    "damage": 0.7,
+                    "damage": 0.62,
                     "speed": 0.8,
                     "scatterRate": 0,
                     "lifeLength": -1,
                     "absorbtionFactor": 1
-                }
+                } 
             }
         ],
         "stats": [
@@ -12444,7 +12445,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Auto Tank",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [62,63,100, 73,110,208,113],
+        "upgrades": [62,63, 73,110,208,113],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -25262,7 +25263,6 @@ const TankDefinitions = JSON.parse(`[
                 "reload": 1,
                 "recoil": 1.75,
                 "isTrapezoid": false,
-                "inverseFire": true,
                 "trapezoidDirection": 0,
                 "addon": null,
                 "bullet": {
@@ -25286,7 +25286,6 @@ const TankDefinitions = JSON.parse(`[
                 "recoil": 1.75,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
-                "inverseFire": true,
                 "addon": null,
                 "bullet": {
                     "type": "bullet",
@@ -25307,7 +25306,6 @@ const TankDefinitions = JSON.parse(`[
                 "delay": 0,
                 "reload": 1,
                 "recoil": 1.75,
-                "inverseFire": true,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
                 "addon": null,
@@ -25330,6 +25328,7 @@ const TankDefinitions = JSON.parse(`[
                 "delay": 0,
                 "reload": 1.5,
                 "recoil": 3,
+                "inverseFire": true,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
                 "addon": null,
@@ -28261,7 +28260,7 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "shotgun4",
                     "sizeRatio": 0.4,
-                    "health": 1,
+                    "health": 0.75,
                     "damage": 0.8,
                     "speed": 0.8,
                     "scatterRate": 2,
@@ -28365,7 +28364,7 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "shotgun9",
                     "sizeRatio": 0.32,
-                    "health": 0.9,
+                    "health": 0.65,
                     "damage": 0.8,
                     "speed": 0.8,
                     "scatterRate": 2,
@@ -28462,7 +28461,7 @@ const TankDefinitions = JSON.parse(`[
                 "width": 40,
                 "delay": 0,
                 "reload": 10,
-                "recoil": 65,
+                "recoil": 40,
                 "isTrapezoid": true,
                 "trapezoidDirection": 0,
                 "addon": null,
@@ -28470,7 +28469,7 @@ const TankDefinitions = JSON.parse(`[
                     "type": "shotgun20",
                     "sizeRatio": 0.5,
                     "health": 0.4,
-                    "damage": 1,
+                    "damage": 0.8,
                     "speed": 1.5,
                     "scatterRate": 1.5,
                     "lifeLength": 0.15,
@@ -28573,7 +28572,7 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "shotgun4",
                     "sizeRatio": 0.4,
-                    "health": 1,
+                    "health": 0.75,
                     "damage": 0.8,
                     "speed": 0.8,
                     "scatterRate": 2,
@@ -28700,7 +28699,7 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "shotgun9",
                     "sizeRatio": 0.4,
-                    "health": 0.65,
+                    "health": 0.5,
                     "damage": 0.5,
                     "speed": 1,
                     "scatterRate": 1.5,
@@ -29098,9 +29097,9 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "shotgun4blunt",
                     "sizeRatio": 0.4,
-                    "health": 0.8,
+                    "health": 0.55,
                     "damage": 1,
-                    "speed": 0.65,
+                    "speed": 0.8,
                     "scatterRate": 1,
                     "lifeLength": 1.5,
                     "absorbtionFactor": 0.4
