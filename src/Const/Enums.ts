@@ -336,6 +336,14 @@ export const enum Tank {
     Heavy         = 243,
     FunEnder      = 244,
     Hell          = 245,
+    SwarmGunner   = 246,
+    Bullwark      = 247,
+    OverKill      = 248,
+    FlagShip      = 249,
+    TrueAmalgam   = 250,
+    Fission       = 251,
+    Mitosis       = 252,
+    auto1         = 253,
     Mothership    = 2000
 }
 
