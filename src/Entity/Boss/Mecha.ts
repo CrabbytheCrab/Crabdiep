@@ -36,11 +36,13 @@ import { GuardObject } from "../Tank/Addons";
  */
 const MountedTurretDefinition: BarrelDefinition = {
     ...AutoTurretDefinition,
+    reload:1.5,
+    size:80,
     bullet: {
         ...AutoTurretDefinition.bullet,
         speed: 2.3,
-        damage: 0.75,
-        health: 12.5,
+        damage: 1.2,
+        health: 8,
         color: Color.Neutral
     }
 };
@@ -80,20 +82,20 @@ const DefenderDefinition2: BarrelDefinition = {
     size: 240,
     width: 70,
     delay: 0,
-    reload: 3,
+    reload: 6,
     recoil: 0,
     isTrapezoid: true,
     trapezoidDirection: 3.141592653589793,
     addon: null,
     forceFire: true,
     bullet: {
-        type: "bullet",
+        type: "homing",
         sizeRatio: 1,
         health: 3,
-        damage: 4,
-        speed: 3,
+        damage: 2,
+        speed: 1.5,
         scatterRate: 0.3,
-        lifeLength: 1.5,
+        lifeLength: 2,
         absorbtionFactor: 0,
         color: Color.Neutral
     }
@@ -113,7 +115,7 @@ export default class Mecha extends AbstractBoss {
 
     public constructor(game: GameServer) {
         super(game);
-        this.nameData.values.name = 'Mecha';
+        this.nameData.values.name = 'Mechanical Traveler';
         this.styleData.values.color = Color.NecromancerPentagon;
         this.relationsData.values.team = this.game.arena;
         this.physicsData.values.size = DEFENDER_SIZE * Math.SQRT1_2;
@@ -125,7 +127,7 @@ export default class Mecha extends AbstractBoss {
 
 
         const rotator = new GuardObject(this.game, this, 5, 0.75, 0, -this.ai.passiveRotation )  as GuardObject & { joints: Barrel[]} ;
-        rotator.styleData.values.color = Color.Barrel
+        rotator.styleData.values.color = Color.NecromancerPentagon
         rotator.physicsData.values.sides = 8;
 
         const offsetRatio = 0;

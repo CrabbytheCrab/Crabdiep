@@ -17,8 +17,8 @@ import GameServer from "../../Game";
 import ObjectEntity from "../Object";
 import AutoTurret from "./AutoTurret";
 
-import { Color, PositionFlags, PhysicsFlags, StyleFlags } from "../../Const/Enums";
-import { BarrelBase } from "./TankBody";
+import { Color, PositionFlags, PhysicsFlags, StyleFlags, Tank } from "../../Const/Enums";
+import TankBody, { BarrelBase } from "./TankBody";
 import { addonId, BarrelDefinition } from "../../Const/TankDefinitions";
 import { AI, AIState, Inputs } from "../AI";
 import { Entity } from "../../Native/Entity";
@@ -517,6 +517,7 @@ export class Addon {
             base.baseSize *= 1.125
             const angle = base.ai.inputs.mouse.angle = PI2 * (i / count);
             base.ai.passiveRotation = rotPerTick;
+            base.ai.targetbullets = true
             base.ai.targetFilter = (targetPos) => {
                 const pos = base.getWorldPosition();
                 const angleToTarget = Math.atan2(targetPos.y - pos.y, targetPos.x - pos.x);
@@ -1213,8 +1214,46 @@ class LauncherAddon2 extends Addon {
 class AutoTurretAddon extends Addon {
     public constructor(owner: BarrelBase) {
         super(owner);
-
+        if(this.owner instanceof TankBody){
+            if(this.owner.currentTank == Tank.auto1){
+                const turret =  new AutoTurret(owner, AutoTurretDefinition);
+                turret.influencedByOwnerInputs = true
+            }else{
         new AutoTurret(owner);
+            }
+        }else{
+        new AutoTurret(owner);
+        }
+    }
+}
+export const AutoTurretDefinition: BarrelDefinition = {
+    angle: 0,
+    offset: 0,
+    size: 55,
+    width: 42 * 0.7,
+    delay: 0.01,
+    reload: 1,
+    recoil: 0.3,
+    isTrapezoid: false,
+    trapezoidDirection: 0,
+    addon: null,
+    bullet: {
+        type: "bullet",
+        health: 1,
+        damage: 1,
+        speed: 1.2,
+        scatterRate: 1,
+        lifeLength: 1,
+        sizeRatio: 1,
+        absorbtionFactor: 1
+    }
+};
+class AutoTurretControllAddon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+
+       const turret =  new AutoTurret(owner, AutoTurretDefinition);
+       turret.influencedByOwnerInputs = true
     }
 }
 class PsiAddon extends Addon {
@@ -1934,7 +1973,7 @@ export const AddonById: Record<addonId, typeof Addon | null> = {
     landmine: LandmineAddon,
     autoturret: AutoTurretAddon,
     // not part of diep
-    autoturret3: AutoTurretAddon,
+    autoturret3: AutoTurretControllAddon,
     spinner: SpinnerAddon,
     chasm: ChasmAddon,
     void: VoidAddon,

@@ -28,6 +28,7 @@ export class Swarm extends Drone {
     public constructor(barrel: Barrel,  tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number) {
         super(barrel, tank, tankDefinition, shootAngle);
         this.ai.viewRange = 850 * tank.sizeFactor * 2;
+        this.baseSpeed *= 2
     }
 
     // TODO:

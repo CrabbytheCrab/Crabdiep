@@ -113,7 +113,7 @@ export default class Fortress extends AbstractBoss {
 
     public constructor(game: GameServer) {
         super(game);
-        this.nameData.values.name = 'Fortress';
+        this.nameData.values.name = 'Castle';
         this.styleData.values.color = Color.Border;
         this.relationsData.values.team = this.game.arena;
         this.physicsData.values.size = DEFENDER_SIZE * Math.SQRT1_2;

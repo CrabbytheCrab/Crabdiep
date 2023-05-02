@@ -126,10 +126,6 @@ export default class Skimmer extends Bullet implements BarrelBase {
                // this.physicsData.width = this.definition.width
             }
         }(this, s4Definition);
-        s1.styleData.values.color = this.styleData.values.color;
-        s2.styleData.values.color = this.styleData.values.color;
-        s3.styleData.values.color = this.styleData.values.color;
-        s4.styleData.values.color = this.styleData.values.color;
 
         skimmerBarrels.push(s1, s2, s3, s4);
 

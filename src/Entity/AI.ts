@@ -81,7 +81,7 @@ export class AI {
     public viewRange = 1700;
     /** The state of the AI. */
     public state = AIState.idle;
-
+    public targetbullets: boolean
     /** The inputs, which are more like outputs for the AI. */
     public inputs: Inputs = new Inputs();
     /** The entity's whose AI is `this`. */
@@ -109,7 +109,7 @@ export class AI {
         this.owner = owner;
         this.game = owner.game;
         this._creationTick = this.game.tick;
-
+        this.targetbullets = false
         this.inputs.mouse.set({
             x: 20,
             y: 0
@@ -153,7 +153,7 @@ export class AI {
         let closestDistSq = this.viewRange ** 2;
 
         for (let i = 0; i < entities.length; ++i) {
-
+        if(!this.targetbullets){
             const entity = entities[i];
 
             if (!(entity instanceof LivingEntity)) continue; // Check if the target is living
@@ -182,6 +182,36 @@ export class AI {
                 closestEntity = entity;
                 closestDistSq = distSq;
             }
+        }else{
+            const entity = entities[i];
+
+            if (!(entity instanceof LivingEntity)) continue; // Check if the target is living
+
+            if (entity.physicsData.values.flags & PhysicsFlags.isBase) continue; // Check if the target is a base
+
+           // if (!(entity.relationsData.values.owner === null || !(entity.relationsData.values.owner instanceof ObjectEntity))) continue; // Don't target entities who have an object owner
+
+            if (entity.relationsData.values.team === team || entity.physicsData.values.sides === 0) continue;
+
+            if (!this.targetFilter(entity.positionData.values)) continue; // Custom check
+
+            // TODO(ABC): Find out why this was put here
+            
+            /*if (entity instanceof TankBody) {
+                if (!(closestEntity instanceof TankBody)) {
+                    closestEntity = entity;
+                    closestDistSq = (entity.positionData.values.x - rootPos.x) ** 2 + (entity.positionData.values.y - rootPos.y) ** 2;
+                    continue;
+                }
+            } else if (closestEntity instanceof TankBody) continue;*/
+
+            const distSq = (entity.positionData.values.x - rootPos.x) ** 2 + (entity.positionData.values.y - rootPos.y) ** 2;
+
+            if (distSq < closestDistSq) {
+                closestEntity = entity;
+                closestDistSq = distSq;
+            }
+        }
         }
 
         return this.target = closestEntity;

@@ -283,6 +283,11 @@ export default class Barrel extends ObjectEntity {
                 }
                 break;
             }
+            case 'streambullet': {
+                const bullet = new Bullet(this, this.tank, tankDefinition, this.definition.angle + this.tank.positionData.values.angle);
+                this.definition.bullet.scatterRate = 0
+                break;
+            }
             case 'trap':
                 new Trap(this, this.tank, tankDefinition, angle, this.rootParent);
                 break;

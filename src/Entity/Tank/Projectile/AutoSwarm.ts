@@ -23,11 +23,12 @@ import AutoTurret from "../AutoTurret";
 import Barrel from "../Barrel";
 import { BarrelBase } from "../TankBody";
 import Drone from "./Drone";
+import { Swarm } from "./Swarm";
 
 /**
  * The Swarm class represents the swarm (projectile) entity in diep - think BattleShip
  */
-export class AutoSwarm extends Drone  implements BarrelBase {
+export class AutoSwarm extends Swarm  implements BarrelBase {
     public sizeFactor: number;
     public cameraEntity: Entity;
     public inputs = new Inputs();
@@ -38,7 +39,6 @@ export class AutoSwarm extends Drone  implements BarrelBase {
         super(barrel, tank, tankDefinition, shootAngle);
         this.cameraEntity = tank.cameraEntity;
         this.sizeFactor = this.physicsData.values.size / 50;
-        this.ai.viewRange = 850 * tank.sizeFactor * 2;
 
         const atuo = new AutoTurret(this, {
             angle: 0,

@@ -41,7 +41,7 @@ const SkimmerBarrelDefinition: BarrelDefinition = {
     addon: null,
     bullet: {
         type: "bullet",
-        health: 0.3,
+        health: 0.5,
         damage: 3 / 5,
         speed: 1.1,
         scatterRate: 1,
@@ -102,9 +102,6 @@ export default class Skimmer extends Bullet implements BarrelBase {
                 //this.physicsData.width = this.definition.width
             }
         }(this, s2Definition);
-
-        s1.styleData.values.color = this.styleData.values.color;
-        s2.styleData.values.color = this.styleData.values.color;
 
         skimmerBarrels.push(s1, s2);
 

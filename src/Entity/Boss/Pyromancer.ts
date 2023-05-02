@@ -80,7 +80,7 @@ const DefenderDefinition2: BarrelDefinition = {
     size: 240,
     width: 50,
     delay: 0,
-    reload: 0.45,
+    reload: 0.9,
     recoil: 0,
     isTrapezoid: true,
     trapezoidDirection: 3.141592653589793,
@@ -156,9 +156,9 @@ export default class Pyromancer extends AbstractBoss {
                 health: 2,
                 damage: 2,
                 speed: 1.5,
-                scatterRate: 2,
-                lifeLength: 1.75,
-                absorbtionFactor: 0.1,
+                scatterRate: 2.5,
+                lifeLength: 1.25,
+                absorbtionFactor: 0.25,
                 color: Color.Neutral
             }
         });

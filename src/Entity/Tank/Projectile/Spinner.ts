@@ -103,9 +103,6 @@ export default class Spinner extends Bullet implements BarrelBase {
             }
         }(this, s2Definition);
 
-        s1.styleData.values.color = this.styleData.values.color;
-        s2.styleData.values.color = this.styleData.values.color;
-
         skimmerBarrels.push(s1, s2);
 
         this.inputs = new Inputs();
