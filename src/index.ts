@@ -127,10 +127,10 @@ server.listen(PORT, () => {
     const ffa = new GameServer(wss, "ffa", "FFA");
     //const team = new GameServer(wss, "teams", "Teams Chaos");
     const sbx = new GameServer(wss, "sandbox", "Sandbox");
-    const scenexe = new GameServer(wss, "scenexe", "Scenexe");
+    //const scenexe = new GameServer(wss, "scenexe", "Scenexe");
     //const maze = new GameServer(wss, "maze", "Maze");
     //const dom = new GameServer(wss, "dom", "Domination");
-    games.push(ffa,scenexe,sbx);
+    games.push(ffa,sbx);
 
     util.saveToLog("Servers up", "All servers booted up.", 0x37F554);
     //util.log(15 *(Math.PI/180));
