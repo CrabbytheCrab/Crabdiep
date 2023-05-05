@@ -13020,7 +13020,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Swarmer",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [116, 67,147,80,41,128],
+        "upgrades": [116, 67,147,80,41,128,254],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -24567,7 +24567,7 @@ const TankDefinitions = JSON.parse(`[
         "stats": [
             {
                 "name": "Movement Speed",
-                "max": 15
+                "max": 12
             },
             {
                 "name": "Reload",
@@ -24587,15 +24587,15 @@ const TankDefinitions = JSON.parse(`[
             },
             {
                 "name": "Body Damage",
-                "max": 15
+                "max": 12
             },
             {
                 "name": "Max Health",
-                "max": 15
+                "max": 12
             },
             {
                 "name": "Health Regen",
-                "max": 15
+                "max": 12
             }
         ]
     },
@@ -24627,7 +24627,7 @@ const TankDefinitions = JSON.parse(`[
         "stats": [
             {
                 "name": "Movement Speed",
-                "max": 15
+                "max": 12
             },
             {
                 "name": "Reload",
@@ -24647,15 +24647,15 @@ const TankDefinitions = JSON.parse(`[
             },
             {
                 "name": "Body Damage",
-                "max": 15
+                "max": 12
             },
             {
                 "name": "Max Health",
-                "max": 15
+                "max": 12
             },
             {
                 "name": "Health Regen",
-                "max": 15
+                "max": 12
             }
         ]
     },
@@ -24687,7 +24687,7 @@ const TankDefinitions = JSON.parse(`[
         "stats": [
             {
                 "name": "Movement Speed",
-                "max": 15
+                "max": 12
             },
             {
                 "name": "Reload",
@@ -24707,15 +24707,15 @@ const TankDefinitions = JSON.parse(`[
             },
             {
                 "name": "Body Damage",
-                "max": 15
+                "max": 12
             },
             {
                 "name": "Max Health",
-                "max": 15
+                "max": 12
             },
             {
                 "name": "Health Regen",
-                "max": 15
+                "max": 12
             }
         ]
     },
@@ -24747,7 +24747,7 @@ const TankDefinitions = JSON.parse(`[
         "stats": [
             {
                 "name": "Movement Speed",
-                "max": 15
+                "max": 12
             },
             {
                 "name": "Reload",
@@ -24767,15 +24767,15 @@ const TankDefinitions = JSON.parse(`[
             },
             {
                 "name": "Body Damage",
-                "max": 15
+                "max": 12
             },
             {
                 "name": "Max Health",
-                "max": 15
+                "max": 12
             },
             {
                 "name": "Health Regen",
-                "max": 15
+                "max": 12
             }
         ]
     },
@@ -29793,7 +29793,7 @@ const TankDefinitions = JSON.parse(`[
                 "isTrapezoid": true,
                 "trapezoidDirection": 0,
                 "addon": null,
-                "droneCount": 4,
+                "droneCount": 3,
                 "canControlDrones": true,
                 "bullet": {
                     "type": "drone",
@@ -29817,7 +29817,7 @@ const TankDefinitions = JSON.parse(`[
                 "isTrapezoid": true,
                 "trapezoidDirection": 0,
                 "addon": null,
-                "droneCount": 4,
+                "droneCount": 3,
                 "canControlDrones": true,
                 "bullet": {
                     "type": "drone",
