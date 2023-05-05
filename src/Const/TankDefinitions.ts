@@ -11778,7 +11778,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Spinner",
         "upgradeMessage": "Hold right click to reverse its rotation",
         "levelRequirement": 30,
-        "upgrades": [103, 104,157,186],
+        "upgrades": [103, 104,157,186,254],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
