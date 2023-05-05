@@ -30412,7 +30412,7 @@ const TankDefinitions = JSON.parse(`[
                 "name": "Health Regen",
                 "max": 7
             },
-       {
+    {
         "id": 254,
         "name": "Conglomerate",
         "upgradeMessage": "",
@@ -30493,6 +30493,7 @@ const TankDefinitions = JSON.parse(`[
             }
         ]
     }
+}
 ]`) as (TankDefinition | null)[] & Record<Tank, TankDefinition>;
 
 export default TankDefinitions;
