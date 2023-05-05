@@ -28,7 +28,7 @@ export type preAddonId = "dombase" | "launcher" | "launchertall"| "pronounced2"|
 export type addonId = preAddonId | postAddonId;
 
 /** The types of projectiles in the game */
-export type projectileId = "bullet"| "block"| "streambullet" |"shotgun4" | "shotgun3" | "shotgun9" | "shotgun20" |"shotgun4blunt" |"autobullet"|"autorocket"| "grower"| "snake"|"dronenorep" |"bouncer" |"homingrocket" | "tank" |"orbitrocket"|"homing" |"explosion"| "trapspinner"|"orbittrap" | "mine" |"bombdrone"|"striker"| "drone" | "autoswarm" |"trap"| "pentadrone"  |  "autodrone"  |"necrotriangledrone" | "necropentadrone" | "necrodrone" | "wepnecrodrone"|"minion" | "spinner" | "spinner4" | "megaspinner" | "skimmer" | "rocket" | "swarm" | "flame" | "wall" | "croc" | "launrocket" | "autotrap"| "domminion" | "megaminion" | "miniminion" | "boomerang" | "hive" | "blunt" | "blunttrap" | "orbit" | "conglom";
+export type projectileId = "bullet"| "block"| "streambullet"| "conglom" |"shotgun4" | "shotgun3" | "shotgun9" | "shotgun20" |"shotgun4blunt" |"autobullet"|"autorocket"| "grower"| "snake"|"dronenorep" |"bouncer" |"homingrocket" | "tank" |"orbitrocket"|"homing" |"explosion"| "trapspinner"|"orbittrap" | "mine" |"bombdrone"|"striker"| "drone" | "autoswarm" |"trap"| "pentadrone"  |  "autodrone"  |"necrotriangledrone" | "necropentadrone" | "necrodrone" | "wepnecrodrone"|"minion" | "spinner" | "spinner4" | "megaspinner" | "skimmer" | "rocket" | "swarm" | "flame" | "wall" | "croc" | "launrocket" | "autotrap"| "domminion" | "megaminion" | "miniminion" | "boomerang" | "hive" | "blunt" | "blunttrap" | "orbit";
 
 /** The types of barrel addons that exist in the game */
 export type barrelAddonId = "trapLauncher"|"autoLauncher"| "growLauncher" |"bounceLauncher"|"blockLauncher"| "NecLauncher"| "mineLauncher"  | "stickyLauncher" |"reversetrap"|"machineMineLauncher"| "minionLauncher" | "engitrapLauncher" | "swarmLauncher" | "machineTrapLauncher" | "engimachinetrapLauncher";
@@ -957,7 +957,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Triple Shot",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [34, 33, 232,243,35,117,215,197,235],
+        "upgrades": [34, 33, 232,243,35,117,215,197,235,220],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -11778,7 +11778,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Spinner",
         "upgradeMessage": "Hold right click to reverse its rotation",
         "levelRequirement": 30,
-        "upgrades": [103, 104,157,186,254],
+        "upgrades": [103, 104,157,186],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -25815,12 +25815,12 @@ const TankDefinitions = JSON.parse(`[
         "borderWidth": 15,
         "barrels": [
             {
-                "angle": 0.5235987755982988,
-                "offset": 0,
+                "angle": 0.2617993877991494,
+                "offset": 8,
                 "size": 83,
                 "width": 29.4,
                 "delay": 0.5,
-                "reload": 1.25,
+                "reload": 1.2,
                 "recoil": 0.1,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
@@ -25837,12 +25837,12 @@ const TankDefinitions = JSON.parse(`[
                 }
             },
             {
-                "angle": -0.5235987755982988,
-                "offset": 0,
+                "angle": -0.2617993877991494,
+                "offset": -8,
                 "size": 83,
                 "width": 29.4,
                 "delay": 0.5,
-                "reload": 1.25,
+                "reload": 1.2,
                 "recoil": 0.1,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
@@ -25864,7 +25864,7 @@ const TankDefinitions = JSON.parse(`[
                 "size": 95,
                 "width": 42,
                 "delay": 0,
-                "reload": 1.25,
+                "reload": 1.2,
                 "recoil": 1,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
@@ -26435,8 +26435,8 @@ const TankDefinitions = JSON.parse(`[
             {
                 "angle": 0.3490658503988659,
                 "offset": 10,
-                "size": 55,
-                "width": 34,
+                "size": 60,
+                "width": 40,
                 "delay": 0.5,
                 "reload": 2.5,
                 "recoil": 0.1,
@@ -26446,19 +26446,19 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "trap",
                     "sizeRatio": 0.8,
-                    "health": 1.5,
-                    "damage": 0.6,
-                    "speed": 1,
-                    "scatterRate": 0.3,
-                    "lifeLength": 2,
+                    "health": 1.75,
+                    "damage": 0.85,
+                    "speed": 2,
+                    "scatterRate": 1,
+                    "lifeLength": 5,
                     "absorbtionFactor": 1
                 }
             },
             {
                 "angle": -0.3490658503988659,
                 "offset": -10,
-                "size": 55,
-                "width": 34,
+                "size": 60,
+                "width": 40,
                 "delay": 0.5,
                 "reload": 2.5,
                 "recoil": 0.1,
@@ -26468,19 +26468,19 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "trap",
                     "sizeRatio": 0.8,
-                    "health": 1.5,
-                    "damage": 0.6,
-                    "speed": 1,
-                    "scatterRate": 0.3,
-                    "lifeLength": 2,
+                    "health": 1.75,
+                    "damage": 0.85,
+                    "speed": 2,
+                    "scatterRate": 1,
+                    "lifeLength": 5,
                     "absorbtionFactor": 1
                 }
             },
             {
                 "angle": 0,
                 "offset": 0,
-                "size": 60,
-                "width": 42,
+                "size": 75,
+                "width": 40,
                 "delay": 0,
                 "reload": 2.5,
                 "recoil": 0,
@@ -26490,11 +26490,11 @@ const TankDefinitions = JSON.parse(`[
                 "bullet": {
                     "type": "trap",
                     "sizeRatio": 0.8,
-                    "health": 2,
-                    "damage": 1,
+                    "health": 1.75,
+                    "damage": 0.85,
                     "speed": 2,
                     "scatterRate": 1,
-                    "lifeLength": 8,
+                    "lifeLength": 5,
                     "absorbtionFactor": 1
                 }
             }
@@ -29314,47 +29314,45 @@ const TankDefinitions = JSON.parse(`[
                 }
             },
             {
-                "angle": 1.5707963267948966,
-                "offset": -60,
-                
-                "size": 36,
-                "width": 20,
+                "angle": 0.2617993877991494,
+                "offset": 8,
+                "size": 83,
+                "width": 29.4,
                 "delay": 0.5,
-                "reload": 1,
-                "recoil": 0.2,
+                "reload": 1.2,
+                "recoil": 0.05,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
                 "addon": null,
                 "bullet": {
                     "type": "bullet",
                     "sizeRatio": 1,
-                    "health": 0.45,
-                    "damage": 0.5,
-                    "speed": 1.1,
-                    "scatterRate": 1,
+                    "health": 1,
+                    "damage": 0.6,
+                    "speed": 1,
+                    "scatterRate": 0.3,
                     "lifeLength": 1,
                     "absorbtionFactor": 1
                 }
             },
             {
-                "angle": -1.5707963267948966,
-                "offset": 60,
-                
-                "size": 36,
-                "width": 20,
+                "angle": -0.2617993877991494,
+                "offset": -8,
+                "size": 83,
+                "width": 29.4,
                 "delay": 0.5,
-                "reload": 1,
-                "recoil": 0.2,
+                "reload": 1.2,
+                "recoil": 0.05,
                 "isTrapezoid": false,
                 "trapezoidDirection": 0,
                 "addon": null,
                 "bullet": {
                     "type": "bullet",
                     "sizeRatio": 1,
-                    "health": 0.45,
-                    "damage": 0.5,
-                    "speed": 1.1,
-                    "scatterRate": 1,
+                    "health": 1,
+                    "damage": 0.6,
+                    "speed": 1,
+                    "scatterRate": 0.3,
                     "lifeLength": 1,
                     "absorbtionFactor": 1
                 }
@@ -30361,7 +30359,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Auto 1",
         "upgradeMessage": "",
         "levelRequirement": 15,
-        "upgrades": [21,109, 90],
+        "upgrades": [21,109, 90, 202],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -30432,16 +30430,16 @@ const TankDefinitions = JSON.parse(`[
         "absorbtionFactor": 1,
         "speed": 1,
         "maxHealth": 50,
-        "preAddon": "launcher",
-        "postAddon": null,
+        "preAddon": null,
+        "postAddon": "pronounced",
         "sides": 1,
         "borderWidth": 15,
         "barrels": [
             {
                 "angle": 0,
                 "offset": 0,
-                "size": 80,
-                "width": 71.4,
+                "size": 70,
+                "width": 55,
                 "delay": 0,
                 "reload": 4,
                 "recoil": 3,
@@ -30470,11 +30468,11 @@ const TankDefinitions = JSON.parse(`[
                 "max": 7
             },
             {
-                "name": "Rocket Damage",
+                "name": "Spinner Damage",
                 "max": 7
             },
             {
-                "name": "Rocket Penetration",
+                "name": "Spinner Penetration",
                 "max": 7
             },
             {
@@ -30482,7 +30480,7 @@ const TankDefinitions = JSON.parse(`[
                 "max": 7
             },
             {
-                "name": "Rocket Damage",
+                "name": "Body Damage",
                 "max": 7
             },
             {
