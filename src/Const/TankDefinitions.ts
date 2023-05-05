@@ -30412,7 +30412,7 @@ const TankDefinitions = JSON.parse(`[
                 "name": "Health Regen",
                 "max": 7
             },
-			{
+       {
         "id": 254,
         "name": "Conglomerate",
         "upgradeMessage": "",
