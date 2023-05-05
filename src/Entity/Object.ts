@@ -270,7 +270,7 @@ export default class ObjectEntity extends Entity {
     }
 
     /** Detects collisions. */
-    protected findCollisions() {
+    public findCollisions() {
         if (this.cachedTick === this.game.tick) return this.cachedCollisions;
         
         this.cachedTick = this.game.tick;

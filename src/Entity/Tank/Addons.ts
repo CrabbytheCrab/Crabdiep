@@ -1308,7 +1308,7 @@ class AutoSmasherAddon extends Addon {
             bullet: {
                 type: "bullet",
                 health: 1,
-                damage: 0.55,
+                damage: 0.6,
                 speed: 1.2,
                 scatterRate: 1,
                 lifeLength: 1,
@@ -1316,6 +1316,7 @@ class AutoSmasherAddon extends Addon {
                 absorbtionFactor: 0.5
             }
         });
+        base.influencedByOwnerInputs = true
     }
 }
 /** 5 Auto Turrets */

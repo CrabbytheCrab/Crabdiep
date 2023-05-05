@@ -65,6 +65,7 @@ export default class TankBody extends LivingEntity implements BarrelBase {
     /** The inputs of the client, lets the barrels know when to shoot etc. */
     public inputs: Inputs;
 public canchain: boolean
+public altTank: boolean
     /** The tank's barrels, if any. */
     public barrels: Barrel[] = [];
     /** The tank's addons, if any. */
@@ -91,6 +92,7 @@ public canchain: boolean
         this.isAffectedByRope = false;
         this.length = 8;
         this.canchain = true
+        this.altTank = true
         this.segments = [this];
         this.k = 0.25;
         this.physicsData.values.size = 50;
@@ -153,7 +155,6 @@ public canchain: boolean
                 camera.cameraData.statsAvailable += (camera.cameraData.statLevels[i] - (camera.cameraData.statLevels[i] = max));
             }
         }
-
         // Size ratios
         if(this.definition.flags.isCelestial){
             this.physicsData.values.size *= 1.5
@@ -170,7 +171,6 @@ public canchain: boolean
 
         camera.cameraData.tank = this._currentTank = id;
         if (tank.upgradeMessage && camera instanceof ClientCamera) camera.client.notify(tank.upgradeMessage);
-
         // Build addons, then tanks, then addons.
         const preAddon = tank.preAddon;
         if (preAddon) {
@@ -387,6 +387,32 @@ public Accend(){
         if(this._currentTank == Tank.MicroSmasher){
             this.baseSize = (25 - (12.5/10 * this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload])) * Math.SQRT2
         }
+        if (this._currentTank == Tank.PentaShot || this._currentTank == Tank.Triplet || this._currentTank == Tank.Hydra){
+        }else{
+            this.altTank = true
+
+        }
+        if(this._currentTank == Tank.PentaShot){
+            if(this.altTank && Math.random() <= 0.1){
+            this.setTank(Tank.ArrasPenta)
+            }
+            this.altTank = false
+
+         }
+         if(this._currentTank == Tank.Triplet){
+            if(this.altTank && Math.random() <= 0.01){
+            this.setTank(Tank.Quadruplet)
+            }
+            this.altTank = false
+
+         }
+         if(this._currentTank == Tank.Hydra){
+            if(this.altTank && Math.random() <= 0.01){
+            this.setTank(Tank.Puker)
+            }
+            this.altTank = false
+
+         }
         if (this._currentTank !== Tank.Chainer){
             this.canchain = true
             this.isAffectedByRope = false
@@ -395,7 +421,7 @@ public Accend(){
                     if (segment instanceof RopeSegment) segment.destroy();
                 });
         }
-      /*  if (this.isInvulnerable) {
+        /*if (this.isInvulnerable) {
             if (this.game.clients.size !== 1 || this.game.arena.state !== ArenaState.OPEN) {
                 // not for ACs
                 if (this.cameraEntity instanceof ClientCamera) this.setInvulnerability(false);
@@ -451,11 +477,11 @@ public Accend(){
             if (this._currentTank === Tank.Spike) this.damagePerTick *= 1.5;
             if (this._currentTank === Tank.Bumper) this.damagePerTick *= 0.375;
             if (this._currentTank === Tank.Bumper) this.damageReduction = 0.375;
-            if (this._currentTank === Tank.Maleficitor ||this._currentTank === Tank.Caster || this._currentTank === Tank.Wizard) this.MAXDRONES = 6 + this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload];
-            if (this._currentTank === Tank.Necromancer) this.MAXDRONES = 12 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]);
-            if (this._currentTank === Tank.Dronemare) this.MAXDRONES = 2 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]/2);
+            if (this._currentTank === Tank.Maleficitor ||this._currentTank === Tank.Caster || this._currentTank === Tank.Wizard) this.MAXDRONES = 11 + this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload];
+            if (this._currentTank === Tank.Necromancer) this.MAXDRONES = 22 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload] * 2);
+            if (this._currentTank === Tank.Dronemare) this.MAXDRONES = 5 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]/2);
             if (this._currentTank === Tank.Wraith) this.MAXDRONES = 4 + this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]
-            if (this._currentTank === Tank.Animator) this.MAXDRONES = 4 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]/2);
+            if (this._currentTank === Tank.Animator) this.MAXDRONES = 10 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]/2);
             if (this._currentTank === Tank.Lich) this.MAXDRONES = 5
 
             // Max Health
