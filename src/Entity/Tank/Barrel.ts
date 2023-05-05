@@ -26,6 +26,7 @@ import Rocket from "./Projectile/Rocket";
 import Spinner from "./Projectile/Spinner";
 import Spinner4 from "./Projectile/Spinner4";
 import TrapSpinner from "./Projectile/Trapspin";
+import Conglom from "./Projectile/Conglom";
 import Skimmer from "./Projectile/Skimmer";
 import Minion from "./Projectile/Minion";
 import DomMinion from "./Projectile/DomMinion";
@@ -217,6 +218,9 @@ export default class Barrel extends ObjectEntity {
 
 
         switch (this.definition.bullet.type) {
+            case "conglom":
+                new Conglom(this, this.tank, tankDefinition, angle, this.tank.inputs.attemptingRepel() ? -Spinner.BASE_ROTATION : Spinner.BASE_ROTATION);
+                break;
             case "spinner":
                 new Spinner(this, this.tank, tankDefinition, angle, this.tank.inputs.attemptingRepel() ? -Spinner.BASE_ROTATION : Spinner.BASE_ROTATION);
                 break;
@@ -451,3 +455,4 @@ export default class Barrel extends ObjectEntity {
         super.tick(tick);
     }
 }
+
