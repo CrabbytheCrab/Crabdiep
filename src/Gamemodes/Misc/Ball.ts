@@ -81,9 +81,9 @@ this.BlueScore = 0
        // new MazeWall(this.game, 0, 5000, 5000, 20000);
         //new MazeWall(this.game, 0, -5000, 5000, 20000);
 
-        const wall = new MazeWall(this.game, 0, -2700, 400, 16000);
+        const wall = new MazeWall(this.game, 0, -2700, 400, 15000);
         wall.physicsData.flags |= PhysicsFlags.canEscapeArena
-        const wall2 = new MazeWall(this.game, 0, 2700, 400, 16000);
+        const wall2 = new MazeWall(this.game, 0, 2700, 400, 15000);
         wall2.physicsData.flags |= PhysicsFlags.canEscapeArena
 
         new MazeWall(this.game, -1750, -750, 1500, 2500);
