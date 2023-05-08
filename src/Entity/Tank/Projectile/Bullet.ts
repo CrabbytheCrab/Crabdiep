@@ -42,7 +42,7 @@ export default class Bullet extends LivingEntity {
     /** Life length in ticks before the bullet dies. */
     protected lifeLength = 0;
     /** Angle the projectile is shot at. */
-    protected movementAngle = 0;
+    public movementAngle = 0;
     /** Definition of the tank (if existant) shooting the bullet. */
     protected tankDefinition: TankDefinition | null = null;
     /** Whether or not to use .shootAngle or .position.angle. */

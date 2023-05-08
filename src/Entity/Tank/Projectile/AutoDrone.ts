@@ -70,7 +70,7 @@ export default class AutoDrone extends Bullet  implements BarrelBase{
                     type: "bullet",
                     sizeRatio: 1,
                     health: 1.15,
-                    damage: 1.2,
+                    damage: 0.8,
                     speed: 0.9,
                     scatterRate: 1,
                     lifeLength: 0.75,
@@ -96,7 +96,7 @@ export default class AutoDrone extends Bullet  implements BarrelBase{
                         bullet: {
                             type: "bullet",
                             sizeRatio: 1,
-                            health: 1,
+                            health: 0.8,
                             damage: 0.45,
                             speed: 1.2,
                             scatterRate: 1,

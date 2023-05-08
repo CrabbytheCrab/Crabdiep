@@ -19,7 +19,7 @@
 import Barrel from "../Barrel";
 import Bullet from "./Bullet";
 
-import { InputFlags, Stat, Tank } from "../../../Const/Enums";
+import { InputFlags, PhysicsFlags, PositionFlags, Stat, Tank } from "../../../Const/Enums";
 import { BarrelDefinition, TankDefinition } from "../../../Const/TankDefinitions";
 import { Entity } from "../../../Native/Entity";
 import { Inputs } from "../../AI";
@@ -68,6 +68,7 @@ export default class Blunt extends Bullet implements BarrelBase{
             new GuardObject(this.game, this, 6, 1.3, 0, .1);
             this.physicsData.values.pushFactor = ((7 / 3) + bulletDamage) * bulletDefinition.damage  * 6;
         }else        if (tankDefinition && tankDefinition.id === Tank.Flinger){
+            this.positionData.flags = PositionFlags.canMoveThroughWalls
             this.deff = true
             new GuardObject(this.game, this, 1, 1.75, 0, .1);
             //this.baseAccel = (35 * 3) * this.barrelEntity.definition.bullet.speed;

@@ -1627,6 +1627,13 @@ class SawAddon extends Addon {
         this.createGuard(4, 1.55, Math.PI/8, .15);
     }
 }
+class SpornAddon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+
+        this.createGuard(9, 1.35, Math.PI/8, .3);
+    }
+}
 class RammerAddon extends Addon {
     public constructor(owner: BarrelBase) {
         super(owner);
@@ -2002,5 +2009,6 @@ export const AddonById: Record<addonId, typeof Addon | null> = {
     cuck : Auto1Addon,
     launchertall : LauncherTallAddon,
     psiEye: PsiAddon,
+    sporn: SpornAddon,
     autoauto3: AutoAuto3Addon
 }
