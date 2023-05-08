@@ -309,7 +309,7 @@ export default class Client {
                         player.setTank(player.currentTank < 0 ? Tank.Basic : DevTank.Developer);
                     } else if (this.game.arena.arenaData.values.flags & ArenaFlags.canUseCheats) {
                         // only allow devs to go into godmode when players > 1
-                        if (this.accessLevel === config.AccessLevel.FullAccess || (this.game.arena.state === ArenaState.OPEN)) {
+                        if (this.accessLevel === config.AccessLevel.FullAccess || (this.game.clients.size === 1 && this.game.arena.state === ArenaState.OPEN)) {
                             this.setHasCheated(true);
 
                             player.setInvulnerability(!player.isInvulnerable);

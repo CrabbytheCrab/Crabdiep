@@ -344,6 +344,7 @@ export const enum Tank {
     Fission       = 251,
     Mitosis       = 252,
     auto1         = 253,
+    SPORN         = 254,
     Mothership    = 2000
 }
 
@@ -480,7 +481,8 @@ export const enum PhysicsFlags {
     isBase                  = 1 << 6,
     _unknown1               = 1 << 7,
     canEscapeArena          = 1 << 8,
-    onlySameOwnerCollision2  = 1 << 9
+    onlySameOwnerCollision2  = 1 << 9,
+    canWall  = 1 << 10,
 }
 /**
  * The flag names for the barrel field group.

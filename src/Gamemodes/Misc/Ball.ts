@@ -17,17 +17,32 @@
 */
 
 import GameServer from "../../Game";
-import ArenaEntity from "../../Native/Arena";
+import ArenaEntity, { ArenaState } from "../../Native/Arena";
 import ObjectEntity from "../../Entity/Object";
 
 import Pentagon from "../../Entity/Shape/Pentagon";
 
-import { Color, ArenaFlags, PhysicsFlags } from "../../Const/Enums";
+import { Color, ArenaFlags, PhysicsFlags, PositionFlags, ClientBound, ColorsHexCode, ValidScoreboardIndex } from "../../Const/Enums";
 import { NameGroup } from "../../Native/FieldGroups";
 import AbstractShape from "../../Entity/Shape/AbstractShape";
 import { SandboxShapeManager } from "../Sandbox";
 import LivingEntity from "../../Entity/Live";
-
+import MazeWall from "../../Entity/Misc/MazeWall";
+import TeamBase from "../../Entity/Misc/TeamBase";
+import { TeamEntity } from "../../Entity/Misc/TeamEntity";
+import Client from "../../Client";
+import TankBody from "../../Entity/Tank/TankBody";
+import Dominator from "../../Entity/Misc/Dominator";
+import { EntityStateFlags } from "../../Native/Entity";
+import { log } from "console";
+import Belt from "../../Entity/Misc/Belt";
+import BounceWall from "../../Entity/Misc/BounceWall";
+const arenaSize = 11150;
+const baseWidth = 2230;
+const domBaseSize = baseWidth / 2;
+const CELL_SIZE = 635;
+const GRID_SIZE = 40;
+const ARENA_SIZE = CELL_SIZE * GRID_SIZE;
 /**
  * Only spawns crashers
  */
@@ -40,6 +55,7 @@ class CustomShapeManager extends SandboxShapeManager {
         return 0;
     }
 }
+const TEAM_COLORS = [Color.TeamBlue, Color.TeamRed];
 
 /**
  * Ball Gamemode Arena
@@ -47,21 +63,178 @@ class CustomShapeManager extends SandboxShapeManager {
 export default class BallArena extends ArenaEntity {
     /** Controller of all shapes in the arena. */
 	protected shapes: CustomShapeManager = new CustomShapeManager(this);
+    public blueTeamBase: TeamBase;
+    public rSCore: LivingEntity;
+    public bSCore: LivingEntity;
+    public RedScore: number;
+    public BlueScore: number;
+    /** Red Team entity */
+    public redTeamBase: TeamBase;
+    public motherships: LivingEntity[] = [];
+    public teams: TeamEntity[] = [];
 
     public constructor(game: GameServer) {
         super(game);
+this.RedScore = 0
+this.BlueScore = 0
+        this.updateBounds(15000, 5000);
+       // new MazeWall(this.game, 0, 5000, 5000, 20000);
+        //new MazeWall(this.game, 0, -5000, 5000, 20000);
 
-        this.arenaData.values.flags |= ArenaFlags.canUseCheats;
-        this.updateBounds(2500, 2500);
+        const wall = new MazeWall(this.game, 0, -2700, 400, 16000);
+        wall.physicsData.flags |= PhysicsFlags.canEscapeArena
+        const wall2 = new MazeWall(this.game, 0, 2700, 400, 16000);
+        wall2.physicsData.flags |= PhysicsFlags.canEscapeArena
 
-        const ball = new LivingEntity(game);
+        new MazeWall(this.game, -1750, -750, 1500, 2500);
+        new MazeWall(this.game, 1750, 750, 1500, 2500);
+
+        new Belt(this.game, -1000, -1750, 500, 1000,Math.PI);
+        new Belt(this.game, 1000, 1750, 500, 1000,0);
+
+
+        new Belt(this.game, -5750, 1625, 1750, 1000,0);
+        new Belt(this.game, -5750, -1625, 1750, 1000,0);
+        new BounceWall(this.game, -4875, -0, 750, 250);
+        new MazeWall(this.game, -5125, -0, 750, 250);
+
+        new Belt(this.game, 5750, 1625, 1750, 1000,Math.PI);
+        new Belt(this.game, 5750, -1625, 1750, 1000,Math.PI);
+        new BounceWall(this.game, 4875, -0, 750, 250);
+        new MazeWall(this.game, 5125, -0, 750, 250);
+
+        new MazeWall(this.game, 1750, 2250, 500, 2500);
+        new MazeWall(this.game, -1750, -2250, 500, 2500);
+
+        new MazeWall(this.game, -1750, 500, 1000, 2500);
+        new MazeWall(this.game, 1750, -500, 1000, 2500);
+
+        new MazeWall(this.game, -1250, 2250, 500, 3500);
+        new MazeWall(this.game, 1250, -2250, 500, 3500);
+
+        this.blueTeamBase = new TeamBase(game, new TeamEntity(this.game, Color.TeamBlue), -7500 + 1250/2, 0, 5000, 1250);
+        this.redTeamBase = new TeamBase(game, new TeamEntity(this.game, Color.TeamRed), 7500 - 1250/2, 0, 5000, 1250);
+
+        
+            this.rSCore = new LivingEntity(this.game);
+            this.motherships.push(this.rSCore);
+    
+            this.rSCore.relationsData.values.team =  this.redTeamBase;
+            this.rSCore.styleData.values.color = this.redTeamBase.styleData.values.color;
+            this.rSCore.positionData.values.x = 10000
+            this.rSCore.positionData.values.y = 10000
+            this.rSCore.MAXDRONES = 0
+
+            this.bSCore = new LivingEntity(this.game);
+            this.motherships.push(this.bSCore);
+    
+            this.bSCore.relationsData.values.team =  this.blueTeamBase;
+            this.bSCore.styleData.values.color = this.blueTeamBase.styleData.values.color;
+            this.bSCore.positionData.values.x = 10000
+            this.bSCore.positionData.values.y = 10000
+            this.bSCore.MAXDRONES = 0
+            this.balls()
+    }
+    public balls(){
+        const ball = new LivingEntity(this.game);
         ball.nameData = new NameGroup(ball);
-        ball.nameData.values.name = "im pacman"
+        ball.nameData.values.name = ""
         ball.physicsData.values.sides = 1;
         ball.styleData.values.color = Color.ScoreboardBar;
-        ball.physicsData.values.size = 100;
-        ball.physicsData.values.absorbtionFactor = 0;
+        ball.physicsData.flags |= PhysicsFlags.showsOnMap
+        ball.physicsData.values.size = 80;
+        ball.physicsData.values.absorbtionFactor = 1;
+        ball.damagePerTick = 20
+        ball.physicsData.pushFactor = 20
         ball.damageReduction = 0
+        ball.styleData.values.zIndex = 1
+        ball.physicsData.values.sides = 10000
         ball.relationsData.values.team = ball;
+        ball.entityState |= EntityStateFlags.needsCreate |EntityStateFlags.needsDelete
+        const tickBase = ball.tick;
+        ball.tick = (tick: number) => {
+             //   console.log(ball.positionData.x)
+               // console.log(ball.positionData.y)
+
+            tickBase.call(ball, tick);
+            const entities = ball.findCollisions()
+
+            for (let i = 0; i < entities.length; ++i) {
+                const entity = entities[i];
+                if (entity instanceof TeamBase){
+                    if(entity.styleData.color == Color.TeamRed){
+                        if(this.BlueScore < 3){
+                            this.bSCore.MAXDRONES++;
+                            this.BlueScore++;
+                            ball.delete()
+                            this.balls()
+                        }
+                        else{
+                            ball.delete()
+                        let message = `BLUE TEAM HAS WON THE GAME`
+                        this.game.broadcast().u8(ClientBound.Notification).stringNT(message).u32(Color.TeamBlue).float(10000).stringNT("").send();
+                        this.state = ArenaState.OVER;
+                        setTimeout(() => {
+                            this.close();
+                        }, 5000);
+                    }
+                }
+                    if(entity.styleData.color == Color.TeamBlue){
+                        if(this.RedScore < 3){
+                            this.RedScore++;
+                            this.rSCore.MAXDRONES ++;
+                            ball.delete()
+                            this.balls()
+                        }
+                        else{
+                        let message = `RED TEAM HAS WON THE GAME`
+                        this.game.broadcast().u8(ClientBound.Notification).stringNT(message).u32(Color.TeamRed).float(10000).stringNT("").send();
+                        this.state = ArenaState.OVER;
+                        setTimeout(() => {
+                            this.close();
+                        }, 5000);
+                    }
+                    }
+                }
+            }
+        }
+    }
+    public updateScoreboard(scoreboardPlayers: TankBody[]) {
+        this.motherships.sort((m1, m2) => m2.MAXDRONES - m1.MAXDRONES);
+        const length = Math.min(10, this.motherships.length);
+        for (let i = 0; i < length; ++i) {
+            const mothership = this.motherships[i];
+            const team = mothership.relationsData.values.team;
+            const isTeamATeam = team instanceof TeamEntity;
+            if (isTeamATeam) {
+                team.teamData.mothershipX = mothership.positionData.values.x;
+                team.teamData.mothershipY = mothership.positionData.values.y;
+            }
+            if (mothership.styleData.values.color === Color.Tank) this.arenaData.values.scoreboardColors[i as ValidScoreboardIndex] = Color.ScoreboardBar;
+            else this.arenaData.values.scoreboardColors[i as ValidScoreboardIndex] = mothership.styleData.values.color;
+            this.arenaData.values.scoreboardNames[i as ValidScoreboardIndex] = isTeamATeam ? team.teamName : `Team Score`;
+            // TODO: Change id
+            this.arenaData.values.scoreboardTanks[i as ValidScoreboardIndex] = -1;
+            this.arenaData.values.scoreboardScores[i as ValidScoreboardIndex] = mothership.MAXDRONES;
+        }
+       
+        this.arenaData.scoreboardAmount = length;
+    }
+    public playerTeamMap: Map<Client, TeamBase> = new Map();
+    
+    public spawnPlayer(tank: TankBody, client: Client) {
+        tank.positionData.values.y = 5000 * Math.random() - 5000;
+
+        const xOffset = (Math.random() - 0.5) * 1250,
+        yOffset = (Math.random() - 0.5) * 5000;
+        
+        const base = this.playerTeamMap.get(client) || [this.blueTeamBase, this.redTeamBase][0|Math.random()*2];
+        tank.relationsData.values.team = base.relationsData.values.team;
+        tank.styleData.values.color = base.styleData.values.color;
+        tank.positionData.values.x = base.positionData.values.x + xOffset;
+        tank.positionData.values.y = base.positionData.values.y + yOffset;
+        this.playerTeamMap.set(client, base);
+
+        if (client.camera) client.camera.relationsData.team = tank.relationsData.values.team;
     }
 }
