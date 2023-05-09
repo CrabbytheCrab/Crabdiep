@@ -53,7 +53,7 @@ export default class BluntTrap extends Trap  implements BarrelBase {
                        const bulletDefinition = barrel.definition.bullet;
                        const statLevels = tank.cameraEntity.cameraData?.values.statLevels.values;
                        const bulletDamage = statLevels ? statLevels[Stat.BulletDamage] : 0;
-        this.physicsData.values.pushFactor =  ((7 / 3) + bulletDamage) * bulletDefinition.damage  * 5;
+        this.physicsData.values.pushFactor =  ((7 / 3) + bulletDamage) * bulletDefinition.damage  * 2.5;
 
         this.tank = tank;
         

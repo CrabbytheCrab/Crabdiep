@@ -476,8 +476,9 @@ public Accend(){
             this.damagePerTick = this.cameraEntity.cameraData.statLevels[Stat.BodyDamage] * 6 + 20;
             if (this._currentTank === Tank.Spike) this.damagePerTick *= 1.5;
             if (this._currentTank === Tank.SPORN) this.damagePerTick *= 2;
-            if (this._currentTank === Tank.Bumper) this.damagePerTick *= 0.375;
-            if (this._currentTank === Tank.Bumper) this.damageReduction = 0.375;
+            if (this._currentTank === Tank.Chainer) this.damagePerTick *= 0.85;
+            if (this._currentTank === Tank.Bumper) this.damagePerTick *= 0.625;
+            if (this._currentTank === Tank.Bumper) this.damageReduction = 0.625;
             if (this._currentTank === Tank.Maleficitor ||this._currentTank === Tank.Caster || this._currentTank === Tank.Wizard) this.MAXDRONES = 11 + this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload];
             if (this._currentTank === Tank.Necromancer) this.MAXDRONES = 22 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload] * 2);
             if (this._currentTank === Tank.Dronemare) this.MAXDRONES = 5 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]/2);
@@ -490,13 +491,15 @@ public Accend(){
 
             
                        if (this._currentTank === Tank.MegaSmasher){
-            this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth] * 1.5) * 20;}
+            this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth]) * 20 * 1.5}
             else if (this._currentTank === Tank.Saw){
-                this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth]) * 15;}
+                this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth]) * 20 * 0.75;}
+                else if (this._currentTank === Tank.MicroSmasher){
+                    this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth]) * 20 * 0.75;}
 else if (this._currentTank === Tank.SPORN){
-                this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth]) * 5;}
+                this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth]) * 20 * 0.2;}
                 else if (this._currentTank === Tank.autosmasher){
-                    this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth]) * 22;}
+                    this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth]) * 20 * 1.1;}
                 else{ this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth] * 20}
             if (this.healthData.values.health === maxHealthCache) this.healthData.health = this.healthData.maxHealth; // just in case
             else if (this.healthData.values.maxHealth !== maxHealthCache) {
@@ -504,9 +507,9 @@ else if (this._currentTank === Tank.SPORN){
             }
 
             // Regen
-            this.regenPerTick = (this.healthData.values.maxHealth * 4 * (this.cameraEntity.cameraData.values.statLevels.values[Stat.HealthRegen] * 1.25) + this.healthData.values.maxHealth) / 25000;
+            this.regenPerTick = (this.healthData.values.maxHealth * 4 * (this.cameraEntity.cameraData.values.statLevels.values[Stat.HealthRegen]) + this.healthData.values.maxHealth) / 25000;
             if (this._currentTank === Tank.MegaSmasher) this.regenPerTick *= 1.25;
-            if (this._currentTank === Tank.Bumper) {this.physicsData.pushFactor = 100;}else{this.physicsData.pushFactor = 8}
+            if (this._currentTank === Tank.Bumper) {this.physicsData.pushFactor = 60;}else{this.physicsData.pushFactor = 8}
             // Reload
             this.reloadTime = 15 * Math.pow(0.914, this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]);
         }else{
@@ -517,8 +520,8 @@ else if (this._currentTank === Tank.SPORN){
             // Max Health
             const maxHealthCache = this.healthData.values.maxHealth;
 
-            if (this._currentTank === Tank.Abyss) this.regenPerTick *= 1.15;
-            if (this._currentTank === Tank.Chasm || this._currentTank === Tank.Void || this._currentTank == Tank.Comet) this.regenPerTick *= 0.5;
+            if (this._currentTank === Tank.Abyss) this.regenPerTick *= 1.25;
+            if (this._currentTank === Tank.Chasm || this._currentTank === Tank.Void || this._currentTank == Tank.Comet) this.regenPerTick *= 0.75;
             
             if (this._currentTank === Tank.Abyss){
                 this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth] * 1.5) * 50;}
@@ -533,7 +536,7 @@ else if (this._currentTank === Tank.SPORN){
             }
 
             // Regen
-            this.regenPerTick = (this.healthData.values.maxHealth * 2 * (this.cameraEntity.cameraData.values.statLevels.values[Stat.HealthRegen] * 1.25) + this.healthData.values.maxHealth) / 25000;
+            this.regenPerTick = (this.healthData.values.maxHealth * 2 * (this.cameraEntity.cameraData.values.statLevels.values[Stat.HealthRegen]) + this.healthData.values.maxHealth) / 25000;
             // Reload
             this.reloadTime = 15 * Math.pow(0.914, this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]);
         }

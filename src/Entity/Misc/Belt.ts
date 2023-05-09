@@ -52,10 +52,11 @@ export default class Belt extends ObjectEntity {
         ball.physicsData.values.size = 100;
         ball.positionData.angle = this.direction
         ball.styleData.flags |= StyleFlags.showsAboveParent
-        ball.styleData.color = Color.EnemyTriangle
+        ball.styleData.color = Color.White
         ball.physicsData.values.absorbtionFactor = 1;
         this.styleData.values.borderWidth = 10;
-        this.styleData.values.color = Color.NecromancerSquare;
+        this.styleData.zIndex = 1
+        this.styleData.values.color = Color.kMaxColors;
     }
     public tick(tick: number): void {
         const entities = this.findCollisions()

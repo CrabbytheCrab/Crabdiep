@@ -245,7 +245,9 @@ export default class ObjectEntity extends Entity {
                 // this is a bit off still. k
                 this.velocity.setPosition(this.positionData.values);
                 this.setVelocity(0, 0);
-                this.destroy(true) // Kills off bullets etc
+                setTimeout(() => {
+                    this.destroy(true) // Kills off bullets etc
+                }, 1);
                 return;
             } else {
                 const relA = Math.cos(kbAngle + entity.positionData.values.angle) / entity.physicsData.values.size;

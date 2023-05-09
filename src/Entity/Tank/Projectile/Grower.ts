@@ -40,7 +40,7 @@ export default class Grower extends Bullet {
         if (this.tankDefinition && this.tankDefinition.id === Tank.SteamRoller){
             if (this.physicsData.size < this.sized * 6){
                 this.physicsData.size += this.sized/30
-                this.damageReduction -= 0.15/180
+                this.damageReduction -= 0.2/180
                 this.baseAccel -= this.acc/270
 
             }
