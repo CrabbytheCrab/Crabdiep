@@ -37,6 +37,8 @@ import { EntityStateFlags } from "../../Native/Entity";
 import { log } from "console";
 import Belt from "../../Entity/Misc/Belt";
 import BounceWall from "../../Entity/Misc/BounceWall";
+import LiveWall from "../../Entity/Misc/LiveWall";
+import { StyleFlags } from "../../Const/Enums";
 const arenaSize = 11150;
 const baseWidth = 2230;
 const domBaseSize = baseWidth / 2;
@@ -80,6 +82,12 @@ this.BlueScore = 0
         this.updateBounds(15000, 5000);
        // new MazeWall(this.game, 0, 5000, 5000, 20000);
         //new MazeWall(this.game, 0, -5000, 5000, 20000);
+        new Belt(this.game, -1000, -1750, 500, 1000,0);
+        new Belt(this.game, 1000, 1750, 500, 1000,Math.PI);
+
+
+        new LiveWall(this.game, -2875, -1750, 500, 250);
+        new LiveWall(this.game, 2875, 1750, 500, 250);
 
         const wall = new MazeWall(this.game, 0, -2700, 400, 15000);
         wall.physicsData.flags |= PhysicsFlags.canEscapeArena
@@ -89,18 +97,15 @@ this.BlueScore = 0
         new MazeWall(this.game, -1750, -750, 1500, 2500);
         new MazeWall(this.game, 1750, 750, 1500, 2500);
 
-        new Belt(this.game, -1000, -1750, 500, 1000,Math.PI);
-        new Belt(this.game, 1000, 1750, 500, 1000,0);
-
 
         new Belt(this.game, -5750, 1625, 1750, 1000,0);
         new Belt(this.game, -5750, -1625, 1750, 1000,0);
-        new BounceWall(this.game, -4875, -0, 750, 250);
+        new BounceWall(this.game, -4875, -0, 500, 250);
         new MazeWall(this.game, -5125, -0, 750, 250);
 
         new Belt(this.game, 5750, 1625, 1750, 1000,Math.PI);
         new Belt(this.game, 5750, -1625, 1750, 1000,Math.PI);
-        new BounceWall(this.game, 4875, -0, 750, 250);
+        new BounceWall(this.game, 4875, -0, 500, 250);
         new MazeWall(this.game, 5125, -0, 750, 250);
 
         new MazeWall(this.game, 1750, 2250, 500, 2500);
@@ -141,24 +146,43 @@ this.BlueScore = 0
         ball.nameData.values.name = ""
         ball.physicsData.values.sides = 1;
         ball.styleData.values.color = Color.ScoreboardBar;
+        ball.styleData.values.flags |= StyleFlags.hasNoDmgIndicator;
         ball.physicsData.flags |= PhysicsFlags.showsOnMap
         ball.physicsData.values.size = 80;
-        ball.physicsData.values.absorbtionFactor = 4;
-        ball.damagePerTick = 0
-        ball.physicsData.pushFactor = 20
+        ball.physicsData.values.absorbtionFactor = 1;
+        ball.damagePerTick = 1000
+        ball.physicsData.pushFactor = 4
+        
         ball.damageReduction = 0
-        ball.styleData.values.zIndex = 1
         ball.physicsData.values.sides = 10000
-        ball.relationsData.values.team = ball;
         ball.entityState |= EntityStateFlags.needsCreate |EntityStateFlags.needsDelete
         const tickBase = ball.tick;
+        ball.styleData.values.zIndex = 4
         ball.tick = (tick: number) => {
              //   console.log(ball.positionData.x)
                // console.log(ball.positionData.y)
 
             tickBase.call(ball, tick);
+            ball.styleData.zIndex = 4
             const entities = ball.findCollisions()
-
+            if(this.BlueScore >= 3){
+                ball.delete()
+            let message = `BLUE TEAM HAS WON THE GAME`
+            this.game.broadcast().u8(ClientBound.Notification).stringNT(message).u32(Color.TeamBlue).float(10000).stringNT("").send();
+            this.state = ArenaState.OVER;
+            setTimeout(() => {
+                this.close();
+            }, 5000);
+        }
+        if(this.RedScore >= 5){
+            ball.delete()
+            let message = `RED TEAM HAS WON THE GAME`
+            this.game.broadcast().u8(ClientBound.Notification).stringNT(message).u32(Color.TeamRed).float(10000).stringNT("").send();
+            this.state = ArenaState.OVER;
+            setTimeout(() => {
+                this.close();
+            }, 5000);
+        }
             for (let i = 0; i < entities.length; ++i) {
                 const entity = entities[i];
                 if (entity instanceof TeamBase){
@@ -168,32 +192,15 @@ this.BlueScore = 0
                             this.BlueScore++;
                             ball.delete()
                             this.balls()
-                        }
-                        else{
-                            ball.delete()
-                        let message = `BLUE TEAM HAS WON THE GAME`
-                        this.game.broadcast().u8(ClientBound.Notification).stringNT(message).u32(Color.TeamBlue).float(10000).stringNT("").send();
-                        this.state = ArenaState.OVER;
-                        setTimeout(() => {
-                            this.close();
-                        }, 5000);
-                    }
-                }
-                    if(entity.styleData.color == Color.TeamBlue){
-                        if(this.RedScore < 3){
+                
+                     }
+                }else if(entity.styleData.color == Color.TeamBlue){
+                        if(this.RedScore < 5){
                             this.RedScore++;
                             this.rSCore.MAXDRONES ++;
                             ball.delete()
                             this.balls()
                         }
-                        else{
-                        let message = `RED TEAM HAS WON THE GAME`
-                        this.game.broadcast().u8(ClientBound.Notification).stringNT(message).u32(Color.TeamRed).float(10000).stringNT("").send();
-                        this.state = ArenaState.OVER;
-                        setTimeout(() => {
-                            this.close();
-                        }, 5000);
-                    }
                     }
                 }
             }
