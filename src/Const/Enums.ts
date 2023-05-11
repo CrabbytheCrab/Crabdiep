@@ -181,6 +181,7 @@ export const enum Tank {
     Saw           = 88,
     Landmine      = 89,
     autosmasher   = 90,
+    //old set
     Manufacturer  = 94,
     Roundabout    = 95,
     GattlingGun   = 96,
@@ -228,6 +229,7 @@ export const enum Tank {
     RubbleMaker   = 135,
     Fabricator    = 136,
     Orbiter       = 137,
+    //team chaos
     PsiTank       = 138,
     Barrager      = 139,
     MineLayer     = 140,
@@ -344,7 +346,13 @@ export const enum Tank {
     Fission       = 251,
     Mitosis       = 252,
     auto1         = 253,
-    SPORN         = 254,
+    Conglom       = 254,
+    SPORN         = 255,
+    AutoSpawner   = 256,
+    Disperse      = 257,
+    Glider        = 258,
+    Energize      = 259,
+    Scrapper      = 260,
     Mothership    = 2000
 }
 
