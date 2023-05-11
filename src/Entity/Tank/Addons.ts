@@ -1103,6 +1103,39 @@ export class LauncherAddon extends Addon {
     }
 }
 
+export class GliderAddon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+
+        const launcher = new ObjectEntity(this.game);
+        const sizeRatio = 65.5 * Math.SQRT2 / 50;
+        const widthRatio = 33.6 / 50;
+        const size = this.owner.physicsData.values.size;
+
+        launcher.setParent(this.owner);
+        launcher.relationsData.values.owner = this.owner;
+        launcher.relationsData.values.team = this.owner.relationsData.values.team;
+        launcher.positionData.values.angle = Math.PI;
+
+        launcher.physicsData.values.size = sizeRatio * size;
+        launcher.physicsData.values.width = widthRatio * size;
+        launcher.positionData.values.x = launcher.physicsData.values.size / 2;
+
+        launcher.styleData.values.color = Color.Barrel;
+        launcher.physicsData.values.flags |= PhysicsFlags.isTrapezoid;
+        launcher.physicsData.values.sides = 2;
+
+        launcher.tick = () => {
+            const size = this.owner.physicsData.values.size;
+
+            launcher.physicsData.size = sizeRatio * size;
+            launcher.physicsData.width = widthRatio * size;
+            launcher.positionData.x = launcher.physicsData.values.size / 2;
+        }
+    }
+}
+
+
 export class LauncherTallAddon extends Addon {
     public constructor(owner: BarrelBase) {
         super(owner);
@@ -1140,7 +1173,7 @@ class LauncherSmallAddon extends Addon {
 
         const launcher = new ObjectEntity(this.game);
         const sizeRatio = 65.5 * Math.SQRT2 / 50;
-        const widthRatio = 24/ 50;
+        const widthRatio = 26.88 / 50;
         const size = this.owner.physicsData.values.size;
 
         launcher.setParent(this.owner);
@@ -1175,7 +1208,7 @@ class LauncherAddon2 extends Addon {
 
             const launcher = new ObjectEntity(this.game);
             const sizeRatio = 65.5 * Math.SQRT2 / 50;
-            const widthRatio = 19.2 / 50;
+            const widthRatio = 21.504/ 50;
             const size = this.owner.physicsData.values.size;
     
             launcher.setParent(this.owner);
@@ -1404,7 +1437,7 @@ class PronouncedAddon2 extends Addon {
 
         const pronounce = new ObjectEntity(this.game);
         const sizeRatio = 50 / 50;
-        const widthRatio = 50 / 50;
+        const widthRatio = 56 / 50;
         const offsetRatio = 40 / 50;
         const size = this.owner.physicsData.values.size;
 
@@ -2010,5 +2043,6 @@ export const AddonById: Record<addonId, typeof Addon | null> = {
     launchertall : LauncherTallAddon,
     psiEye: PsiAddon,
     sporn: SpornAddon,
-    autoauto3: AutoAuto3Addon
+    autoauto3: AutoAuto3Addon,
+    glider: GliderAddon
 }

@@ -76,14 +76,14 @@ export default class Hive extends Bullet {
             this.lifeLength = 88 * barrel.definition.bullet.lifeLength;
         } else {
             this.lifeLength = Infinity;
-            if (this.physicsData.values.flags & PhysicsFlags.canEscapeArena) this.physicsData.values.flags ^= PhysicsFlags.canEscapeArena;
         }
         this.deathAccelFactor = 1;
 
         this.physicsData.values.pushFactor = 2;
         this.physicsData.values.absorbtionFactor = bulletDefinition.absorbtionFactor;
 
-        this.baseSpeed /= 3;
+        this.baseSpeed /= 2
+
 
         barrel.droneCount += 1;
         this.movementSpeed = this.aimSpeed = this.baseAccel;

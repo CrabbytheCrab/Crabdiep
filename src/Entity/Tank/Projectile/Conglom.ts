@@ -31,23 +31,24 @@ import { BarrelBase } from "../TankBody";
 const SkimmerBarrelDefinition: BarrelDefinition = {
     angle: 0,
     offset: 0,
-    size: 64,
-    width: 32,
+    size: 70,
+    width: 42,
     delay: 0.25,
-    reload: 4,
+    reload: 3,
     droneCount: 200,
     recoil: 0,
     isTrapezoid: true,
     trapezoidDirection: Math.PI,
     addon: null,
     bullet: {
+        
         type: "hive",
-        health: 0.5,
+        health: 0.4,
         damage: 3 / 5,
         speed: 1.4,
         scatterRate: 1,
         lifeLength: -1,
-        sizeRatio: 1,
+        sizeRatio: 0.7,
         absorbtionFactor: 1
     }
 };
@@ -95,7 +96,7 @@ export default class Spinner extends Bullet implements BarrelBase {
             }
         }(this, {...SkimmerBarrelDefinition});
         const s2Definition = {...SkimmerBarrelDefinition};
-        s2Definition.angle = Math.PI/3 * 2
+        s2Definition.angle = Math.PI/5 * 2
         const s2 = new class extends Barrel {
             // Keep the width constant
             protected resize() {
@@ -104,15 +105,37 @@ export default class Spinner extends Bullet implements BarrelBase {
             }
         }(this, s2Definition);
         const s3Definition = {...SkimmerBarrelDefinition};
-        s3Definition.angle = -Math.PI/3 * 2
+        s3Definition.angle = -Math.PI/5 * 2
         const s3 = new class extends Barrel {
             // Keep the width constant
             protected resize() {
                 super.resize();
                 //this.physicsData.width = this.definition.width
             }
+
+            
         }(this, s3Definition);
-        skimmerBarrels.push(s1, s2,s3);
+        const s4Definition = {...SkimmerBarrelDefinition};
+        s4Definition.angle = Math.PI/5 * 4
+        const s4 = new class extends Barrel {
+            // Keep the width constant
+            protected resize() {
+                super.resize();
+                //this.physicsData.width = this.definition.width
+            }
+        }(this, s4Definition);
+        const s5Definition = {...SkimmerBarrelDefinition};
+        s5Definition.angle = -Math.PI/5 * 4
+        const s5 = new class extends Barrel {
+            // Keep the width constant
+            protected resize() {
+                super.resize();
+                //this.physicsData.width = this.definition.width
+            }
+
+            
+        }(this, s5Definition);
+        skimmerBarrels.push(s1, s2,s3,s4,s5);
 
         this.inputs = new Inputs();
         this.inputs.flags |= InputFlags.leftclick;

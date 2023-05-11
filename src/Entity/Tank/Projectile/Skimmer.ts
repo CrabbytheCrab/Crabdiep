@@ -33,23 +33,23 @@ import Vector from "../../../Physics/Vector";
  */
 
 const RocketBarrelDefinition: BarrelDefinition = {
-    angle: 2.6179938779914944,
+    angle: 3.752457891787808,
     offset: 0,
     size: 70,
-    width: 37.967,
+    width: 37.8 ,
     delay: 0,
-    reload: 0.6,
+    reload: 0.8,
     recoil: 4.5,
     isTrapezoid: false,
     trapezoidDirection: 0,
     addon: null,
     bullet: {
         type: "bullet",
-        health: 0.4,
-        damage: 0.5,
+        health: 0.5,
+        damage: 0.6,
         speed: 1,
         scatterRate: 1,
-        lifeLength: 0.2,
+        lifeLength: 0.5,
         sizeRatio: 1,
         absorbtionFactor: 1
     }
@@ -57,23 +57,23 @@ const RocketBarrelDefinition: BarrelDefinition = {
 
 
 const RocketBarrelDefinition2: BarrelDefinition = {
-    angle: 3.665191429188092,
+    angle:  2.530727415391778,
     offset: 0,
     size: 70,
-    width: 37.967,
+    width: 37.8 ,
     delay: 0,
-    reload: 0.6,
+    reload: 0.8,
     recoil: 4.5,
     isTrapezoid: false,
     trapezoidDirection: 0,
     addon: null,
     bullet: {
         type: "bullet",
-        health: 0.4,
-        damage: 0.5,
+        health: 0.5,
+        damage: 0.6,
         speed: 1,
         scatterRate: 1,
-        lifeLength: 0.2,
+        lifeLength: 0.5,
         sizeRatio: 1,
         absorbtionFactor: 1
     }
@@ -131,7 +131,7 @@ export default class Skimmer extends Bullet implements BarrelBase {
 
         if (this.deletionAnimation) return;
         // not fully accurate
-        if (tick - this.spawnTick >= this.tank.reloadTime) this.inputs.flags |= InputFlags.leftclick;
+        this.inputs.flags |= InputFlags.leftclick;
         // Only accurate on current version, but we dont want that
         // if (!Entity.exists(this.barrelEntity.rootParent) && (this.inputs.flags & InputFlags.leftclick)) this.inputs.flags ^= InputFlags.leftclick; 
 

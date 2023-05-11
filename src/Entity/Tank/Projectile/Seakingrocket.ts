@@ -35,7 +35,7 @@ const RocketBarrelDefinition: BarrelDefinition = {
     angle: Math.PI,
     offset: 0,
     size: 70,
-    width: 46.472,
+    width: 37.8 ,
     delay: 0,
     reload: 0.5,
     recoil: 4.5,

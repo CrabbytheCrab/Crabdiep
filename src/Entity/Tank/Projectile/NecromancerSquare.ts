@@ -99,12 +99,13 @@ export default class NecromancerSquare extends Drone {
             this.styleData.opacity -= 0.03
             this.styleData.opacity = util.constrain(this.styleData.values.opacity, 0, 1);*/
             //if(dist < NecromancerSquare.INVIS_RADIUS)this.styleData.opacity += 0.13;
-            if (dist > NecromancerSquare.INVIS_RADIUS / 4) { // Half
-                this.styleData.opacity += 0.1
+            if (dist > NecromancerSquare.INVIS_RADIUS / 2 || this.tank.inputs.attemptingShot() || this.tank.inputs.attemptingRepel() || this.ai.state == AIState.hasTarget) { // Half
+            setTimeout(() => {
+                this.styleData.opacity += 0.05}, 45)
                 this.movementAngle = this.positionData.values.angle + Math.PI;
             } else this.styleData.opacity -= 0.025
             //this.styleData.opacity -= 0.03
-            this.styleData.opacity = util.constrain(this.styleData.values.opacity, 0.05, 1);
+            this.styleData.opacity = util.constrain(this.styleData.values.opacity, 0, 1);
         }
     }
 }

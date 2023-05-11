@@ -37,7 +37,7 @@ const BoomBarrelDefinition: BarrelDefinition = {
     size: 90,
     width: 49.578,
     delay: 0,
-    reload: 0.325,
+    reload: 0.5,
     recoil: 0,
     isTrapezoid: false,
     trapezoidDirection: 0,

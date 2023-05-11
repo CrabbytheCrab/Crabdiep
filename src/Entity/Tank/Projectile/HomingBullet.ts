@@ -49,7 +49,7 @@ export default class HomingBullet extends Bullet {
     public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number, parent?: ObjectEntity) {
         super(barrel, tank, tankDefinition, shootAngle);
         this.usePosAngle = true;
-        this.viewRange = 300 * tank.sizeFactor
+        this.viewRange = 450 * tank.sizeFactor
         this._creationTick = this.game.tick;
         this.targetFilter = () => true;
        // this.movementSpeed = this.aimSpeed = this.baseAccel;
