@@ -151,7 +151,7 @@ this.BlueScore = 0
         ball.physicsData.flags |= PhysicsFlags.showsOnMap
         ball.physicsData.values.size = 80;
         ball.physicsData.values.absorbtionFactor = 1;
-        ball.damagePerTick = 1000
+        ball.damagePerTick = 0.3
         ball.physicsData.pushFactor = 4
         
         ball.damageReduction = 0
