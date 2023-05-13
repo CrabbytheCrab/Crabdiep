@@ -114,9 +114,9 @@ this.styleData.color =  Color.Barrel;
                 rotator2.styleData.values.flags |= StyleFlags.showsAboveParent
                 this.CanSpawn = false
             }
-        this.physicsData.pushFactor = 10 + (bodyDamage);  
-                    this.damagePerTick = 10 + (bodyDamage * 1.5)
-                    this.physicsData.size = this.parent.physicsData.size * 1.25
+        this.physicsData.pushFactor = 3
+                    this.damagePerTick = 5 + (bodyDamage)
+                    this.physicsData.size = this.parent.physicsData.size * 1.5
 
         }else{
                         if(this.CanSpawn){

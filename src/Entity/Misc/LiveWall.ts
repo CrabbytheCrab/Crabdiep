@@ -30,7 +30,7 @@ export default class LiveWall extends LivingEntity {
 
         this.positionData.values.x = x;
         this.positionData.values.y = y;
-        this.healthData.maxHealth = this.healthData.health = 10000
+        this.healthData.maxHealth = this.healthData.health = 5000
         this.damagePerTick = 15
         this.physicsData.values.width = width;
         this.physicsData.values.size = height;
@@ -38,7 +38,7 @@ export default class LiveWall extends LivingEntity {
         this.physicsData.values.flags |= PhysicsFlags.isSolidWall | PhysicsFlags.showsOnMap;
         this.physicsData.values.pushFactor = 2;
         this.physicsData.values.absorbtionFactor = 0;
-        this.healthData.flags |= HealthFlags.hiddenHealthbar
+       // this.healthData.flags |= HealthFlags.hiddenHealthbar
         this.styleData.values.borderWidth = 10;
         this.styleData.values.color = Color.NecromancerPentagon;
     }

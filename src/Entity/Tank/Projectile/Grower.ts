@@ -15,6 +15,7 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program. If not, see <https://www.gnu.org/licenses/>
 */
+import * as util from "../../../util";
 
 import Barrel from "../Barrel";
 import Bullet from "./Bullet";
@@ -40,7 +41,7 @@ export default class Grower extends Bullet {
         if (this.tankDefinition && this.tankDefinition.id === Tank.SteamRoller){
             if (this.physicsData.size < this.sized * 6){
                 this.physicsData.size += this.sized/30
-                this.damageReduction -= 0.2/180
+                this.damageReduction = util.constrain(this.damageReduction -= 0.2/160, 0.05, 1)
                 this.baseAccel -= this.acc/270
 
             }

@@ -1436,9 +1436,9 @@ class PronouncedAddon2 extends Addon {
         super(owner);
 
         const pronounce = new ObjectEntity(this.game);
-        const sizeRatio = 50 / 50;
-        const widthRatio = 56 / 50;
-        const offsetRatio = 40 / 50;
+        const sizeRatio = 55 / 50;
+        const widthRatio = 56.7 / 50;
+        const offsetRatio = 35 / 50;
         const size = this.owner.physicsData.values.size;
 
         pronounce.setParent(this.owner);
@@ -1463,6 +1463,7 @@ class PronouncedAddon2 extends Addon {
         }
     }
 }
+
 /** The thing above Gunner + Destroyer Dominator's barrel. */
 class PronouncedDomAddon extends Addon {
     public constructor(owner: BarrelBase) {

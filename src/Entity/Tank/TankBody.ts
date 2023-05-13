@@ -90,7 +90,7 @@ public altTank: boolean
         this.cameraEntity = camera;
         this.inputs = inputs;
         this.isAffectedByRope = false;
-        this.length = 8;
+        this.length = 16;
         this.canchain = true
         this.altTank = true
         this.segments = [this];
@@ -476,7 +476,7 @@ public Accend(){
             this.damagePerTick = this.cameraEntity.cameraData.statLevels[Stat.BodyDamage] * 6 + 20;
             if (this._currentTank === Tank.Spike) this.damagePerTick *= 1.5;
             if (this._currentTank === Tank.SPORN) this.damagePerTick *= 2;
-            if (this._currentTank === Tank.Chainer) this.damagePerTick *= 0.85;
+            if (this._currentTank === Tank.Chainer) this.damagePerTick *= 0.9;
             if (this._currentTank === Tank.Bumper) this.damagePerTick *= 0.625;
             if (this._currentTank === Tank.Bumper) this.damageReduction = 0.625;
             if (this._currentTank === Tank.Maleficitor ||this._currentTank === Tank.Caster || this._currentTank === Tank.Wizard) this.MAXDRONES = 11 + this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload];

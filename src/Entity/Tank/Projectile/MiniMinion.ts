@@ -32,7 +32,7 @@ import { BarrelBase } from "../TankBody";
     angle: 0,
     offset: 0,
     size: 80,
-    width: 40,
+    width: 42,
     delay: 0,
     reload: 1,
     recoil: 1.35,
