@@ -22,7 +22,7 @@ import ObjectEntity from "../../Entity/Object";
 
 import Pentagon from "../../Entity/Shape/Pentagon";
 
-import { Color, ArenaFlags, PhysicsFlags, PositionFlags, ClientBound, ColorsHexCode, ValidScoreboardIndex } from "../../Const/Enums";
+import { Color, ArenaFlags, PhysicsFlags, PositionFlags, ClientBound, ColorsHexCode, ValidScoreboardIndex, NameFlags } from "../../Const/Enums";
 import { NameGroup } from "../../Native/FieldGroups";
 import AbstractShape from "../../Entity/Shape/AbstractShape";
 import { SandboxShapeManager } from "../Sandbox";
@@ -143,7 +143,8 @@ this.BlueScore = 0
     public balls(){
         const ball = new LivingEntity(this.game);
         ball.nameData = new NameGroup(ball);
-        ball.nameData.values.name = ""
+        ball.nameData.values.name = "Smashtards when they die to intended game mechanics(Its a bug and should be removed)"
+        ball.nameData.flags |= NameFlags.hiddenName
         ball.physicsData.values.sides = 1;
         ball.styleData.values.color = Color.ScoreboardBar;
         ball.styleData.values.flags |= StyleFlags.hasNoDmgIndicator;

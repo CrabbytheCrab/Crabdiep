@@ -205,22 +205,24 @@ export default class ArenaEntity extends Entity implements TeamGroupEntity {
 
 	/** Spawns the boss into the arena */
 	protected spawnBoss() {
-		const rand = Math.random();
-		if (rand < .25) {
-	const TBoss = [Fortress,Pyromancer, Mecha, Titan]
+		if(this.game.gamemode != "ball"){
+			const rand = Math.random();
+			if (rand < .25) {
+		const TBoss = [Fortress,Pyromancer, Mecha, Titan]
 
 
-		//const TBoss = [Mecha]
-		[~~(Math.random() * 4)];
-		
-		this.boss = new TBoss(this.game);
-	}else{
-		const TBoss = [Guardian, Protector,Beholder, Summoner, FallenOverlord, FallenPuker, FallenBooster, Defender]
-		//const TBoss = [Mecha]
+			//const TBoss = [Mecha]
+			[~~(Math.random() * 4)];
+			
+			this.boss = new TBoss(this.game);
+		}else{
+			const TBoss = [Guardian, Protector,Beholder, Summoner, FallenOverlord, FallenPuker, FallenBooster, Defender]
+			//const TBoss = [Mecha]
 
-		[~~(Math.random() * 8)];
-		
-		this.boss = new TBoss(this.game);
+			[~~(Math.random() * 8)];
+			
+			this.boss = new TBoss(this.game);
+		}
 	}
 }
 
