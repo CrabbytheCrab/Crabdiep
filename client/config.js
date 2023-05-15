@@ -32,7 +32,7 @@ const CHANGELOG = [
     "",
     "3 new bosses to fight,",
     "2 new Dominators,",
-    "3 elite bosses to hunt down being The Fortress, Pyromancer, H4XX0R,",
+    "4 elite bosses to hunt down being The Castle, Pyromancer, H4XX0R, and, Mechanical Traveler",
     "And weaponized Polygons that have weapons to shoot at you with,",
     "",
     "Major tank changes",
