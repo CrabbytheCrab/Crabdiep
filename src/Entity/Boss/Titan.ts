@@ -35,7 +35,7 @@ import AutoTurret, { AutoTurretDefinition } from "../Tank/AutoTurret";
 const TURN_TIMEOUT = 300;
 const MountedTurretDefinition: BarrelDefinition = {
     ...AutoTurretDefinition,
-    width: 10,
+    width: 10.5,
     size: 25,
     bullet: {
     

@@ -28,7 +28,7 @@ import AutoTurret from "../Tank/AutoTurret";
 const GuardianSpawnerDefinition: BarrelDefinition = {
     angle: Math.PI,
     offset: 0,
-    size: 120,
+    size: 121.8,
     width: 84,
     delay: 0,
     reload: 0.5,
@@ -75,7 +75,7 @@ const GuardianSpawnerDefinition3: BarrelDefinition = {
     angle: 0,
     offset: 0,
     size: 110,
-    width: 90,
+    width: 92.4,
     delay: 0.25,
     reload: 16.5,
     recoil: 1,

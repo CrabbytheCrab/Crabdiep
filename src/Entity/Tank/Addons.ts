@@ -300,7 +300,7 @@ export class Addon {
             base.positionData.values.y = this.owner.physicsData.values.size * Math.sin(angle) * ROT_OFFSET;
             base.positionData.values.x = this.owner.physicsData.values.size * Math.cos(angle) * ROT_OFFSET;
 
-           // if (base.styleData.values.flags & StyleFlags.showsAboveParent) base.styleData.values.flags ^= StyleFlags.showsAboveParent;
+            if (base.styleData.values.flags & StyleFlags.showsAboveParent) base.styleData.values.flags ^= StyleFlags.showsAboveParent;
             base.physicsData.values.flags |= PositionFlags.absoluteRotation;
 
             const tickBase = base.tick;
@@ -465,7 +465,7 @@ export class Addon {
         for (let i = 0; i < count; ++i) {
             const base = new AutoTurret(rotator, AutoTurretStalkDefinition);
             base.influencedByOwnerInputs = true;
-
+            base.baseSize *= 1.1
             const angle = base.ai.inputs.mouse.angle = PI2 * (i / count);
             base.ai.passiveRotation = rotPerTick;
             base.ai.targetFilter = (targetPos) => {
@@ -601,7 +601,7 @@ const jointpart: BarrelDefinition = {
     angle: 0,
     offset: 0,
     size: 100,
-    width: 24,
+    width: 25.2,
     delay: 0,
     reload: 8,
     recoil: 0,
@@ -645,10 +645,10 @@ const dronebarrel: BarrelDefinition = {
 const AutoTurretStalkDefinition: BarrelDefinition = {
     angle: 0,
     offset: 0,
-    size: 55,
-    width: 38 * 0.7,
+    size: 65,
+    width: 42 * 0.7,
     delay: 0.01,
-    reload: 1.25,
+    reload: 1.5,
     recoil: 0,
     isTrapezoid: true,
     trapezoidDirection: 3.141592653589793,
@@ -657,7 +657,7 @@ const AutoTurretStalkDefinition: BarrelDefinition = {
         type: "bullet",
         health: 1,
         damage: 0.5,
-        speed: 1.5,
+        speed: 1.7,
         scatterRate: 0.3,
         lifeLength: 1,
         sizeRatio: 1,
@@ -670,7 +670,7 @@ const AutoTurretMegaDefinition: BarrelDefinition = {
     angle: 0,
     offset: 0,
     size: 65,
-    width: 70 * 0.7,
+    width: 71.4 * 0.7,
     delay: 0.01,
     reload: 2.5,
     recoil: 0,
@@ -691,8 +691,8 @@ const AutoTurretMegaDefinition: BarrelDefinition = {
 const AutoTurretTrapDefinition: BarrelDefinition = {
     angle: 0,
     offset: 0,
-    size: 49,
-    width: 55 * 0.7,
+    size: 40,
+    width: 56.7 * 0.7,
     delay: 0.01,
     reload: 3,
     recoil: 0,
@@ -740,7 +740,7 @@ const AutoAutoTurretMiniDefinition: BarrelDefinition = {
     angle: 0,
     offset: 0,
     size: 60,
-    width: 50 * 0.7,
+    width: 56.7 * 0.7,
     delay: 0.01,
     reload: 2,
     recoil: 0,
@@ -1012,6 +1012,42 @@ class SmasherAddon extends Addon {
         this.createGuard(6, 1.15, 0, .1);
     }
 }
+
+class VampSmasherAddon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+        const atuo = new AutoTurret(owner, {
+            angle: 0,
+            offset: 0,
+            size: 0,
+            width: 0,
+            delay: 0.01,
+            reload: 1.75,
+            recoil: 0,
+            isTrapezoid: false,
+            trapezoidDirection: 0,
+            addon: null,
+            droneCount: 0,
+            bullet: {
+                type: "drone",
+                sizeRatio: 1,
+                health: 0.75,
+                damage: 0.5,
+                speed: 1,
+                scatterRate: 1,
+                lifeLength: 0.75,
+                absorbtionFactor: 0.1
+            }
+        });
+            atuo.baseSize *= 1.25
+        //atuo.ai.passiveRotation = this.movementAngle
+        atuo.ai.viewRange = 0
+        atuo.styleData.color = Color.Vampire
+        this.createGuard(6, 1.15, 0, .1);
+        const b = this.createGuard(3, 1.45, Math.PI/6, .1);
+        b.styleData.color = Color.Vampire
+    }
+}
 class OverDriveAddon extends Addon {
     public constructor(owner: BarrelBase) {
         super(owner);
@@ -1033,7 +1069,7 @@ class SpinnerAddon extends Addon {
                 angle: PI2/6 * i,
                 offset: 0,
                 size: 55,
-                width: 25,
+                width: 25.2,
                 delay: 0.01,
                 reload: 0.8,
                 recoil: 0,
@@ -1320,6 +1356,40 @@ class PsiAddon extends Addon {
         //atuo.ai.passiveRotation = this.movementAngle
         atuo.ai.viewRange = 0
         atuo.styleData.color = Color.Psy
+    }
+}
+
+class VampAddon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+
+        const atuo = new AutoTurret(owner, {
+            angle: 0,
+            offset: 0,
+            size: 0,
+            width: 0,
+            delay: 0.01,
+            reload: 1.75,
+            recoil: 0,
+            isTrapezoid: false,
+            trapezoidDirection: 0,
+            addon: null,
+            droneCount: 0,
+            bullet: {
+                type: "drone",
+                sizeRatio: 1,
+                health: 0.75,
+                damage: 0.5,
+                speed: 1,
+                scatterRate: 1,
+                lifeLength: 0.75,
+                absorbtionFactor: 0.1
+            }
+        });
+            atuo.baseSize *= 1.25
+        //atuo.ai.passiveRotation = this.movementAngle
+        atuo.ai.viewRange = 0
+        atuo.styleData.color = Color.Vampire
     }
 }
 /** Smasher + Centered Auto Turret addon. */
@@ -2016,6 +2086,7 @@ export const AddonById: Record<addonId, typeof Addon | null> = {
     autoturret: AutoTurretAddon,
     // not part of diep
     autoturret3: AutoTurretControllAddon,
+    vampire: VampAddon,
     spinner: SpinnerAddon,
     chasm: ChasmAddon,
     void: VoidAddon,
@@ -2045,5 +2116,6 @@ export const AddonById: Record<addonId, typeof Addon | null> = {
     psiEye: PsiAddon,
     sporn: SpornAddon,
     autoauto3: AutoAuto3Addon,
-    glider: GliderAddon
+    glider: GliderAddon,
+    vampsmasher : VampSmasherAddon
 }

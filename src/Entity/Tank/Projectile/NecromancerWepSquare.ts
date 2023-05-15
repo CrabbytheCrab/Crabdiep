@@ -98,7 +98,7 @@ export default class NecromancerWepSquare extends BulletAlt implements BarrelBas
             angle: 0,
             offset: 0,
             size: 70,
-            width: 38,
+            width: 37.8,
             delay: 0,
             reload: 1,
             recoil: 0,

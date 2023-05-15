@@ -156,7 +156,7 @@ import { normalizeAngle, PI2 } from "../../util";
                 angle: Math.PI,
                 offset: 0,
                 size: 80,
-                width: 80,
+                width: 79.8,
                 delay: 0,
                 reload: 3,
                 recoil: 1.75,
@@ -178,7 +178,7 @@ import { normalizeAngle, PI2 } from "../../util";
                 angle: 0,
                 offset: 40,
                 size: 110,
-                width: 35,
+                width: 33.6,
                 delay: 0,
                 reload: 1.2,
                 recoil: 0.75,
@@ -200,7 +200,7 @@ import { normalizeAngle, PI2 } from "../../util";
                 angle: 0,
                 offset: -40,
                 size: 110,
-                width: 35,
+                width: 33.6,
                 delay: 0.5,
                 reload: 1.2,
                 recoil: 0.75,
@@ -229,7 +229,7 @@ import { normalizeAngle, PI2 } from "../../util";
             angle: Math.PI,
             offset: 0,
             size: 100,
-            width: 62.5,
+            width: 63,
             delay: 0,
             reload: 1,
             recoil: 1.25,
@@ -318,7 +318,7 @@ import { normalizeAngle, PI2 } from "../../util";
                 angle: 0,
                 offset: 0,
                 size: 65,
-                width: 50,
+                width: 50.4,
                 delay: 0.5,
                 reload: 2,
                 recoil: 0,
@@ -340,7 +340,7 @@ import { normalizeAngle, PI2 } from "../../util";
                 angle: 0,
                 offset: 0,
                 size: 75,
-                width: 50,
+                width: 50.4,
                 delay: 0.01,
                 reload: 2,
                 recoil: 0,
@@ -548,7 +548,7 @@ import { normalizeAngle, PI2 } from "../../util";
             barsss = new Barrel(this, GuardianSpawnerDefinition3);
             barsss.styleData.color = Color.Border
         this.nameData.values.name = "Stalking Crasher";
-        this.healthData.values.health = this.healthData.values.maxHealth = 250;
+        this.healthData.values.health = this.healthData.values.maxHealth = 175;
         this.physicsData.values.pushFactor =  4;
         this.damagePerTick = 40;
         this.targettingSpeed = 1.1

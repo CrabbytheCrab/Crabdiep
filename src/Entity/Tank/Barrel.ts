@@ -75,6 +75,7 @@ import Grower from "./Projectile/Grower";
 import AutoBullet from "./Projectile/AutoBullet";
 import AutoRocket from "./Projectile/AutoRocket";
 import Shotgun from "./Projectile/ShotGun";
+import Leach from "./Projectile/Leach";
 /**
  * Class that determines when barrels can shoot, and when they can't.
  */
@@ -246,6 +247,10 @@ export default class Barrel extends ObjectEntity {
                 const bullet = new Bullet(this, this.tank, tankDefinition, angle, this.rootParent);
 
                 if (tankDefinition && (tankDefinition.id === Tank.ArenaCloser || tankDefinition.id === DevTank.Squirrel)) bullet.positionData.flags |= PositionFlags.canMoveThroughWalls;
+                break;
+            }
+            case 'leach': {
+                const bullet = new Leach(this, this.tank, tankDefinition, angle, this.rootParent);
                 break;
             }
             case 'autobullet': {

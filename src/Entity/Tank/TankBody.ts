@@ -41,6 +41,7 @@ import { maxPlayerLevel } from "../../config";
 import Vector from "../../Physics/Vector";
 import NecromancerWepSquare from "./Projectile/NecromancerWepSquare";
 import RopeSegment from "./Projectile/RopeSegment";
+import AbstractShape from "../Shape/AbstractShape";
 
 /**
  * Abstract type of entity which barrels can connect to.
@@ -384,6 +385,20 @@ public Accend(){
                 }
            this.segments.push(ropeSegment);}
         }
+        if(this._currentTank == Tank.vampSmasher){
+                if(this.healthData.health > 0){
+                const collidedEntities = this.findCollisions();
+                for (let i = 0; i < collidedEntities.length; ++i) {
+                    if (collidedEntities[i] instanceof TankBody || collidedEntities[i] instanceof AbstractShape || collidedEntities[i] instanceof AbstractBoss){
+                        //setTimeout(() => {this.healthData.health += this.damagePerTick/5},45)
+                        this.healthData.health += this.damagePerTick/8
+                    }
+                }
+            }
+        }
+
+
+
         if(this._currentTank == Tank.MicroSmasher){
             this.baseSize = (25 - (12.5/10 * this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload])) * Math.SQRT2
         }
@@ -509,6 +524,11 @@ else if (this._currentTank === Tank.SPORN){
             // Regen
             this.regenPerTick = (this.healthData.values.maxHealth * 4 * (this.cameraEntity.cameraData.values.statLevels.values[Stat.HealthRegen]) + this.healthData.values.maxHealth) / 25000;
             if (this._currentTank === Tank.MegaSmasher) this.regenPerTick *= 1.25;
+            if (this._currentTank === Tank.Leacher) this.regenPerTick *= 0.25;
+            if (this._currentTank === Tank.Vampire) this.regenPerTick *= 0.25;
+            if (this._currentTank === Tank.Restorer) this.regenPerTick *= 0.25;
+            if (this._currentTank === Tank.autoLeacher) this.regenPerTick *= 0.25;
+            if (this._currentTank === Tank.vampSmasher) this.regenPerTick *= 0.25;
             if (this._currentTank === Tank.Bumper) {this.physicsData.pushFactor = 60;}else{this.physicsData.pushFactor = 8}
             // Reload
             this.reloadTime = 15 * Math.pow(0.914, this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]);

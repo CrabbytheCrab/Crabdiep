@@ -83,7 +83,7 @@ export default class AutoRocket extends Bullet implements BarrelBase {
             angle: 0,
             offset: 0,
             size: 65,
-            width: 35,
+            width: 33.6,
             delay: 0.01,
             reload: 1.75,
             recoil: 0,

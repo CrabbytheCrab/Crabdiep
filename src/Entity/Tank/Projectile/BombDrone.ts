@@ -57,7 +57,7 @@ const Bombshot1: BarrelDefinition = {
     angle: 0,
     offset: 0,
     size: 0,
-    width: 85,
+    width: 84,
     delay: 0,
     reload: 100,
     recoil: 1,
