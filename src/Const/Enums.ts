@@ -51,7 +51,8 @@ export const enum Color {
     kMaxColors = 22,
     EnemyHeptagon = 23,
     EnemyOctagon = 24,
-    White = 25
+    White = 25,
+    Vampire = 26
 }
 
 /**
@@ -83,7 +84,9 @@ export const ColorsHexCode: Record<Color, number> = {
     [Color.kMaxColors]: 0x000000,
     [Color.EnemyHeptagon]: 0x38B764,
     [Color.EnemyOctagon]: 0x4A66BD,
-    [Color.White]: 0xFFFFFF
+    [Color.White]: 0xFFFFFF,
+    [Color.Vampire]: 0x820D0D
+
 }
 
 /**
@@ -353,6 +356,11 @@ export const enum Tank {
     Glider        = 258,
     Energize      = 259,
     Scrapper      = 260,
+    Leacher       = 261,
+    Vampire       = 262,
+    Restorer      = 263,
+    vampSmasher   = 264,
+    autoLeacher   = 265,
     Mothership    = 2000
 }
 
