@@ -74,7 +74,7 @@ export default class ArenaEntity extends Entity implements TeamGroupEntity {
 
 	/** The current boss spawned into the game */
 	public boss: AbstractBoss | null = null;
-
+	public maxtanklevel: number
 	/** Controller of all shapes in the arena. */
 	protected shapes = new ShapeManager(this);
 
@@ -83,7 +83,7 @@ export default class ArenaEntity extends Entity implements TeamGroupEntity {
 
 	public constructor(game: GameServer) {
 		super(game);
-
+		this.maxtanklevel = 45
 		this.updateBounds(this.width = 22300, this.height = 22300);
 		this.arenaData.values.topY = -this.height / 2;
 		this.arenaData.values.bottomY = this.height / 2;

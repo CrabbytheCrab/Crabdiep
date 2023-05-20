@@ -361,6 +361,10 @@ export const enum Tank {
     Restorer      = 263,
     vampSmasher   = 264,
     autoLeacher   = 265,
+    Trooper       = 266,
+    Commandbrid   = 267,
+    TheCroc       = 268,
+    Forge         = 269,
     Mothership    = 2000
 }
 

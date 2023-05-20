@@ -115,13 +115,13 @@ class CustomShapeManager extends ShapeManager {
 }
 
 export default class Scenexe extends ArenaEntity {
-    public playerTeamMap: Map<Client, TeamBase> = new Map();
     public timer = 900
     public celestial = new TeamEntity(this.game, Color.EnemyCrasher)
 	protected shapes: ShapeManager = new CustomShapeManager(this);
     public constructor(game: GameServer) {
         super(game);
-        this.shapeScoreRewardMultiplier = 2;
+        //this.shapeScoreRewardMultiplier = 2;
+        this.maxtanklevel = 60
         this.updateBounds(24000, 24000);
     }
     public tick(tick: number) {
@@ -132,8 +132,5 @@ export default class Scenexe extends ArenaEntity {
             new BlackHole(this.game, this.celestial)
             this.timer = 900
         }
-    }
-    public spawnPlayer(tank: TankBody, client: Client) {
-        tank.cameraEntity.maxlevel = 60;
     }
 }
