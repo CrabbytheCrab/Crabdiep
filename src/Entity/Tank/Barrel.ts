@@ -195,7 +195,8 @@ export default class Barrel extends ObjectEntity {
         this.bulletAccel = (20 + (owner.cameraEntity.cameraData?.values.statLevels.values[Stat.BulletSpeed] || 0) * 3) * barrelDefinition.bullet.speed;
         }
         else{
-            this.bulletAccel = (20 * 3) * barrelDefinition.bullet.speed;
+            this.bulletAccel = (20 + (owner.cameraEntity.cameraData?.values.statLevels.values[Stat.BulletSpeed] || 0) * 3) * barrelDefinition.bullet.speed;
+
         }
     }
 
@@ -443,7 +444,8 @@ export default class Barrel extends ObjectEntity {
         this.bulletAccel = (20 + (this.tank.cameraEntity.cameraData?.values.statLevels.values[Stat.BulletSpeed] || 0) * 3) * this.definition.bullet.speed;
         }
         else{
-            this.bulletAccel = (20 * 3) * this.definition.bullet.speed;
+            this.bulletAccel = (20 + (this.tank.cameraEntity.cameraData?.values.statLevels.values[Stat.BulletSpeed] || 0) * 3) * this.definition.bullet.speed;
+
         }
     }
 

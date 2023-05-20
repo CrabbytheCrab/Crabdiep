@@ -163,6 +163,7 @@ export class AI {
             if (!(entity.relationsData.values.owner === null || !(entity.relationsData.values.owner instanceof ObjectEntity))) continue; // Don't target entities who have an object owner
 
             if (entity.relationsData.values.team === team || entity.physicsData.values.sides === 0) continue;
+            if (entity.styleData.opacity < 0.5) continue;
 
             if (!this.targetFilter(entity.positionData.values)) continue; // Custom check
 
@@ -188,6 +189,7 @@ export class AI {
             if (!(entity instanceof LivingEntity)) continue; // Check if the target is living
 
             if (entity.physicsData.values.flags & PhysicsFlags.isBase) continue; // Check if the target is a base
+            if (entity.styleData.opacity < 0.5) continue;
 
            // if (!(entity.relationsData.values.owner === null || !(entity.relationsData.values.owner instanceof ObjectEntity))) continue; // Don't target entities who have an object owner
 

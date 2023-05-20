@@ -98,7 +98,6 @@ private _findTargetInterval: number = 2;
 
             // Make sure the target hasn't changed teams, and is existant (sides != 0)
             if (team !== this.target.relationsData.values.team && this.target.physicsData.values.sides !== 0) {
-                // confirm its within range
                 const targetDistSq = (this.target.positionData.values.x - rootPos.x) ** 2 + (this.target.positionData.values.y - rootPos.y) ** 2;
                 if (this.targetFilter(this.target.positionData.values) && targetDistSq < (this.viewRange ** 2) * 2) return this.target; // this range is inaccurate i think
 
@@ -123,6 +122,7 @@ private _findTargetInterval: number = 2;
             if (!(entity.relationsData.values.owner === null || !(entity.relationsData.values.owner instanceof ObjectEntity))) continue; // Don't target entities who have an object owner
 
             if (entity.relationsData.values.team === team || entity.physicsData.values.sides === 0) continue;
+            if (entity.styleData.opacity < 0.5) continue;
 
             if (!this.targetFilter(entity.positionData.values)) continue; // Custom check
 

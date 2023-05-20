@@ -77,7 +77,7 @@ export default class AutoBullet extends Bullet implements BarrelBase{
                 size: 65,
                 width: 50.4,
                 delay: 0.2,
-                reload: 5.5,
+                reload: 4.5,
                 recoil: 0,
                 isTrapezoid: false,
                 trapezoidDirection: 0,

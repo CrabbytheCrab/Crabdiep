@@ -714,14 +714,14 @@ export class MachineEngiTrapLauncher2 extends ObjectEntity {
         this.physicsData.values.sides = 2;
         this.physicsData.values.width = barrel.physicsData.values.width * 3.0625        ;
         this.physicsData.values.size = barrel.physicsData.values.width * (13 / 42);
-        this.positionData.values.x = (barrel.physicsData.values.size + this.physicsData.values.size) - (16 * (28 / 42));
+        this.positionData.values.x = (barrel.physicsData.values.size + this.physicsData.values.size) - (10 * (28 / 42));
     }
 
     public resize() {
         this.physicsData.sides = 2;
         this.physicsData.width = this.barrelEntity.physicsData.values.width * 3.0625        ;
         this.physicsData.size = this.barrelEntity.physicsData.values.width * (13 / 42);
-        this.positionData.x = (this.barrelEntity.physicsData.values.size + this.physicsData.values.size) - (16 * (28 / 42));
+        this.positionData.x = (this.barrelEntity.physicsData.values.size + this.physicsData.values.size) - (10 * (28 / 42));
     }
 
 

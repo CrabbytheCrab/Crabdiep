@@ -1039,7 +1039,6 @@ class VampSmasherAddon extends Addon {
                 absorbtionFactor: 0.1
             }
         });
-            atuo.baseSize *= 1.25
         //atuo.ai.passiveRotation = this.movementAngle
         atuo.ai.viewRange = 0
         atuo.styleData.color = Color.Vampire
@@ -1386,12 +1385,90 @@ class VampAddon extends Addon {
                 absorbtionFactor: 0.1
             }
         });
-            atuo.baseSize *= 1.25
         //atuo.ai.passiveRotation = this.movementAngle
         atuo.ai.viewRange = 0
         atuo.styleData.color = Color.Vampire
     }
 }
+
+
+class AutoVampAddon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+        const base = new AutoTurret(owner, [{
+            angle: 0,
+            offset: 0,
+            size: 60,
+            width: 21 * 0.7,
+            delay: 0.01,
+            reload: 2,
+            recoil: 0,
+            isTrapezoid: false,
+            trapezoidDirection: 0,
+            addon: null,
+            bullet: {
+                type: "leach",
+                health: 1,
+                damage: 0.5,
+                speed: 1.2,
+                scatterRate: 1,
+                lifeLength: 1,
+                sizeRatio: 1,
+                absorbtionFactor: 0.5
+            }
+        }, {
+            angle: 0,
+            offset: 0,
+            size: 40,
+            width: 42 * 0.7,
+            delay: 0.01,
+            reload: 1,
+            recoil: 0,
+            isTrapezoid: false,
+            trapezoidDirection: 0,
+            addon: null,
+            droneCount: 0,
+            bullet: {
+                type: "drone",
+                health: 1,
+                damage: 0.2,
+                speed: 1.2,
+                scatterRate: 1,
+                lifeLength: 1,
+                sizeRatio: 1,
+                absorbtionFactor: 0.5
+            }
+    }]);
+        const atuo = new AutoTurret(owner, {
+            angle: 0,
+            offset: 0,
+            size: 0,
+            width: 0,
+            delay: 0.01,
+            reload: 1.75,
+            recoil: 0,
+            isTrapezoid: false,
+            trapezoidDirection: 0,
+            addon: null,
+            droneCount: 0,
+            bullet: {
+                type: "drone",
+                sizeRatio: 1,
+                health: 0.75,
+                damage: 0.5,
+                speed: 1,
+                scatterRate: 1,
+                lifeLength: 0.75,
+                absorbtionFactor: 0.1
+            }
+        });
+        //atuo.ai.passiveRotation = this.movementAngle
+        atuo.ai.viewRange = 0
+        atuo.baseSize *= 0.5
+        atuo.styleData.color = Color.Vampire
+    }
+}
+
 /** Smasher + Centered Auto Turret addon. */
 class AutoSmasherAddon extends Addon {
     public constructor(owner: BarrelBase) {
@@ -2117,5 +2194,6 @@ export const AddonById: Record<addonId, typeof Addon | null> = {
     sporn: SpornAddon,
     autoauto3: AutoAuto3Addon,
     glider: GliderAddon,
+    autovamp : AutoVampAddon,
     vampsmasher : VampSmasherAddon
 }

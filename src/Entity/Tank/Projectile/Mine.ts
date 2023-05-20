@@ -319,6 +319,12 @@ export default class Mine extends Bullet implements BarrelBase {
         super.tick(tick);
         this.inputs = new Inputs();
         this.inputs.flags |= InputFlags.leftclick;
+        if (!Entity.exists(this.barrelEntity)){
+            this.canexploded = false
+            this.canexplode = false
+            this.boom = false
+             this.destroy()};
+
         if(this.canexploded){
         if(this.tank.inputs.attemptingRepel() && this.canexplode == true){
             this.canexploded = false

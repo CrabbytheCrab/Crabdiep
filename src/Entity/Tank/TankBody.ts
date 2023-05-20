@@ -162,7 +162,7 @@ public altTank: boolean
             this.baseSize *= 1.5
             camera.maxlevel = 90
         }else{
-            camera.maxlevel = maxPlayerLevel
+            camera.maxlevel = this.game.arena.maxtanklevel
 
         }
         this.baseSize = tank.baseSizeOverride ?? tank.sides === 4 ? Math.SQRT2 * 32.5 : tank.sides === 16 ? Math.SQRT2 * 25 : this.definition.flags.isCelestial ? Math.SQRT2 * 47.5 : 50;
@@ -496,6 +496,7 @@ public Accend(){
             if (this._currentTank === Tank.Bumper) this.damageReduction = 0.625;
             if (this._currentTank === Tank.Maleficitor ||this._currentTank === Tank.Caster || this._currentTank === Tank.Wizard) this.MAXDRONES = 11 + this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload];
             if (this._currentTank === Tank.Necromancer) this.MAXDRONES = 22 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload] * 2);
+            if (this._currentTank === Tank.Summoner) this.MAXDRONES = 44 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload] * 4);
             if (this._currentTank === Tank.Dronemare) this.MAXDRONES = 5 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]/2);
             if (this._currentTank === Tank.Wraith) this.MAXDRONES = 4 + this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]
             if (this._currentTank === Tank.Animator) this.MAXDRONES = 10 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]/2);

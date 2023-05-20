@@ -48,6 +48,31 @@ import AutoTurret from "../AutoTurret";
         absorbtionFactor: 1
     }
 };
+
+const MinionBarrelDrone: BarrelDefinition = {
+    angle: Math.PI,
+    offset: 0,
+    size: 70,
+    width: 42,
+    delay: 0,
+    reload: 4.5,
+    recoil: 1,
+    isTrapezoid: true,
+    trapezoidDirection: 0,
+    droneCount: 2,
+    canControlDrones: false,
+    addon: null,
+    bullet: {
+        type: "drone",
+        health: 0.7,
+        damage: 0.5,
+        speed: 0.8,
+        scatterRate: 1,
+        lifeLength: -1,
+        sizeRatio: 1,
+        absorbtionFactor: 1
+    }
+};
 const MinionBarrelDefinition2: BarrelDefinition = {
     angle: 3.141592653589793,
     offset: 0,
@@ -192,6 +217,9 @@ public idx: number | null;
         }
         else{
             this.minionBarrel = new Barrel(this, MinionBarrelDefinition)
+            if (tankDefinition && tankDefinition.id === Tank.Forge){
+                this.minionBarrel = new Barrel(this, MinionBarrelDrone)
+            }
         }
         this.ai.movementSpeed = this.ai.aimSpeed = this.baseAccel;
     }

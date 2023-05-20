@@ -31,19 +31,19 @@ import { BarrelBase } from "../TankBody";
 const CrocSkimmerBarrelDefinition: BarrelDefinition = {
     angle: Math.PI / 2,
     offset: 0,
-    size: 70,
-    width: 42,
+    size: 66.526,
+    width: 37.8,
     delay: 0,
-    reload: 0.5,
+    reload: 0.35,
     recoil: 0,
     isTrapezoid: false,
     trapezoidDirection: 0,
     addon: null,
     bullet: {
         type: "bullet",
-        health: 0.3,
+        health: 0.4,
         damage: 3 / 5,
-        speed: .2,
+        speed: 0.8,
         scatterRate: 1,
         lifeLength: 0.25,
         sizeRatio: 1,
@@ -82,8 +82,8 @@ export default class CrocSkimmer extends Bullet implements BarrelBase {
         s2Definition.angle += Math.PI
         const s2 = new Barrel(this, s2Definition);
 
-        s1.styleData.values.color = this.styleData.values.color;
-        s2.styleData.values.color = this.styleData.values.color;
+        //s1.styleData.values.color = this.styleData.values.color;
+        //s2.styleData.values.color = this.styleData.values.color;
 
         skimmerBarrels.push(s1, s2);
 
