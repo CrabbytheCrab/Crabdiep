@@ -1233,6 +1233,38 @@ class LauncherSmallAddon extends Addon {
     }
 }
 
+class Launcher2SmallAddon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+
+        const launcher = new ObjectEntity(this.game);
+        const sizeRatio = 65.5 * Math.SQRT2 / 50;
+        const widthRatio = 39.375 / 50;
+        const size = this.owner.physicsData.values.size;
+
+        launcher.setParent(this.owner);
+        launcher.relationsData.values.owner = this.owner;
+        launcher.relationsData.values.team = this.owner.relationsData.values.team;
+        launcher.styleData.zIndex += 1
+        launcher.physicsData.values.size = sizeRatio * size;
+        launcher.physicsData.values.width = widthRatio * size;
+        launcher.positionData.values.x = launcher.physicsData.values.size / 2;
+
+        //launcher.physicsData.values.flags |= PhysicsFlags.isTrapezoid;
+        launcher.styleData.values.color = Color.Barrel;
+        launcher.physicsData.values.sides = 2;
+
+        launcher.tick = () => {
+            const size = this.owner.physicsData.values.size;
+
+            launcher.physicsData.size = sizeRatio * size;
+            launcher.physicsData.width = widthRatio * size;
+            launcher.positionData.x = launcher.physicsData.values.size / 2;
+        }
+    }
+}
+
+
 class LauncherAddon2 extends Addon {
     public constructor(owner: BarrelBase) {
         super(owner);
@@ -1243,13 +1275,13 @@ class LauncherAddon2 extends Addon {
 
             const launcher = new ObjectEntity(this.game);
             const sizeRatio = 65.5 * Math.SQRT2 / 50;
-            const widthRatio = 21.504/ 50;
+            const widthRatio = 31.5/ 50;
             const size = this.owner.physicsData.values.size;
     
             launcher.setParent(this.owner);
             launcher.relationsData.values.owner = this.owner;
             launcher.relationsData.values.team = this.owner.relationsData.values.team;
-            launcher.physicsData.values.flags |= PhysicsFlags.isTrapezoid;
+            //launcher.physicsData.values.flags |= PhysicsFlags.isTrapezoid;
     
             launcher.physicsData.values.size = sizeRatio * size;
             launcher.physicsData.values.width = widthRatio * size;
@@ -2195,5 +2227,6 @@ export const AddonById: Record<addonId, typeof Addon | null> = {
     autoauto3: AutoAuto3Addon,
     glider: GliderAddon,
     autovamp : AutoVampAddon,
-    vampsmasher : VampSmasherAddon
+    vampsmasher : VampSmasherAddon,
+    launcheralt: Launcher2SmallAddon
 }

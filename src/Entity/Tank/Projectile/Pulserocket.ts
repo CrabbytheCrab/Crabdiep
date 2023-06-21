@@ -25,41 +25,38 @@ import { Inputs } from "../../AI";
 import { BarrelDefinition, TankDefinition } from "../../../Const/TankDefinitions";
 import { BarrelBase } from "../TankBody";
 import AutoTurret from "../AutoTurret";
-import Orbit from "./Orbit";
-import ObjectEntity from "../../Object";
 
 /**
  * Barrel definition for the rocketeer rocket's barrel.
  */
 
 const RocketBarrelDefinition: BarrelDefinition = {
-    angle: 0,
+    angle: Math.PI,
     offset: 0,
-    size: 85,
-    width: 50.4,
+    size: 70,
+    width: 33.6 ,
     delay: 0,
-    reload: 1,
-    recoil: 0,
-    isTrapezoid: false,
+    reload: 0.5,
+    recoil: 4.5,
+    isTrapezoid: true,
     trapezoidDirection: 0,
     addon: null,
     bullet: {
-        type: "bullet",
-        health: 0.55,
+        type: "pulsar",
+        health: 0.4,
         damage: 0.5,
-        speed: 1,
-        scatterRate: 1,
-        lifeLength: 1,
-        sizeRatio: 1,
+        speed: 1.25,
+        scatterRate: 4,
+        lifeLength: 2,
+        sizeRatio: 1.5,
         absorbtionFactor: 1
     }
 };
 
-
 /**
  * Represents all rocketeer rockets in game.
  */
-export default class Orbitrocket extends Orbit implements BarrelBase {
+export default class Pulserocket extends Bullet implements BarrelBase {
     /** The rocket's barrel */
     private launrocketBarrel: Barrel;
 
@@ -71,16 +68,16 @@ export default class Orbitrocket extends Orbit implements BarrelBase {
     public reloadTime = 1;
     /** The inputs for when to shoot or not. (Rocket) */
     public inputs = new Inputs();
-public change = true
 
-    public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number, mode:number, parent?: ObjectEntity) {
-        super(barrel, tank, tankDefinition, shootAngle,mode);
-        this.parent = parent ?? tank;
+
+    public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number) {
+        super(barrel, tank, tankDefinition, shootAngle);
         
         this.cameraEntity = tank.cameraEntity;
 
         this.sizeFactor = this.physicsData.values.size / 50;
-        this.launrocketBarrel = new Barrel(this, {...RocketBarrelDefinition});
+        const launrocketBarrel = this.launrocketBarrel = new Barrel(this, {...RocketBarrelDefinition});
+        launrocketBarrel.styleData.values.color = this.styleData.values.color;
     }
 
     public tick(tick: number) {
@@ -89,22 +86,10 @@ public change = true
         //if (!this.deletionAnimation && this.launrocketBarrel) this.launrocketBarrel.definition.width = ((this.barrelEntity.definition.width / 2) * RocketBarrelDefinition.width) / this.physicsData.values.size;
 
         super.tick(tick);
-        if(!this.fire){
-            this.positionData.angle = Math.atan2(this.tank.inputs.mouse.y - this.positionData.y, this.tank.inputs.mouse.x - this.positionData.x);
-        }else{
-            this.positionData.angle = this.movementAngle + Math.PI
-        }
+
         if (this.deletionAnimation) return;
         // not fully accurate
-        if (!this.fire && this.tank.inputs.attemptingShot()){
-            this.inputs.flags |= InputFlags.leftclick;
-            
-        }else if(!this.fire && !this.tank.inputs.attemptingShot()){
-            if(this.inputs.flags && this.inputs.flags == InputFlags.leftclick) this.inputs.flags ^= InputFlags.leftclick;
-
-        }else{
-            this.inputs.flags |= InputFlags.leftclick;
-        }
+        if (tick - this.spawnTick >= this.tank.reloadTime) this.inputs.flags |= InputFlags.leftclick;
         // Only accurate on current version, but we dont want that
         // if (!Entity.exists(this.barrelEntity.rootParent) && (this.inputs.flags & InputFlags.leftclick)) this.inputs.flags ^= InputFlags.leftclick; 
     }

@@ -19,13 +19,15 @@
 import Barrel from "../Barrel";
 import Bullet from "./Bullet";
 
-import { PhysicsFlags, Stat, StyleFlags } from "../../../Const/Enums";
+import { InputFlags, PhysicsFlags, Stat, StyleFlags } from "../../../Const/Enums";
 import { getTankById, TankDefinition } from "../../../Const/TankDefinitions";
 import { Entity } from "../../../Native/Entity";
 import { AI, AIState } from "../../AI";
 import TankBody, { BarrelBase } from "../TankBody";
 import { CameraEntity } from "../../../Native/Camera";
 import { PI2 } from "../../../util";
+import ObjectEntity from "../../Object";
+import { log } from "console";
 
 /**
  * The drone class represents the drone (projectile) entity in diep.
@@ -46,15 +48,18 @@ export default class Orbit extends Bullet {
     public timer : number
     /** Cached prop of the definition. */
     protected canControlDrones: boolean;
-
-    public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number) {
+    public mode:number
+    public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number, mode: number, parent?: ObjectEntity) {
         super(barrel, tank, tankDefinition, shootAngle);
         //this.rotationPerTick = direction;
-        this.tank.borscount = this.tank.borscount.filter(val => val !== this.num)
-        this.tank.borscount.push()
+        this.parent = parent ?? tank;
+        this.mode = mode
         const bulletDefinition = barrel.definition.bullet;
         this.usePosAngle = false;
         this.ai = new AI(this);
+        if(this.parent instanceof TankBody){
+        this.parent.orbit.push(this)
+    }
         this.canControlDrones = typeof this.barrelEntity.definition.canControlDrones === 'boolean' && this.barrelEntity.definition.canControlDrones;
         this.physicsData.values.sides = bulletDefinition.sides ?? 1;
         // TOD(ABCO:
@@ -64,21 +69,20 @@ export default class Orbit extends Bullet {
         this.timer = 0
         this.physicsData.values.pushFactor = 4;
         this.physicsData.values.absorbtionFactor = bulletDefinition.absorbtionFactor;
-        this.baseSpeed /= 3;
-        if (this.physicsData.values.flags & PhysicsFlags.noOwnTeamCollision) this.physicsData.values.flags ^= PhysicsFlags.noOwnTeamCollision;
-        this.physicsData.values.flags |= PhysicsFlags.onlySameOwnerCollision;
-        this.tank.OrbCount += 1;
-        this.num = this.tank.OrbCount
+       // this.baseSpeed /= 3;
+        this.parent.OrbCount += 1;
+        this.num = this.parent.OrbCount
         this.ai.movementSpeed = this.ai.aimSpeed = this.baseAccel;
-        this.tank.borscount[this.num] += 1;
     }
 
     /** Extends LivingEntity.destroy - so that the drone count decreases for the barrel. */
     public destroy(animate=true) {
-        this.tank.borscount[this.num] -= 1;
-
-        if (!animate) this.tank.OrbCount -= 1;
-
+        if (!animate)
+        if(this.parent instanceof TankBody){
+            this.parent.OrbCount -= 1;
+            this.parent.orbit.slice(this.num)
+            this.parent.orbit.splice(this.parent.orbit.indexOf(this),this.num)
+        }
         super.destroy(animate);
     }
     
@@ -90,20 +94,6 @@ export default class Orbit extends Bullet {
         const statLevels = this.tank.cameraEntity.cameraData?.values.statLevels.values;
 
         const bulletSpeed = statLevels ? statLevels[Stat.BulletSpeed] : 0;
-        let shifted = false;
-        for (let n = 0; n < this.num; n++) {
-            if (this.tank.borscount[n] === 0) {
-                this.tank.borscount[this.num] -= 1;            
-                this.num--;
-                shifted = true;
-                //only let it move down once at a time, prevents overlaps and weird stuff
-                break;
-            }
-        }
-        if (!shifted && this.tank.borscount[this.num] > 1) {
-            //this.num++;
-            this.tank.borscount[this.num] -= 1;
-        }
         if(this.fire == true){
             this.timer++
             if(this.timer == 5){
@@ -112,10 +102,6 @@ export default class Orbit extends Bullet {
             }
         }
             if(this.fire == false){
-                if(this.num > 0 &&   this.tank.borscount[this.num- 1])
-                {
-                    this.num -= 1
-                }
                 
             if (!Entity.exists(this.barrelEntity)) this.destroy()
             this.lifeLength = Infinity;
@@ -130,29 +116,50 @@ export default class Orbit extends Bullet {
                 }
         const sizeFactor = this.tank.sizeFactor;
         const base = this.baseAccel;
-            let angle = PI2 * ((this.num)/this.tank.OrbCount)
+            let angle = PI2 * ((this.num)/this.parent.OrbCount)
             const offset = (Math.atan2(delta.y, delta.x) + Math.PI/ 2)
             let dista = 3
+            let multi = 0.05
+            if(this.num > this.parent.OrbCount){
+                //console.log(this.parent.OrbCount)
+                //this.num = this.num - this.parent.OrbCount
+            }
+            if(this.num == 0 || this.num == null){
+                //console.log("true2")
+                //this.destroy()
+               // this.num = this.parent.OrbCount
+            }
+            if (this.mode == 1){
+                 dista = 5
+                if(this.tank.inputs.attemptingRepel()){
+                    dista = 10
+                    //multi = 0.025
+                }
+            }
+            if (this.mode == 2){
+                dista = 1.75
+            }
                 let angle2 = angle
                 angle2 += tick * (0.2 + (0.3 * bulletSpeed/7))
                 const offset2 =  Math.atan2(this.tank.positionData.values.y, this.tank.positionData.values.x ) +  Math.PI /(this.barrelEntity.droneCount/this.num)
-                delta.x = this.tank.positionData.x +  (this.tank.physicsData.size  * Math.cos(angle + (tick * 0.1))) * dista -this.positionData.x;
-                delta.y = this.tank.positionData.y +  (this.tank.physicsData.size  * Math.sin(angle + (tick * 0.1))) * dista - this.positionData.y
+                this.positionData.x = this.tank.positionData.x +  (this.tank.physicsData.size  * Math.cos(angle + (tick * multi))) * dista
+                this.positionData.y = this.tank.positionData.y +  (this.tank.physicsData.size  * Math.sin(angle + (tick * multi))) * dista
                
                 //this.movementAngle = Math.atan2(delta.y, delta.x);
-                this.movementAngle =  Math.atan2(delta.y, delta.x);
+                //this.movementAngle =  Math.atan2(delta.y, delta.x);
             if(this.tank.inputs.attemptingRepel()){
+                if (this.mode == 0 || this.mode == 2){
         const inputs = this.tank.inputs;
-
+                    console.log(this.num)
                 this.fire = true
                 this.angles = Math.atan2((inputs.mouse.y - this.positionData.values.y), (inputs.mouse.x - this.positionData.values.x));
                 this.movementAngle = this.angles
-                this.baseSpeed *= 2;
-                this.addAcceleration(this.movementAngle, this.baseSpeed * 2);
+                this.addAcceleration(this.movementAngle, this.baseSpeed);
                 //this.barrelEntity.droneCount =0
                 this.lifeLength = 72 * this.barrelEntity.definition.bullet.lifeLength;
 
 
+                }
             }
         }
         

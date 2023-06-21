@@ -42,6 +42,8 @@ import Vector from "../../Physics/Vector";
 import NecromancerWepSquare from "./Projectile/NecromancerWepSquare";
 import RopeSegment from "./Projectile/RopeSegment";
 import AbstractShape from "../Shape/AbstractShape";
+import Orbit from "./Projectile/Orbit";
+import OrbitTrap from "./Projectile/OrbitTrap";
 
 /**
  * Abstract type of entity which barrels can connect to.
@@ -83,6 +85,8 @@ public altTank: boolean
     /** Sets tanks to be invulnerable - example, godmode, or AC */
     public isInvulnerable: boolean = false;
     public segments: ObjectEntity[];
+    public orbit: Orbit[];
+    public orbit2: OrbitTrap[];
     public k: number;
     public length: number;
 
@@ -95,6 +99,8 @@ public altTank: boolean
         this.canchain = true
         this.altTank = true
         this.segments = [this];
+        this.orbit = [];
+        this.orbit2 = [];
         this.k = 0.25;
         this.physicsData.values.size = 50;
         this.physicsData.values.sides = 1;
@@ -402,11 +408,32 @@ public Accend(){
         if(this._currentTank == Tank.MicroSmasher){
             this.baseSize = (25 - (12.5/10 * this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload])) * Math.SQRT2
         }
-        if (this._currentTank == Tank.PentaShot || this._currentTank == Tank.Triplet || this._currentTank == Tank.Hydra){
+        if (this._currentTank == Tank.PentaShot || this._currentTank == Tank.Triplet || this._currentTank == Tank.Hydra || this._currentTank == Tank.SpreadShot || this._currentTank == Tank.Saw || this._currentTank == Tank.Scope){
         }else{
             this.altTank = true
 
         }
+        if(this._currentTank == Tank.Scope){
+            if(this.altTank && Math.random() <= 0.02){
+            this.setTank(Tank.Spammer)
+            }
+            this.altTank = false
+
+         }
+        if(this._currentTank == Tank.Spike){
+            if(this.altTank && Math.random() <= 0.02){
+            this.setTank(Tank.SPORN)
+            }
+            this.altTank = false
+
+         }
+        /* if(this._currentTank == Tank.SpreadShot){
+            if(this.altTank && Math.random() <= 0.02){
+            this.setTank(Tank.Disperse)
+            }
+            this.altTank = false
+
+         }*/
         if(this._currentTank == Tank.PentaShot){
             if(this.altTank && Math.random() <= 0.1){
             this.setTank(Tank.ArrasPenta)
@@ -415,14 +442,14 @@ public Accend(){
 
          }
          if(this._currentTank == Tank.Triplet){
-            if(this.altTank && Math.random() <= 0.01){
+            if(this.altTank && Math.random() <= 0.02){
             this.setTank(Tank.Quadruplet)
             }
             this.altTank = false
 
          }
          if(this._currentTank == Tank.Hydra){
-            if(this.altTank && Math.random() <= 0.01){
+            if(this.altTank && Math.random() <= 0.02){
             this.setTank(Tank.Puker)
             }
             this.altTank = false
@@ -579,6 +606,22 @@ else if (this._currentTank === Tank.SPORN){
             x: 0,
             y: 0
         });
+        for (let i = 0; i < this.orbit.length; i++)
+        this.orbit[i].num = i;
+            for (let i = 1; i < this.orbit2.length; i++) 
+            {
+                const a = this.orbit[i - 1];
+                const b = this.orbit[i];
+                if(b.num > this.OrbCount){
+                    b.num--
+                }
+                if(b.num <= 0){
+                    b.num = this.OrbCount
+                }
+                if(a.num >= b.num){
+                    a.num--
+                }
+            }
 
         for (let i = 1; i < this.segments.length; i++) 
         {

@@ -76,6 +76,8 @@ import AutoBullet from "./Projectile/AutoBullet";
 import AutoRocket from "./Projectile/AutoRocket";
 import Shotgun from "./Projectile/ShotGun";
 import Leach from "./Projectile/Leach";
+import Pulsar from "./Projectile/Pulsar";
+import Pulserocket from "./Projectile/Pulserocket";
 /**
  * Class that determines when barrels can shoot, and when they can't.
  */
@@ -102,7 +104,7 @@ export class ShootCycle {
 
         const alwaysShoot = (this.barrelEntity.definition.forceFire) ||(this.barrelEntity.definition.bullet.type === 'dronenorep') ||(this.barrelEntity.definition.bullet.type === 'bombdrone')||(this.barrelEntity.definition.bullet.type === 'autodrone') || (this.barrelEntity.definition.bullet.type === 'pentadrone') || (this.barrelEntity.definition.bullet.type === 'domminion') || (this.barrelEntity.definition.bullet.type === 'megaminion') || (this.barrelEntity.definition.bullet.type === 'miniminion') || (this.barrelEntity.definition.bullet.type === 'minion') || (this.barrelEntity.definition.bullet.type === 'drone') || (this.barrelEntity.definition.bullet.type === 'necrodrone') || (this.barrelEntity.definition.bullet.type === 'wepnecrodrone') || (this.barrelEntity.definition.bullet.type === 'necropentadrone') || (this.barrelEntity.definition.bullet.type === 'necrotriangledrone');
         const necroShoot = (this.barrelEntity.definition.bullet.type === 'necrodrone') || (this.barrelEntity.definition.bullet.type === 'wepnecrodrone') || (this.barrelEntity.definition.bullet.type === 'necropentadrone') || (this.barrelEntity.definition.bullet.type === 'necrotriangledrone');
-        const Orbshot = (this.barrelEntity.definition.bullet.type === 'orbit'|| this.barrelEntity.definition.bullet.type === 'orbitrocket'||(this.barrelEntity.definition.bullet.type === 'orbittrap'))
+        const Orbshot = (this.barrelEntity.definition.bullet.type === 'orbit'||  this.barrelEntity.definition.bullet.type === 'orbit2' ||  this.barrelEntity.definition.bullet.type === 'orbit3'|| this.barrelEntity.definition.bullet.type === 'orbitrocket'||(this.barrelEntity.definition.bullet.type === 'orbittrap'))
         if (this.pos >= reloadTime) {
             // When its not shooting dont shoot, unless its a drone
             if (!this.barrelEntity.attemptingShot && !alwaysShoot) {
@@ -250,6 +252,10 @@ export default class Barrel extends ObjectEntity {
                 if (tankDefinition && (tankDefinition.id === Tank.ArenaCloser || tankDefinition.id === DevTank.Squirrel)) bullet.positionData.flags |= PositionFlags.canMoveThroughWalls;
                 break;
             }
+            case 'pulsar': {
+                new Pulsar(this, this.tank, tankDefinition, angle, this.definition.angle);
+                break;
+            }
             case 'leach': {
                 const bullet = new Leach(this, this.tank, tankDefinition, angle, this.rootParent);
                 break;
@@ -323,13 +329,19 @@ export default class Barrel extends ObjectEntity {
                     new AutoDrone(this, this.tank, tankDefinition, angle);
                     break;
             case 'orbit':
-                new Orbit(this, this.tank, tankDefinition, angle);
+                new Orbit(this, this.tank, tankDefinition, angle,0,this.rootParent);
+                break;
+            case 'orbit2':
+                new Orbit(this, this.tank, tankDefinition, angle,1,this.rootParent);
+                break;
+            case 'orbit3':
+                new Orbit(this, this.tank, tankDefinition, angle,2,this.rootParent);
                 break;
             case 'orbitrocket':
-                new Orbitrocket(this, this.tank, tankDefinition, angle);
+                new Orbitrocket(this, this.tank, tankDefinition, angle,0,this.rootParent);
             break;
                 case 'orbittrap':
-                    new OrbitTrap(this, this.tank, tankDefinition, angle);
+                    new OrbitTrap(this, this.tank, tankDefinition, angle,this.rootParent);
                     break;
             case 'pentadrone':
                 new Pentagon(this, this.tank, tankDefinition, angle);
@@ -376,6 +388,9 @@ export default class Barrel extends ObjectEntity {
                 break;
             case "launrocket":
                 new Launrocket(this, this.tank, tankDefinition, angle);
+                break;
+            case "pulserocket":
+                new Pulserocket(this, this.tank, tankDefinition, angle);
                 break;
             case "autorocket":
                 new AutoRocket(this, this.tank, tankDefinition, angle);

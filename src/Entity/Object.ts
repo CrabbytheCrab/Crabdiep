@@ -37,6 +37,7 @@ class DeletionAnimation {
 
     /** Animates the death animation. Called by the owner's internal tick. */
     public tick() {
+        this.entity.deathanim = true
         if (this.frame === -1) throw new Error("Animation failed. Entity should be gone by now");
 
         switch (this.frame) {
@@ -112,10 +113,12 @@ export default class ObjectEntity extends Entity {
     public MAXDRONES: number
     public OrbCount: number
     public DroneCount: number
+    public deathanim: boolean
     public borscount = new Array(100);
     public cangoThroughRope: boolean;
     public constructor(game: GameServer) {
         super(game);
+        this.deathanim = false
         this.MAXDRONES = 0
         this.MAXORBS = 0
         this.OrbCount = 0

@@ -26,6 +26,7 @@ import { AI, AIState } from "../../AI";
 import TankBody, { BarrelBase } from "../TankBody";
 import { CameraEntity } from "../../../Native/Camera";
 import { PI2 } from "../../../util";
+import ObjectEntity from "../../Object";
 
 /**
  * The drone class represents the drone (projectile) entity in diep.
@@ -48,8 +49,9 @@ export default class OrbitTrap extends Bullet {
     /** Cached prop of the definition. */
     protected canControlDrones: boolean;
 
-    public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number) {
+    public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number, parent?: ObjectEntity) {
         super(barrel, tank, tankDefinition, shootAngle);
+        this.parent = parent ?? tank;
         //this.rotationPerTick = direction;
         OrbitTrap.dronecount = OrbitTrap.dronecount.filter(val => val !== this.num)
         OrbitTrap.dronecount.push()
@@ -65,6 +67,8 @@ export default class OrbitTrap extends Bullet {
         // No hardcoded - unless it is hardcoded in diep (all signs show that it might be so far)
         this.angles = 0
         this.timer = 0
+        if(this.parent instanceof TankBody){
+            this.parent.orbit2.push(this)}
         this.physicsData.values.pushFactor = 4;
         this.physicsData.values.absorbtionFactor = bulletDefinition.absorbtionFactor;
                 this.baseSpeed = (barrel.bulletAccel / 2) + 30 - Math.random() * barrel.definition.bullet.scatterRate;
@@ -130,7 +134,7 @@ export default class OrbitTrap extends Bullet {
         const base = this.baseAccel;
             let angle = PI2 * ((this.num)/this.tank.OrbCount)
             const offset = (Math.atan2(delta.y, delta.x) + Math.PI/ 2)
-            let dista = 3
+            let dista = 4
                 let angle2 = angle
                 angle2 += tick * (0.2 + (0.3 * bulletSpeed/7))
                 const offset2 =  Math.atan2(this.tank.positionData.values.y, this.tank.positionData.values.x ) +  Math.PI /(this.barrelEntity.droneCount/this.num)
@@ -142,7 +146,11 @@ export default class OrbitTrap extends Bullet {
             if(this.tank.inputs.attemptingRepel()){
         const inputs = this.tank.inputs;
                 OrbitTrap.dronecount[this.num] = 0;
+                if(this.parent instanceof TankBody){
+                    this.parent.orbit2.slice(this.num)
+                }
                 this.tank.OrbCount = 0;
+                this.num = 0
                 this.fire = true
                 this.angles = Math.atan2((inputs.mouse.y - this.positionData.values.y), (inputs.mouse.x - this.positionData.values.x));
                 this.baseSpeed = (this.barrelEntity.bulletAccel / 2) + 30;

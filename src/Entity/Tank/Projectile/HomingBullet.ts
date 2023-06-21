@@ -27,6 +27,7 @@ import ObjectEntity from "../../Object";
 import Bullet from "./Bullet";
 import { AI, AIState, Inputs } from "../../AI";
 import { VectorAbstract } from "../../../Physics/Vector";
+import { tps } from "../../../config";
 
 /**
  * The bullet class represents the bullet entity in diep.
@@ -40,19 +41,26 @@ export default class HomingBullet extends Bullet {
     private _creationTick: number;
     public state = AIState.idle;
     public movementSpeed = 10000;
-    public static DECTECTRANGE = 300 ** 2;
-
+    public static DECTECTRANGE = 500 ** 2;
+    public bool: Number
+    public home: boolean
     public aimSpeed = 1000;
     /** If the AI should predict enemy's movements, and aim accordingly. */
     public doAimPrediction: boolean = false;
-    private _findTargetInterval: number = 2;
+    private _findTargetInterval: number = 0;
     public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number, parent?: ObjectEntity) {
         super(barrel, tank, tankDefinition, shootAngle);
         this.usePosAngle = true;
         this.viewRange = 450 * tank.sizeFactor
         this._creationTick = this.game.tick;
         this.targetFilter = () => true;
+        this.doAimPrediction = true
+        this.home = false
+        this.bool = this.lifeLength << 45
        // this.movementSpeed = this.aimSpeed = this.baseAccel;
+       this.aimSpeed = (this.movementSpeed = this.baseAccel);
+       this['_findTargetInterval'] = tps;
+
 
     }
 
@@ -188,6 +196,11 @@ export default class HomingBullet extends Bullet {
         super.tick(tick);
     }
     public tick(tick: number) {
+        this.aimSpeed = 0;
+        this.movementSpeed = this.baseAccel;
+        if (tick - this.spawnTick >= 5) {
+            this.home = true
+        }
         const target = this.findTarget(tick);
         if (!target) {
             this.state = AIState.idle;
@@ -201,15 +214,19 @@ export default class HomingBullet extends Bullet {
             return;
             
         }
-        if(target){
+        const inputs = this.inputs;
+
+        if(target && this.home){
             this.state = AIState.hasTarget;
             //this.aimAt(target);
             const dist = (target.positionData.y - this.positionData.y) ** 2 + (target.positionData.x - this.positionData.x) ** 2
-            if (dist > HomingBullet.DECTECTRANGE / 4) { // Half
-
-            this.positionData.angle = Math.atan2(target.positionData.y - this.positionData.y, target.positionData.x - this.positionData.x);
-            this.maintainVelocity(Math.atan2(target.positionData.y - this.positionData.y, target.positionData.x - this.positionData.x), this.baseAccel/2)
+            if(!target.deathanim){
+                this.aimAt(target)
+                //this.velocity.angle = Math.atan2(inputs.mouse.y - this.positionData.values.y, inputs.mouse.x - this.positionData.values.x)
+                this.positionData.angle = Math.atan2(this.inputs.mouse.y - this.positionData.values.y, this.inputs.mouse.x - this.positionData.values.x)
+            //this.positionData.angle = Math.atan2(target.positionData.y - this.positionData.y, target.positionData.x - this.positionData.x);
         }
+
     }
         this.tickMixin(tick);
 
