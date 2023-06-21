@@ -309,7 +309,7 @@ export default class Client {
                         player.setTank(player.currentTank < 0 ? Tank.Basic : DevTank.Developer);
                     } else if (this.game.arena.arenaData.values.flags & ArenaFlags.canUseCheats) {
                         // only allow devs to go into godmode when players > 1
-                        if (this.accessLevel === config.AccessLevel.FullAccess || (this.game.arena.state === ArenaState.OPEN)) {
+                        if (this.accessLevel === config.AccessLevel.FullAccess || (this.game.clients.size === 1 && this.game.arena.state === ArenaState.OPEN)) {
                             this.setHasCheated(true);
 
                             player.setInvulnerability(!player.isInvulnerable);
@@ -352,8 +352,8 @@ export default class Client {
                 }
                 if (flags & InputFlags.levelup) {
                     // If full access, or if the game allows cheating and lvl is < maxLevel, or if the player is a BT access level and lvl is < maxLevel
-                    if ((this.accessLevel === config.AccessLevel.FullAccess) || (camera.cameraData.values.level < config.maxPlayerLevel && ((this.game.arena.arenaData.values.flags & ArenaFlags.canUseCheats) || (this.accessLevel === config.AccessLevel.BetaAccess) || (this.accessLevel === config.AccessLevel.kReserved)))) {
-                        this.setHasCheated(true);
+                    if (camera.cameraData.values.level < camera.maxlevel && camera.game.gamemode != "scenexe") {
+                        //this.setHasCheated(true);
                         
                         camera.setLevel(camera.cameraData.values.level + 1);
                     }

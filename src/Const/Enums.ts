@@ -365,6 +365,10 @@ export const enum Tank {
     Commandbrid   = 267,
     TheCroc       = 268,
     Forge         = 269,
+    Bastion       = 270,
+    Spammer       = 271,
+    Balrog        = 272,
+    Pulsars       = 273,
     Mothership    = 2000
 }
 

@@ -135,7 +135,7 @@ server.listen(PORT, () => {
 
     util.saveToLog("Servers up", "All servers booted up.", 0x37F554);
     //util.log(15 *(Math.PI/180));
-    util.log(140 *(Math.PI/180));
+    util.log(10 *(Math.PI/180));
     util.log("Dumping endpoint -> gamemode routing table");
     for (const game of games) console.log("> " + `localhost:${config.serverPort}/game/diepio-${game.gamemode}`.padEnd(40, " ") + " -> " + game.name);
 });
