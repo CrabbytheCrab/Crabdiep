@@ -26,7 +26,6 @@ import auth from "./Auth";
 import TankDefinitions from "./Const/TankDefinitions";
 import { commandDefinitions } from "./Const/Commands";
 import { ColorsHexCode } from "./Const/Enums";
-
 const PORT = config.serverPort;
 const ENABLE_API = config.enableApi && config.apiLocation;
 const ENABLE_CLIENT = config.enableClient && config.clientLocation && fs.existsSync(config.clientLocation);

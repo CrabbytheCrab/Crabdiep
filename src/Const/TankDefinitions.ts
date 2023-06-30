@@ -16,11 +16,12 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>
 */
 
+import { PI2 } from "../util";
 import DevTankDefinitions, { DevTank } from "./DevTankDefinitions";
 import { Tank, Color } from "./Enums";
 
 /** The types of post addons that exist in the game, by their id. */
-export type postAddonId = "dompronounced" | "auto5"| "sporn" | "vampire"| "autovamp"|"vampsmasher"|"autoauto3" |"cuck" | "spinner"| "chasm"| "void"|"comet"|"abyss"|"auto3" | "overdrive"| "psiEye" | "autosmasher" | "spike" | "pronounced"  | "rammer"| "bumper"|"smasher" | "landmine" |"autoturret3"| "autoturret"  | "joint3"  | "weirdspike" | "auto2" | "auto7" | "autorocket" | "spiesk" | "saw" | "megasmasher" | "mega3" | "stalker3" | "auto4" | "bigautoturret"| "droneturret";
+export type postAddonId = "chainer"|"microsmasher"|"dompronounced" | "auto5"| "sporn" | "vampire"| "autovamp"|"vampsmasher"|"autoauto3" |"cuck" | "spinner"| "chasm"| "void"|"comet"|"abyss"|"auto3" | "overdrive"| "psiEye" | "autosmasher" | "spike" | "pronounced"  | "rammer"| "bumper"|"smasher" | "landmine" |"autoturret3"| "autoturret"  | "joint3"  | "weirdspike" | "auto2" | "auto7" | "autorocket" | "spiesk" | "saw" | "megasmasher" | "mega3" | "stalker3" | "auto4" | "bigautoturret"| "droneturret";
 
 /** The types of post addons that exist in the game, by their id. */
 export type preAddonId = "dombase" | "launcher"| "launcheralt" | "glider" | "launchertall"| "pronounced2"|"laucher2"| "launchersmall";
@@ -28,7 +29,7 @@ export type preAddonId = "dombase" | "launcher"| "launcheralt" | "glider" | "lau
 export type addonId = preAddonId | postAddonId;
 
 /** The types of projectiles in the game */
-export type projectileId = "pulserocket"|"pulsar"|"bullet"| "block"| "streambullet"|"orbit2"| "orbit3" |"leach"|"conglom" |"shotgun4" | "shotgun3" | "shotgun9" | "shotgun20" |"shotgun4blunt" |"autobullet"|"autorocket"| "grower"| "snake"|"dronenorep" |"bouncer" |"homingrocket" | "tank" |"orbitrocket"|"homing" |"explosion"| "trapspinner"|"orbittrap" | "mine" |"bombdrone"|"striker"| "drone" | "autoswarm" |"trap"| "pentadrone"  |  "autodrone"  |"necrotriangledrone" | "necropentadrone" | "necrodrone" | "wepnecrodrone"|"minion" | "spinner" | "spinner4" | "megaspinner" | "skimmer" | "rocket" | "swarm" | "flame" | "wall" | "croc" | "launrocket" | "autotrap"| "domminion" | "megaminion" | "miniminion" | "boomerang" | "hive" | "blunt" | "blunttrap" | "orbit";
+export type projectileId = "abovebullet"|"pulserocket"|"pulsar"|"bullet"| "block"| "streambullet"|"orbit2"| "orbit3" |"leach"|"conglom" |"shotgun4" | "shotgun3" | "shotgun9" | "shotgun20" |"shotgun4blunt" |"autobullet"|"autorocket"| "grower"| "snake"|"dronenorep" |"bouncer" |"homingrocket" | "tank" |"orbitrocket"|"homing" |"explosion"| "trapspinner"|"orbittrap" | "mine" |"bombdrone"|"striker"| "drone" | "autoswarm" |"trap"| "pentadrone"  |  "autodrone"  |"necrotriangledrone" | "necropentadrone" | "necrodrone" | "wepnecrodrone"|"minion" | "spinner" | "spinner4" | "megaspinner" | "skimmer" | "rocket" | "swarm" | "flame" | "wall" | "croc" | "launrocket" | "autotrap"| "domminion" | "megaminion" | "miniminion" | "boomerang" | "hive" | "blunt" | "blunttrap" | "orbit";
 
 /** The types of barrel addons that exist in the game */
 export type barrelAddonId = "trapLauncher"|"autoLauncher"| "growLauncher" |"bounceLauncher"|"blockLauncher"| "NecLauncher"| "mineLauncher"  | "stickyLauncher" |"reversetrap"|"machineMineLauncher"| "minionLauncher" | "engitrapLauncher" | "swarmLauncher" | "machineTrapLauncher" | "engimachinetrapLauncher";
@@ -389,7 +390,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Sniper",
         "upgradeMessage": "",
         "levelRequirement": 15,
-        "upgrades": [12, 13, 14,31,233,196,212,57,257],
+        "upgrades": [12, 13, 14,31,233,196,138,212,57,257],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -551,7 +552,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Flank Guard",
         "upgradeMessage": "",
         "levelRequirement": 15,
-        "upgrades": [10,29, 11,188, 21, 19, 20, 159, 18],
+        "upgrades": [10,29, 11,188, 21, 19, 20, 159, 18,266],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -819,7 +820,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Trapper",
         "upgradeMessage": "",
         "levelRequirement": 15,
-        "upgrades": [29, 30, 36, 31,20,126, 183, 134,217,223, 140],
+        "upgrades": [29, 30, 36, 31,20,126, 183, 134,217,223, 140,161],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -1083,7 +1084,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Quad Tank",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [37, 38,189, 39,113,56,187],
+        "upgrades": [37, 38,189, 39,113,56,187,139],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -1116,7 +1117,7 @@ const TankDefinitions = JSON.parse(`[
                     "type": "bullet",
                     "sizeRatio": 1,
                     "health": 1,
-                    "damage": 0.75,
+                    "damage": 0.85,
                     "speed": 1,
                     "scatterRate": 1,
                     "lifeLength": 1,
@@ -1138,7 +1139,7 @@ const TankDefinitions = JSON.parse(`[
                     "type": "bullet",
                     "sizeRatio": 1,
                     "health": 1,
-                    "damage": 0.75,
+                    "damage": 0.85,
                     "speed": 1,
                     "scatterRate": 1,
                     "lifeLength": 1,
@@ -1160,7 +1161,7 @@ const TankDefinitions = JSON.parse(`[
                     "type": "bullet",
                     "sizeRatio": 1,
                     "health": 1,
-                    "damage": 0.75,
+                    "damage": 0.85,
                     "speed": 1,
                     "scatterRate": 1,
                     "lifeLength": 1,
@@ -2762,7 +2763,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Launcher",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [258,69,70,114,143,198,273],
+        "upgrades": [258,69,70,114,143,198,273,199],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -8511,9 +8512,9 @@ const TankDefinitions = JSON.parse(`[
                     "sizeRatio": 1,
                     "health": 3,
                     "damage": 1.25,
-                    "speed": 0.4,
+                    "speed": 0.7,
                     "scatterRate": 0.3,
-                    "lifeLength": 1.5,
+                    "lifeLength": 1,
                     "absorbtionFactor": 0.1
                 }
             }
@@ -11975,7 +11976,7 @@ const TankDefinitions = JSON.parse(`[
                     "sizeRatio": 1,
                     "health": 3,
                     "damage": 1,
-                    "speed": 0.45,
+                    "speed": 0.7,
                     "scatterRate": 0.3,
                     "lifeLength": 1,
                     "absorbtionFactor": 0.1
@@ -12160,7 +12161,7 @@ const TankDefinitions = JSON.parse(`[
                     "sizeRatio": 1,
                     "health": 3,
                     "damage": 1,
-                    "speed": 0.45,
+                    "speed": 0.7,
                     "scatterRate": 0.3,
                     "lifeLength": 1,
                     "absorbtionFactor": 0.1
@@ -16002,7 +16003,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Psy Tank",
         "upgradeMessage": "Right click to fire all the orbitiong bullets",
         "levelRequirement": 30,
-        "upgrades": [139,137,161,199,266
+        "upgrades": [139,137,199,266,272, 161
         ],
         "flags": {
             "invisibility": false,
@@ -18286,7 +18287,7 @@ const TankDefinitions = JSON.parse(`[
                     "sizeRatio": 1,
                     "health": 3,
                     "damage": 1,
-                    "speed": 0.45,
+                    "speed": 0.7,
                     "scatterRate": 0.3,
                     "lifeLength": 1,
                     "absorbtionFactor": 0.1
@@ -18716,8 +18717,8 @@ const TankDefinitions = JSON.parse(`[
             {
                 "angle": 0,
                 "offset": 0,
-                "size": 55,
-                "width": 41,
+                "size": 60,
+                "width": 42,
                 "delay": 0,
                 "reload": 2.5,
                 "recoil": 1,
@@ -20518,7 +20519,7 @@ const TankDefinitions = JSON.parse(`[
         "speed": 1.1,
         "maxHealth": 50,
         "preAddon": null,
-        "postAddon": "smasher",
+        "postAddon": "chainer",
         "sides": 1,
         "borderWidth": 15,
         "barrels": [],
@@ -26944,7 +26945,7 @@ const TankDefinitions = JSON.parse(`[
         "speed": 1.2,
         "maxHealth": 50,
         "preAddon": null,
-        "postAddon": "smasher",
+        "postAddon": "microsmasher",
         "sides": 1,
         "borderWidth": -10,
         "barrels": [],
@@ -30821,7 +30822,7 @@ const TankDefinitions = JSON.parse(`[
                     "sizeRatio": 1,
                     "health": 3,
                     "damage": 1,
-                    "speed": 0.4,
+                    "speed": 0.7,
                     "scatterRate": 0.3,
                     "lifeLength": 1.3,
                     "absorbtionFactor": 0.1
@@ -32812,6 +32813,7 @@ const TankDefinitions = JSON.parse(`[
                 "trapezoidDirection": 3.141592653589793,
                 "addon": "null",
                 "droneCount": 8,
+                "forceFire": true,
                 "bullet": {
                     "type": "orbit2",
                     "sizeRatio": 1,
