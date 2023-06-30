@@ -48,7 +48,9 @@ Module.servers = null;
 
 // colors
 Module.colors = null;
-
+// addons
+Module.addonDefinitions = null;
+Module.addonCallbackMap = {};
 // tanks
 Module.tankDefinitions = null;
 Module.tankDefinitionsTable = null;
@@ -137,7 +139,7 @@ Module.exit = status => {
 };
 
 // read utf8 from memory
-Module.UTF8ToString = ptr => ptr ? new TextDecoder().decode(Module.HEAPU8.subarray(ptr, Module.HEAPU8.indexOf(0, ptr))) : "";
+Module.UTF8ToString = ptr => ptr ? Decoder.decode(Module.HEAPU8.subarray(ptr, Module.HEAPU8.indexOf(0, ptr))) : "";
 
 // i/o write used for console, not fully understood
 Module.fdWrite = (stream, ptr, count, res) => {
@@ -149,7 +151,7 @@ Module.fdWrite = (stream, ptr, count, res) => {
 // write utf8 to memory
 Module.allocateUTF8 = str => {
     if(!str) return 0;
-    const encoded = new TextEncoder().encode(str);
+    const encoded = Encoder.encode(str);
     const ptr = Module.exports.malloc(encoded.byteLength + 1); // stringNT aka *char[]
     if(!ptr) return;
     Module.HEAPU8.set(encoded, ptr);
@@ -159,37 +161,21 @@ Module.allocateUTF8 = str => {
 
 // Refreshes UI Components
 Module.loadGamemodeButtons = () => {
-    const vec = new $.Vector(MOD_CONFIG.memory.gamemodeButtons, "struct", 28);
+    const vec = new $Vector(MOD_CONFIG.memory.gamemodeButtons, "struct", 28);
     if(vec.start) vec.destroy(); // remove old arenas
     // map server response to memory struct
-    const needsGamemode = !Module.servers.find(e => Module.loadGamemodeButtons._DIEP_PREFERRED_GAMEMODES.includes(e.gamemode))
-    if (needsGamemode) vec.push(...[[
-        { offset: 0, type: "cstr", value: "tag" }, 
-        { offset: 12, type: "cstr", value: "" }, 
-        { offset: 24, type: "i32", value: 1 }
-    ]]);
     vec.push(...Module.servers.map(server => ([
         { offset: 0, type: "cstr", value: server.gamemode }, 
         { offset: 12, type: "cstr", value: server.name }, 
         { offset: 24, type: "i32", value: 0 }
     ])));
-    $(MOD_CONFIG.memory.gamemodeDisabledText).utf8 = "This game mode is disabled";
-    // placeholders to prevent single/no gamemode bugs
-    if (needsGamemode) {
-        vec.push(...[[
-            { offset: 0, type: "cstr", value: "survival" }, 
-            { offset: 12, type: "cstr", value: "" }, 
-            { offset: 24, type: "i32", value: 1 }
-        ]]);
-    }
     Module.rawExports.loadVectorDone(MOD_CONFIG.memory.gamemodeButtons + 12); // toggle vector memory guard
 };
 
-Module.loadGamemodeButtons._DIEP_PREFERRED_GAMEMODES = ["ffa", "survival", "teams", "4teams", "dom", "maze", "tag"];
 
 // Refreshes UI Components
 Module.loadChangelog = (changelog) => {
-    const vec = new $.Vector(MOD_CONFIG.memory.changelog, "cstr", 12);
+    const vec = new $Vector(MOD_CONFIG.memory.changelog, "cstr", 12);
     if(vec.start) vec.destroy(); // remove old changelog
     vec.push(...(changelog || CHANGELOG)); // either load custom or default
     $(MOD_CONFIG.memory.changelogLoaded).i8 = 1; // not understood
@@ -227,7 +213,7 @@ Module.loadTankDefinitions = () => {
                 { offset: 56, type: "f32", value: barrel.bullet.sizeRatio },
                 { offset: 60, type: "f32", value: barrel.trapezoidDirection },
                 { offset: 64, type: "f32", value: barrel.reload },
-                { offset: 96, type: "u32", value: ADDON_MAP.barrelAddons[barrel.addon] || 0 }
+                { offset: 96, type: "u32", value: ADDON_MAP[barrel.addon] || 0 }
             ];
         }) : [];
 
@@ -242,8 +228,8 @@ Module.loadTankDefinitions = () => {
             { offset: 64, type: "u32", value: tank.levelRequirement || 0 },
             { offset: 76, type: "u8", value: Number(tank.sides === 4) },
             { offset: 93, type: "u8", value: Number(tank.sides === 16) },
-            { offset: 96, type: "u32", value: ADDON_MAP.tankAddons[tank.preAddon] || 0 },
-            { offset: 100, type: "u32", value: ADDON_MAP.tankAddons[tank.postAddon] || 0 },
+            { offset: 96, type: "u32", value: ADDON_MAP[tank.preAddon] || 0 },
+            { offset: 100, type: "u32", value: ADDON_MAP[tank.postAddon] || 0 },
         ];
 
         $.writeStruct(ptr, fields);
@@ -278,9 +264,9 @@ Module.executeCommand = execCtx => {
         const encoder = new TextEncoder();
         return Game.socket.send(new Uint8Array([
             6,
-            ...encoder.encode(tokens[0]), 0,
+            ...Encoder.encode(tokens[0]), 0,
             tokens.slice(1).length,
-            ...tokens.slice(1).flatMap(token => [...encoder.encode(token), 0])
+            ...tokens.slice(1).flatMap(token => [...Encoder.encode(token), 0])
         ]));
     }
 
@@ -293,7 +279,7 @@ Module.executeCommand = execCtx => {
     The execute command function will not check for validity of arguments, you need to do that on your own
 */
 Module.loadCommands = (commands = CUSTOM_COMMANDS) => {
-    const cmdList = new $.List(MOD_CONFIG.memory.commandList, "struct", 24);
+    const cmdList = new $LinkedList(MOD_CONFIG.memory.commandList, "struct", 24);
     for(let { id, usage, description, callback, permissionLevel } of commands) {
         if(COMMANDS_LOOKUP[id] || permissionLevel > Module.permissionLevel) continue; // ignore duplicates
 
@@ -319,6 +305,71 @@ Module.loadCommands = (commands = CUSTOM_COMMANDS) => {
     }
 };
 
+Module.createAddonCallback = (definition) => {
+    return function(input_ptr) {
+        // we received an invalid pointer
+        if(!input_ptr || !$(input_ptr).i32) return;
+
+        // we received a component pointer
+        if($(input_ptr).i32 !== input_ptr) {
+            input_ptr = $(input_ptr).i32;
+        }
+
+        if(definition.position) {
+            const position = $.entity.getComponent(input_ptr, "Position");
+            if(position) {
+                if(definition.position.xOffset) $(position)[FIELD_OFFSETS.position.x].f32 += definition.position.xOffset;
+                if(definition.position.yOffset) $(position)[FIELD_OFFSETS.position.y].f32 += definition.position.yOffset;
+                if(definition.position.angle) $(position)[FIELD_OFFSETS.position.angle].f32 = definition.position.angle;
+                if(definition.position.isAngleAbsolute === true) $(position)[FIELD_OFFSETS.position.flags].u32 |= FLAGS.absoluteRotation;
+                else if(definition.position.isAngleAbsolute === false) $(position)[FIELD_OFFSETS.position.flags].u32 &= !FLAGS.absoluteRotation;
+            }
+        }
+
+        if(definition.physics) {
+            const collidable = $.entity.getComponent(input_ptr, "Collidable");
+            if(collidable) {
+                if(definition.physics.sides) $(collidable)[FIELD_OFFSETS.collidable.sides].u32 = definition.physics.sides;
+                if(definition.physics.size) $(collidable)[FIELD_OFFSETS.collidable.size].f32 = definition.physics.size;
+                if(definition.physics.width) $(collidable)[FIELD_OFFSETS.collidable.width].f32 = definition.physics.width;
+                if(definition.physics.isTrapezoid === true) $(collidable)[FIELD_OFFSETS.collidable.flags].u32 |= FLAGS.isTrapezoid;
+                else if(definition.physics.isTrapezoid === false) $(collidable)[FIELD_OFFSETS.collidable.flags].u32 &= !FLAGS.isTrapezoid;
+            }
+        }
+
+        if(definition.style) {
+            const renderable = $.entity.getComponent(input_ptr, "Renderable");
+            if(renderable) {
+                if(definition.style.color) $(renderable)[FIELD_OFFSETS.renderable.color].u32 = definition.style.color;
+                if(definition.style.borderWidth) $(renderable)[FIELD_OFFSETS.renderable.borderWidth].f32 = definition.style.borderWidth;
+                if(definition.style.opacity) $(renderable)[FIELD_OFFSETS.renderable.opacity].f32 = definition.style.opacity;
+                if(definition.style.isVisible === true) $(renderable)[FIELD_OFFSETS.renderable.flags].u32 |= FLAGS.isVisible;
+                else if(definition.style.isVisible === false) $(renderable)[FIELD_OFFSETS.renderable.flags].u32 &= !FLAGS.isVisible;
+                if(definition.style.renderFirst === true) $(renderable)[FIELD_OFFSETS.renderable.flags].u32 |= FLAGS.renderFirst;
+                else if(definition.style.renderFirst === false) $(renderable)[FIELD_OFFSETS.renderable.flags].u32 &= !FLAGS.renderFirst;
+                if(definition.style.isStar === true) $(renderable)[FIELD_OFFSETS.renderable.flags].u32 |= FLAGS.isStar;
+                else if(definition.style.isStar === false) $(renderable)[FIELD_OFFSETS.renderable.flags].u32 &= !FLAGS.isStar;
+                if(definition.style.isCachable === true) $(renderable)[FIELD_OFFSETS.renderable.flags].u32 |= FLAGS.isCachable;
+                else if(definition.style.isCachable === false) $(renderable)[FIELD_OFFSETS.renderable.flags].u32 &= !FLAGS.isCachable;
+                if(definition.style.showsAboveParent === true) $(renderable)[FIELD_OFFSETS.renderable.flags].u32 |= FLAGS.showsAboveParent;
+                else if(definition.style.showsAboveParent === false) $(renderable)[FIELD_OFFSETS.renderable.flags].u32 &= !FLAGS.showsAboveParent;
+            }
+        }
+
+        if(definition.barrel) {
+            const cannon = $.entity.getComponent(input_ptr, "Cannon");
+            if(cannon) {
+                if(definition.barrel.trapezoidDirection) $(cannon)[FIELD_OFFSETS.cannon.shootingAngle].f32 = definition.barrel.trapezoidDirection;
+            }
+        }
+
+        if(definition.children) {
+            for(const childDefinition of definition.children) {
+                Module.traverseAddonTree(input_ptr, childDefinition);
+            }
+        }
+    }
+}
 const wasmImports = {
     assertFail: (condition, filename, line, func) => Module.abort("Assertion failed: " + Module.UTF8ToString(condition) + ", at: " + [filename ? Module.UTF8ToString(filename) : "unknown filename", line, func ? Module.UTF8ToString(func) : "unknown function"]),
     mapFile: () => -1, // unused
@@ -352,14 +403,17 @@ Module.todo.push([() => {
 Module.todo.push([() => {
     Module.status = "FETCH";
     // fetch necessary info and build
-    return [fetch(`${CDN}build_${BUILD}.wasm.wasm`).then(res => res.arrayBuffer()), fetch(`${API_URL}servers`).then(res => res.json()), fetch(`${API_URL}tanks`).then(res => res.json())];
+    return [
+        fetch(`${CDN}build_${BUILD}.wasm.wasm`).then(res => res.arrayBuffer()),
+        fetch(`${API_URL}servers`).then(res => res.json()),
+        fetch(`${API_URL}tanks`).then(res => res.json())
+    ];
 }, true]);
 
 Module.todo.push([(dependency, servers, tanks) => {
     Module.status = "INSTANTIATE";
     Module.servers = servers;
     Module.tankDefinitions = tanks;
-    
     const parser = new WailParser(new Uint8Array(dependency));
     
     // original function, we want to modify these
@@ -369,7 +423,9 @@ Module.todo.push([(dependency, servers, tanks) => {
     const originalLoadTankDefs = parser.getFunctionIndex(MOD_CONFIG.wasmFunctions.loadTankDefinitions);
     const originalGetTankDef = parser.getFunctionIndex(MOD_CONFIG.wasmFunctions.getTankDefinition);
     const originalFindCommand = parser.getFunctionIndex(MOD_CONFIG.wasmFunctions.findCommand);
-    
+    const originalDecodeComponentList = parser.getFunctionIndex(MOD_CONFIG.wasmFunctions.decodeComponentList);
+    const originalCreateEntityAtIndex = parser.getFunctionIndex(MOD_CONFIG.wasmFunctions.createEntityAtIndex);
+
     // function types
     const types = {
         // void []
@@ -435,7 +491,25 @@ Module.todo.push([(dependency, servers, tanks) => {
         findCommand: Module.getCommand,
         executeCommand: Module.executeCommand
     };
+    for(const addonId of Object.keys(CUSTOM_ADDONS)) {
+        imports["_addon_" + addonId] = parser.addImportEntry({
+            moduleStr: "mods",
+            fieldStr: "_addon_" + addonId,
+            kind: "func",
+            type: types.vi
+        });
 
+        parser.addExportEntry(imports["_addon_" + addonId], {
+            fieldStr: "_addon_" + addonId,
+            kind: "func"
+        });
+
+        Module.imports.mods["_addon_" + addonId] = (ptr) => {
+            const input = $(ptr);
+            if(!ptr || !input.i32) throw "Invalid pointer received on addon callback";
+            CUSTOM_ADDONS[addonId](new $Entity(input.i32 !== ptr ? input.$ : input));
+        };
+    }
     // export to be able to add as a function table element
     parser.addExportEntry(imports.executeCommand, {
         fieldStr: "executeCommand",
@@ -447,7 +521,15 @@ Module.todo.push([(dependency, servers, tanks) => {
         fieldStr: "loadVectorDone",
         kind: "func"
     });
-    
+    parser.addExportEntry(originalCreateEntityAtIndex, {
+        fieldStr: "createEntityAtIndex",
+        kind: "func"
+    });
+
+    parser.addExportEntry(originalDecodeComponentList, {
+        fieldStr: "decodeComponentList",
+        kind: "func"
+    });
     const findConsecutiveSequenceIndex = (array, sequence) => {
         const indexes = [];
         for(let i = 0; i < array.length - sequence.length + 1; i++) {
@@ -567,8 +649,6 @@ Module.todo.push([instance => {
     };
     // window.input & misc, see input.js
     window.setupInput();
-    // Diep Memory Analyzer, see dma.js
-    window.setupDMA();
     return [];
 }, false]);
 
@@ -586,7 +666,11 @@ Module.todo.push([() => {
         // refetches tankdefs & resets them
         reloadTanks: async () => {
             Module.tankDefinitions = await fetch(`${API_URL}tanks`).then(res => res.json());
-            for(const tankDef of Module.tankDefinitionsTable) Module.exports.free(tankDef);
+            if(Module.tankDefinitionsTable) {
+                for(const tankDef of Module.tankDefinitionsTable) {
+                    if(tankDef) Module.exports.free(tankDef);
+                }
+            }
             Module.loadTankDefinitions();
         },
         reloadCommands: async () => {
@@ -609,7 +693,10 @@ Module.todo.push([() => {
     // custom commands
     Module.executeCommandFunctionIndex = Module.imports.a.table.grow(1);
     Module.imports.a.table.set(Module.executeCommandFunctionIndex, Module.rawExports.executeCommand);
-    
+    for(const addonId of Object.keys(CUSTOM_ADDONS)) {
+        ADDON_MAP[addonId] = Module.imports.a.table.grow(1);
+        Module.imports.a.table.set(ADDON_MAP[addonId],  Module.rawExports["_addon_" + addonId]);
+    } 
     Module.status = "START";
     // emscripten requirements
     Module.HEAP32[DYNAMIC_TOP_PTR >> 2] = DYNAMIC_BASE;
@@ -736,9 +823,12 @@ class ASMConsts {
     static getLocalStorage(key, length) {
         const keyStr = Module.UTF8ToString(key);
         let str = window.localStorage[keyStr] || "";
-        if(keyStr === "gamemode" && !str && Module.servers && Module.servers.length) {
-            str = Module.servers[0].gamemode;
-        }
+        if(
+            keyStr === "gamemode"
+            && Module.servers
+            && Module.servers.length
+            && !Module.servers.find(({ gamemode }) => window.localStorage[keyStr] === gamemode)
+        ) str = Module.servers[0].gamemode;
         Module.HEAPU32[length >> 2] = str.length;
         return Module.allocateUTF8(str);
     }
@@ -769,7 +859,8 @@ class ASMConsts {
     // 1 (ads)
 
     static setLocalStorage(key, valueStart, valueLength) {
-        window.localStorage[Module.UTF8ToString(key)] = new TextDecoder().decode(Module.HEAPU8.subarray(valueStart, valueStart + valueLength));
+        window.localStorage[Module.UTF8ToString(key)] = Decoder.decode(Module.HEAPU8.subarray(valueStart, valueStart + valueLength));
+
     }
 
     // 3 (ads)
