@@ -40,7 +40,7 @@ export default class ShapeManager {
     /** Arena whose shapes are being managed */
     protected arena: ArenaEntity;
     public sentrychance = 0.1
-    public weaponchance = 0.025
+    public weaponchance = 0.005
     public weaponchancenest = 0.0125
     public alphachance = 0.025
     public constructor(arena: ArenaEntity) {
