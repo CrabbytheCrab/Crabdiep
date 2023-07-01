@@ -1193,6 +1193,14 @@ const CUSTOM_ADDONS = {
         rect2.physicsData.size = entity.physicsData.width * (25 / 50);
         rect2.positionData.x = (-entity.physicsData.size + rect2.physicsData.size) / 1.5;
 
+    },
+    "triangle": entity => {
+        if(!(entity instanceof $Entity)) return;
+        entity.physicsData.sides = 3
+    },
+    "pentagon": entity => {
+        if(!(entity instanceof $Entity)) return;
+        entity.physicsData.sides = 5
     }
 }
 const FIELD_OFFSETS = {
