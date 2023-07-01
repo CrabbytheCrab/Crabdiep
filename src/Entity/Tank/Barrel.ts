@@ -78,6 +78,7 @@ import Shotgun from "./Projectile/ShotGun";
 import Leach from "./Projectile/Leach";
 import Pulsar from "./Projectile/Pulsar";
 import Pulserocket from "./Projectile/Pulserocket";
+import AboveBullets from "./Projectile/AboveBullets";
 /**
  * Class that determines when barrels can shoot, and when they can't.
  */
@@ -262,6 +263,10 @@ export default class Barrel extends ObjectEntity {
             }
             case 'autobullet': {
                 const bullet = new AutoBullet(this, this.tank, tankDefinition, angle, this.rootParent);
+                break;
+            }
+            case 'abovebullet': {
+                const bullet = new AboveBullets(this, this.tank, tankDefinition, angle, this.rootParent);
                 break;
             }
             case 'shotgun4': {

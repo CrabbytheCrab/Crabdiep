@@ -608,20 +608,8 @@ else if (this._currentTank === Tank.SPORN){
         });
         for (let i = 0; i < this.orbit.length; i++)
         this.orbit[i].num = i;
-            for (let i = 1; i < this.orbit2.length; i++) 
-            {
-                const a = this.orbit[i - 1];
-                const b = this.orbit[i];
-                if(b.num > this.OrbCount){
-                    b.num--
-                }
-                if(b.num <= 0){
-                    b.num = this.OrbCount
-                }
-                if(a.num >= b.num){
-                    a.num--
-                }
-            }
+        for (let i = 0; i < this.orbit2.length; i++)
+        this.orbit2[i].num = i;
 
         for (let i = 1; i < this.segments.length; i++) 
         {

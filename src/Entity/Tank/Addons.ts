@@ -237,7 +237,7 @@ export class Addon {
         }});
             base.influencedByOwnerInputs = true;
 
-            const angle = base.ai.inputs.mouse.angle = PI2 * (i / count);
+            const angle = base.ai.inputs.mouse.angle = PI2 * ((i / count) - 1 / (count * 2));
             base.ai.passiveRotation = rotPerTick;
             base.ai.targetFilter = (targetPos) => {
                 const pos = base.getWorldPosition();
@@ -342,7 +342,7 @@ export class Addon {
         tickBaserot.call(rotator, tick);
         }
         for (let i = 0; i < count; ++i) {
-            const base = new AutoTurret(rotator, {...AutoTurretMiniDefinition, reload:1.2});
+            const base = new AutoTurret(rotator, {...AutoTurretMiniDefinitionabove, reload:1.2});
                     base.styleData.values.zIndex += 2;
                     base.turret[0].styleData.values.zIndex += 2;
             base.influencedByOwnerInputs = true;
@@ -736,6 +736,28 @@ const AutoTurretMiniDefinition: BarrelDefinition = {
 };
 
 
+const AutoTurretMiniDefinitionabove: BarrelDefinition = {
+    angle: 0,
+    offset: 0,
+    size: 55,
+    width: 42 * 0.7,
+    delay: 0.01,
+    reload: 1,
+    recoil: 0,
+    isTrapezoid: false,
+    trapezoidDirection: 0,
+    addon: null,
+    bullet: {
+        type: "abovebullet",
+        health: 1,
+        damage: 0.4,
+        speed: 1.2,
+        scatterRate: 1,
+        lifeLength: 1,
+        sizeRatio: 1,
+        absorbtionFactor: 1
+    }
+};
 const AutoAutoTurretMiniDefinition: BarrelDefinition = {
     angle: 0,
     offset: 0,
@@ -1777,7 +1799,7 @@ class THEBIGONE extends Addon {
             angle: 0,
             offset: 0,
             size: 96,
-            width: 74 * 0.7,
+            width: 75.6 * 0.7,
             delay: 0,
             reload: 6,
             recoil: 0,
@@ -2194,6 +2216,8 @@ export const AddonById: Record<addonId, typeof Addon | null> = {
     landmine: LandmineAddon,
     autoturret: AutoTurretAddon,
     // not part of diep
+    microsmasher: SmasherAddon,
+    chainer: SmasherAddon,
     autoturret3: AutoTurretControllAddon,
     vampire: VampAddon,
     spinner: SpinnerAddon,

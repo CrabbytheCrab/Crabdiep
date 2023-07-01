@@ -55,18 +55,22 @@ export default class Grower extends Bullet {
                     if(this.split){
                         this.split = false
                         this.destroy();
-                        const Grow = new Grower(this.barrelEntity, this.tank, this.tankDefinition, this.positionData.angle + Math.PI/2)
+                        const Grow = new Bullet(this.barrelEntity, this.tank, this.tankDefinition, this.positionData.angle + Math.PI/2)
                         Grow.damagePerTick = this.damagePerTick/2
-                        Grow.split = false
                         Grow.positionData.x = this.positionData.x
                         Grow.positionData.y = this.positionData.y
-                        Grow.baseSpeed /=2
-                        const Grow2 = new Grower(this.barrelEntity, this.tank, this.tankDefinition, this.positionData.angle - Math.PI/2)
+                        const Grow2 = new Bullet(this.barrelEntity, this.tank, this.tankDefinition, this.positionData.angle - Math.PI/2)
                         Grow2.damagePerTick = this.damagePerTick/2
-                        Grow2.split = false
                         Grow2.positionData.x = this.positionData.x
                         Grow2.positionData.y = this.positionData.y
-                        Grow.baseSpeed /=2
+                        const Grow3 = new Bullet(this.barrelEntity, this.tank, this.tankDefinition, this.positionData.angle + Math.PI)
+                        Grow3.damagePerTick = this.damagePerTick/2
+                        Grow3.positionData.x = this.positionData.x
+                        Grow3.positionData.y = this.positionData.y
+                        const Grow4 = new Bullet(this.barrelEntity, this.tank, this.tankDefinition, this.positionData.angle)
+                        Grow4.damagePerTick = this.damagePerTick/2
+                        Grow4.positionData.x = this.positionData.x
+                        Grow4.positionData.y = this.positionData.y
                     }
                 }
     
