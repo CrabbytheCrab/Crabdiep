@@ -16003,7 +16003,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Psy Tank",
         "upgradeMessage": "Right click to fire all the orbitiong bullets",
         "levelRequirement": 30,
-        "upgrades": [139,137,199,266,272, 161
+        "upgrades": [139,137,199,266,272, 161, 274
         ],
         "flags": {
             "invisibility": false,
@@ -32949,6 +32949,111 @@ const TankDefinitions = JSON.parse(`[
             },
             {
                 "name": "Rocket Speed",
+                "max": 7
+            },
+            {
+                "name": "Body Damage",
+                "max": 7
+            },
+            {
+                "name": "Max Health",
+                "max": 7
+            },
+            {
+                "name": "Health Regen",
+                "max": 7
+            }
+        ]
+    },
+    {
+        "id": 274,
+        "name": "Lunger",
+        "upgradeMessage": "",
+        "upgradeMessage": "Right click to boost",
+        "levelRequirement": 45,
+        "upgrades": [],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 0.9,
+        "absorbtionFactor": 1,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": null,
+        "postAddon": "psiEye",
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 80,
+                "width": 71.4,
+                "delay": 0,
+                "reload": 4,
+                "recoil": 3,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": null,
+                "bullet": {
+                    "type": "bullet",
+                    "sizeRatio": 1,
+                    "health": 3,
+                    "damage": 1.25,
+                    "speed": 0.7,
+                    "scatterRate": 0.3,
+                    "lifeLength": 1,
+                    "absorbtionFactor": 0.1
+                }
+            },
+            {
+                "angle": 3.141592653589793,
+                "offset": 0,
+                "size": 1,
+                "width": 20,
+                "delay": 0,
+                "reload": 10,
+                "inverseFire": true,
+                "recoil": 100,
+                "isTrapezoid": true,
+                "trapezoidDirection": 0,
+                "addon": null,
+                "bullet": {
+                    "type": "stupid",
+                    "sizeRatio": 1,
+                    "health": 3,
+                    "damage": 1.25,
+                    "speed": 0.7,
+                    "scatterRate": 0.3,
+                    "lifeLength": 1,
+                    "absorbtionFactor": 0.1
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 7
+            },
+            {
+                "name": "Reload",
+                "max": 7
+            },
+            {
+                "name": "Bullet Damage",
+                "max": 7
+            },
+            {
+                "name": "Bullet Penetration",
+                "max": 7
+            },
+            {
+                "name": "Bullet Speed",
                 "max": 7
             },
             {

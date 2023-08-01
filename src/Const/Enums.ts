@@ -369,6 +369,7 @@ export const enum Tank {
     Spammer       = 271,
     Balrog        = 272,
     Pulsars       = 273,
+    Lunger       = 274,
     Mothership    = 2000
 }
 
