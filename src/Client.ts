@@ -336,6 +336,19 @@ export default class Client {
                         this.notify("You can use your ability again");
                     },10000);
                 }
+                /*
+                 player.coolDown = true;
+                    player.styleData.opacity = 0.6;
+                    player.setInvulnerability(true);
+                    player.physicsData.absorbtionFactor = player.definition.absorbtionFactor;
+                    setTimeout(() => {
+                        player.styleData.opacity = 1;
+                    player.setInvulnerability(false);
+                    },10000);
+                    setTimeout(() =>{
+                        player.coolDown = false;
+                        this.notify("You can use your ability again");
+                    },20000);*/
                 if ((flags & InputFlags.switchtank) && !(previousFlags & InputFlags.switchtank)) {
                     if (this.accessLevel >= config.AccessLevel.BetaAccess || (this.game.arena.arenaData.values.flags & ArenaFlags.canUseCheats)) {
                         this.setHasCheated(true);
