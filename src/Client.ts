@@ -325,6 +325,17 @@ export default class Client {
                     player.setVelocity(0, 0);
                     player.entityState |= EntityStateFlags.needsCreate | EntityStateFlags.needsDelete;
                 }
+                if ((flags & InputFlags.rightclick) && !(previousFlags & InputFlags.rightclick) && player.currentTank === Tank.Teleporter && !player.coolDown) {
+                    player.positionData.x = this.inputs.mouse.x;
+                    player.positionData.y = this.inputs.mouse.y;
+                    player.setVelocity(0, 0);
+                    player.entityState |= EntityStateFlags.needsCreate | EntityStateFlags.needsDelete;
+                    player.coolDown = true;
+                    setTimeout(() =>{
+                        player.coolDown = false;
+                        this.notify("You can use your ability again");
+                    },10000);
+                }
                 if ((flags & InputFlags.switchtank) && !(previousFlags & InputFlags.switchtank)) {
                     if (this.accessLevel >= config.AccessLevel.BetaAccess || (this.game.arena.arenaData.values.flags & ArenaFlags.canUseCheats)) {
                         this.setHasCheated(true);

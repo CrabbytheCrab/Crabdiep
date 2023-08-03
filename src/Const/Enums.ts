@@ -370,6 +370,7 @@ export const enum Tank {
     Balrog        = 272,
     Pulsars       = 273,
     Lunger       = 274,
+    Teleporter       = 277,
     Mothership    = 2000
 }
 

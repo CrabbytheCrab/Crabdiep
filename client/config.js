@@ -17,7 +17,7 @@
 */
 
 const BUILD = "6f59094d60f98fafc14371671d3ff31ef4d75d9e";
-const CDN = "https://static.diep.io/";
+const CDN = "./";
 const API_URL = `${window.location.href}api/`;
 
 const CHANGELOG = [
@@ -896,6 +896,31 @@ const CUSTOM_ADDONS = {
         socket.styleData.showsAboveParent = true
         socket.styleData.color = 21;
         socket.angle = 0
+    },
+    "shiEye": entity => {
+        if(!(entity instanceof $Entity)) return;
+        const socket = entity.createChild(false);
+        socket.defaults();
+        
+        socket.positionData.x = 0
+        socket.positionData.y = 0
+        socket.physicsData.size = 25;
+        // Color.Barrel
+        socket.sides = 1
+        socket.styleData.showsAboveParent = true
+        socket.styleData.color = 17;
+        socket.angle = 0
+        const socket2 = entity.createChild(false);
+        socket2.defaults();
+        
+        socket2.positionData.x = 0
+        socket2.positionData.y = 0
+        socket2.physicsData.size = 25/2;
+        // Color.Barrel
+        socket2.sides = 1
+        socket2.styleData.showsAboveParent = true
+        socket2.styleData.color = 8;
+        socket2.angle = 0
     },
     "autovamp": entity => {
         if(!(entity instanceof $Entity)) return;

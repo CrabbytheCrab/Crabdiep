@@ -1411,7 +1411,65 @@ class PsiAddon extends Addon {
         atuo.styleData.color = Color.Psy
     }
 }
+class SheildAddon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
 
+        const atuo = new AutoTurret(owner, {
+            angle: 0,
+            offset: 0,
+            size: 0,
+            width: 0,
+            delay: 0.01,
+            reload: 1.75,
+            recoil: 0,
+            isTrapezoid: false,
+            trapezoidDirection: 0,
+            addon: null,
+            droneCount: 0,
+            bullet: {
+                type: "drone",
+                sizeRatio: 1,
+                health: 0.75,
+                damage: 0.5,
+                speed: 1,
+                scatterRate: 1,
+                lifeLength: 0.75,
+                absorbtionFactor: 0.1
+            }
+        });
+        const atuo2 = new AutoTurret(owner, {
+            angle: 0,
+            offset: 0,
+            size: 0,
+            width: 0,
+            delay: 0.01,
+            reload: 1.75,
+            recoil: 0,
+            isTrapezoid: false,
+            trapezoidDirection: 0,
+            addon: null,
+            droneCount: 0,
+            bullet: {
+                type: "drone",
+                sizeRatio: 1,
+                health: 0.75,
+                damage: 0.5,
+                speed: 1,
+                scatterRate: 1,
+                lifeLength: 0.75,
+                absorbtionFactor: 0.1
+            }
+        });
+            atuo.baseSize *= 1
+            atuo2.baseSize *= 0.5
+        //atuo.ai.passiveRotation = this.movementAngle
+        atuo.ai.viewRange = 0
+        atuo2.ai.viewRange = 0
+        atuo.styleData.color = Color.Fallen
+        atuo2.styleData.color = Color.EnemySquare
+    }
+}
 class VampAddon extends Addon {
     public constructor(owner: BarrelBase) {
         super(owner);
@@ -2247,6 +2305,7 @@ export const AddonById: Record<addonId, typeof Addon | null> = {
     cuck : Auto1Addon,
     launchertall : LauncherTallAddon,
     psiEye: PsiAddon,
+    shiEye: SheildAddon,
     sporn: SpornAddon,
     autoauto3: AutoAuto3Addon,
     glider: GliderAddon,

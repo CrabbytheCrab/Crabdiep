@@ -84,6 +84,10 @@ const server = http.createServer((req, res) => {
                 file = config.clientLocation + "/dma.js";
                 contentType = "application/javascript";
                 break;
+            case "/build_6f59094d60f98fafc14371671d3ff31ef4d75d9e.wasm.wasm":
+                file = config.clientLocation + "/build_6f59094d60f98fafc14371671d3ff31ef4d75d9e.wasm.wasm";
+                contentType = "application/javascript";
+                break;
             case "/config.js":
                 file = config.clientLocation + "/config.js";
                 contentType = "application/javascript";
@@ -127,8 +131,9 @@ server.listen(PORT, () => {
     //const team = new GameServer(wss, "teams", "Teams Chaos");
     const sbx = new GameServer(wss, "sandbox", "Sandbox");
     const scenexe = new GameServer(wss, "scenexe", "Scenexe");
-    //const maze = new GameServer(wss, "maze", "Maze");
-    //const dom = new GameServer(wss, "dom", "Domination");
+   // const maze = new GameServer(wss, "maze", "Maze");
+   // const dom = new GameServer(wss, "dom", "Domination");
+    //const mot = new GameServer(wss, "mot", "Mothership");
     const ball = new GameServer(wss, "ball", "Ball");
     games.push(ffa,sbx);
 

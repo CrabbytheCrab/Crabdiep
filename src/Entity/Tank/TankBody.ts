@@ -84,6 +84,7 @@ public altTank: boolean
     private _currentTank: Tank | DevTank = Tank.Basic;
     /** Sets tanks to be invulnerable - example, godmode, or AC */
     public isInvulnerable: boolean = false;
+    public coolDown: boolean = false;
     public segments: ObjectEntity[];
     public orbit: Orbit[];
     public orbit2: OrbitTrap[];
