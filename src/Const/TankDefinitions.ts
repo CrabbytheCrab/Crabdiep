@@ -390,7 +390,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Sniper",
         "upgradeMessage": "",
         "levelRequirement": 15,
-        "upgrades": [12, 13, 14,31,233,196,138,212,57,257],
+        "upgrades": [12, 13, 14,31,233,196,138,212,57,257,274],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -16003,7 +16003,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Psy Tank",
         "upgradeMessage": "Use your right mouse button to fire all the orbitiong bullets",
         "levelRequirement": 30,
-        "upgrades": [139,137,199,266,272, 161, 274
+        "upgrades": [139,137,199,266,272, 161
         ],
         "flags": {
             "invisibility": false,
@@ -32970,7 +32970,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Lunger",
         "upgradeMessage": "",
         "upgradeMessage": "Use your right mouse button to lunge towards the direction you're facing",
-        "levelRequirement": 45,
+        "levelRequirement": 30,
         "upgrades": [277],
         "flags": {
             "invisibility": false,
@@ -33664,7 +33664,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Teleporter",
         "upgradeMessage": "",
         "upgradeMessage": "Use your right mouse button to teleport",
-        "levelRequirement": 45,
+        "levelRequirement": 40,
         "upgrades": [],
         "flags": {
             "invisibility": false,
@@ -33738,6 +33738,87 @@ const TankDefinitions = JSON.parse(`[
             {
                 "name": "Health Regen",
                 "max": 7
+            }
+        ]
+    },
+    {
+        "id": 278,
+        "name": "Belphegor",
+        "upgradeMessage": "",
+        "levelRequirement": 45,
+        "upgrades": [],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 0.8,
+        "absorbtionFactor": 0.75,
+        "speed": 0.4,
+        "maxHealth": 50,
+        "preAddon": "sporn",
+        "postAddon": "spike",
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 400,
+                "width": 56,
+                "delay": 0.001,
+                "reload": 3,
+                "recoil": 0,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": null,
+                "bullet": {
+                    "type": "bullet",
+                    "sizeRatio": 1,
+                    "health": 100,
+                    "damage": 10,
+                    "speed": 1,
+                    "scatterRate": 1,
+                    "lifeLength": 1,
+                    "absorbtionFactor": 0.1
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 10
+            },
+            {
+                "name": "Reload",
+                "max": 0
+            },
+            {
+                "name": "Bullet Damage",
+                "max": 0
+            },
+            {
+                "name": "Bullet Penetration",
+                "max": 0
+            },
+            {
+                "name": "Bullet Speed",
+                "max": 0
+            },
+            {
+                "name": "Body Damage",
+                "max": 10
+            },
+            {
+                "name": "Max Health",
+                "max": 10
+            },
+            {
+                "name": "Health Regen",
+                "max": 10
             }
         ]
     }

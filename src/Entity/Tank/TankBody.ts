@@ -409,6 +409,10 @@ public Accend(){
         if(this._currentTank == Tank.MicroSmasher){
             this.baseSize = (25 - (12.5/10 * this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload])) * Math.SQRT2
         }
+        if(this._currentTank == Tank.Belphegor){
+            this.baseSize = (100 + (12.5/10 * this.cameraEntity.cameraData.values.statLevels.values[Stat.MovementSpeed])) * Math.SQRT2
+
+        }
         if (this._currentTank == Tank.PentaShot || this._currentTank == Tank.Triplet || this._currentTank == Tank.Hydra || this._currentTank == Tank.SpreadShot || this._currentTank == Tank.Saw || this._currentTank == Tank.Scope){
         }else{
             this.altTank = true
@@ -536,6 +540,8 @@ public Accend(){
             
                        if (this._currentTank === Tank.MegaSmasher){
             this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth]) * 20 * 1.5}
+            if (this._currentTank === Tank.Belphegor){
+                this.healthData.maxHealth = this.definition.maxHealth + 78 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth]) * 20 * 1.5}    
             else if (this._currentTank === Tank.Saw){
                 this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth]) * 20 * 0.75;}
                 else if (this._currentTank === Tank.MicroSmasher){

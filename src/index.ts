@@ -134,7 +134,7 @@ server.listen(PORT, () => {
    // const maze = new GameServer(wss, "maze", "Maze");
    // const dom = new GameServer(wss, "dom", "Domination");
     //const mot = new GameServer(wss, "mot", "Mothership");
-    const ball = new GameServer(wss, "ball", "Ball");
+    //const ball = new GameServer(wss, "ball", "Ball");
     games.push(ffa,sbx);
 
     util.saveToLog("Servers up", "All servers booted up.", 0x37F554);
