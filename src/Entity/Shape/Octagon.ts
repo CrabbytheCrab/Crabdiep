@@ -49,12 +49,8 @@ export default class Octagon extends AbstractShape {
         this.scoreReward = isAlpha ? 96000 : 12800;
         
         if (shiny) {
-            isAlpha = true
-        this.nameData.values.name = "Dodecagon";
-        this.physicsData.values.size = 1800
-        this.physicsData.values.sides = 8;
-            this.scoreReward *= 1000;
-            this.healthData.values.health = this.healthData.values.maxHealth *= 100;
+            this.scoreReward *= 100;
+            this.healthData.values.health = this.healthData.values.maxHealth *= 10;
         }
     }
 }

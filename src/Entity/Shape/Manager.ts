@@ -156,7 +156,11 @@ export default class ShapeManager {
             }
         }
 
-        shape.scoreReward *= this.arena.shapeScoreRewardMultiplier;
+        if(!shape.noMultiplier){
+            shape.scoreReward *= this.arena.shapeScoreRewardMultiplier;
+            shape.healthData.maxHealth *= this.arena.shapeHeathMultiplier;
+            shape.healthData.health *= this.arena.shapeHeathMultiplier;
+        }
 
         return shape;
         // this.shapeCount += 1;

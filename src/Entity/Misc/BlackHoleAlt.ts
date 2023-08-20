@@ -16,11 +16,11 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>
 */
 
-import GameServer from "../../Game";
+import GameServer, { DiepGamemodeID } from "../../Game";
 import ObjectEntity from "../Object";
 import * as util from "../../util";
 
-import { PhysicsFlags, Color, StyleFlags, Tank, PositionFlags, Stat, StatCount, CameraFlags } from "../../Const/Enums";
+import { PhysicsFlags, Color, StyleFlags, Tank, PositionFlags, Stat, StatCount } from "../../Const/Enums";
 import LivingEntity from "../Live";
 import TankBody, { BarrelBase } from "../Tank/TankBody";
 import { TeamEntity } from "./TeamEntity";
@@ -36,14 +36,18 @@ import AbstractBoss from "../Boss/AbstractBoss";
 /**
  * Only used for maze walls and nothing else.
  */
-export default class BlackHole extends ObjectEntity implements BarrelBase{
+export default class BlackHoleAlt extends ObjectEntity implements BarrelBase{
     public viewRange: number;
     public lifetime: number;
     public sizeFactor: number;
     public multiplier: number
+    public multiplier2: number
+    public multiplierlerp: number
+    public multiplierlerp2: number
     /** The camera entity (used as team) of the croc skimmer. */
     public cameraEntity: Entity = this;
 public multiplierdirect: number
+public multiplierdirect2: number
     /** The reload time of the skimmer's barrel. */
     public reloadTime = 15;
     public part:number
@@ -51,13 +55,19 @@ public multiplierdirect: number
     public inputs: Inputs;
     public team: TeamEntity
     //public tank:TankBody
-    public constructor(game: GameServer, team: TeamEntity) {
+    public mode: DiepGamemodeID
+    public constructor(game: GameServer, team: TeamEntity, mode: DiepGamemodeID, size: number) {
         super(game);
         this.multiplierdirect = 1
+        this.multiplierdirect2 = 1
         this.team = team
+        this.mode = mode
       //  this.tank = 
       this.part = 5
       this.multiplier = 1
+      this.multiplier2 = 1
+      this.multiplierlerp = 1
+      this.multiplierlerp2 = 1
       const {x, y} = this.game.arena.findSpawnLocation()
       this.positionData.values.x = x;
       this.positionData.values.y = y;
@@ -76,9 +86,27 @@ public multiplierdirect: number
         this.physicsData.values.absorbtionFactor = 0;
     this.lifetime = 2000
     //const rotator = new GuardObject(this.game, this, 3, 1.5, 0, 0.2)  
+    if(mode == "scenexe"){
+        const rotator = new ObjectEntity(game)
+        if(rotator.physicsData.flags && PhysicsFlags.showsOnMap) rotator.physicsData.flags ^= PhysicsFlags.showsOnMap
+        rotator.physicsData.sides = 1000
+        rotator.setParent(this)
+        rotator.physicsData.values.size = (this.physicsData.size * 1.3);
+        rotator.physicsData.values.absorbtionFactor = 0;
+        rotator.relationsData.values.team = this;
+        rotator.styleData.values.color = Color.TeamRed
+        rotator.styleData.opacity = 0.3
+        const tickStar = rotator.tick;
+        rotator.tick = (tick: number) => {
+        if(rotator.physicsData.flags && PhysicsFlags.showsOnMap) rotator.physicsData.flags ^= PhysicsFlags.showsOnMap
+        rotator.physicsData.size = (((this.physicsData.size * 1.3) * this.multiplierlerp2) - rotator.physicsData.size * 0.1)
+        rotator.positionData.angle += 0.1
+            tickStar.call(rotator, tick);
+        }
+    }
     const rotator = new ObjectEntity(game)
     if(rotator.physicsData.flags && PhysicsFlags.showsOnMap) rotator.physicsData.flags ^= PhysicsFlags.showsOnMap
-    rotator.physicsData.sides = 0
+    rotator.physicsData.sides = 3
     rotator.setParent(this)
     rotator.physicsData.values.size = this.physicsData.values.size;
     rotator.physicsData.values.absorbtionFactor = 0;
@@ -87,9 +115,26 @@ public multiplierdirect: number
     rotator.styleData.values.color = Color.White
     const tickStar = rotator.tick;
     rotator.tick = (tick: number) => {
-    rotator.physicsData.size = ((this.physicsData.size * this.multiplier) - rotator.physicsData.size * 0.1)
+    rotator.physicsData.size = ((this.physicsData.size * this.multiplierlerp) - rotator.physicsData.size * 0.1)
     rotator.positionData.angle += 0.1
         tickStar.call(rotator, tick);
+    }
+
+    const star = new ObjectEntity(game)
+    if(star.physicsData.flags && PhysicsFlags.showsOnMap) rotator.physicsData.flags ^= PhysicsFlags.showsOnMap
+    star.physicsData.sides = 3
+    star.setParent(this)
+    star.physicsData.values.size = this.physicsData.values.size;
+    star.physicsData.values.absorbtionFactor = 0;
+    star.relationsData.values.team = this;
+    star.styleData.flags |= StyleFlags.isStar
+    star.styleData.values.color = Color.White
+    star.positionData.angle = Math.PI
+    const tickStar2 = star.tick;
+    star.tick = (tick: number) => {
+        star.physicsData.size = this.physicsData.size * 1.15;
+        star.positionData.angle += 0.1
+        tickStar2.call(star, tick);
     }
 
     const rotator2 = new ObjectEntity(game)
@@ -111,8 +156,7 @@ public multiplierdirect: number
         tickBase.call(rotator2, tick);
     }
 
-
-    const rotator4 = new GuardObject(this.game, this, 1, 3, 0, 0)  
+    const rotator4 = new GuardObject(this.game, this, 1, size, 0, 0)  
     rotator4.styleData.values.color = Color.kMaxColors
     rotator4.styleData.values.flags |= StyleFlags.showsAboveParent
     rotator4.styleData.opacity = 0
@@ -137,28 +181,9 @@ public multiplierdirect: number
 
             if (!(entity.relationsData.values.owner === null || !(entity.relationsData.values.owner instanceof ObjectEntity))) continue; // Don't target entities who have an object owner
             if (entity instanceof TankBody) {
-                if(!entity.definition.flags.isCelestial && entity.scoreData.score >= 146655){
-                    this.receiveKnockback(entities[i]);
-                    entity.setTank(Tank.Nova)
-                    entity.styleData.values.flags |= StyleFlags.isFlashing;
-                    entity.relationsData.values.team = this.team
-                    entity.styleData.color = Color.EnemyCrasher
-                    entity.damageReduction = 0.0;
-                    entity.damageReduction = 0;
-                    entity.cameraEntity.cameraData.spawnTick = this.game.tick;
-                    for (let i = 0; i < StatCount; ++i) entity.cameraEntity.cameraData.statLevels[i as Stat] = 0;
-                    entity.cameraEntity.cameraData.statsAvailable = 45
-                    if(entity.cameraEntity instanceof ClientCamera){
-                        entity.cameraEntity.cameraData.isCelestial = true
-                        gamer.get("sanctuary")!.transferClient(entity.cameraEntity.client)
-                    }
-                }
-                if(entity.definition.flags.isCelestial){
                     this.receiveKnockback(entities[i]);
                     if(entity.cameraEntity instanceof ClientCamera){
-                        entity.cameraEntity.cameraData.flags |= CameraFlags.isCelestial
-                        gamer.get("sanctuary")!.transferClient(entity.cameraEntity.client)
-                    }
+                        gamer.get(this.mode)!.transferClient(entity.cameraEntity.client)
                 }
             }
         }
@@ -179,13 +204,22 @@ public multiplierdirect: number
                 
         this.part = 2
         }
-       /*     this.multiplier += 0.05 * this.multiplierdirect
-        if(this.multiplier >= 2){
+        this.multiplierlerp += (this.multiplier - this.multiplierlerp) * 0.1
+        this.multiplierlerp2 += (this.multiplier2 - this.multiplierlerp2) * 0.1
+            this.multiplier += 0.1 * this.multiplierdirect
+        if(this.multiplier >= 2.5){
             this.multiplierdirect *= -1
         }
-        if(this.multiplier <= 0.4){
+        if(this.multiplier <= 0.2){
             this.multiplierdirect *= -1
-        }*/
+        }
+        this.multiplier2 += 0.025 * this.multiplierdirect
+        if(this.multiplier2 >= 2.5){
+            this.multiplierdirect2 *= -1
+        }
+        if(this.multiplier2 <= 0.5){
+            this.multiplierdirect2 *= -1
+        }
         this.lifetime--
         if(this.lifetime <= 0){
             this.destroy()
@@ -219,19 +253,6 @@ public multiplierdirect: number
             if (entity.physicsData.values.flags & PhysicsFlags.isBase) continue; // Check if the target is a base
 
             if (!(entity.relationsData.values.owner === null || !(entity.relationsData.values.owner instanceof ObjectEntity))) continue; // Don't target entities who have an object owner
-            if (entity instanceof TankBody) {
-                if(entity.scoreData.score >= 146655){
-                }else{
-                    let kbAngle: number;
-                    let diffY = this.positionData.values.y - entity.positionData.values.y;
-                    let diffX = this.positionData.values.x - entity.positionData.values.x;
-                    // Prevents drone stacking etc
-                    if (diffX === 0 && diffY === 0) kbAngle = Math.random() * util.PI2;
-                    else {kbAngle = Math.atan2(diffY, diffX);
-                    entity.addAcceleration( kbAngle, -2);}
-
-                }
-            }
         }
 
     }
