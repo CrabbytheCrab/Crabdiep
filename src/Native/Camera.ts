@@ -122,7 +122,7 @@ export default class ClientCamera extends CameraEntity {
     public client: Client;
     /** All entities in the view of the camera. Represented by id. */
     private view: Entity[] = [];
-
+public isCelestial: boolean
     /** Always existant relations field group. Present in all GUI/camera entities. */
     public relationsData: RelationsGroup = new RelationsGroup(this);
     /** Entity being spectated if any (deathscreen). */
@@ -149,7 +149,7 @@ export default class ClientCamera extends CameraEntity {
 
     public constructor(game: GameServer, client: Client) {
         super(game);
-
+        this.isCelestial = false
         this.client = client;
         this.cameraData.values.respawnLevel = this.cameraData.values.level = this.cameraData.values.score = 1;
 

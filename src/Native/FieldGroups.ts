@@ -444,7 +444,7 @@ export class NameGroup {
 export class CameraGroup {
     entity: Entity;
     state: Uint8Array = new Uint8Array(21);
-    values: { unusedClientId: number, flags: number, player: null | Entity, FOV: number, level: number, tank: Tank | DevTank, levelbarProgress: number, levelbarMax: number, statsAvailable: number, statNames: CameraTable<string>, statLevels: CameraTable<number>, statLimits: CameraTable<number>, cameraX: number, cameraY: number, score: number, respawnLevel: number, killedBy: string, spawnTick: number, deathTick: number, tankOverride: string, movementSpeed: number } = {
+    values: { unusedClientId: number, flags: number, player: null | Entity, FOV: number, level: number, tank: Tank | DevTank, levelbarProgress: number, levelbarMax: number, statsAvailable: number, statNames: CameraTable<string>, statLevels: CameraTable<number>, statLimits: CameraTable<number>, cameraX: number, cameraY: number, score: number, respawnLevel: number, killedBy: string, spawnTick: number, deathTick: number, tankOverride: string, movementSpeed: number, isCelestial: boolean } = {
         unusedClientId: 0,
         flags: 1,
         player: null,
@@ -465,7 +465,8 @@ export class CameraGroup {
         spawnTick: 0,
         deathTick: -1,
         tankOverride: "",
-        movementSpeed: 0
+        movementSpeed: 0,
+        isCelestial: false
     };
 
     constructor(entity: Entity) { this.entity = entity; }
@@ -491,6 +492,7 @@ export class CameraGroup {
     get deathTick() { return this.values.deathTick; }
     get tankOverride() { return this.values.tankOverride; }
     get movementSpeed() { return this.values.movementSpeed; }
+    get isCelestial() { return this.values.isCelestial; }
     set unusedClientId(unusedClientId: number) { if (unusedClientId === this.values.unusedClientId) { return; }; this.state[0] |= 1; this.entity.entityState |= 1; this.values.unusedClientId = unusedClientId; }
     set flags(flags: number) { if (flags === this.values.flags) { return; }; this.state[1] |= 1; this.entity.entityState |= 1; this.values.flags = flags; }
     set player(player: null | Entity) { if (player === this.values.player) { return; }; this.state[2] |= 1; this.entity.entityState |= 1; this.values.player = player; }
@@ -509,6 +511,7 @@ export class CameraGroup {
     set deathTick(deathTick: number) { if (deathTick === this.values.deathTick) { return; }; this.state[18] |= 1; this.entity.entityState |= 1; this.values.deathTick = deathTick; }
     set tankOverride(tankOverride: string) { if (tankOverride === this.values.tankOverride) { return; }; this.state[19] |= 1; this.entity.entityState |= 1; this.values.tankOverride = tankOverride; }
     set movementSpeed(movementSpeed: number) { if (movementSpeed === this.values.movementSpeed) { return; }; this.state[20] |= 1; this.entity.entityState |= 1; this.values.movementSpeed = movementSpeed; }
+    set isCelestial(isCelestial: boolean) { if (isCelestial === this.values.isCelestial) { return; }; this.state[21] |= 1; this.entity.entityState |= 1; this.values.isCelestial = isCelestial; }
 }
 
 export class PositionGroup {

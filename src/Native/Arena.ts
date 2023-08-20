@@ -27,7 +27,7 @@ import { ArenaGroup, TeamGroup } from "./FieldGroups";
 import { Entity } from "./Entity";
 import { Color, ArenaFlags, Tank, ValidScoreboardIndex } from "../Const/Enums";
 import { PI2, saveToLog } from "../util";
-import { TeamGroupEntity } from "../Entity/Misc/TeamEntity";
+import { TeamEntity, TeamGroupEntity } from "../Entity/Misc/TeamEntity";
 import Client from "../Client";
 import AbstractBoss from "../Entity/Boss/AbstractBoss";
 import Guardian from "../Entity/Boss/Guardian";
@@ -71,6 +71,8 @@ export default class ArenaEntity extends Entity implements TeamGroupEntity {
 	/** Whether or not the arena allows new players to spawn. */
 	public state: number = ArenaState.OPEN;
 	public shapeScoreRewardMultiplier: number = 1;
+	public shapeHeathMultiplier: number = 1;
+
 
 	/** The current boss spawned into the game */
 	public boss: AbstractBoss | null = null;
@@ -205,7 +207,7 @@ export default class ArenaEntity extends Entity implements TeamGroupEntity {
 
 	/** Spawns the boss into the arena */
 	protected spawnBoss() {
-		if(this.game.gamemode != "ball"){
+		if(this.game.gamemode == "ball" || this.game.gamemode == "crossroads" || this.game.gamemode == "sanctuary"){}else{
 			const rand = Math.random();
 			if (rand < .25) {
 		const TBoss = [Fortress,Pyromancer, Mecha, Titan]

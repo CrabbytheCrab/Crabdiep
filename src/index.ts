@@ -21,11 +21,13 @@ import * as fs from "fs";
 import * as WebSocket from "ws";
 import * as config from "./config"
 import * as util from "./util";
-import GameServer from "./Game";
+import GameServer, { DiepGamemodeID } from "./Game";
 import auth from "./Auth";
 import TankDefinitions from "./Const/TankDefinitions";
 import { commandDefinitions } from "./Const/Commands";
 import { ColorsHexCode } from "./Const/Enums";
+import FFAArena from "./Gamemodes/FFA";
+import MazeArena from "./Gamemodes/Maze";
 const PORT = config.serverPort;
 const ENABLE_API = config.enableApi && config.apiLocation;
 const ENABLE_CLIENT = config.enableClient && config.clientLocation && fs.existsSync(config.clientLocation);
@@ -84,10 +86,6 @@ const server = http.createServer((req, res) => {
                 file = config.clientLocation + "/dma.js";
                 contentType = "application/javascript";
                 break;
-            case "/build_6f59094d60f98fafc14371671d3ff31ef4d75d9e.wasm.wasm":
-                file = config.clientLocation + "/build_6f59094d60f98fafc14371671d3ff31ef4d75d9e.wasm.wasm";
-                contentType = "application/javascript";
-                break;
             case "/config.js":
                 file = config.clientLocation + "/config.js";
                 contentType = "application/javascript";
@@ -120,7 +118,7 @@ wss.shouldHandle = function(request: http.IncomingMessage) {
 
     return endpointMatch.test(url);
 }
-
+export const gamer = new Map<DiepGamemodeID, GameServer>
 server.listen(PORT, () => {
     util.log(`Listening on port ${PORT}`);
 
@@ -131,15 +129,20 @@ server.listen(PORT, () => {
     //const team = new GameServer(wss, "teams", "Teams Chaos");
     const sbx = new GameServer(wss, "sandbox", "Sandbox");
     const scenexe = new GameServer(wss, "scenexe", "Scenexe");
-   // const maze = new GameServer(wss, "maze", "Maze");
-   // const dom = new GameServer(wss, "dom", "Domination");
-    //const mot = new GameServer(wss, "mot", "Mothership");
-    //const ball = new GameServer(wss, "ball", "Ball");
-    games.push(ffa,sbx);
-
+    const sanctuary = new GameServer(wss, "sanctuary", "Sanctuary");
+    const maze = new GameServer(wss, "maze", "Maze");
+    const crossroads = new GameServer(wss, "crossroads", "Crossroads");
+    //const dom = new GameServer(wss, "dom", "Domination");
+    const ball = new GameServer(wss, "ball", "Ball");
+    games.push(ffa,scenexe,ball,sbx);
+    gamer.set("ffa", ffa)
+    gamer.set("maze", maze)
+    gamer.set("scenexe", scenexe)
+    gamer.set("sandbox", sbx)
+    gamer.set("sanctuary", sanctuary)
+    gamer.set("crossroads", crossroads)
     util.saveToLog("Servers up", "All servers booted up.", 0x37F554);
     //util.log(15 *(Math.PI/180));
-    util.log(10 *(Math.PI/180));
     util.log("Dumping endpoint -> gamemode routing table");
     for (const game of games) console.log("> " + `localhost:${config.serverPort}/game/diepio-${game.gamemode}`.padEnd(40, " ") + " -> " + game.name);
 });

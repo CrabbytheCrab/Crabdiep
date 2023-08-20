@@ -89,6 +89,8 @@ export const ColorsHexCode: Record<Color, number> = {
 
 }
 
+
+
 /**
  * The IDs for all the tanks, by name.
  */
@@ -369,10 +371,15 @@ export const enum Tank {
     Spammer       = 271,
     Balrog        = 272,
     Pulsars       = 273,
-    Lunger       = 274,
-    Teleporter       = 277,
-    Belphegor       = 278,
-    Mothership    = 2000
+    Lunger        = 274,
+    Mothership    = 275,
+    Teleporter    = 276,
+    Belphegor     = 277,
+    QuadBuilder   = 278,
+    Rusher        = 279,
+    Jumpscarer    = 280,
+    Supernova     = 281,
+    Rift          = 282
 }
 
 /**
@@ -473,7 +480,8 @@ export const enum TeamFlags {
 export const enum CameraFlags {
     usesCameraCoords      = 1 << 0,
     showingDeathStats     = 1 << 1,
-    gameWaitingStart      = 1 << 2
+    gameWaitingStart      = 1 << 2,
+    isCelestial           = 1 << 2
 }
 /**
  * The flag names for the tsyle field group.
