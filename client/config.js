@@ -17,7 +17,7 @@
 */
 
 const BUILD = "6f59094d60f98fafc14371671d3ff31ef4d75d9e";
-const CDN = "./";
+const CDN = "https://static.diep.io/";
 const API_URL = `${window.location.href}api/`;
 
 const CHANGELOG = [
@@ -332,6 +332,56 @@ const CUSTOM_ADDONS = {
         You may not set the properties of $Entity manually. Instead use the "[...]Data" fields or .clone() / .defaults().
         So don't do this: "someEntity.positionData = someOtherEntity.positionData;", but instead do this: "someEntity.positionData.clone(someOtherEntity.positionData);".
         */
+    },
+    "boost": entity => {
+        if(!(entity instanceof $Entity)) return;
+        const socket = entity.createChild(false);
+        socket.defaults();
+
+        socket.positionData.x = 0
+        socket.positionData.y = 0
+        socket.physicsData.size = 25;
+        // Color.Barrel
+        socket.sides = 1
+        socket.styleData.showsAboveParent = true
+        socket.styleData.color = 1;
+        socket.angle = 0
+        const socket2 = entity.createChild(false);
+        socket2.defaults();
+
+        socket2.positionData.x = 0
+        socket2.positionData.y = 0
+        socket2.physicsData.size = 25/2;
+        // Color.Barrel
+        socket2.sides = 1
+        socket2.styleData.showsAboveParent = true
+        socket2.styleData.color = 8;
+        socket2.angle = 0
+    },
+    "tele": entity => {
+        if(!(entity instanceof $Entity)) return;
+        const socket = entity.createChild(false);
+        socket.defaults();
+
+        socket.positionData.x = 0
+        socket.positionData.y = 0
+        socket.physicsData.size = 25;
+        // Color.Barrel
+        socket.sides = 1
+        socket.styleData.showsAboveParent = true
+        socket.styleData.color = 1;
+        socket.angle = 0
+        const socket2 = entity.createChild(false);
+        socket2.defaults();
+
+        socket2.positionData.x = 0
+        socket2.positionData.y = 0
+        socket2.physicsData.size = 25/2;
+        // Color.Barrel
+        socket2.sides = 1
+        socket2.styleData.showsAboveParent = true
+        socket2.styleData.color = 24;
+        socket2.angle = 0
     },
     "bigautoturret": entity => {
         if(!(entity instanceof $Entity)) return;
@@ -829,6 +879,15 @@ const CUSTOM_ADDONS = {
         rotator2.styleData.isVisible = true;
         rotator2.physicsData.size = 50 * 1.45 * Math.SQRT1_2;
 
+        const rotator3 = entity.createChild(false);
+        rotator3.defaults();
+        rotator3.physicsData.sides = 3
+        rotator3.positionData.angle = -Math.PI/6;
+        rotator3.positionData.isAngleAbsolute = true;
+        rotator3.styleData.color = 26;
+        rotator3.styleData.isVisible = true;
+        rotator3.physicsData.size = 50 * 1.45 * Math.SQRT1_2;
+
         const rotator = entity.createChild(false);
         rotator.defaults();
         rotator.physicsData.sides = 6
@@ -896,31 +955,6 @@ const CUSTOM_ADDONS = {
         socket.styleData.showsAboveParent = true
         socket.styleData.color = 21;
         socket.angle = 0
-    },
-    "shiEye": entity => {
-        if(!(entity instanceof $Entity)) return;
-        const socket = entity.createChild(false);
-        socket.defaults();
-        
-        socket.positionData.x = 0
-        socket.positionData.y = 0
-        socket.physicsData.size = 25;
-        // Color.Barrel
-        socket.sides = 1
-        socket.styleData.showsAboveParent = true
-        socket.styleData.color = 17;
-        socket.angle = 0
-        const socket2 = entity.createChild(false);
-        socket2.defaults();
-        
-        socket2.positionData.x = 0
-        socket2.positionData.y = 0
-        socket2.physicsData.size = 25/2;
-        // Color.Barrel
-        socket2.sides = 1
-        socket2.styleData.showsAboveParent = true
-        socket2.styleData.color = 8;
-        socket2.angle = 0
     },
     "autovamp": entity => {
         if(!(entity instanceof $Entity)) return;
@@ -1038,18 +1072,19 @@ const CUSTOM_ADDONS = {
         rect1.defaults();
         rect1.styleData.color = 1;
         rect1.physicsData.sides = 2;
-        rect1.physicsData.width = entity.physicsData.width * 1.75;
+        rect1.physicsData.width = entity.physicsData.width * 1.5;
         rect1.styleData.showsAboveParent = true
-        rect1.physicsData.size = entity.physicsData.size * (30 / 50);
-        rect1.positionData.x = 0;
+        rect1.physicsData.size = entity.physicsData.size * (10 / 50);
+        rect1.positionData.x = (entity.physicsData.size - rect1.physicsData.size) / 2 * -1
 
         const rect2 = entity.createChild(false);
         rect2.defaults();
         rect2.styleData.color = 1;
         rect2.styleData.showsAboveParent = true;
         rect2.physicsData.sides = 2;
-        rect2.physicsData.width = entity.physicsData.width * 2.5;
+        rect2.physicsData.width = entity.physicsData.width * 1.75;
         rect2.physicsData.size = 105 * (30 / 50);
+        rect2.physicsData.isTrapezoid = true
         rect2.positionData.x = (entity.physicsData.size - rect2.physicsData.size) / 2;
     },
     "machineTrapLauncher": entity => {
@@ -1222,6 +1257,210 @@ const CUSTOM_ADDONS = {
     "triangle": entity => {
         if(!(entity instanceof $Entity)) return;
         entity.physicsData.sides = 3
+    },
+    "cele": entity => {
+        if(!(entity instanceof $Entity)) return;
+        entity.physicsData.sides = 3
+        entity.physicsData.size = 47.5 * Math.SQRT2
+    },
+    "celeoverdrive": entity => {
+        if(!(entity instanceof $Entity)) return;
+        entity.physicsData.sides = 3
+        entity.physicsData.size = 47.5 * Math.SQRT2
+        const rotator = entity.createChild(false);
+        rotator.defaults();
+        rotator.physicsData.sides = 4
+        rotator.positionData.angle = 0;
+        rotator.styleData.color = 1
+        rotator.positionData.isAngleAbsolute = true;
+        rotator.styleData.isVisible = true;
+        rotator.styleData.showsAboveParent = true
+        rotator.physicsData.size = (47.5 * Math.SQRT2) * 0.55 * Math.SQRT1_2;
+    },
+    "chasm": entity => {
+        if(!(entity instanceof $Entity)) return;
+        entity.physicsData.sides = 3
+        entity.physicsData.size = 47.5 * Math.SQRT2
+        const rotator = entity.createChild(false);
+        rotator.defaults();
+        rotator.physicsData.sides = 3
+        rotator.positionData.angle = 0;
+        rotator.positionData.isAngleAbsolute = true;
+        rotator.styleData.isVisible = true;
+        rotator.physicsData.size = (47.5 * Math.SQRT2) * 1.2;
+
+        const rotator2 = entity.createChild(false);
+        rotator2.defaults();
+        rotator2.physicsData.sides = 3
+        rotator2.positionData.angle = 0;
+        rotator2.styleData.color =  entity.styleData.color;
+        rotator2.positionData.isAngleAbsolute = true;
+        rotator2.styleData.isVisible = true;
+        rotator2.physicsData.size = (47.5 * Math.SQRT2) * 0.75;
+        rotator2.styleData.showsAboveParent = true;
+
+        const rotator3 = entity.createChild(false);
+        rotator3.defaults();
+        rotator3.physicsData.sides = 3
+        rotator3.positionData.angle = 0;
+        rotator3.styleData.color =  entity.styleData.color;
+        rotator3.positionData.isAngleAbsolute = true;
+        rotator3.styleData.isVisible = true;
+        rotator3.physicsData.size = (47.5 * Math.SQRT2) * 0.5;
+        rotator3.styleData.showsAboveParent = true;
+
+    },
+    "void": entity => {
+        if(!(entity instanceof $Entity)) return;
+        entity.physicsData.sides = 3
+        entity.physicsData.size = 47.5 * Math.SQRT2
+        const rotator = entity.createChild(false);
+        rotator.defaults();
+        rotator.physicsData.sides = 3
+        rotator.positionData.angle = 0;
+        rotator.positionData.isAngleAbsolute = true;
+        rotator.styleData.isVisible = true;
+        rotator.physicsData.size = (47.5 * Math.SQRT2) * 1.4;
+
+        const rotator2 = entity.createChild(false);
+        rotator2.defaults();
+        rotator2.physicsData.sides = 3
+        rotator2.positionData.angle = 0;
+        rotator2.styleData.color =  entity.styleData.color;
+        rotator2.positionData.isAngleAbsolute = true;
+        rotator2.styleData.isVisible = true;
+        rotator2.physicsData.size = (47.5 * Math.SQRT2) * 0.75;
+        rotator2.styleData.showsAboveParent = true;
+
+        const rotator3 = entity.createChild(false);
+        rotator3.defaults();
+        rotator3.physicsData.sides = 3
+        rotator3.positionData.angle = 0;
+        rotator3.styleData.color =  entity.styleData.color;
+        rotator3.positionData.isAngleAbsolute = true;
+        rotator3.styleData.isVisible = true;
+        rotator3.physicsData.size = (47.5 * Math.SQRT2) * 0.5;
+        rotator3.styleData.showsAboveParent = true;
+
+    },
+    "comet": entity => {
+        if(!(entity instanceof $Entity)) return;
+        entity.physicsData.sides = 3
+        entity.physicsData.size = 47.5 * Math.SQRT2
+        const rotator = entity.createChild(false);
+        rotator.defaults();
+        rotator.physicsData.sides = 3
+        rotator.positionData.angle = 0;
+        rotator.positionData.isAngleAbsolute = true;
+        rotator.styleData.isVisible = true;
+        rotator.physicsData.size = (47.5 * Math.SQRT2) * 1.2;
+
+        const rotator2 = entity.createChild(false);
+        rotator2.defaults();
+        rotator2.physicsData.sides = 3
+        rotator2.styleData.isStar = true;
+        rotator2.positionData.angle = Math.PI;
+        rotator2.positionData.isAngleAbsolute = true;
+        rotator2.styleData.isVisible = true;
+        rotator2.physicsData.size = (47.5 * Math.SQRT2) * 0.8;
+        rotator2.styleData.showsAboveParent = true;
+
+        const rotator3 = entity.createChild(false);
+        rotator3.defaults();
+        rotator3.physicsData.sides = 3
+        rotator3.positionData.angle = 0;
+        rotator3.styleData.color =  entity.styleData.color;
+        rotator3.positionData.isAngleAbsolute = true;
+        rotator3.styleData.isVisible = true;
+        rotator3.physicsData.size = (47.5 * Math.SQRT2) * 0.5;
+        rotator3.styleData.showsAboveParent = true;
+
+    },
+    "abyss": entity => {
+        if(!(entity instanceof $Entity)) return;
+        entity.physicsData.sides = 3
+        entity.physicsData.size = 47.5 * Math.SQRT2
+        const rotator = entity.createChild(false);
+        rotator.defaults();
+        rotator.physicsData.sides = 3
+        rotator.positionData.angle = 0;
+        rotator.positionData.isAngleAbsolute = true;
+        rotator.styleData.isVisible = true;
+        rotator.physicsData.size = (47.5 * Math.SQRT2) * 1.2;
+
+        const rotator2 = entity.createChild(false);
+        rotator2.defaults();
+        rotator2.physicsData.sides = 3
+        rotator2.positionData.angle = 0;
+        rotator2.styleData.color =  entity.styleData.color;
+        rotator2.positionData.isAngleAbsolute = true;
+        rotator2.styleData.isVisible = true;
+        rotator2.physicsData.size = (47.5 * Math.SQRT2) * 0.8;
+        rotator2.styleData.showsAboveParent = true;
+
+        const rotator3 = entity.createChild(false);
+        rotator3.defaults();
+        rotator3.physicsData.sides = 3
+        rotator3.positionData.angle = 0;
+        rotator3.styleData.color =  entity.styleData.color;
+        rotator3.positionData.isAngleAbsolute = true;
+        rotator3.styleData.isVisible = true;
+        rotator3.physicsData.size = (47.5 * Math.SQRT2) * 0.6;
+        rotator3.styleData.showsAboveParent = true;
+
+        const rotator4 = entity.createChild(false);
+        rotator4.defaults();
+        rotator4.physicsData.sides = 3
+        rotator4.positionData.angle = 0;
+        rotator4.styleData.color =  entity.styleData.color;
+        rotator4.positionData.isAngleAbsolute = true;
+        rotator4.styleData.isVisible = true;
+        rotator4.physicsData.size = (47.5 * Math.SQRT2) * 0.4;
+        rotator4.styleData.showsAboveParent = true;
+
+        const rotator5 = entity.createChild(false);
+        rotator5.defaults();
+        rotator5.physicsData.sides = 3
+        rotator5.positionData.angle = 0;
+        rotator5.styleData.color =  entity.styleData.color;
+        rotator5.positionData.isAngleAbsolute = true;
+        rotator5.styleData.isVisible = true;
+        rotator5.physicsData.size = (47.5 * Math.SQRT2) * 0.2;
+        rotator5.styleData.showsAboveParent = true;
+
+    },
+    "Rift": entity => {
+        if(!(entity instanceof $Entity)) return;
+        entity.physicsData.sides = 3
+        entity.physicsData.size = 47.5 * Math.SQRT2
+        const rotator = entity.createChild(false);
+        rotator.defaults();
+        rotator.physicsData.sides = 3
+        rotator.positionData.angle = 0;
+        rotator.positionData.isAngleAbsolute = true;
+        rotator.styleData.isVisible = true;
+        rotator.physicsData.size = (47.5 * Math.SQRT2) * 1.2;
+
+        const rotator2 = entity.createChild(false);
+        rotator2.defaults();
+        rotator2.physicsData.sides = 6
+        rotator2.positionData.angle = Math.PI;
+        rotator2.styleData.color = 1
+        rotator2.positionData.isAngleAbsolute = true;
+        rotator2.styleData.isVisible = true;
+        rotator2.physicsData.size = (47.5 * Math.SQRT2) * 0.75;
+        rotator2.styleData.showsAboveParent = true;
+
+        const rotator3 = entity.createChild(false);
+        rotator3.defaults();
+        rotator3.physicsData.sides = 6
+        rotator3.positionData.angle = Math.PI;
+        rotator3.styleData.color =  24;
+        rotator3.positionData.isAngleAbsolute = true;
+        rotator3.styleData.isVisible = true;
+        rotator3.physicsData.size = (47.5 * Math.SQRT2) * 0.5;
+        rotator3.styleData.showsAboveParent = true;
+
     },
     "pentagon": entity => {
         if(!(entity instanceof $Entity)) return;
