@@ -1067,6 +1067,8 @@ class VampSmasherAddon extends Addon {
         this.createGuard(6, 1.15, 0, .1);
         const b = this.createGuard(3, 1.45, Math.PI/6, .1);
         b.styleData.color = Color.Vampire
+        const c = this.createGuard(3, 1.45, -Math.PI/6, .1);
+        c.styleData.color = Color.Vampire
     }
 }
 class OverDriveAddon extends Addon {
@@ -1411,65 +1413,7 @@ class PsiAddon extends Addon {
         atuo.styleData.color = Color.Psy
     }
 }
-class SheildAddon extends Addon {
-    public constructor(owner: BarrelBase) {
-        super(owner);
 
-        const atuo = new AutoTurret(owner, {
-            angle: 0,
-            offset: 0,
-            size: 0,
-            width: 0,
-            delay: 0.01,
-            reload: 1.75,
-            recoil: 0,
-            isTrapezoid: false,
-            trapezoidDirection: 0,
-            addon: null,
-            droneCount: 0,
-            bullet: {
-                type: "drone",
-                sizeRatio: 1,
-                health: 0.75,
-                damage: 0.5,
-                speed: 1,
-                scatterRate: 1,
-                lifeLength: 0.75,
-                absorbtionFactor: 0.1
-            }
-        });
-        const atuo2 = new AutoTurret(owner, {
-            angle: 0,
-            offset: 0,
-            size: 0,
-            width: 0,
-            delay: 0.01,
-            reload: 1.75,
-            recoil: 0,
-            isTrapezoid: false,
-            trapezoidDirection: 0,
-            addon: null,
-            droneCount: 0,
-            bullet: {
-                type: "drone",
-                sizeRatio: 1,
-                health: 0.75,
-                damage: 0.5,
-                speed: 1,
-                scatterRate: 1,
-                lifeLength: 0.75,
-                absorbtionFactor: 0.1
-            }
-        });
-            atuo.baseSize *= 1
-            atuo2.baseSize *= 0.5
-        //atuo.ai.passiveRotation = this.movementAngle
-        atuo.ai.viewRange = 0
-        atuo2.ai.viewRange = 0
-        atuo.styleData.color = Color.Fallen
-        atuo2.styleData.color = Color.EnemySquare
-    }
-}
 class VampAddon extends Addon {
     public constructor(owner: BarrelBase) {
         super(owner);
@@ -2258,6 +2202,195 @@ class AbyssAddon extends Addon {
 }
 }
 
+class RiftAddon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+        //owner.positionData.values.angle
+        
+        const pronounce = new ObjectEntity(this.game);
+        const size = this.owner.physicsData.values.size;
+
+        pronounce.setParent(this.owner);
+        pronounce.relationsData.values.owner = this.owner;
+        pronounce.relationsData.values.team = this.owner.relationsData.values.team
+
+        pronounce.physicsData.values.size = size * 1.2;
+
+        pronounce.styleData.values.color = Color.Border;
+        pronounce.physicsData.values.sides = 3;
+        const tickBase = pronounce.tick;
+
+        pronounce.tick = (tick: number) => {
+            const size = this.owner.physicsData.values.size;
+
+            pronounce.physicsData.size = size * 1.2;
+            tickBase.call(pronounce, tick);
+        }
+
+
+        const pronounce2 = new ObjectEntity(this.game);
+
+        pronounce2.setParent(this.owner);
+        pronounce2.relationsData.values.owner = this.owner;
+        pronounce2.relationsData.values.team = this.owner.relationsData.values.team
+        pronounce2.styleData.values.color = Color.Barrel
+
+        pronounce2.physicsData.values.size = size * 0.75;
+        pronounce2.positionData.angle = Math.PI
+        pronounce2.styleData.values.flags |= StyleFlags.showsAboveParent
+        pronounce2.physicsData.values.sides = 6;
+        const tickBase2 = pronounce2.tick;
+
+        pronounce2.tick = (tick: number) => {
+            const size = this.owner.physicsData.values.size;
+
+            pronounce2.physicsData.size = size * 0.75;
+            tickBase2.call(pronounce2, tick);
+        }
+
+
+
+        const pronounce3 = new ObjectEntity(this.game);
+
+        pronounce3.setParent(this.owner);
+        pronounce3.relationsData.values.owner = this.owner;
+        pronounce3.relationsData.values.team = this.owner.relationsData.values.team
+
+        pronounce3.physicsData.values.size = size * 0.5;
+        pronounce3.styleData.values.color = Color.EnemyOctagon
+        pronounce3.positionData.angle = Math.PI
+        pronounce3.styleData.values.flags |= StyleFlags.showsAboveParent
+        pronounce3.physicsData.values.sides = 6;
+        const tickBase3 = pronounce3.tick;
+
+        pronounce3.tick = (tick: number) => {
+            const size = this.owner.physicsData.values.size;
+
+            pronounce3.physicsData.size = size * 0.5;
+            tickBase3.call(pronounce3, tick);
+        }
+    }
+}
+
+class BoostAddon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+
+        const atuo = new AutoTurret(owner, {
+            angle: 0,
+            offset: 0,
+            size: 0,
+            width: 0,
+            delay: 0.01,
+            reload: 1.75,
+            recoil: 0,
+            isTrapezoid: false,
+            trapezoidDirection: 0,
+            addon: null,
+            droneCount: 0,
+            bullet: {
+                type: "drone",
+                sizeRatio: 1,
+                health: 0.75,
+                damage: 0.5,
+                speed: 1,
+                scatterRate: 1,
+                lifeLength: 0.75,
+                absorbtionFactor: 0.1
+            }
+        });
+        const atuo2 = new AutoTurret(owner, {
+            angle: 0,
+            offset: 0,
+            size: 0,
+            width: 0,
+            delay: 0.01,
+            reload: 1.75,
+            recoil: 0,
+            isTrapezoid: false,
+            trapezoidDirection: 0,
+            addon: null,
+            droneCount: 0,
+            bullet: {
+                type: "drone",
+                sizeRatio: 1,
+                health: 0.75,
+                damage: 0.5,
+                speed: 1,
+                scatterRate: 1,
+                lifeLength: 0.75,
+                absorbtionFactor: 0.1
+            }
+        });
+            atuo.baseSize *= 1
+            atuo2.baseSize *= 0.5
+        //atuo.ai.passiveRotation = this.movementAngle
+        atuo.ai.viewRange = 0
+        atuo2.ai.viewRange = 0
+        atuo.styleData.color = Color.Barrel
+        atuo2.styleData.color = Color.EnemySquare
+    }
+}
+
+class TeleAddon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+
+        const atuo = new AutoTurret(owner, {
+            angle: 0,
+            offset: 0,
+            size: 0,
+            width: 0,
+            delay: 0.01,
+            reload: 1.75,
+            recoil: 0,
+            isTrapezoid: false,
+            trapezoidDirection: 0,
+            addon: null,
+            droneCount: 0,
+            bullet: {
+                type: "drone",
+                sizeRatio: 1,
+                health: 0.75,
+                damage: 0.5,
+                speed: 1,
+                scatterRate: 1,
+                lifeLength: 0.75,
+                absorbtionFactor: 0.1
+            }
+        });
+        const atuo2 = new AutoTurret(owner, {
+            angle: 0,
+            offset: 0,
+            size: 0,
+            width: 0,
+            delay: 0.01,
+            reload: 1.75,
+            recoil: 0,
+            isTrapezoid: false,
+            trapezoidDirection: 0,
+            addon: null,
+            droneCount: 0,
+            bullet: {
+                type: "drone",
+                sizeRatio: 1,
+                health: 0.75,
+                damage: 0.5,
+                speed: 1,
+                scatterRate: 1,
+                lifeLength: 0.75,
+                absorbtionFactor: 0.1
+            }
+        });
+            atuo.baseSize *= 1
+            atuo2.baseSize *= 0.5
+        //atuo.ai.passiveRotation = this.movementAngle
+        atuo.ai.viewRange = 0
+        atuo2.ai.viewRange = 0
+        atuo.styleData.color = Color.Barrel
+        atuo2.styleData.color = Color.EnemyOctagon
+    }
+}
 /**
  * All addons in the game by their ID.
  */
@@ -2275,6 +2408,8 @@ export const AddonById: Record<addonId, typeof Addon | null> = {
     autoturret: AutoTurretAddon,
     // not part of diep
     microsmasher: SmasherAddon,
+    tele: TeleAddon,
+    boost: BoostAddon,
     chainer: SmasherAddon,
     autoturret3: AutoTurretControllAddon,
     vampire: VampAddon,
@@ -2305,11 +2440,11 @@ export const AddonById: Record<addonId, typeof Addon | null> = {
     cuck : Auto1Addon,
     launchertall : LauncherTallAddon,
     psiEye: PsiAddon,
-    shiEye: SheildAddon,
     sporn: SpornAddon,
     autoauto3: AutoAuto3Addon,
     glider: GliderAddon,
     autovamp : AutoVampAddon,
     vampsmasher : VampSmasherAddon,
-    launcheralt: Launcher2SmallAddon
+    launcheralt: Launcher2SmallAddon,
+    rift: RiftAddon
 }
