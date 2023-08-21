@@ -202,16 +202,7 @@ export default class ShapeManager {
 
         while (count < wantedShapes) {
             this.spawnShape();
-            this.spawnShape();
-            this.spawnShape();
-            this.spawnShape();
-            this.spawnShape();
-            this.spawnShape();
-            this.spawnShape();
-            this.spawnShape();
-            this.spawnShape();
-            this.spawnShape();
-            count += 10;
+            count += 1;
         }
     }
 }
