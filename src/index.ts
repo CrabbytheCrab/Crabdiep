@@ -133,8 +133,8 @@ server.listen(PORT, () => {
     const maze = new GameServer(wss, "maze", "Maze");
     const crossroads = new GameServer(wss, "crossroads", "Crossroads");
     //const dom = new GameServer(wss, "dom", "Domination");
-    const ball = new GameServer(wss, "ball", "Ball");
-    games.push(ffa,scenexe,ball,sbx);
+    //const ball = new GameServer(wss, "ball", "Ball");
+    games.push(ffa,scenexe,sbx);
     gamer.set("ffa", ffa)
     gamer.set("maze", maze)
     gamer.set("scenexe", scenexe)
