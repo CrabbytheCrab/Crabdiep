@@ -61,19 +61,19 @@ class CustomShapeManager extends ShapeManager {
 
         if (Math.max(x, y) < rightX / 4 && Math.min(x, y) > leftX / 4) {
             // Pentagon Nest
-            if(rand < 0.05){
+            if(rand < 0.01){
                 shape = new Abyssling(this.game);            
                 shape.positionData.values.x = x;
                 shape.positionData.values.y = y;
                 shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;
             }
-            else if(rand < 0.2){
+            else if(rand < 0.21){
                 shape = new Octagon(this.game, Math.random() <= 0.1,Math.random() < 0.05);
     
                 shape.positionData.values.x = x;
                 shape.positionData.values.y = y;
                 shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;}
-          else if(rand < 0.5){
+          else if(rand < 0.51){
             shape = new Heptagon(this.game, Math.random() <= 0.2,Math.random() < 0.05);
 
             shape.positionData.values.x = x;
@@ -147,7 +147,7 @@ export default class Crossroads extends ArenaEntity {
         super(a);
         this.shapeHeathMultiplier = 0.5
         this.maxtanklevel = 60
-        this.shapeScoreRewardMultiplier = 0.5
+        this.shapeScoreRewardMultiplier = 0.75
         this.updateBounds(ARENA_SIZE, ARENA_SIZE);
     }
     public timer = 900
