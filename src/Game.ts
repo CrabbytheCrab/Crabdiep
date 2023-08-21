@@ -338,9 +338,17 @@ const HOSTED_ENDPOINTS: string[] = [];
                 if(client.camera.cameraData.player instanceof TankBody) {
                     tank = cam.cameraData.player = cam.relationsData.owner = cam.relationsData.parent = new TankBody(this, cam, client.inputs, client.camera.cameraData.player.currentTank);
                     tank.nameData.values.name = client.camera.cameraData.player.nameData.values.name;
+                    const { x, y } = this.arena.findSpawnLocation();
+
+                    tank.positionData.values.x = x;
+                    tank.positionData.values.y = y;
                 } else {
                     tank = cam.cameraData.player = cam.relationsData.owner = cam.relationsData.parent = new TankBody(this, cam, client.inputs);
                     tank.nameData.values.name = "";
+                    const { x, y } = this.arena.findSpawnLocation();
+
+                    tank.positionData.values.x = x;
+                    tank.positionData.values.y = y;
                 }
                 tank.scoreData.values.score = cam.cameraData.values.score;
                 tank.scoreReward = cam.cameraData.values.score;

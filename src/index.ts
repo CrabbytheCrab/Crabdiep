@@ -130,13 +130,12 @@ server.listen(PORT, () => {
     const sbx = new GameServer(wss, "sandbox", "Sandbox");
     const scenexe = new GameServer(wss, "scenexe", "Scenexe");
     const sanctuary = new GameServer(wss, "sanctuary", "Sanctuary");
-    const maze = new GameServer(wss, "maze", "Maze");
+    //const maze = new GameServer(wss, "maze", "Maze");
     const crossroads = new GameServer(wss, "crossroads", "Crossroads");
     //const dom = new GameServer(wss, "dom", "Domination");
     //const ball = new GameServer(wss, "ball", "Ball");
     games.push(ffa,scenexe,sbx);
     gamer.set("ffa", ffa)
-    gamer.set("maze", maze)
     gamer.set("scenexe", scenexe)
     gamer.set("sandbox", sbx)
     gamer.set("sanctuary", sanctuary)
