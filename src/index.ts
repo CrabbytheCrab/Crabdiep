@@ -135,9 +135,7 @@ server.listen(PORT, () => {
     //const dom = new GameServer(wss, "dom", "Domination");
     //const ball = new GameServer(wss, "ball", "Ball");
     games.push(ffa,scenexe,sbx);
-    gamer.set("ffa", ffa)
     gamer.set("scenexe", scenexe)
-    gamer.set("sandbox", sbx)
     gamer.set("sanctuary", sanctuary)
     gamer.set("crossroads", crossroads)
     util.saveToLog("Servers up", "All servers booted up.", 0x37F554);
