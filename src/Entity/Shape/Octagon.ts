@@ -49,8 +49,8 @@ export default class Octagon extends AbstractShape {
         this.scoreReward = isAlpha ? 96000 : 12800;
         
         if (shiny) {
-            this.scoreReward *= 100;
-            this.healthData.values.health = this.healthData.values.maxHealth *= 10;
+            this.scoreReward *= 8;
+            this.healthData.values.health = this.healthData.values.maxHealth *= 2;
         }
     }
 }

@@ -35,8 +35,8 @@ export default class Square extends AbstractShape {
         this.isShiny = shiny;
 
         if (shiny) {
-            this.scoreReward *= 100;
-            this.healthData.values.health = this.healthData.values.maxHealth *= 10;
+            this.scoreReward *= 8;
+            this.healthData.values.health = this.healthData.values.maxHealth *= 2;
         }
     }
 }

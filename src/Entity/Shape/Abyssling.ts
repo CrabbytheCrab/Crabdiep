@@ -62,7 +62,7 @@ const GuardianSpawnerDefinition2: BarrelDefinition = {
     size: 70,
     width: 42 * 1.2,
     delay: 0,
-    reload: 6,
+    reload: 15,
     recoil: 0,
     isTrapezoid: false,
     trapezoidDirection: 0,

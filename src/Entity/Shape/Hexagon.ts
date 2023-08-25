@@ -50,8 +50,8 @@ export default class Hexagon extends AbstractShape {
         this.scoreReward = isAlpha ? 8000 : 1170;
         
         if (shiny) {
-            this.scoreReward *= 100;
-            this.healthData.values.health = this.healthData.values.maxHealth *= 10;
+            this.scoreReward *= 8;
+            this.healthData.values.health = this.healthData.values.maxHealth *= 2;
         }
     }
 }
