@@ -34,19 +34,19 @@ export default class Octagon extends AbstractShape {
         
         this.nameData.values.name = isAlpha ? "Delta Octagon" : "Octagon";
 
-        this.healthData.values.health = this.healthData.values.maxHealth = (isAlpha ? 64000 : 8000);
-        this.physicsData.values.size = (isAlpha ? 648 : 200) * Math.SQRT1_2;
+        this.healthData.values.health = this.healthData.values.maxHealth = (isAlpha ? 18000 : 2400);
+        this.physicsData.values.size = (isAlpha ? 545 : 200) * Math.SQRT1_2;
         this.physicsData.values.sides = 8;
         this.styleData.values.color = shiny ? Color.Shiny : Color.EnemyOctagon;
 
         this.physicsData.values.absorbtionFactor = isAlpha ? 0.0 : 0.025;
-        this.physicsData.values.pushFactor = 18;
+        this.physicsData.values.pushFactor = 11;
 
         this.isAlpha = isAlpha;
         this.isShiny = shiny;
 
-        this.damagePerTick = isAlpha ? 35 : 20;
-        this.scoreReward = isAlpha ? 96000 : 12800;
+        this.damagePerTick = isAlpha ? 28 : 16;
+        this.scoreReward = isAlpha ? 18000 : 3000;
         
         if (shiny) {
             this.scoreReward *= 8;

@@ -523,7 +523,11 @@ public Accend(){
                 this.baseSize = (100 + (12.5/10 * this.cameraEntity.cameraData.values.statLevels.values[Stat.MovementSpeed])) * Math.SQRT2
     
             }
+            if ((this.styleData.values.flags & StyleFlags.isFlashing)){
+                this.damagePerTick = 0
+            }else {
             this.damagePerTick = this.cameraEntity.cameraData.statLevels[Stat.BodyDamage] * 6 + 20;
+            }
             if (this._currentTank === Tank.Spike) this.damagePerTick *= 1.5;
             if (this._currentTank === Tank.SPORN) this.damagePerTick *= 2;
             if (this._currentTank === Tank.Teleporter) this.damagePerTick *= 0.25;
@@ -575,7 +579,11 @@ else if (this._currentTank === Tank.SPORN){
             this.reloadTime = 15 * Math.pow(0.914, this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]);
         }else{
                         // Damage
+            if ((this.styleData.values.flags & StyleFlags.isFlashing)){
+                this.damagePerTick = 0
+            }else {
             this.damagePerTick = this.cameraEntity.cameraData.statLevels[Stat.BodyDamage] * 9 + 30;
+            }
             if (this._currentTank === Tank.Void) this.damagePerTick *= 1.5;
             if (this._currentTank === Tank.Rift) this.damagePerTick *= 0.25;
 
@@ -607,7 +615,7 @@ else if (this._currentTank === Tank.SPORN){
 
         this.scoreData.score = this.cameraEntity.cameraData.values.score;
 
-        if ((this.styleData.values.flags & StyleFlags.isFlashing) && (this.game.tick >= this.cameraEntity.cameraData.values.spawnTick + 374 || this.inputs.attemptingShot() || this.inputs.movement.magnitude > 0)) {
+        if ((this.styleData.values.flags & StyleFlags.isFlashing) && (this.game.tick >= this.cameraEntity.cameraData.values.spawnTick + 374 || this.inputs.attemptingShot())) {
             this.styleData.flags ^= StyleFlags.isFlashing;
             // Dont worry about invulnerability here - not gonna be invulnerable while flashing ever (see setInvulnerability)
             this.damageReduction = 1.0;

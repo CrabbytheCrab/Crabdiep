@@ -21,7 +21,7 @@ import { Color } from "../../Const/Enums";
 /**
  * Pentagon entity class.
  */
-export default class Heptagon extends AbstractShape {
+export default class Nonagon extends AbstractShape {
     /** If the pentagon is an alpha pentagon or not */
     public isAlpha: boolean;
 
@@ -32,22 +32,21 @@ export default class Heptagon extends AbstractShape {
     public constructor(game: GameServer, isAlpha=false, shiny=(Math.random() < 0.1) && !isAlpha) {
         super(game);
         
-        this.nameData.values.name = isAlpha ? "Gamma Heptagon" : "Heptagon";
+        this.nameData.values.name = isAlpha ? "Epsilon Nonagon" : "Nonagon";
 
-        this.healthData.values.health = this.healthData.values.maxHealth = (isAlpha ? 9500 : 900);
-        this.physicsData.values.size = (isAlpha ? 460 : 145) * Math.SQRT1_2;
-        this.physicsData.values.sides = 7;
-        this.styleData.values.color = shiny ? Color.Shiny : Color.EnemyHeptagon;
+        this.healthData.values.health = this.healthData.values.maxHealth = (isAlpha ? 29000 : 7800);
+        this.physicsData.values.size = (isAlpha ? 630 : 280) * Math.SQRT1_2;
+        this.physicsData.values.sides = 9;
+        this.styleData.values.color = shiny ? Color.Shiny : Color.EnemyNonagon;
 
-        this.physicsData.values.absorbtionFactor = isAlpha ? 0.025 : 0.1;
+        this.physicsData.values.absorbtionFactor = isAlpha ? 0.0 : 0.025;
         this.physicsData.values.pushFactor = 11;
-
 
         this.isAlpha = isAlpha;
         this.isShiny = shiny;
 
-        this.damagePerTick = isAlpha ? 20 : 12;
-        this.scoreReward = isAlpha ? 9500 : 1250;
+        this.damagePerTick = isAlpha ? 28 : 16;
+        this.scoreReward = isAlpha ? 29000 : 9200;
         
         if (shiny) {
             this.scoreReward *= 8;
