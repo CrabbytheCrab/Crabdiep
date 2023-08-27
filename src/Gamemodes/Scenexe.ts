@@ -25,9 +25,11 @@ import TeamBase from "../Entity/Misc/TeamBase";
 import { TeamEntity } from "../Entity/Misc/TeamEntity";
 import AbstractShape from "../Entity/Shape/AbstractShape";
 import Crasher from "../Entity/Shape/Crasher";
+import Decagon from "../Entity/Shape/Decagon";
 import Heptagon from "../Entity/Shape/Heptagon";
 import Hexagon from "../Entity/Shape/Hexagon";
 import ShapeManager from "../Entity/Shape/Manager";
+import Nonagon from "../Entity/Shape/Nonagon";
 import Octagon from "../Entity/Shape/Octagon";
 import Peacekeeper from "../Entity/Shape/Peacekeeper";
 import Pentagon from "../Entity/Shape/Pentagon";
@@ -68,12 +70,24 @@ class CustomShapeManager extends ShapeManager {
                     shape.positionData.values.y = y;
                     shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;}
                else if(rand < 0.12){
+                    shape = new Decagon(this.game, Math.random() <= 0.1,Math.random() < 0.005);
+        
+                    shape.positionData.values.x = x;
+                    shape.positionData.values.y = y;
+                    shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;}
+               else if(rand < 0.27){
+                    shape = new Nonagon(this.game, Math.random() <= 0.1,Math.random() < 0.005);
+        
+                    shape.positionData.values.x = x;
+                    shape.positionData.values.y = y;
+                    shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;}
+               else if(rand < 0.42){
                     shape = new Octagon(this.game, Math.random() <= 0.1,Math.random() < 0.005);
         
                     shape.positionData.values.x = x;
                     shape.positionData.values.y = y;
                     shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;}
-              else if(rand < 0.47){
+              else if(rand < 0.62){
                 shape = new Heptagon(this.game, Math.random() <= 0.1,Math.random() < 0.005);
     
                 shape.positionData.values.x = x;

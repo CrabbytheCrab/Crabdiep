@@ -52,7 +52,9 @@ export const enum Color {
     EnemyHeptagon = 23,
     EnemyOctagon = 24,
     White = 25,
-    Vampire = 26
+    Vampire = 26,
+    EnemyNonagon = 27,
+    EnemyDecagon = 28
 }
 
 /**
@@ -85,7 +87,10 @@ export const ColorsHexCode: Record<Color, number> = {
     [Color.EnemyHeptagon]: 0x38B764,
     [Color.EnemyOctagon]: 0x4A66BD,
     [Color.White]: 0xFFFFFF,
-    [Color.Vampire]: 0x820D0D
+    [Color.Vampire]: 0x820D0D,
+    [Color.EnemyNonagon]: 0x5D275D,
+    [Color.EnemyDecagon]: 0x1A1C2C
+
 
 }
 

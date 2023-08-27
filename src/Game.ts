@@ -312,7 +312,6 @@ const HOSTED_ENDPOINTS: string[] = [];
         game.clients.delete(client);
         this.clients.add(client);
 
-        client.write().u8(ClientBound.ServerInfo).stringNT(client.game.gamemode).stringNT("diepcustom-" + client.game.gamemode).send();
         client.write().u8(ClientBound.Accept).vi(client.accessLevel).send();
 
         if(Entity.exists(client.camera)) {

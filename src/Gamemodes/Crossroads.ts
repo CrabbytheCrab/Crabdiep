@@ -33,6 +33,11 @@ import { TeamEntity } from "../Entity/Misc/TeamEntity";
 import { Color } from "../Const/Enums";
 import BlackHoleAlt from "../Entity/Misc/BlackHoleAlt";
 import Peacekeeper from "../Entity/Shape/Peacekeeper";
+import Nonagon from "../Entity/Shape/Nonagon";
+import Decagon from "../Entity/Shape/Decagon";
+import Crasher from "../Entity/Shape/Crasher";
+import { Sentry } from "../Entity/Shape/Sentry";
+import WepPentagon from "../Entity/Shape/WepPentagon";
 
 // constss.
 const CELL_SIZE = 500;
@@ -59,33 +64,49 @@ class CustomShapeManager extends ShapeManager {
         const leftX = this.arena.arenaData.values.leftX;
         const rand = Math.random();
 
-        if (Math.max(x, y) < rightX / 4 && Math.min(x, y) > leftX / 4) {
+        if (Math.max(x, y) < rightX / 5 && Math.min(x, y) > leftX / 5) {
             // Pentagon Nest
-            if(rand < 0.01){
-                shape = new Abyssling(this.game);            
-                shape.positionData.values.x = x;
-                shape.positionData.values.y = y;
-                shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;
-            }
-            else if(rand < 0.21){
-                shape = new Octagon(this.game, Math.random() <= 0.1,Math.random() < 0.05);
-    
-                shape.positionData.values.x = x;
-                shape.positionData.values.y = y;
-                shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;}
-          else if(rand < 0.51){
-            shape = new Heptagon(this.game, Math.random() <= 0.2,Math.random() < 0.05);
+        if(rand < 0.15){
+            shape = new Decagon(this.game, Math.random() <= 0.1,Math.random() < 0.15);
 
             shape.positionData.values.x = x;
             shape.positionData.values.y = y;
-            shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;
-        }else{
-            shape = new Hexagon(this.game, Math.random() <= 0.4,Math.random() < 0.05);
+            shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;}
+        else if(rand < 0.35){
+            shape = new Nonagon(this.game, Math.random() <= 0.2,Math.random() < 0.15);
+
+            shape.positionData.values.x = x;
+            shape.positionData.values.y = y;
+            shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;}
+        else if(rand < 0.6){
+            shape = new Octagon(this.game, Math.random() <= 0.3,Math.random() < 0.15);
+
+            shape.positionData.values.x = x;
+            shape.positionData.values.y = y;
+            shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;}
+        else{
+            shape = new Heptagon(this.game, Math.random() <= 0.4,Math.random() < 0.15);
 
             shape.positionData.values.x = x;
             shape.positionData.values.y = y;
             shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;
         }
+        } else if (Math.max(x, y) < rightX /3 && Math.min(x, y) > leftX / 3) {
+            const rand = Math.random();
+            // Crasher Zone
+            if (rand < 0.05){
+                const isBig = true;
+                shape = new Abyssling(this.game);            
+                shape.positionData.values.x = x;
+                shape.positionData.values.y = y;
+                shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;
+            }
+            else{
+                shape = new Hexagon(this.game, true ,Math.random() < 0.05);         
+                shape.positionData.values.x = x;
+                shape.positionData.values.y = y;
+                shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;
+            }
         } else {
             // Fields of Shapes
             const rand = Math.random();
@@ -95,19 +116,19 @@ class CustomShapeManager extends ShapeManager {
                 shape.positionData.values.x = x;
                 shape.positionData.values.y = y;
                 shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;}
-            else if(rand < 0.02){
+            else if(rand < 0.06){
                 shape = new Octagon(this.game, Math.random() <= 0.01,Math.random() < 0.05);
     
                 shape.positionData.values.x = x;
                 shape.positionData.values.y = y;
                 shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;}
-          else if(rand < 0.17){
+          else if(rand < 0.16){
             shape = new Heptagon(this.game, Math.random() <= 0.025,Math.random() < 0.05);
 
             shape.positionData.values.x = x;
             shape.positionData.values.y = y;
             shape.relationsData.values.owner = shape.relationsData.values.team = this.arena;}
-            else if(rand < 0.47){
+            else if(rand < 0.46){
 
                 shape = new Hexagon(this.game, Math.random() <= 0.075,Math.random() < 0.05);
 
