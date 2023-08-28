@@ -390,9 +390,9 @@ export default class Client {
                     // If full access, or if the game allows cheating and lvl is < maxLevel, or if the player is a BT access level and lvl is < maxLevel
                     if (camera.cameraData.values.level < camera.maxlevel) {
                         //this.setHasCheated(true);
-                        if(camera.game.gamemode == "scenexe" || camera.game.gamemode == "crossroads" || camera.game.gamemode == "sanctuary"){}else{
+                       // if(camera.game.gamemode == "scenexe" || camera.game.gamemode == "crossroads" || camera.game.gamemode == "sanctuary"){}else{
                             camera.setLevel(camera.cameraData.values.level + 1);
-                        }
+                        //}
                     }
                 }
                 if ((flags & InputFlags.suicide) && (!player.deletionAnimation || !player.deletionAnimation)) {
