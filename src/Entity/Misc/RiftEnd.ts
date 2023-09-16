@@ -33,11 +33,10 @@ import Partical from "../Tank/Projectile/Partical";
 import { gamer } from "../..";
 import ClientCamera from "../../Native/Camera";
 import AbstractBoss from "../Boss/AbstractBoss";
-import RiftEnd from "./RiftEnd";
 /**
  * Only used for maze walls and nothing else.
  */
-export default class Rift extends ObjectEntity implements BarrelBase{
+export default class RiftEnd extends ObjectEntity implements BarrelBase{
     public viewRange: number;
     public lifetime: number;
     public sizeFactor: number;
@@ -57,7 +56,6 @@ public multiplierdirect2: number
     public x: number
     //public tank:TankBody
     public y: number
-    public exit: RiftEnd;
     public constructor(game:GameServer, posx : number, posy: number,x:number,y:number) {
         super(game);
         this.multiplierdirect = 1
@@ -81,8 +79,8 @@ public multiplierdirect2: number
         this.styleData.flags |= StyleFlags.hasNoDmgIndicator
         this.physicsData.values.size = 180;
         this.positionData.values.flags |= PositionFlags.absoluteRotation;
-            this.physicsData.values.size = 75;
-            this.exit = new RiftEnd(this.game, this.x, this.y,0, 0)
+            this.physicsData.values.size = 40;
+
 
         this.physicsData.values.sides = 4;
         this.physicsData.pushFactor = 0;
@@ -146,35 +144,5 @@ public multiplierdirect2: number
         if(this.lifetime <= 0){
             this.destroy()
         }
-        const entities = this.findCollisions()
-        this.viewRange = this.physicsData.size
-            for (let i = 0; i < entities.length; ++i) {
-                const entity = entities[i];
-                if (!(entity instanceof LivingEntity)) continue; // Check if the target is living
-                if (entity instanceof TankBody) {
-                    if(entity.cameraEntity.cameraData.flags && CameraFlags.isCelestial){
-                        entity.setVelocity(0,0)
-                        setTimeout(() =>{
-                            entity.setVelocity(0,0)
-                            const {x, y} = this.exit.getWorldPosition();
-    
-                            entity.positionData.x = x
-                            entity.positionData.y = y,2})
-                    setTimeout(() =>{
-                        entity.setVelocity(0,0)
-                        const {x, y} = this.exit.getWorldPosition();
-
-                        entity.positionData.x = x
-                        entity.positionData.y = y,1})
-                        const {x, y} = this.exit.getWorldPosition();
-
-                        entity.positionData.x = x
-                        entity.positionData.y = y
-                        entity.entityState |= EntityStateFlags.needsCreate | EntityStateFlags.needsDelete;
-
-                     }
-                }
-            }
-
     }
 }

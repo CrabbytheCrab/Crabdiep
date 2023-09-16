@@ -112,6 +112,7 @@ export default class ObjectEntity extends Entity {
     public MAXORBS: number
     public MAXDRONES: number
     public OrbCount: number
+    public OrbCount2: number
     public DroneCount: number
     public deathanim: boolean
     public borscount = new Array(100);
@@ -122,6 +123,7 @@ export default class ObjectEntity extends Entity {
         this.MAXDRONES = 0
         this.MAXORBS = 0
         this.OrbCount = 0
+        this.OrbCount2 = 0
         this.DroneCount = 0
         this.restLength = 0
         this.forcemulti = 1
