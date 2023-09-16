@@ -1121,6 +1121,85 @@ class BumperAddon extends Addon {
         this.createGuard(1, 1.75, 0, .1);
     }
 }
+
+class WhirlwindAddon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+
+        const x = this.createGuard(1, 1.75, 0, .1);
+        x.styleData.color = Color.Barrel
+
+    }
+}
+
+class MultiBoxAddon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+        const pronounce = new ObjectEntity(this.game);
+        const size = this.owner.physicsData.values.size;
+
+        pronounce.setParent(this.owner);
+        pronounce.relationsData.values.owner = this.owner;
+        pronounce.relationsData.values.team = this.owner.relationsData.values.team
+
+        pronounce.physicsData.values.size = size * 0.5;
+        pronounce.styleData.flags |= StyleFlags.showsAboveParent 
+        pronounce.styleData.values.color = owner.styleData.values.color;
+        pronounce.physicsData.values.sides = 1;
+        const tickBase = pronounce.tick;
+
+        pronounce.tick = (tick: number) => {
+            const size = this.owner.physicsData.values.size;
+
+            pronounce.physicsData.size = size * 0.5;
+            tickBase.call(pronounce, tick);
+        }
+    }
+}
+
+class MultiBoxxerAddon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+        const pronounce = new ObjectEntity(this.game);
+        const size = this.owner.physicsData.values.size;
+
+        pronounce.setParent(this.owner);
+        pronounce.relationsData.values.owner = this.owner;
+        pronounce.relationsData.values.team = this.owner.relationsData.values.team
+
+        pronounce.physicsData.values.size = size * 0.5;
+        pronounce.styleData.flags |= StyleFlags.showsAboveParent 
+        pronounce.styleData.values.color = owner.styleData.values.color;
+        pronounce.physicsData.values.sides = 1;
+        const tickBase = pronounce.tick;
+
+        pronounce.tick = (tick: number) => {
+            const size = this.owner.physicsData.values.size;
+
+            pronounce.physicsData.size = size * 0.5;
+            tickBase.call(pronounce, tick);
+        }
+
+        const pronounce2 = new ObjectEntity(this.game);
+
+        pronounce2.setParent(this.owner);
+        pronounce2.relationsData.values.owner = this.owner;
+        pronounce2.relationsData.values.team = this.owner.relationsData.values.team
+
+        pronounce2.physicsData.values.size = size * 0.25;
+        pronounce2.styleData.flags |= StyleFlags.showsAboveParent 
+        pronounce2.styleData.values.color = owner.styleData.values.color;
+        pronounce2.physicsData.values.sides = 1;
+        const tickBase2 = pronounce2.tick;
+
+        pronounce2.tick = (tick: number) => {
+            const size = this.owner.physicsData.values.size;
+
+            pronounce2.physicsData.size = size * 0.25;
+            tickBase2.call(pronounce2, tick);
+        }
+    }
+}
 /** Landmine addon. */
 class LandmineAddon extends Addon {
     public constructor(owner: BarrelBase) {
@@ -2329,6 +2408,20 @@ class BoostAddon extends Addon {
         atuo2.ai.viewRange = 0
         atuo.styleData.color = Color.Barrel
         atuo2.styleData.color = Color.EnemySquare
+        const offsetRatio = -25 / 50;
+
+        atuo.tick = () => {
+            const size = this.owner.physicsData.values.size;
+            atuo.physicsData.size = size * 0.6;
+
+            atuo.positionData.x = offsetRatio * size;
+        }
+        atuo2.tick = () => {
+            const size = this.owner.physicsData.values.size;
+            atuo2.physicsData.size = size * 0.4;
+
+            atuo2.positionData.x = offsetRatio * size;
+        }
     }
 }
 
@@ -2389,6 +2482,20 @@ class TeleAddon extends Addon {
         atuo2.ai.viewRange = 0
         atuo.styleData.color = Color.Barrel
         atuo2.styleData.color = Color.EnemyOctagon
+        const offsetRatio = -25 / 50;
+
+        atuo.tick = () => {
+            const size = this.owner.physicsData.values.size;
+            atuo.physicsData.size = size * 0.6;
+
+            atuo.positionData.x = offsetRatio * size;
+        }
+        atuo2.tick = () => {
+            const size = this.owner.physicsData.values.size;
+            atuo2.physicsData.size = size * 0.4;
+
+            atuo2.positionData.x = offsetRatio * size;
+        }
     }
 }
 /**
@@ -2446,5 +2553,12 @@ export const AddonById: Record<addonId, typeof Addon | null> = {
     autovamp : AutoVampAddon,
     vampsmasher : VampSmasherAddon,
     launcheralt: Launcher2SmallAddon,
-    rift: RiftAddon
+    rift: RiftAddon,
+    whirlwind : WhirlwindAddon,
+    multibox : MultiBoxAddon,
+    tool : MultiBoxAddon,
+    bentbox : MultiBoxAddon,
+    bees : MultiBoxAddon,
+    multiboxxer : MultiBoxxerAddon,
+
 }

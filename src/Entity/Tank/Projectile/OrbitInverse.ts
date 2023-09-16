@@ -32,7 +32,7 @@ import { log } from "console";
 /**
  * The drone class represents the drone (projectile) entity in diep.
  */
-export default class Orbit extends Bullet {
+export default class OrbitInverse extends Bullet {
     /** The AI of the drone (for AI mode) */
     public static FOCUS_RADIUS = 850 ** 2;
     public fire: boolean = true
@@ -64,7 +64,7 @@ export default class Orbit extends Bullet {
         const bulletDefinition = barrel.definition.bullet;
         this.usePosAngle = false;
         if(this.parent instanceof TankBody){
-        this.parent.orbit.push(this)
+        this.parent.orbitinv.push(this)
         }
         this.angles = 0
         this.timer = 0
@@ -73,16 +73,16 @@ export default class Orbit extends Bullet {
         this.MouseY = 0
         this.physicsData.values.absorbtionFactor = bulletDefinition.absorbtionFactor;
        // this.baseSpeed /= 3;
-        this.parent.OrbCount += 1;
-        this.num = this.parent.OrbCount
+        this.parent.OrbCount2 += 1;
+        this.num = this.parent.OrbCount2
     }
 
     /** Extends LivingEntity.destroy - so that the drone count decreases for the barrel. */
     public destroy(animate=true) {
         if (!animate)
         if(this.parent instanceof TankBody){
-            this.parent.OrbCount -= 1;
-            this.parent.orbit.splice(this.parent.orbit.indexOf(this),1)
+            this.parent.OrbCount2 -= 1;
+            this.parent.orbitinv.splice(this.parent.orbitinv.indexOf(this),1)
             //this.parent.orbit = this.parent.orbit.slice(this.num)
         }
         super.destroy(animate);
@@ -108,7 +108,7 @@ export default class Orbit extends Bullet {
             if (!Entity.exists(this.barrelEntity)) this.destroy()
             this.lifeLength = Infinity;
             this.spawnTick = this.barrelEntity.game.tick;
-            let angle = PI2 * ((this.num)/this.parent.OrbCount)
+            let angle = PI2 * ((this.num)/this.parent.OrbCount2)
             const statLevels = this.tank.cameraEntity.cameraData?.values.statLevels.values;
             if (this.mode == 1){
                 if(this.tank.inputs.attemptingShot()){
@@ -134,13 +134,13 @@ export default class Orbit extends Bullet {
                 y: this.positionData.values.y - this.tank.positionData.values.y
             }
             if (this.mode == 1){
-                const x1 = (this.tank.positionData.x +  (this.tank.physicsData.size  * Math.cos(angle + (tick *multi))) * this.dista)
-                const y1 = (this.tank.positionData.y +  (this.tank.physicsData.size  * Math.sin(angle + (tick * multi))) * this.dista)
+                const x1 = (this.tank.positionData.x +  (this.tank.physicsData.size  * Math.cos(angle + (tick *-multi))) * this.dista)
+                const y1 = (this.tank.positionData.y +  (this.tank.physicsData.size  * Math.sin(angle + (tick * -multi))) * this.dista)
                 this.positionData.x = this.tank.positionData.x + 0.1 * (x1 - this.tank.positionData.x)
                 this.positionData.y = this.tank.positionData.y + 0.1 * (y1 - this.tank.positionData.y)
             }else{
-                delta.x = this.tank.positionData.x +  (this.tank.physicsData.size  * Math.cos(angle + (tick * 0.1))) * this.dista -this.positionData.x;
-                delta.y = this.tank.positionData.y +  (this.tank.physicsData.size  * Math.sin(angle + (tick * 0.1))) * this.dista - this.positionData.y
+                delta.x = this.tank.positionData.x +  (this.tank.physicsData.size  * Math.cos(angle + (tick * -0.1))) * this.dista -this.positionData.x;
+                delta.y = this.tank.positionData.y +  (this.tank.physicsData.size  * Math.sin(angle + (tick * -0.1))) * this.dista - this.positionData.y
                 this.movementAngle =  Math.atan2(delta.y, delta.x);
             }
             if(this.tank.inputs.attemptingRepel()){

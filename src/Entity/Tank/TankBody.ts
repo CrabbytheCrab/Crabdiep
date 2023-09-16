@@ -44,6 +44,7 @@ import RopeSegment from "./Projectile/RopeSegment";
 import AbstractShape from "../Shape/AbstractShape";
 import Orbit from "./Projectile/Orbit";
 import OrbitTrap from "./Projectile/OrbitTrap";
+import OrbitInverse from "./Projectile/OrbitInverse";
 
 /**
  * Abstract type of entity which barrels can connect to.
@@ -87,6 +88,7 @@ public altTank: boolean
     public segments: ObjectEntity[];
     public orbit: Orbit[];
     public orbit2: OrbitTrap[];
+    public orbitinv: OrbitInverse[];
     public k: number;
     public length: number;
     public coolDown: boolean = false;
@@ -102,6 +104,7 @@ public altTank: boolean
         this.segments = [this];
         this.orbit = [];
         this.orbit2 = [];
+        this.orbitinv = []
         this.k = 0.25;
         this.physicsData.values.size = 50;
         this.physicsData.values.sides = 1;
@@ -523,6 +526,14 @@ public Accend(){
                 this.baseSize = (100 + (12.5/10 * this.cameraEntity.cameraData.values.statLevels.values[Stat.MovementSpeed])) * Math.SQRT2
     
             }
+           if(this._currentTank == Tank.Multibox || this._currentTank == Tank.BentBox|| this._currentTank == Tank.Multiboxer|| this._currentTank == Tank.Toolkit){
+                this.baseSize = 37.5
+    
+            }
+            if(this._currentTank == Tank.BEES){
+                this.baseSize = 25
+    
+            }
             if ((this.styleData.values.flags & StyleFlags.isFlashing)){
                 this.damagePerTick = 0
             }else {
@@ -630,10 +641,12 @@ else if (this._currentTank === Tank.SPORN){
             x: 0,
             y: 0
         });
-        for (let i = 0; i < this.orbit.length; i++)
-        this.orbit[i].num = i;
-        for (let i = 0; i < this.orbit2.length; i++)
-        this.orbit2[i].num = i;
+        for (let i = 0; i < this.orbit.length; i++) this.orbit[i].num = i;
+
+        for (let i = 0; i < this.orbit2.length; i++) this.orbit2[i].num = i;
+
+        for (let i = 0; i < this.orbitinv.length; i++) this.orbitinv[i].num = i;
+
 
         for (let i = 1; i < this.segments.length; i++) 
         {
