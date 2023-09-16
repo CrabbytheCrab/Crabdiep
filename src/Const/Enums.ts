@@ -384,7 +384,13 @@ export const enum Tank {
     Rusher        = 279,
     Jumpscarer    = 280,
     Supernova     = 281,
-    Rift          = 282
+    Rift          = 282,
+    Multibox      = 283,
+    BEES          = 284,
+    BentBox       = 285,
+    Multiboxer    = 286,
+    Toolkit       = 287,
+    Shield        = 288
 }
 
 /**

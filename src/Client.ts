@@ -341,26 +341,14 @@ export default class Client {
                     },10000);
                 }
                 if ((flags & InputFlags.rightclick) && !(previousFlags & InputFlags.rightclick) && player.currentTank === Tank.Rift && !player.coolDown) {
-                    player.positionData.x = this.inputs.mouse.x;
-                    player.positionData.y = this.inputs.mouse.y;
-                    player.setVelocity(0, 0);
+                    new Rift(this.game, player.positionData.x, player.positionData.y, player.inputs.mouse.x, player.inputs.mouse.y)
                     player.entityState |= EntityStateFlags.needsCreate | EntityStateFlags.needsDelete;
                     player.coolDown = true;
                     setTimeout(() =>{
                         player.coolDown = false;
                         this.notify("You can use your ability again");
-                    },10000);
+                    },12000);
                 }
-                /*if ((flags & InputFlags.rightclick) && !(previousFlags & InputFlags.rightclick) && player.currentTank === Tank.Rift && !player.coolDown) {
-                    new Rift(this.game, player.positionData.x, player.positionData.y, player.inputs.mouse.x, player.inputs.mouse.y, false)
-                    new Rift(this.game, player.inputs.mouse.x, player.inputs.mouse.y,  player.inputs.mouse.x,  player.inputs.mouse.y, true)
-                    player.entityState |= EntityStateFlags.needsCreate | EntityStateFlags.needsDelete;
-                    player.coolDown = true;
-                    setTimeout(() =>{
-                        player.coolDown = false;
-                        this.notify("You can use your ability again");
-                    },10000);
-                }*/
                 if ((flags & InputFlags.switchtank) && !(previousFlags & InputFlags.switchtank)) {
                     if (this.accessLevel >= config.AccessLevel.BetaAccess || (this.game.arena.arenaData.values.flags & ArenaFlags.canUseCheats)) {
                         this.setHasCheated(true);
