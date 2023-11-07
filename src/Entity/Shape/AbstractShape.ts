@@ -47,6 +47,8 @@ export default class AbstractShape extends LivingEntity {
     /** If the shape is shiny or not */
     public isShiny: boolean = false;
 
+    public noMultiplier: boolean = false;
+
     /** Wether or not to do idle movements */
     protected doIdleRotate: boolean = true;
     /** The current direction of the shape's orbit. */

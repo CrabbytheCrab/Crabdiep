@@ -1479,7 +1479,7 @@ const DevTankDefinitions: TankDefinition[] = [
         flags: {
             invisibility: true,
             zoomAbility: false,
-            devOnly: true
+            devOnly: false
         },
         visibilityRateShooting: 0.0,
         visibilityRateMoving: 0.0,
@@ -1538,7 +1538,7 @@ const DevTankDefinitions: TankDefinition[] = [
         flags: {
             invisibility: false,
             zoomAbility: false,
-            devOnly: false
+            devOnly: true
         },
         visibilityRateShooting: 0.23,
         visibilityRateMoving: 0.08,

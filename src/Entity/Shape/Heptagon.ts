@@ -34,24 +34,24 @@ export default class Heptagon extends AbstractShape {
         
         this.nameData.values.name = isAlpha ? "Gamma Heptagon" : "Heptagon";
 
-        this.healthData.values.health = this.healthData.values.maxHealth = (isAlpha ? 20000 : 4500);
-        this.physicsData.values.size = (isAlpha ? 453.6 : 140) * Math.SQRT1_2;
+        this.healthData.values.health = this.healthData.values.maxHealth = (isAlpha ? 9500 : 900);
+        this.physicsData.values.size = (isAlpha ? 460 : 145) * Math.SQRT1_2;
         this.physicsData.values.sides = 7;
         this.styleData.values.color = shiny ? Color.Shiny : Color.EnemyHeptagon;
 
-        this.physicsData.values.absorbtionFactor = isAlpha ? 0.025 : 0.25;
+        this.physicsData.values.absorbtionFactor = isAlpha ? 0.025 : 0.1;
         this.physicsData.values.pushFactor = 11;
 
 
         this.isAlpha = isAlpha;
         this.isShiny = shiny;
 
-        this.damagePerTick = isAlpha ? 30 : 18;
-        this.scoreReward = isAlpha ? 20000 : 2730;
+        this.damagePerTick = isAlpha ? 20 : 12;
+        this.scoreReward = isAlpha ? 9500 : 1250;
         
         if (shiny) {
-            this.scoreReward *= 100;
-            this.healthData.values.health = this.healthData.values.maxHealth *= 10;
+            this.scoreReward *= 8;
+            this.healthData.values.health = this.healthData.values.maxHealth *= 2;
         }
     }
 }

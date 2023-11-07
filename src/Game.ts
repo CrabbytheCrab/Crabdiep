@@ -29,7 +29,7 @@ import FFAArena from "./Gamemodes/FFA";
 import Teams2Arena from "./Gamemodes/Team2";
 import SandboxArena from "./Gamemodes/Sandbox";
 
-import { ClientBound } from "./Const/Enums";
+import { ClientBound, Stat, StatCount, Tank } from "./Const/Enums";
 import { IncomingMessage } from "http";
 import WebSocket = require("ws");
 import Teams4Arena from "./Gamemodes/Team4";
@@ -43,6 +43,14 @@ import FactoryTestArena from "./Gamemodes/Misc/FactoryTest";
 import BallArena from "./Gamemodes/Misc/Ball";
 import MazeArena from "./Gamemodes/Maze";
 import Scenexe from "./Gamemodes/Scenexe";
+import TankBody from "./Entity/Tank/TankBody";
+import ClientCamera from "./Native/Camera";
+import { Entity } from "./Native/Entity";
+import { type } from "os";
+import { gamer } from ".";
+import Sanctuary from "./Gamemodes/Sanctuary";
+import Crossroads from "./Gamemodes/Crossroads";
+import { CameraTable } from "./Native/FieldGroups";
 
 /**
  * WriterStream that broadcasts to all of the game's WebSockets.
@@ -64,7 +72,7 @@ class WSSWriterStream extends Writer {
     }
 }
 
-type DiepGamemodeID = "ffa" | "scenexe"| "sandbox" | "teams" | "4teams" | "mot" | "dom" | "maze" | "tag" | "survival" | "testing" | "spike" | "domtest" | "jungle" | "factest" | "ball";
+export type DiepGamemodeID = "ffa" | "scenexe" | "sanctuary" | "crossroads" | "sandbox" | "teams" | "4teams" | "mot" | "dom" | "maze" | "tag" | "survival" | "testing" | "spike" | "domtest" | "jungle" | "factest" | "ball";
 
 const GamemodeToArenaClass: Record<DiepGamemodeID, (typeof ArenaEntity) | null> & { "*": typeof ArenaEntity }= {
     "ffa": FFAArena,
@@ -83,8 +91,11 @@ const GamemodeToArenaClass: Record<DiepGamemodeID, (typeof ArenaEntity) | null> 
     "domtest": DominationTestingArena,
     "jungle": JungleArena,
     "factest": FactoryTestArena,
-    "ball": BallArena
+    "ball": BallArena,
+    "sanctuary" : Sanctuary,
+    "crossroads": Crossroads
 }
+
 
 /**
  * Used for determining which endpoints go to the default.
@@ -143,7 +154,6 @@ const HOSTED_ENDPOINTS: string[] = [];
         this.pentalord = false
 
         this.wss = wss;
-
         this.listen();
         this.clients = new Set();
         // Keeps player count updating per addition
@@ -293,5 +303,66 @@ const HOSTED_ENDPOINTS: string[] = [];
         this.entities.tick(this.tick);
 
         for (const client of this.clients) client.tick(this.tick);
+    }
+
+    public transferClient(client: Client) {
+        const game = client.game;
+
+        client.game = this;
+        game.clients.delete(client);
+        this.clients.add(client);
+
+        client.write().u8(ClientBound.Accept).vi(client.accessLevel).send();
+
+        if(Entity.exists(client.camera)) {
+            const cam = new ClientCamera(this, client);
+            cam.sizeFactor = client.camera.sizeFactor;
+            cam.spectatee = null;
+
+            cam.cameraData.values = { ...client.camera.cameraData.values };
+            cam.cameraData.values.player = null;
+            cam.cameraData.values.statNames = new CameraTable("", 9, cam.cameraData);
+            cam.cameraData.values.statLevels = new CameraTable(0, 10, cam.cameraData);
+            cam.cameraData.values.statLimits = new CameraTable(0, 11, cam.cameraData);
+
+            for(let i = 0; i < StatCount; ++i) {
+                cam.cameraData.statNames[i as Stat] = client.camera.cameraData.statNames[i as Stat];
+                cam.cameraData.statLimits[i as Stat] = client.camera.cameraData.statLimits[i as Stat];
+                cam.cameraData.statLevels[i as Stat] = client.camera.cameraData.statLevels[i as Stat];
+            }
+
+            if(Entity.exists(client.camera.cameraData.player)) {
+                client.camera.cameraData.player.delete();
+                let tank;
+                if(client.camera.cameraData.player instanceof TankBody) {
+                    tank = cam.cameraData.player = cam.relationsData.owner = cam.relationsData.parent = new TankBody(this, cam, client.inputs, client.camera.cameraData.player.currentTank);
+                    tank.nameData.values.name = client.camera.cameraData.player.nameData.values.name;
+                    const { x, y } = this.arena.findSpawnLocation();
+
+                    tank.positionData.values.x = x;
+                    tank.positionData.values.y = y;
+                } else {
+                    tank = cam.cameraData.player = cam.relationsData.owner = cam.relationsData.parent = new TankBody(this, cam, client.inputs);
+                    tank.nameData.values.name = "";
+                    const { x, y } = this.arena.findSpawnLocation();
+
+                    tank.positionData.values.x = x;
+                    tank.positionData.values.y = y;
+                }
+                tank.scoreData.values.score = cam.cameraData.values.score;
+                tank.scoreReward = cam.cameraData.values.score;
+
+                this.arena.spawnPlayer(tank, client);
+            }
+
+            client.camera.delete();
+            client.camera = cam;
+        }
+
+
+        if(client.hasCheated()) client.setHasCheated(true);
+
+        client.inputs.isPossessing = false;
+        client.inputs.movement.magnitude = 0;
     }
 }

@@ -105,8 +105,8 @@ export default class WepSquare extends Square implements BarrelBase {
         this.isShiny = shiny;
 
         if (shiny) {
-            this.scoreReward *= 100;
-            this.healthData.values.health = this.healthData.values.maxHealth *= 10;
+            this.scoreReward *= 20;
+            this.healthData.values.health = this.healthData.values.maxHealth *= 5;
         }
 
 

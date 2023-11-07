@@ -24,6 +24,8 @@ import { TankDefinition } from "../../../Const/TankDefinitions";
 import { BarrelBase } from "../TankBody";
 import { EntityStateFlags } from "../../../Native/Entity";
 import ObjectEntity from "../../Object";
+import { sign } from "crypto";
+import { PI2 } from "../../../util";
 
 /**
  * The bullet class represents the bullet entity in diep.
@@ -115,9 +117,9 @@ export default class Bullet extends LivingEntity {
 
     public tick(tick: number) {
         super.tick(tick);
-
         if (tick === this.spawnTick + 1) this.addAcceleration(this.movementAngle, this.baseSpeed);
         else this.maintainVelocity(this.usePosAngle ? this.positionData.values.angle : this.movementAngle, this.baseAccel);
+            
 
         if (tick - this.spawnTick >= this.lifeLength) this.destroy(true);
         // TODO(ABC):

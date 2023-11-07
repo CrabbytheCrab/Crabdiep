@@ -38,6 +38,8 @@ import { AI, AIState, Inputs } from "./Entity/AI";
 import AbstractBoss from "./Entity/Boss/AbstractBoss";
 import { executeCommand } from "./Const/Commands";
 import LivingEntity from "./Entity/Live";
+import { gamer } from ".";
+import Rift from "./Entity/Misc/Rift";
 
 /** XORed onto the tank id in the Tank Upgrade packet. */
 const TANK_XOR = config.magicNum % TankCount;
@@ -113,7 +115,7 @@ export default class Client {
     public inputs: ClientInputs = new ClientInputs(this);
 
     /** Current game server. */
-    private game: GameServer;
+    public game: GameServer;
     /** Inner websocket connection. */
     public ws: WebSocket;
     /** Client's camera entity. */
@@ -288,6 +290,7 @@ export default class Client {
                     if (flags & InputFlags.right) movement.x += 1;
                     if (flags & InputFlags.left) movement.x -= 1;
                 }
+                
                 if (movement.x || movement.y) {
                     const angle = Math.atan2(movement.y, movement.x);
 
@@ -298,6 +301,7 @@ export default class Client {
                 }
 
                 const player = camera.cameraData.values.player;
+                
                 if (!Entity.exists(player) || !(player instanceof TankBody)) return;
 
                 // No AI
@@ -309,7 +313,7 @@ export default class Client {
                         player.setTank(player.currentTank < 0 ? Tank.Basic : DevTank.Developer);
                     } else if (this.game.arena.arenaData.values.flags & ArenaFlags.canUseCheats) {
                         // only allow devs to go into godmode when players > 1
-                        if (this.accessLevel === config.AccessLevel.FullAccess || (this.game.arena.state === ArenaState.OPEN)) {
+                        if (this.accessLevel === config.AccessLevel.FullAccess || (this.game.clients.size === 1 && this.game.arena.state === ArenaState.OPEN)) {
                             this.setHasCheated(true);
 
                             player.setInvulnerability(!player.isInvulnerable);
@@ -336,19 +340,15 @@ export default class Client {
                         this.notify("You can use your ability again");
                     },10000);
                 }
-                /*
-                 player.coolDown = true;
-                    player.styleData.opacity = 0.6;
-                    player.setInvulnerability(true);
-                    player.physicsData.absorbtionFactor = player.definition.absorbtionFactor;
-                    setTimeout(() => {
-                        player.styleData.opacity = 1;
-                    player.setInvulnerability(false);
-                    },10000);
+                if ((flags & InputFlags.rightclick) && !(previousFlags & InputFlags.rightclick) && player.currentTank === Tank.Rift && !player.coolDown) {
+                    new Rift(this.game, player.positionData.x, player.positionData.y, player.inputs.mouse.x, player.inputs.mouse.y)
+                    player.entityState |= EntityStateFlags.needsCreate | EntityStateFlags.needsDelete;
+                    player.coolDown = true;
                     setTimeout(() =>{
                         player.coolDown = false;
                         this.notify("You can use your ability again");
-                    },20000);*/
+                    },12000);
+                }
                 if ((flags & InputFlags.switchtank) && !(previousFlags & InputFlags.switchtank)) {
                     if (this.accessLevel >= config.AccessLevel.BetaAccess || (this.game.arena.arenaData.values.flags & ArenaFlags.canUseCheats)) {
                         this.setHasCheated(true);
@@ -376,10 +376,11 @@ export default class Client {
                 }
                 if (flags & InputFlags.levelup) {
                     // If full access, or if the game allows cheating and lvl is < maxLevel, or if the player is a BT access level and lvl is < maxLevel
-                    if (camera.cameraData.values.level < camera.maxlevel && camera.game.gamemode != "scenexe") {
+                    if (camera.cameraData.values.level < camera.maxlevel) {
                         //this.setHasCheated(true);
-                        
-                        camera.setLevel(camera.cameraData.values.level + 1);
+                        if(camera.game.gamemode == "scenexe" || camera.game.gamemode == "crossroads" || camera.game.gamemode == "sanctuary"){}else{
+                            camera.setLevel(camera.cameraData.values.level + 1);
+                        }
                     }
                 }
                 if ((flags & InputFlags.suicide) && (!player.deletionAnimation || !player.deletionAnimation)) {
@@ -411,6 +412,7 @@ export default class Client {
                 tank.setTank(Tank.Basic);
                 this.game.arena.spawnPlayer(tank, this);
                 camera.cameraData.score = camera.cameraData.values.respawnLevel
+                camera.cameraData.isCelestial = false
 
                 tank.nameData.values.name = name;
                 if (this.hasCheated()) this.setHasCheated(true);
@@ -419,6 +421,10 @@ export default class Client {
                 camera.entityState = EntityStateFlags.needsCreate | EntityStateFlags.needsDelete;
                 camera.spectatee = null;
                 this.inputs.isPossessing = false;
+                if(this.game.gamemode == "crossroads" || this.game.gamemode == "sanctuary")
+                {
+                    gamer.get("scenexe")!.transferClient(this)
+                }
                 return;
             }
             case ServerBound.StatUpgrade: {

@@ -25,7 +25,7 @@ import Barrel from "./Barrel";
 
 import { Color, StyleFlags, StatCount, Tank, CameraFlags, Stat, InputFlags, PhysicsFlags, PositionFlags } from "../../Const/Enums";
 import { Entity } from "../../Native/Entity";
-import { NameGroup, ScoreGroup } from "../../Native/FieldGroups";
+import { CameraTable, NameGroup, ScoreGroup } from "../../Native/FieldGroups";
 import { Addon, AddonById } from "./Addons";
 import { getTankById, TankDefinition } from "../../Const/TankDefinitions";
 import { DevTank } from "../../Const/DevTankDefinitions";
@@ -44,6 +44,7 @@ import RopeSegment from "./Projectile/RopeSegment";
 import AbstractShape from "../Shape/AbstractShape";
 import Orbit from "./Projectile/Orbit";
 import OrbitTrap from "./Projectile/OrbitTrap";
+import OrbitInverse from "./Projectile/OrbitInverse";
 
 /**
  * Abstract type of entity which barrels can connect to.
@@ -84,14 +85,15 @@ public altTank: boolean
     private _currentTank: Tank | DevTank = Tank.Basic;
     /** Sets tanks to be invulnerable - example, godmode, or AC */
     public isInvulnerable: boolean = false;
-    public coolDown: boolean = false;
     public segments: ObjectEntity[];
     public orbit: Orbit[];
     public orbit2: OrbitTrap[];
+    public orbitinv: OrbitInverse[];
     public k: number;
     public length: number;
+    public coolDown: boolean = false;
 
-    public constructor(game: GameServer, camera: CameraEntity, inputs: Inputs) {
+    public constructor(game: GameServer, camera: CameraEntity, inputs: Inputs, tank?: Tank | DevTank) {
         super(game);
         this.cameraEntity = camera;
         this.inputs = inputs;
@@ -102,6 +104,7 @@ public altTank: boolean
         this.segments = [this];
         this.orbit = [];
         this.orbit2 = [];
+        this.orbitinv = []
         this.k = 0.25;
         this.physicsData.values.size = 50;
         this.physicsData.values.sides = 1;
@@ -121,7 +124,7 @@ public altTank: boolean
         if (this.game.playersOnMap) this.physicsData.values.flags |= PhysicsFlags.showsOnMap;
 
         this.damagePerTick = 20;
-        this.setTank(Tank.Basic);
+        this.setTank(tank || Tank.Basic);
     }
 
     /** The active change in size from the base size to the current. Contributes to barrel and addon sizes. */
@@ -351,6 +354,9 @@ public Accend(){
             if (this.cameraEntity.cameraData.player === this) {
                 this.cameraEntity.cameraData.deathTick = this.game.tick;
                 this.cameraEntity.cameraData.respawnLevel = this.cameraEntity.cameraData.score/2
+                if(this.cameraEntity instanceof ClientCamera){
+                    this.cameraEntity.cameraData.isCelestial = false
+                }
             }
 
             // Wipe this nonsense
@@ -408,10 +414,6 @@ public Accend(){
 
         if(this._currentTank == Tank.MicroSmasher){
             this.baseSize = (25 - (12.5/10 * this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload])) * Math.SQRT2
-        }
-        if(this._currentTank == Tank.Belphegor){
-            this.baseSize = (100 + (12.5/10 * this.cameraEntity.cameraData.values.statLevels.values[Stat.MovementSpeed])) * Math.SQRT2
-
         }
         if (this._currentTank == Tank.PentaShot || this._currentTank == Tank.Triplet || this._currentTank == Tank.Hydra || this._currentTank == Tank.SpreadShot || this._currentTank == Tank.Saw || this._currentTank == Tank.Scope){
         }else{
@@ -520,9 +522,26 @@ public Accend(){
         updateStats: {
             if(!this.definition.flags.isCelestial){
             // Damage
+            if(this._currentTank == Tank.Belphegor){
+                this.baseSize = (100 + (12.5/10 * this.cameraEntity.cameraData.values.statLevels.values[Stat.MovementSpeed])) * Math.SQRT2
+    
+            }
+           if(this._currentTank == Tank.Multibox || this._currentTank == Tank.BentBox|| this._currentTank == Tank.Multiboxer|| this._currentTank == Tank.Toolkit){
+                this.baseSize = 37.5
+    
+            }
+            if(this._currentTank == Tank.BEES){
+                this.baseSize = 25
+    
+            }
+            if ((this.styleData.values.flags & StyleFlags.isFlashing)){
+                this.damagePerTick = 0
+            }else {
             this.damagePerTick = this.cameraEntity.cameraData.statLevels[Stat.BodyDamage] * 6 + 20;
+            }
             if (this._currentTank === Tank.Spike) this.damagePerTick *= 1.5;
             if (this._currentTank === Tank.SPORN) this.damagePerTick *= 2;
+            if (this._currentTank === Tank.Teleporter) this.damagePerTick *= 0.25;
             if (this._currentTank === Tank.Chainer) this.damagePerTick *= 0.9;
             if (this._currentTank === Tank.Bumper) this.damagePerTick *= 0.625;
             if (this._currentTank === Tank.Bumper) this.damageReduction = 0.625;
@@ -538,10 +557,12 @@ public Accend(){
             const maxHealthCache = this.healthData.values.maxHealth;
 
             
-                       if (this._currentTank === Tank.MegaSmasher){
+            if (this._currentTank === Tank.MegaSmasher){
             this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth]) * 20 * 1.5}
-            if (this._currentTank === Tank.Belphegor){
-                this.healthData.maxHealth = this.definition.maxHealth + 78 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth]) * 20 * 1.5}    
+            else if (this._currentTank === Tank.Teleporter){
+                this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth]) * 20 * 4}
+            else if (this._currentTank === Tank.Belphegor){
+                this.healthData.maxHealth = this.definition.maxHealth + 78 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth]) * 20 * 1.5}  
             else if (this._currentTank === Tank.Saw){
                 this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth]) * 20 * 0.75;}
                 else if (this._currentTank === Tank.MicroSmasher){
@@ -569,19 +590,26 @@ else if (this._currentTank === Tank.SPORN){
             this.reloadTime = 15 * Math.pow(0.914, this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]);
         }else{
                         // Damage
+            if ((this.styleData.values.flags & StyleFlags.isFlashing)){
+                this.damagePerTick = 0
+            }else {
             this.damagePerTick = this.cameraEntity.cameraData.statLevels[Stat.BodyDamage] * 9 + 30;
+            }
             if (this._currentTank === Tank.Void) this.damagePerTick *= 1.5;
+            if (this._currentTank === Tank.Rift) this.damagePerTick *= 0.25;
 
             // Max Health
             const maxHealthCache = this.healthData.values.maxHealth;
 
             if (this._currentTank === Tank.Abyss) this.regenPerTick *= 1.25;
-            if (this._currentTank === Tank.Chasm || this._currentTank === Tank.Void || this._currentTank == Tank.Comet) this.regenPerTick *= 0.75;
+            if (this._currentTank === Tank.Chasm || this._currentTank === Tank.Void || this._currentTank == Tank.Comet || this._currentTank === Tank.Rift) this.regenPerTick *= 0.75;
             
             if (this._currentTank === Tank.Abyss){
                 this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth] * 1.5) * 50;}
                 else if (this._currentTank === Tank.Comet){
                     this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth]) * 25;}
+                    else if (this._currentTank === Tank.Rift){
+                        this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth]) * 140;}
                     else if (this._currentTank === Tank.Void || this._currentTank === Tank.Chasm){
                         this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth]) * 35;}
                     else{ this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth] * 40}
@@ -598,7 +626,7 @@ else if (this._currentTank === Tank.SPORN){
 
         this.scoreData.score = this.cameraEntity.cameraData.values.score;
 
-        if ((this.styleData.values.flags & StyleFlags.isFlashing) && (this.game.tick >= this.cameraEntity.cameraData.values.spawnTick + 374 || this.inputs.attemptingShot() || this.inputs.movement.magnitude > 0)) {
+        if ((this.styleData.values.flags & StyleFlags.isFlashing) && (this.game.tick >= this.cameraEntity.cameraData.values.spawnTick + 374 || this.inputs.attemptingShot())) {
             this.styleData.flags ^= StyleFlags.isFlashing;
             // Dont worry about invulnerability here - not gonna be invulnerable while flashing ever (see setInvulnerability)
             this.damageReduction = 1.0;
@@ -613,10 +641,12 @@ else if (this._currentTank === Tank.SPORN){
             x: 0,
             y: 0
         });
-        for (let i = 0; i < this.orbit.length; i++)
-        this.orbit[i].num = i;
-        for (let i = 0; i < this.orbit2.length; i++)
-        this.orbit2[i].num = i;
+        for (let i = 0; i < this.orbit.length; i++) this.orbit[i].num = i;
+
+        for (let i = 0; i < this.orbit2.length; i++) this.orbit2[i].num = i;
+
+        for (let i = 0; i < this.orbitinv.length; i++) this.orbitinv[i].num = i;
+
 
         for (let i = 1; i < this.segments.length; i++) 
         {

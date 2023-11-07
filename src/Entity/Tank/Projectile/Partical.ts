@@ -78,7 +78,7 @@ export default class Partical extends ObjectEntity{
         if (tick === this.spawnTick + 1) this.addAcceleration(this.movementAngle, this.baseSpeed);
         else this.maintainVelocity(this.movementAngle, this.baseAccel);
         this.styleData.opacity -= 0.05
-        if(this.styleData.opacity <= 0)this.destroy()
+        if(this.styleData.opacity <= 0)this.destroy(false)
         //this.damageReduction += 1 / 25;
         //this.styleData.opacity -= 1 / 25;
     }

@@ -52,7 +52,9 @@ export const enum Color {
     EnemyHeptagon = 23,
     EnemyOctagon = 24,
     White = 25,
-    Vampire = 26
+    Vampire = 26,
+    EnemyNonagon = 27,
+    EnemyDecagon = 28
 }
 
 /**
@@ -85,9 +87,14 @@ export const ColorsHexCode: Record<Color, number> = {
     [Color.EnemyHeptagon]: 0x38B764,
     [Color.EnemyOctagon]: 0x4A66BD,
     [Color.White]: 0xFFFFFF,
-    [Color.Vampire]: 0x820D0D
+    [Color.Vampire]: 0x820D0D,
+    [Color.EnemyNonagon]: 0x5D275D,
+    [Color.EnemyDecagon]: 0x1A1C2C
+
 
 }
+
+
 
 /**
  * The IDs for all the tanks, by name.
@@ -369,10 +376,21 @@ export const enum Tank {
     Spammer       = 271,
     Balrog        = 272,
     Pulsars       = 273,
-    Lunger       = 274,
-    Teleporter       = 277,
-    Belphegor       = 278,
-    Mothership    = 2000
+    Lunger        = 274,
+    Mothership    = 275,
+    Teleporter    = 276,
+    Belphegor     = 277,
+    QuadBuilder   = 278,
+    Rusher        = 279,
+    Jumpscarer    = 280,
+    Supernova     = 281,
+    Rift          = 282,
+    Multibox      = 283,
+    BEES          = 284,
+    BentBox       = 285,
+    Multiboxer    = 286,
+    Toolkit       = 287,
+    Shield        = 288
 }
 
 /**
@@ -473,7 +491,8 @@ export const enum TeamFlags {
 export const enum CameraFlags {
     usesCameraCoords      = 1 << 0,
     showingDeathStats     = 1 << 1,
-    gameWaitingStart      = 1 << 2
+    gameWaitingStart      = 1 << 2,
+    isCelestial           = 1 << 2
 }
 /**
  * The flag names for the tsyle field group.

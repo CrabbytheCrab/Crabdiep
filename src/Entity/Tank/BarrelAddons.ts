@@ -594,17 +594,18 @@ export class SwarmLauncher extends ObjectEntity {
         this.styleData.values.flags|= StyleFlags.showsAboveParent;
 
         this.physicsData.values.sides = 2;
-        this.physicsData.values.width = barrel.physicsData.values.width * 1.75;
-        this.physicsData.values.size = barrel.physicsData.values.size * (30 / 50);
+        this.physicsData.values.width = barrel.physicsData.values.width * 1.5;
+        this.physicsData.values.size = barrel.physicsData.values.size * (10 / 50);
         this.positionData.values.x = 0;
         //this.positionData.values.angle = Math.PI;
     }
 
     public resize() {
         this.physicsData.sides = 2;
-        this.physicsData.width = this.barrelEntity.physicsData.values.width * 1.75;
-        this.physicsData.size = this.barrelEntity.physicsData.values.size * (30 / 50);
-        this.positionData.x = 0;
+        this.physicsData.width = this.barrelEntity.physicsData.values.width * 1.5;
+        this.physicsData.size = this.barrelEntity.physicsData.values.size * (10 / 50);
+        this.positionData.x = (this.barrelEntity.physicsData.values.size - this.physicsData.values.size) / 2 * -1;
+
         //this.positionData.angle = Math.PI;
     }
 
@@ -627,12 +628,12 @@ export class SwarmLauncher2 extends ObjectEntity {
         this.barrelEntity = barrel;
         this.setParent(barrel);
         this.relationsData.values.team = barrel;
-        this.physicsData.values.flags = PhysicsFlags._unknown;
+        this.physicsData.values.flags = PhysicsFlags._unknown | PhysicsFlags.isTrapezoid;
         this.styleData.values.color = Color.Barrel;
         this.styleData.values.flags|= StyleFlags.showsAboveParent;
 
         this.physicsData.values.sides = 2;
-        this.physicsData.values.width = barrel.physicsData.values.width * 2.5;
+        this.physicsData.values.width = barrel.physicsData.values.width * 1.75;
         this.physicsData.values.size = 105 * (30 / 50);
         this.positionData.x = (this.barrelEntity.physicsData.values.size - this.physicsData.values.size) / 2;
         //this.positionData.values.angle = Math.PI;
@@ -640,7 +641,7 @@ export class SwarmLauncher2 extends ObjectEntity {
 
     public resize() {
         this.physicsData.sides = 2;
-        this.physicsData.width = this.barrelEntity.physicsData.values.width * 2.5;
+        this.physicsData.width = this.barrelEntity.physicsData.values.width * 1.75;
         this.physicsData.size = this.barrelEntity.tank.sizeFactor * 105 * (30 / 50);
         this.positionData.x = (this.barrelEntity.physicsData.values.size - this.physicsData.values.size) / 2;
         //this.positionData.angle = Math.PI;

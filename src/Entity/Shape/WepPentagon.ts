@@ -256,8 +256,8 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
         this.scoreReward = isAlpha ? 30000 : 1500;
         
         if (shiny) {
-            this.scoreReward *= 100;
-            this.healthData.values.health = this.healthData.values.maxHealth *= 10;
+            this.scoreReward *= 20;
+            this.healthData.values.health = this.healthData.values.maxHealth *= 5;
         }
     }
 

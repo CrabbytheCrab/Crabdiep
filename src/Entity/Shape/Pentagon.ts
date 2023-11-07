@@ -52,8 +52,8 @@ export default class Pentagon extends AbstractShape {
         this.scoreReward = isAlpha ? 3000 : 130;
         
         if (shiny) {
-            this.scoreReward *= 100;
-            this.healthData.values.health = this.healthData.values.maxHealth *= 10;
+            this.scoreReward *= 8;
+            this.healthData.values.health = this.healthData.values.maxHealth *= 2;
         }
     }
 }

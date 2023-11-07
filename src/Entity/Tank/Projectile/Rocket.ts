@@ -35,7 +35,7 @@ const RocketBarrelDefinition: BarrelDefinition = {
     width:  54.239,
     delay: 0,
     reload: 0.15,
-    recoil: 3.3,
+    recoil: 0,
     isTrapezoid: true,
     trapezoidDirection: 0,
     addon: null,
@@ -45,12 +45,33 @@ const RocketBarrelDefinition: BarrelDefinition = {
         damage: 0.6,
         speed: 1.5,
         scatterRate: 5,
-        lifeLength: 0.2,
+        lifeLength: 0.1,
         sizeRatio: 1,
         absorbtionFactor: 1
     }
 };
-
+const RocketBarrelDefinition2: BarrelDefinition = {
+    angle: Math.PI,
+    offset: 0,
+    size: 0,
+    width:  0,
+    delay: 0,
+    reload: 0.15,
+    recoil: 4,
+    isTrapezoid: true,
+    trapezoidDirection: 0,
+    addon: null,
+    bullet: {
+        type: "bullet",
+        health: 0,
+        damage: 0,
+        speed: 0,
+        scatterRate: 0,
+        lifeLength: 0,
+        sizeRatio: 0,
+        absorbtionFactor: 0
+    }
+};
 /**
  * Represents all rocketeer rockets in game.
  */
@@ -76,6 +97,7 @@ export default class Rocket extends Bullet implements BarrelBase {
         this.sizeFactor = this.physicsData.values.size / 50;
 
         const rocketBarrel = this.rocketBarrel = new Barrel(this, {...RocketBarrelDefinition});
+        const rocketBarrel2 = this.rocketBarrel = new Barrel(this, {...RocketBarrelDefinition2});
         rocketBarrel.styleData.values.color = this.styleData.values.color;
     }
 
