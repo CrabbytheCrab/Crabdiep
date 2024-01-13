@@ -79,8 +79,8 @@ export const ColorsHexCode: Record<Color, number> = {
     [Color.EnemyTank]: 0xF14E54,
     [Color.NecromancerSquare]: 0xFCC376,
     [Color.Fallen]: 0xC0C0C0,
-    [Color.NecromancerPentagon]: 0x71B8DE,
-    [Color.NecromancerTriangle]: 0xF98966,
+    [Color.NecromancerPentagon]: 0xB276FC,
+    [Color.NecromancerTriangle]: 0xFC9E76,
     [Color.EnemyHexagon]: 0xFCA644,
     [Color.Psy]: 0xD341DB,
     [Color.kMaxColors]: 0x000000,
@@ -390,7 +390,11 @@ export const enum Tank {
     BentBox       = 285,
     Multiboxer    = 286,
     Toolkit       = 287,
-    Shield        = 288
+    Shield        = 288,
+    Rotary        = 289,
+    Whirlygig     = 290,
+    Rebounder     = 291,
+    Inhaler       = 292,
 }
 
 /**
@@ -405,6 +409,16 @@ export const enum Stat {
     BodyDamage = 5,
     MaxHealth = 6,
     HealthRegen = 7
+}
+
+/**
+ * The IDs for all the boss states a boss can be in.
+ */
+export const enum State {
+    idle = 0,
+    attack = 1,
+    prepare = 2,
+    attack2 = 3
 }
 
 /**

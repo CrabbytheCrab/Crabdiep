@@ -51,6 +51,7 @@ import { gamer } from ".";
 import Sanctuary from "./Gamemodes/Sanctuary";
 import Crossroads from "./Gamemodes/Crossroads";
 import { CameraTable } from "./Native/FieldGroups";
+import BossBash from "./Gamemodes/BossBash";
 
 /**
  * WriterStream that broadcasts to all of the game's WebSockets.
@@ -72,7 +73,7 @@ class WSSWriterStream extends Writer {
     }
 }
 
-export type DiepGamemodeID = "ffa" | "scenexe" | "sanctuary" | "crossroads" | "sandbox" | "teams" | "4teams" | "mot" | "dom" | "maze" | "tag" | "survival" | "testing" | "spike" | "domtest" | "jungle" | "factest" | "ball";
+export type DiepGamemodeID = "bossbash"|"ffa" | "scenexe" | "sanctuary" | "crossroads" | "sandbox" | "teams" | "4teams" | "mot" | "dom" | "maze" | "tag" | "survival" | "testing" | "spike" | "domtest" | "jungle" | "factest" | "ball";
 
 const GamemodeToArenaClass: Record<DiepGamemodeID, (typeof ArenaEntity) | null> & { "*": typeof ArenaEntity }= {
     "ffa": FFAArena,
@@ -93,7 +94,8 @@ const GamemodeToArenaClass: Record<DiepGamemodeID, (typeof ArenaEntity) | null> 
     "factest": FactoryTestArena,
     "ball": BallArena,
     "sanctuary" : Sanctuary,
-    "crossroads": Crossroads
+    "crossroads": Crossroads,
+    "bossbash" : BossBash
 }
 
 

@@ -1,6 +1,7 @@
 import Client from "../Client"
 import { AccessLevel, maxPlayerLevel } from "../config";
 import AbstractBoss from "../Entity/Boss/AbstractBoss";
+import Basher from "../Entity/Boss/Basher";
 import Beholder from "../Entity/Boss/Beholder";
 import Defender from "../Entity/Boss/Defender";
 import FallenBooster from "../Entity/Boss/FallenBooster";
@@ -289,6 +290,7 @@ export const commandCallbacks = {
             ["FallenPuker", FallenPuker],
             ["FallenAC", FallenAC],
             ["FallenSpike", FallenSpike],
+            ["Basher", Basher],
             ["ArenaCloser", ArenaCloser],
             ["Crasher", Crasher],
             ["Sentry", Sentry],

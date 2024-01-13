@@ -43,6 +43,8 @@ import Pyromancer from "../Entity/Boss/Pyromancer";
 import Mecha from "../Entity/Boss/Mecha";
 import Beholder from "../Entity/Boss/Beholder";
 import Titan from "../Entity/Boss/Titan";
+import AbstractShape from "../Entity/Shape/AbstractShape";
+import LivingEntity from "../Entity/Live";
 
 export const enum ArenaState {
 	/** Alive, open */
@@ -76,6 +78,7 @@ export default class ArenaEntity extends Entity implements TeamGroupEntity {
 
 	/** The current boss spawned into the game */
 	public boss: AbstractBoss | null = null;
+	public shape: LivingEntity | null = null;
 	public maxtanklevel: number
 	/** Controller of all shapes in the arena. */
 	protected shapes = new ShapeManager(this);

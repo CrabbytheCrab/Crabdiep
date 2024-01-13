@@ -72,6 +72,7 @@ export default class BallArena extends ArenaEntity {
     public BlueScore: number;
     /** Red Team entity */
     public redTeamBase: TeamBase;
+    public scoreneeded: LivingEntity;
     public motherships: LivingEntity[] = [];
     public teams: TeamEntity[] = [];
 
@@ -119,6 +120,14 @@ this.BlueScore = 0
 
         this.blueTeamBase = new TeamBase(game, new TeamEntity(this.game, Color.TeamBlue), -7500 + 1250/2, 0, 5000, 1250);
         this.redTeamBase = new TeamBase(game, new TeamEntity(this.game, Color.TeamRed), 7500 - 1250/2, 0, 5000, 1250);
+        this.scoreneeded = new LivingEntity(this.game);
+        this.motherships.push(this.scoreneeded);
+
+        this.scoreneeded.relationsData.values.team =  this.game.arena;
+        this.scoreneeded.styleData.values.color = Color.ScoreboardBar;
+        this.scoreneeded.positionData.values.x = 10000
+        this.scoreneeded.positionData.values.y = 10000
+        this.scoreneeded.MAXDRONES = 5 
 
         
             this.rSCore = new LivingEntity(this.game);
@@ -148,25 +157,24 @@ this.BlueScore = 0
         ball.physicsData.values.sides = 1;
         ball.styleData.values.color = Color.ScoreboardBar;
         ball.styleData.values.flags |= StyleFlags.hasNoDmgIndicator;
-        ball.physicsData.flags |= PhysicsFlags.showsOnMap
-        ball.physicsData.values.size = 80;
-        ball.physicsData.values.absorbtionFactor = 1;
+        ball.styleData.flags |= StyleFlags.hasNoDmgIndicator
+        ball.physicsData.values.size = 120;
+        ball.physicsData.values.absorbtionFactor = 1.5;
         ball.damagePerTick = 1000
         ball.physicsData.pushFactor = 4
         
         ball.damageReduction = 0
-        ball.physicsData.values.sides = 10000
+        ball.physicsData.values.sides = 1
         ball.entityState |= EntityStateFlags.needsCreate |EntityStateFlags.needsDelete
         const tickBase = ball.tick;
-        ball.styleData.values.zIndex = 4
         ball.tick = (tick: number) => {
              //   console.log(ball.positionData.x)
                // console.log(ball.positionData.y)
-
+            this.arenaData.leaderX = ball.positionData.x
+            this.arenaData.leaderY = ball.positionData.y
             tickBase.call(ball, tick);
-            ball.styleData.zIndex = 4
             const entities = ball.findCollisions()
-            if(this.BlueScore >= 3){
+            if(this.BlueScore >= 5){
                 ball.delete()
             let message = `BLUE TEAM HAS WON THE GAME`
             this.game.broadcast().u8(ClientBound.Notification).stringNT(message).u32(Color.TeamBlue).float(10000).stringNT("").send();
@@ -188,7 +196,7 @@ this.BlueScore = 0
                 const entity = entities[i];
                 if (entity instanceof TeamBase){
                     if(entity.styleData.color == Color.TeamRed){
-                        if(this.BlueScore < 3){
+                        if(this.BlueScore < 5){
                             this.bSCore.MAXDRONES++;
                             this.BlueScore++;
                             ball.delete()
@@ -220,12 +228,17 @@ this.BlueScore = 0
             }
             if (mothership.styleData.values.color === Color.Tank) this.arenaData.values.scoreboardColors[i as ValidScoreboardIndex] = Color.ScoreboardBar;
             else this.arenaData.values.scoreboardColors[i as ValidScoreboardIndex] = mothership.styleData.values.color;
-            this.arenaData.values.scoreboardNames[i as ValidScoreboardIndex] = isTeamATeam ? team.teamName : `Team Score`;
+            this.arenaData.values.scoreboardNames[i as ValidScoreboardIndex] = isTeamATeam ? team.teamName : `Team Points`;
+            
+            if(i==0){
+                this.arenaData.values.scoreboardNames[i as ValidScoreboardIndex] =  `Points Needed to Win`;
+            }
             // TODO: Change id
+
             this.arenaData.values.scoreboardTanks[i as ValidScoreboardIndex] = -1;
             this.arenaData.values.scoreboardScores[i as ValidScoreboardIndex] = mothership.MAXDRONES;
+            this.arenaData.values.scoreboardSuffixes[i as ValidScoreboardIndex] = " Points";
         }
-       
         this.arenaData.scoreboardAmount = length;
     }
     public playerTeamMap: Map<Client, TeamBase> = new Map();

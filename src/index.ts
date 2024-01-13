@@ -127,19 +127,21 @@ server.listen(PORT, () => {
     // NOTES(0): As of now, both servers run on the same process (and thread) here
     const ffa = new GameServer(wss, "ffa", "FFA");
     //const team = new GameServer(wss, "teams", "Teams Chaos");
+    const bb = new GameServer(wss, "bossbash", "Boss Bash");
+
     const sbx = new GameServer(wss, "sandbox", "Sandbox");
-    const scenexe = new GameServer(wss, "scenexe", "Scenexe");
-    const sanctuary = new GameServer(wss, "sanctuary", "Sanctuary");
-    //const maze = new GameServer(wss, "maze", "Maze");
-    const crossroads = new GameServer(wss, "crossroads", "Crossroads");
+    //const scenexe = new GameServer(wss, "scenexe", "Scenexe");
+    //const sanctuary = new GameServer(wss, "sanctuary", "Sanctuary");
+    //const crossroads = new GameServer(wss, "crossroads", "Crossroads");
     //const dom = new GameServer(wss, "dom", "Domination");
-    //const ball = new GameServer(wss, "ball", "Ball");
-    games.push(ffa,scenexe,sbx);
-    gamer.set("scenexe", scenexe)
-    gamer.set("sanctuary", sanctuary)
-    gamer.set("crossroads", crossroads)
+    const ball = new GameServer(wss, "ball", "Ball");
+    games.push(ffa,bb,ball,sbx);
+    //gamer.set("scenexe", scenexe)
+    //gamer.set("sanctuary", sanctuary)
+    //gamer.set("crossroads", crossroads)
     util.saveToLog("Servers up", "All servers booted up.", 0x37F554);
-    //util.log(15 *(Math.PI/180));
+    util.log(0.3490658503988659 * 180/Math.PI);
+    util.log(0.6981317007977318 * 180/Math.PI);
     util.log("Dumping endpoint -> gamemode routing table");
     for (const game of games) console.log("> " + `localhost:${config.serverPort}/game/diepio-${game.gamemode}`.padEnd(40, " ") + " -> " + game.name);
 });
