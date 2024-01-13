@@ -422,28 +422,32 @@ public Accend(){
         if(this._currentTank == Tank.MicroSmasher){
             this.baseSize = (25 - (12.5/10 * this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload])) * Math.SQRT2
         }
-        if (this._currentTank == Tank.PentaShot || this._currentTank == Tank.Triplet || this._currentTank == Tank.Hydra || this._currentTank == Tank.SpreadShot || this._currentTank == Tank.Saw || this._currentTank == Tank.Scope){
+        if (this._currentTank == Tank.PentaShot || this._currentTank == Tank.Triplet || this._currentTank == Tank.Hydra || this._currentTank == Tank.Spike || this._currentTank == Tank.Saw || this._currentTank == Tank.Scope){
         }else{
             this.altTank = true
 
         }
         if(this._currentTank == Tank.Scope){
-            if(this.altTank && Math.random() <= 0.05){
+            if(this.altTank && Math.random() <= 0.01){
             this.setTank(Tank.Spammer)
             }
             this.altTank = false
 
          }
-        if(this._currentTank == Tank.Spike){
-            if(this.altTank){
-                if(Math.random() <= 0.01){
-                    this.setTank(Tank.SPORN)
-                }else{
-                    this.altTank = false
-                }
+        if(this._currentTank == Tank.Spike || this._currentTank == Tank.Saw){
+            if(this.altTank && Math.random() <= 0.002){
+            this.setTank(Tank.SPORN)
             }
+            this.altTank = false
+
          }
-         
+        /* if(this._currentTank == Tank.SpreadShot){
+            if(this.altTank && Math.random() <= 0.02){
+            this.setTank(Tank.Disperse)
+            }
+            this.altTank = false
+
+         }*/
         if(this._currentTank == Tank.PentaShot){
             if(this.altTank && Math.random() <= 0.1){
             this.setTank(Tank.ArrasPenta)
