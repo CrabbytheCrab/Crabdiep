@@ -74,6 +74,12 @@ export default class Drone extends Bullet {
         barrel.droneCount += 1;
 
         this.ai.movementSpeed = this.ai.aimSpeed = this.baseAccel;
+        this.healthData.maxHealth = 300
+        this.healthData.health = 300
+        this.damagePerTick = 12
+        this.damageReduction = 1
+        this.physicsData.pushFactor = 11
+        this.physicsData.absorbtionFactor = 0.5
     }
 
     /** Extends LivingEntity.destroy - so that the drone count decreases for the barrel. */

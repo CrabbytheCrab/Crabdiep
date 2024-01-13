@@ -27,6 +27,10 @@ import TankBody, { BarrelBase } from "../TankBody";
 import { GuardObject } from "../Addons";
 import MazeWall from "../../Misc/MazeWall";
 import AbstractShape from "../../Shape/AbstractShape";
+import AbstractBoss from "../../Boss/AbstractBoss";
+import LivingEntity from "../../Live";
+import * as util from "../../../util";
+
 /**
  * Barrel definition for the rocketeer rocket's barrel.
  */
@@ -45,6 +49,7 @@ export default class Blunt extends Bullet implements BarrelBase{
     /** The inputs for when to shoot or not. (croc skimmer) */
     public inputs: Inputs;
     protected megaturret: boolean;
+    public push :number
     public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number) {
         super(barrel, tank, tankDefinition, shootAngle);
         this.cameraEntity = tank.cameraEntity;
@@ -66,26 +71,40 @@ export default class Blunt extends Bullet implements BarrelBase{
         this.megaturret = typeof this.barrelEntity.definition.megaturret === 'boolean' && this.barrelEntity.definition.megaturret;
         if (tankDefinition && tankDefinition.id === Tank.Pounder){
             new GuardObject(this.game, this, 6, 1.3, 0, .1);
-            this.physicsData.values.pushFactor = ((7 / 3) + bulletDamage) * bulletDefinition.damage  * 3;
+            this.push = ((7 / 3) + bulletDamage) * bulletDefinition.damage  * 3;
         }else        if (tankDefinition && tankDefinition.id === Tank.Flinger){
             this.positionData.flags = PositionFlags.canMoveThroughWalls
             this.deff = true
             new GuardObject(this.game, this, 1, 1.75, 0, .1);
             //this.baseAccel = (35 * 3) * this.barrelEntity.definition.bullet.speed;
-            this.physicsData.values.pushFactor = ((7 / 3) + bulletDamage) * bulletDefinition.damage  * 3.5;
+            this.push = ((7 / 3) + bulletDamage) * bulletDefinition.damage  * 3.5;
         }else        if (tankDefinition && tankDefinition.id === Tank.FunEnder){
             new GuardObject(this.game, this, 6, 1.15, 0, .1);
-            this.physicsData.values.pushFactor = ((7 / 3) + bulletDamage) * bulletDefinition.damage  * 3;
+            this.push = ((7 / 3) + bulletDamage) * bulletDefinition.damage  * 3;
         }else{
             new GuardObject(this.game, this, 6, 1.15, 0, .1);
-            this.physicsData.values.pushFactor =  ((7 / 3) + bulletDamage) * bulletDefinition.damage  * 2;
+            this.push =  ((7 / 3) + bulletDamage) * bulletDefinition.damage  * 2;
         }
+        this.physicsData.pushFactor = 0
     }
     
     public tick(tick: number) {
         this.sizeFactor = this.physicsData.values.size / 50;
         this.reloadTime = this.tank.reloadTime;
         super.tick(tick);
+        const entities = this.findCollisions()
+        for (let i = 0; i < entities.length; ++i) {
+            const entity = entities[i];
+
+            if (!(entity instanceof LivingEntity)) continue; // Check if the target is living
+                let kbAngle: number;
+                let diffY = this.positionData.values.y - entity.positionData.values.y;
+                let diffX = this.positionData.values.x - entity.positionData.values.x;
+                // Prevents drone stacking etc
+                if (diffX === 0 && diffY === 0) kbAngle = Math.random() * util.PI2;
+                else {kbAngle = Math.atan2(diffY, diffX);
+                entity.addAcceleration( kbAngle, -this.push * entity.physicsData.absorbtionFactor);}
+        }
         if (this.tankDefinition && this.tankDefinition.id == Tank.FunEnder){
             if (tick <= this.spawnTick + 5){
             }else{

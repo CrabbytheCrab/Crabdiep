@@ -39,12 +39,13 @@ import Triangle from "../Shape/Triangle";
 import WepSquare from "../Shape/WepSquare";
 import { maxPlayerLevel } from "../../config";
 import Vector from "../../Physics/Vector";
-import NecromancerWepSquare from "./Projectile/NecromancerWepSquare";
+import NecromancerWepSquare from "./Projectile/NecromancerWepSquareAlt";
 import RopeSegment from "./Projectile/RopeSegment";
 import AbstractShape from "../Shape/AbstractShape";
 import Orbit from "./Projectile/Orbit";
 import OrbitTrap from "./Projectile/OrbitTrap";
 import OrbitInverse from "./Projectile/OrbitInverse";
+import Aura from "../Misc/Aura";
 
 /**
  * Abstract type of entity which barrels can connect to.
@@ -92,7 +93,8 @@ public altTank: boolean
     public k: number;
     public length: number;
     public coolDown: boolean = false;
-
+    public aura: Aura|null
+    public hasAura :boolean
     public constructor(game: GameServer, camera: CameraEntity, inputs: Inputs, tank?: Tank | DevTank) {
         super(game);
         this.cameraEntity = camera;
@@ -125,6 +127,9 @@ public altTank: boolean
 
         this.damagePerTick = 20;
         this.setTank(tank || Tank.Basic);
+        
+        this.aura = null
+        this.hasAura = false
     }
 
     /** The active change in size from the base size to the current. Contributes to barrel and addon sizes. */
@@ -175,7 +180,7 @@ public altTank: boolean
             camera.maxlevel = this.game.arena.maxtanklevel
 
         }
-        this.baseSize = tank.baseSizeOverride ?? tank.sides === 4 ? Math.SQRT2 * 32.5 : tank.sides === 16 ? Math.SQRT2 * 25 : this.definition.flags.isCelestial ? Math.SQRT2 * 47.5 : 50;
+        this.baseSize = tank.baseSizeOverride ?? tank.sides === 4 ? Math.SQRT2 * 32.5 : tank.sides === 3 ? Math.SQRT2 * 42.5:tank.sides === 5 ? Math.SQRT2 * 30: tank.sides === 16 ? Math.SQRT2 * 25 : this.definition.flags.isCelestial ? Math.SQRT2 * 47.5 : 50;
         this.physicsData.absorbtionFactor = this.isInvulnerable ? 0 : tank.absorbtionFactor;
         if (tank.absorbtionFactor === 0) this.positionData.flags |= PositionFlags.canMoveThroughWalls;
         else if (this.positionData.flags & PositionFlags.canMoveThroughWalls) this.positionData.flags ^= PositionFlags.canMoveThroughWalls;
@@ -393,8 +398,10 @@ public Accend(){
            // ropeSegment.relationsData.team = this.relationsData.team;
             ropeSegment.relationsData.owner = this
                 ropeSegment.seg = i
+                ropeSegment.styleData.values.zIndex = this.styleData.zIndex - i
                 if(i == this.length - 1){
                     ropeSegment.IsBig = true
+                    ropeSegment.styleData.values.zIndex = this.styleData.zIndex - 1
                 }
            this.segments.push(ropeSegment);}
         }
@@ -404,7 +411,7 @@ public Accend(){
                 for (let i = 0; i < collidedEntities.length; ++i) {
                     if (collidedEntities[i] instanceof TankBody || collidedEntities[i] instanceof AbstractShape || collidedEntities[i] instanceof AbstractBoss){
                         //setTimeout(() => {this.healthData.health += this.damagePerTick/5},45)
-                        this.healthData.health += this.damagePerTick/8
+                        this.healthData.health += this.damagePerTick/12 *(1 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.HealthRegen]/10))
                     }
                 }
             }
@@ -421,14 +428,14 @@ public Accend(){
 
         }
         if(this._currentTank == Tank.Scope){
-            if(this.altTank && Math.random() <= 0.02){
+            if(this.altTank && Math.random() <= 0.05){
             this.setTank(Tank.Spammer)
             }
             this.altTank = false
 
          }
         if(this._currentTank == Tank.Spike){
-            if(this.altTank && Math.random() <= 0.02){
+            if(this.altTank && Math.random() <= 0.01){
             this.setTank(Tank.SPORN)
             }
             this.altTank = false
@@ -449,14 +456,14 @@ public Accend(){
 
          }
          if(this._currentTank == Tank.Triplet){
-            if(this.altTank && Math.random() <= 0.02){
+            if(this.altTank && Math.random() <= 0.05){
             this.setTank(Tank.Quadruplet)
             }
             this.altTank = false
 
          }
          if(this._currentTank == Tank.Hydra){
-            if(this.altTank && Math.random() <= 0.02){
+            if(this.altTank && Math.random() <= 0.05){
             this.setTank(Tank.Puker)
             }
             this.altTank = false
@@ -523,7 +530,7 @@ public Accend(){
             if(!this.definition.flags.isCelestial){
             // Damage
             if(this._currentTank == Tank.Belphegor){
-                this.baseSize = (100 + (12.5/10 * this.cameraEntity.cameraData.values.statLevels.values[Stat.MovementSpeed])) * Math.SQRT2
+                this.baseSize = (50 * (1.2 + (0.8/10 * this.cameraEntity.cameraData.values.statLevels.values[Stat.BodyDamage])))
     
             }
            if(this._currentTank == Tank.Multibox || this._currentTank == Tank.BentBox|| this._currentTank == Tank.Multiboxer|| this._currentTank == Tank.Toolkit){
@@ -540,6 +547,7 @@ public Accend(){
             this.damagePerTick = this.cameraEntity.cameraData.statLevels[Stat.BodyDamage] * 6 + 20;
             }
             if (this._currentTank === Tank.Spike) this.damagePerTick *= 1.5;
+            if (this._currentTank === Tank.Belphegor) this.damagePerTick *= 1.5;
             if (this._currentTank === Tank.SPORN) this.damagePerTick *= 2;
             if (this._currentTank === Tank.Teleporter) this.damagePerTick *= 0.25;
             if (this._currentTank === Tank.Chainer) this.damagePerTick *= 0.9;
@@ -548,8 +556,8 @@ public Accend(){
             if (this._currentTank === Tank.Maleficitor ||this._currentTank === Tank.Caster || this._currentTank === Tank.Wizard) this.MAXDRONES = 11 + this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload];
             if (this._currentTank === Tank.Necromancer) this.MAXDRONES = 22 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload] * 2);
             if (this._currentTank === Tank.Summoner) this.MAXDRONES = 44 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload] * 4);
-            if (this._currentTank === Tank.Dronemare) this.MAXDRONES = 5 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]/2);
-            if (this._currentTank === Tank.Wraith) this.MAXDRONES = 4 + this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]
+            if (this._currentTank === Tank.Dronemare) this.MAXDRONES = (11 + this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]) * 0.5;
+            if (this._currentTank === Tank.Wraith) this.MAXDRONES = (11 + this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]) * 0.75
             if (this._currentTank === Tank.Animator) this.MAXDRONES = 10 + (this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]/2);
             if (this._currentTank === Tank.Lich) this.MAXDRONES = 5
 
@@ -562,7 +570,7 @@ public Accend(){
             else if (this._currentTank === Tank.Teleporter){
                 this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth]) * 20 * 4}
             else if (this._currentTank === Tank.Belphegor){
-                this.healthData.maxHealth = this.definition.maxHealth + 78 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth]) * 20 * 1.5}  
+                this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth]) * 20 * 1.5}  
             else if (this._currentTank === Tank.Saw){
                 this.healthData.maxHealth = this.definition.maxHealth + 2 * (this.cameraEntity.cameraData.values.level - 1) + (this.cameraEntity.cameraData.values.statLevels.values[Stat.MaxHealth]) * 20 * 0.75;}
                 else if (this._currentTank === Tank.MicroSmasher){
@@ -587,7 +595,19 @@ else if (this._currentTank === Tank.SPORN){
             if (this._currentTank === Tank.vampSmasher) this.regenPerTick *= 0.25;
             if (this._currentTank === Tank.Bumper) {this.physicsData.pushFactor = 60;}else{this.physicsData.pushFactor = 8}
             // Reload
-            this.reloadTime = 15 * Math.pow(0.914, this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]);
+            if(this._currentTank == Tank.Rotary){
+                if(this.inputs.attemptingShot()){
+                    if(this.reloadspeed > 0.25) this.reloadspeed -= 0.0025
+                    if(this.reloadspeed < 0.25) this.reloadspeed = 0.25
+                }
+                if(!this.inputs.attemptingShot()){
+                    if(this.reloadspeed < 1) this.reloadspeed += 0.025
+                    if(this.reloadspeed > 1) this.reloadspeed = 1
+
+                }
+                this.reloadTime = 15 * Math.pow(0.914, this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]) * this.reloadspeed
+            }else{
+            this.reloadTime = 15 * Math.pow(0.914, this.cameraEntity.cameraData.values.statLevels.values[Stat.Reload]);}
         }else{
                         // Damage
             if ((this.styleData.values.flags & StyleFlags.isFlashing)){
@@ -632,7 +652,7 @@ else if (this._currentTank === Tank.SPORN){
             this.damageReduction = 1.0;
         }
     }
-
+        
         this.accel.add({
             x: this.inputs.movement.x * this.cameraEntity.cameraData.values.movementSpeed,
             y: this.inputs.movement.y * this.cameraEntity.cameraData.values.movementSpeed
@@ -668,5 +688,18 @@ else if (this._currentTank === Tank.SPORN){
             if (b.isAffectedByRope) b.addAcceleration(force.angle, force.magnitude * this.forcemulti, false);
             //this.addAcceleration(-force.angle, force.magnitude * 0.2, true)
         }
+        /*if(this.inputs.attemptingRepel() && !this.hasAura){
+            this.aura = new Aura(this.game, this, 4)
+            this.hasAura = true
+        }
+        if(this.aura){
+            this.aura.positionData.values.x = this.positionData.values.x
+            this.aura.positionData.values.y = this.positionData.values.y
+            if(!this.inputs.attemptingRepel()){
+                this.aura.destroy()
+                this.aura = null
+                this.hasAura = false
+            }
+        }*/
     }
 }

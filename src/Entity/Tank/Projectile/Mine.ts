@@ -129,7 +129,7 @@ const Bombshot4: BarrelDefinition = {
         damage: 0.8,
         speed: 0.8,
         scatterRate: 0.3,
-        lifeLength: 1.5,
+        lifeLength: 1.3,
         sizeRatio: 1,
         absorbtionFactor: 0.3
     }

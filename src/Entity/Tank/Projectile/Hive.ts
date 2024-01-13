@@ -67,7 +67,7 @@ export default class Hive extends Bullet {
         this.viewRange = 900 * tank.sizeFactor;
         //this.ai.targetFilter = (targetPos) => (targetPos.x - this.positionData.x) ** 2 + (targetPos.y - this.positionData.y) ** 2 <= this.ai.viewRange ** 2; // (1000 ** 2) 1000 radius
         this.canControlDrones = typeof this.barrelEntity.definition.canControlDrones === 'boolean' && this.barrelEntity.definition.canControlDrones;
-        this.physicsData.values.sides = bulletDefinition.sides ?? 3;
+        this.physicsData.values.sides = bulletDefinition.sides ?? 4;
         if (this.physicsData.values.flags & PhysicsFlags.noOwnTeamCollision) this.physicsData.values.flags ^= PhysicsFlags.noOwnTeamCollision;
         this.physicsData.values.flags |= PhysicsFlags.onlySameOwnerCollision;
         this.styleData.values.flags &= ~StyleFlags.hasNoDmgIndicator;
@@ -247,7 +247,6 @@ export default class Hive extends Bullet {
             // still a bit inaccurate, works though
 
 
-            if (!Entity.exists(this.barrelEntity)) this.destroy();
 
             //this.tickMixin(tick);
 
@@ -282,7 +281,6 @@ export default class Hive extends Bullet {
                     this.restCycle = (delta.x ** 2 + delta.y ** 2) <= 4 * (target.physicsData.values.size ** 2);
                 }
     
-                if (!Entity.exists(this.barrelEntity)) this.destroy();
     
                // this.tickMixin(tick);
     
@@ -298,7 +296,6 @@ export default class Hive extends Bullet {
         }
 
         // So that switch tank works, as well as on death
-        if (!Entity.exists(this.barrelEntity)) this.destroy();
 
         //this.tickMixin(tick);
     }

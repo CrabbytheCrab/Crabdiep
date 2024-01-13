@@ -26,6 +26,7 @@ import LivingEntity from "../Live";
 import { normalizeAngle, PI2 } from "../../util";
 import Barrel from "./Barrel";
 import AiTank from "../Misc/AiTank";
+import { pid } from "process";
 
 /**
  * Abstract class to represent an addon in game.
@@ -335,7 +336,7 @@ export class Addon {
         rotator.tick = (tick: number) => {
         
         if (rotator.styleData.zIndex !== this.owner.styleData.zIndex + 1){
-            rotator.styleData.zIndex !== this.owner.styleData.zIndex + 1
+            rotator.styleData.zIndex = this.owner.styleData.zIndex + 5
         }
         //base.positionData.values.x += rotator.physicsData.values.size * Math.cos(MAX_ANGLE_RANGE2)  * ROT_OFFSET;
 
@@ -369,7 +370,6 @@ export class Addon {
 
             const tickBase = base.tick;
             base.tick = (tick: number) => {
-            
             base.positionData.y = this.owner.physicsData.values.size * Math.sin(angle) * ROT_OFFSET;
             base.positionData.x = this.owner.physicsData.values.size * Math.cos(angle) * ROT_OFFSET;
             //base.positionData.values.x += rotator.physicsData.values.size * Math.cos(MAX_ANGLE_RANGE2)  * ROT_OFFSET;
@@ -698,7 +698,7 @@ const AutoTurretTrapDefinition: BarrelDefinition = {
     recoil: 0,
     isTrapezoid: false,
     trapezoidDirection: 0,
-    addon: "trapLauncher",
+    addon: "noScale",
     bullet: {
         type: "trap",
         health: 1.75,
@@ -761,8 +761,8 @@ const AutoTurretMiniDefinitionabove: BarrelDefinition = {
 const AutoAutoTurretMiniDefinition: BarrelDefinition = {
     angle: 0,
     offset: 0,
-    size: 60,
-    width: 56.7 * 0.7,
+    size: 55,
+    width: 42 * 0.7,
     delay: 0.01,
     reload: 2,
     recoil: 0,
@@ -1064,11 +1064,12 @@ class VampSmasherAddon extends Addon {
         //atuo.ai.passiveRotation = this.movementAngle
         atuo.ai.viewRange = 0
         atuo.styleData.color = Color.Vampire
-        this.createGuard(6, 1.15, 0, .1);
-        const b = this.createGuard(3, 1.45, Math.PI/6, .1);
+        const b = this.createGuard(3, 1.4, 0, .1);
         b.styleData.color = Color.Vampire
-        const c = this.createGuard(3, 1.45, -Math.PI/6, .1);
+        const c = this.createGuard(3, 1.4, -Math.PI/3, .1);
         c.styleData.color = Color.Vampire
+
+        this.createGuard(6, 1.15, 0, .1);
     }
 }
 class OverDriveAddon extends Addon {
@@ -1080,21 +1081,30 @@ class OverDriveAddon extends Addon {
     }
 }
 
-
-class SpinnerAddon extends Addon {
+class RotatorAddon extends Addon {
     public constructor(owner: BarrelBase) {
         super(owner);
-
-        const rotator = new GuardObject3(this.game, owner, 1, .8, 0, 0.1) as GuardObject3 & { turrets: Barrel[] };
+        const rotator = new GuardObject3(this.game, owner, 1, 0.75, 0, 0.1) as GuardObject3 & { turrets: Barrel[] };
         rotator.styleData.color = Color.Barrel
-        for (let i = 0; i < 6; ++i) {
+        const offsetRatio = 40 / 50;
+        const size = this.owner.physicsData.values.size;
+        rotator.physicsData.size = owner.sizeFactor * 25
+        rotator.positionData.angle = owner.positionData.angle
+        const tickBase2 = rotator.tick;
+        rotator.tick = (tick: number) => {
+            rotator.physicsData.size = owner.sizeFactor * 25
+            tickBase2.call(rotator, tick);
+
+            //barr.positionData.values.angle = angle + rotator.positionData.values.angle;
+        }
+        for (let i = 0; i < 2; ++i) {
             const AutoTurretDefinition: BarrelDefinition = {
-                angle: PI2/6 * i,
+                angle: PI2/2 * i + Math.PI/2,
                 offset: 0,
                 size: 55,
-                width: 25.2,
+                width: 42 * 0.7,
                 delay: 0.01,
-                reload: 0.8,
+                reload: 1,
                 recoil: 0,
                 isTrapezoid: false,
                 trapezoidDirection: 0,
@@ -1114,6 +1124,167 @@ class SpinnerAddon extends Addon {
         }
     }
 }
+
+class WhirlygigAddon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+        const rotator = new GuardObject3(this.game, owner, 1, 0.75, 0, 0.1) as GuardObject3 & { turrets: Barrel[] };
+        rotator.styleData.color = Color.Barrel
+        const offsetRatio = 40 / 50;
+        const size = this.owner.physicsData.values.size;
+        rotator.physicsData.size = owner.sizeFactor * 25
+        rotator.positionData.angle = owner.positionData.angle
+        const tickBase2 = rotator.tick;
+        rotator.tick = (tick: number) => {
+            rotator.physicsData.size = owner.sizeFactor * 25
+            tickBase2.call(rotator, tick);
+
+            //barr.positionData.values.angle = angle + rotator.positionData.values.angle;
+        }
+        for (let i = 0; i < 4; ++i) {
+            const AutoTurretDefinition: BarrelDefinition = {
+                angle: PI2/4 * i,
+                offset: 0,
+                size: 55,
+                width: 42 * 0.7,
+                delay: 0.01,
+                reload: 1,
+                recoil: 0,
+                isTrapezoid: false,
+                trapezoidDirection: 0,
+                addon: null,
+                bullet: {
+                    type: "bullet",
+                    health: 1,
+                    damage: 0.3,
+                    speed: 1.2,
+                    scatterRate: 1,
+                    lifeLength: 1,
+                    sizeRatio: 1,
+                    absorbtionFactor: 1
+                }
+            }
+            const base = new Barrel(rotator, AutoTurretDefinition);
+        }
+    }
+}
+
+class SpinnerAddon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+
+        const rotator = new GuardObject3(this.game, owner, 1, 0.75, 0, 0.1) as GuardObject3 & { turrets: Barrel[] };
+        rotator.styleData.color = Color.Barrel
+        const offsetRatio = 40 / 50;
+        const size = this.owner.physicsData.values.size;
+        rotator.physicsData.size = owner.sizeFactor * 25
+        rotator.positionData.angle = owner.positionData.angle
+        const tickBase2 = rotator.tick;
+        rotator.tick = (tick: number) => {
+            rotator.physicsData.size = owner.sizeFactor * 25
+            tickBase2.call(rotator, tick);
+
+            //barr.positionData.values.angle = angle + rotator.positionData.values.angle;
+        }
+        for (let i = 0; i < 3; ++i) {
+            const AutoTurretDefinition: BarrelDefinition = {
+                angle: PI2/3 * i,
+                offset: 0,
+                size: 55,
+                width: 42 * 0.7,
+                delay: 0.01,
+                reload: 1,
+                recoil: 0,
+                isTrapezoid: false,
+                trapezoidDirection: 0,
+                addon: null,
+                bullet: {
+                    type: "bullet",
+                    health: 1,
+                    damage: 0.3,
+                    speed: 1.2,
+                    scatterRate: 1,
+                    lifeLength: 1,
+                    sizeRatio: 1,
+                    absorbtionFactor: 1
+                }
+            }
+            const base = new Barrel(rotator, AutoTurretDefinition);
+        }
+        for (let i = 0; i < 3; ++i) {
+            const AutoTurretDefinition: BarrelDefinition = {
+                angle: PI2/3 * i + PI2/6,
+                offset: 0,
+                size: 55,
+                width: 42 * 0.7,
+                delay: 0.51,
+                reload: 1,
+                recoil: 0,
+                isTrapezoid: false,
+                trapezoidDirection: 0,
+                addon: null,
+                bullet: {
+                    type: "bullet",
+                    health: 1,
+                    damage: 0.3,
+                    speed: 1.2,
+                    scatterRate: 1,
+                    lifeLength: 1,
+                    sizeRatio: 1,
+                    absorbtionFactor: 1
+                }
+            }
+            const base = new Barrel(rotator, AutoTurretDefinition);
+        }
+    }
+}
+
+class RotaryAddon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+
+        const rotator = new GuardObject3(this.game, owner, 1, 0.75, 0, 0) as GuardObject3 & { turrets: Barrel[] };
+        rotator.styleData.color = Color.Barrel
+        const offsetRatio = 40 / 50;
+        const size = this.owner.physicsData.values.size;
+        rotator.physicsData.size = owner.sizeFactor * 25
+        rotator.positionData.angle = owner.positionData.angle
+        const tickBase2 = rotator.tick;
+        rotator.tick = (tick: number) => {
+            rotator.physicsData.size = owner.sizeFactor * 25
+            rotator.positionData.angle += ((1 - owner.reloadspeed) * 0.5)
+            tickBase2.call(rotator, tick);
+
+            //barr.positionData.values.angle = angle + rotator.positionData.values.angle;
+        }
+        for (let i = 0; i < 4; ++i) {
+            const AutoTurretDefinition: BarrelDefinition = {
+                angle: PI2/4 * i,
+                offset: 0,
+                size: 55,
+                width: 42 * 0.7,
+                delay: 0.01,
+                reload: 1,
+                recoil: 0,
+                isTrapezoid: false,
+                trapezoidDirection: 0,
+                addon: null,
+                bullet: {
+                    type: "bullet",
+                    health: 0.45,
+                    damage: 0.5,
+                    speed: 1.1,
+                    scatterRate: 1,
+                    lifeLength: 0.5,
+                    sizeRatio: 1,
+                    absorbtionFactor: 1
+                }
+            }
+            const base = new Barrel(rotator, AutoTurretDefinition);
+        }
+    }
+}
+
 class BumperAddon extends Addon {
     public constructor(owner: BarrelBase) {
         super(owner);
@@ -1273,6 +1444,37 @@ export class GliderAddon extends Addon {
     }
 }
 
+export class SpinnerBarrelAddon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+
+        const launcher = new ObjectEntity(this.game);
+        const sizeRatio = 65.5 * Math.SQRT2 / 50;
+        const widthRatio = 26.88 / 50;
+        const size = this.owner.physicsData.values.size;
+
+        launcher.setParent(this.owner);
+        launcher.relationsData.values.owner = this.owner;
+        launcher.relationsData.values.team = this.owner.relationsData.values.team;
+
+        launcher.physicsData.values.size = sizeRatio * size;
+        launcher.physicsData.values.width = widthRatio * size;
+        launcher.positionData.values.x = launcher.physicsData.values.size / 2;
+
+        launcher.styleData.values.color = Color.Barrel;
+        launcher.physicsData.values.flags |= PhysicsFlags.isTrapezoid;
+        launcher.physicsData.values.sides = 2;
+
+        launcher.tick = () => {
+            const size = this.owner.physicsData.values.size;
+
+            launcher.physicsData.size = sizeRatio * size;
+            launcher.physicsData.width = widthRatio * size;
+            launcher.positionData.x = launcher.physicsData.values.size / 2;
+        }
+    }
+}
+
 
 export class LauncherTallAddon extends Addon {
     public constructor(owner: BarrelBase) {
@@ -1311,7 +1513,7 @@ class LauncherSmallAddon extends Addon {
 
         const launcher = new ObjectEntity(this.game);
         const sizeRatio = 65.5 * Math.SQRT2 / 50;
-        const widthRatio = 26.88 / 50;
+        const widthRatio = 39.375  / 50;
         const size = this.owner.physicsData.values.size;
 
         launcher.setParent(this.owner);
@@ -1322,7 +1524,6 @@ class LauncherSmallAddon extends Addon {
         launcher.physicsData.values.width = widthRatio * size;
         launcher.positionData.values.x = launcher.physicsData.values.size / 2;
 
-        launcher.physicsData.values.flags |= PhysicsFlags.isTrapezoid;
         launcher.styleData.values.color = Color.Barrel;
         launcher.physicsData.values.sides = 2;
 
@@ -1718,9 +1919,9 @@ class PronouncedAddon2 extends Addon {
         super(owner);
 
         const pronounce = new ObjectEntity(this.game);
-        const sizeRatio = 55 / 50;
-        const widthRatio = 56.7 / 50;
-        const offsetRatio = 35 / 50;
+        const sizeRatio = 50 / 50;
+        const widthRatio = 54.6 / 50;
+        const offsetRatio = 40 / 50;
         const size = this.owner.physicsData.values.size;
 
         pronounce.setParent(this.owner);
@@ -1882,7 +2083,7 @@ class THEBIGONE extends Addon {
             size: 96,
             width: 75.6 * 0.7,
             delay: 0,
-            reload: 6,
+            reload: 8,
             recoil: 0,
             isTrapezoid: false,
             trapezoidDirection: 0,
@@ -1933,6 +2134,13 @@ class MegaSmasherAddon extends Addon {
         super(owner);
 
         this.createGuard(6, 1.3, 0, .1);
+    }
+}
+class BelphegorAddon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+
+        this.createGuard(12, 1.15, 0, .1);
     }
 }
 
@@ -2408,7 +2616,7 @@ class BoostAddon extends Addon {
         atuo2.ai.viewRange = 0
         atuo.styleData.color = Color.Barrel
         atuo2.styleData.color = Color.EnemySquare
-        const offsetRatio = -25 / 50;
+        const offsetRatio = -30 / 50;
 
         atuo.tick = () => {
             const size = this.owner.physicsData.values.size;
@@ -2482,7 +2690,7 @@ class TeleAddon extends Addon {
         atuo2.ai.viewRange = 0
         atuo.styleData.color = Color.Barrel
         atuo2.styleData.color = Color.EnemyOctagon
-        const offsetRatio = -25 / 50;
+        const offsetRatio = -30 / 50;
 
         atuo.tick = () => {
             const size = this.owner.physicsData.values.size;
@@ -2560,5 +2768,10 @@ export const AddonById: Record<addonId, typeof Addon | null> = {
     bentbox : MultiBoxAddon,
     bees : MultiBoxAddon,
     multiboxxer : MultiBoxxerAddon,
+    rotary : RotaryAddon,
+    rotator : RotatorAddon,
+    whirlygig : WhirlygigAddon,
+    belphegor : BelphegorAddon,
+    spinnerbarrel : SpinnerBarrelAddon
 
 }

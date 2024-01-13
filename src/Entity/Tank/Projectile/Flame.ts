@@ -37,26 +37,14 @@ export default class Flame extends Bullet {
         const bulletDefinition = barrel.definition.bullet;
 
         const bulletPenetration = statLevels ? statLevels[Stat.BulletPenetration] : 0;
-        this.healthData.values.health = this.healthData.values.maxHealth = bulletDefinition.health;
-        this.lifeLength = bulletDefinition.lifeLength * 6 * ((1.5 * bulletPenetration)/5 + 2);
+        this.lifeLength = bulletDefinition.lifeLength * 6 * ((13)/5 + 2);
 
     }
-    public destroy(animate=true) {
-        if (this.deletionAnimation) {
-            this.deletionAnimation.frame = 0;
-        }
-        if (this.deletionAnimation) {
-            this.deletionAnimation.frame = 0;
-            this.styleData.opacity = 0;
-        }
-    super.destroy(animate);
-}
     public tick(tick: number) {
         super.tick(tick);
         if (this.tankDefinition && this.tankDefinition.id === Tank.Pyro){
             if (this.physicsData.size < this.sized * 12){
                 this.physicsData.size += this.sized/3
-                this.styleData.opacity -= 1 / 36
                 this.baseAccel *= 1.05
                 this.baseSpeed *= 1.05
             }
@@ -65,7 +53,6 @@ export default class Flame extends Bullet {
                 this.baseAccel *= 1.05
                 this.baseSpeed *= 1.05
                 this.physicsData.size += this.sized / 5
-                this.styleData.opacity -= 1 / 50
             }
         }
         //this.damageReduction += 1 / 25;

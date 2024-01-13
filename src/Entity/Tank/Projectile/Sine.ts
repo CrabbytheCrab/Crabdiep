@@ -16,36 +16,42 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>
 */
 
-import LivingEntity from "../../Live";
 import Barrel from "../Barrel";
-
-import { HealthFlags, PositionFlags, PhysicsFlags, Stat, StyleFlags } from "../../../Const/Enums";
-import { TankDefinition } from "../../../Const/TankDefinitions";
-import { BarrelBase } from "../TankBody";
-import { EntityStateFlags } from "../../../Native/Entity";
-import ObjectEntity from "../../Object";
 import Bullet from "./Bullet";
 
+import { InputFlags } from "../../../Const/Enums";
+import { Entity } from "../../../Native/Entity";
+import { Inputs } from "../../AI";
+import { BarrelDefinition, TankDefinition } from "../../../Const/TankDefinitions";
+import { BarrelBase } from "../TankBody";
+import AutoTurret from "../AutoTurret";
+
 /**
- * The bullet class represents the bullet entity in diep.
+ * Barrel definition for the rocketeer rocket's barrel.
  */
-export default class Pulsar extends Bullet {
-    public bool: Boolean
-    public inverse: number
-    public shootAngle: number
-    public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number, inverse:number) {
+
+/**
+ * Represents all rocketeer rockets in game.
+ */
+export default class Sine extends Bullet {
+    /** The rocket's barrel */
+
+    public movedirection:number
+    public moveangle:number
+    public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number, direction: number) {
         super(barrel, tank, tankDefinition, shootAngle);
-        this.shootAngle = shootAngle
-        this.bool = true
-        this.inverse = inverse
+        this.movedirection = direction
+        this.moveangle = shootAngle;
     }
+
     public tick(tick: number) {
+
         super.tick(tick);
-        if(tick - this.spawnTick >= 6 && this.bool){
-            this.movementAngle = this.shootAngle + Math.PI
-            this.baseAccel *= 2
-            this.positionData.angle = this.shootAngle + Math.PI
-            this.bool = false
-        }
-    }
+
+        if (this.deletionAnimation) return;
+        let y1 = (Math.sin(this.movementAngle * (Math.PI * tick)))
+        let x1 = (Math.cos(this.movementAngle * (Math.PI * tick)))
+        this.movementAngle =  Math.atan2(y1, x1);
+
+    } 
 }

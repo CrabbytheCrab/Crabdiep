@@ -41,7 +41,8 @@ export default class HomingBullet extends Bullet {
 
     /** Used let the drone go back to the player in time. */
     private restCycle = true;
-
+    /** Number of ticks before the trap cant collide with its own team. */
+    protected collisionEnd = 0;
     /** Cached prop of the definition. */
     protected canControlDrones: boolean;
     public target: ObjectEntity | null = null;
@@ -83,9 +84,7 @@ export default class HomingBullet extends Bullet {
         this.physicsData.values.absorbtionFactor = bulletDefinition.absorbtionFactor;
 
         this.baseSpeed /= 2
-
-
-        barrel.droneCount += 1;
+        this.collisionEnd = this.lifeLength >> 3;
         this.movementSpeed = this.aimSpeed = this.baseAccel;
 
         //this.ai.movementSpeed = this.ai.aimSpeed = this.baseAccel;
@@ -238,41 +237,43 @@ export default class HomingBullet extends Bullet {
 
             this.inputs = new Inputs();
             const target = this.findTarget(tick);
+        if (tick - this.spawnTick >= this.collisionEnd) {
+            if (!target) {
+                this.inputs.flags = 0;
+                this.state = AIState.idle;
+                const base = this.baseAccel;
 
-        if (!target) {
-            this.inputs.flags = 0;
-            this.state = AIState.idle;
-            const base = this.baseAccel;
+                // still a bit inaccurate, works though
 
-            // still a bit inaccurate, works though
+                //this.tickMixin(tick);
+
+                this.baseAccel = base;
+
+                return;
+
+            } else if(target){
+                this.state = AIState.hasTarget;
+                this.inputs.flags |= InputFlags.leftclick;
+                    this.aimAt(target);
+                    //this.positionData.angle = Math.atan2(inputs.mouse.y - this.positionData.values.y, inputs.mouse.x - this.positionData.values.x);
+                    this.positionData.angle = Math.atan2(inputs.mouse.y - this.positionData.values.y, inputs.mouse.x - this.positionData.values.x);
+        
+        
+                // this.tickMixin(tick);
+        
+        
+                    return;
+            }
+
+
+            
+            if (this.canControlDrones && inputs.attemptingRepel()) {
+                this.positionData.angle += Math.PI; 
+            }
+
+            // So that switch tank works, as well as on death
 
             //this.tickMixin(tick);
-
-            this.baseAccel = base;
-
-            return;
-        } else if(target){
-            this.state = AIState.hasTarget;
-            this.inputs.flags |= InputFlags.leftclick;
-                this.aimAt(target);
-                //this.positionData.angle = Math.atan2(inputs.mouse.y - this.positionData.values.y, inputs.mouse.x - this.positionData.values.x);
-                this.positionData.angle = Math.atan2(inputs.mouse.y - this.positionData.values.y, inputs.mouse.x - this.positionData.values.x);
-    
-    
-               // this.tickMixin(tick);
-    
-    
-                return;
         }
-
-
-        
-        if (this.canControlDrones && inputs.attemptingRepel()) {
-            this.positionData.angle += Math.PI; 
-        }
-
-        // So that switch tank works, as well as on death
-
-        //this.tickMixin(tick);
     }
 }

@@ -48,14 +48,14 @@ import * as util from "../../../util";
         damage: 0.5,
         speed: 2,
         scatterRate: 1,
-        lifeLength: 6,
+        lifeLength: 4.5,
         sizeRatio: 1,
         absorbtionFactor: 1
     }
 };
 
 const FT2: BarrelDefinition = {
-    angle: Math.PI,
+    angle: -Math.PI/3 * 2,
     offset: 0,
     size: 60,
     width: 42,
@@ -71,7 +71,29 @@ const FT2: BarrelDefinition = {
         damage: 0.5,
         speed: 2,
         scatterRate: 1,
-        lifeLength: 6,
+        lifeLength: 4.5,
+        sizeRatio: 1,
+        absorbtionFactor: 1
+    }
+};
+const FT3: BarrelDefinition = {
+    angle: Math.PI/3 * 2,
+    offset: 0,
+    size: 60,
+    width: 42,
+    delay: 0,
+    reload: 2.5,
+    recoil: 1,
+    isTrapezoid: false,
+    trapezoidDirection: 0,
+    addon: "trapLauncher",
+    bullet: {
+        type: "trap",
+        health: 2,
+        damage: 0.5,
+        speed: 2,
+        scatterRate: 1,
+        lifeLength: 4.5,
         sizeRatio: 1,
         absorbtionFactor: 1
     }
@@ -191,6 +213,7 @@ protected parent: ObjectEntity;
         if(mode == 1){
             this.minionBarrel = new Barrel(this,FT1)
             this.minionBarrel = new Barrel(this,FT2)
+            this.minionBarrel = new Barrel(this,FT3)
         }else{
             this.minionBarrel = new Barrel(this,OS1)
             this.minionBarrel = new Barrel(this,OS2)

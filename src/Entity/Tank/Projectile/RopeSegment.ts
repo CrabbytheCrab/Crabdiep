@@ -19,6 +19,8 @@ import TankBody, { BarrelBase } from "../TankBody";
 import { GuardObject } from "../Addons";
 import LivingEntity from "../../Live";
 import { Inputs } from "../../AI";
+import AbstractBoss from "../../Boss/AbstractBoss";
+import AbstractShape from "../../Shape/AbstractShape";
 
 /**
  * The trap class represents the trap (projectile) entity in diep.
@@ -70,7 +72,11 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
         this.isAffectedByRope = true;
         
     }
+    public destroy(animate=true) {
+        if (!animate)this.parent.segments.splice(this.parent.segments.indexOf(this),1);
 
+        super.destroy(animate);
+    }
     public onKill(killedEntity: LivingEntity) {
         // TODO(ABC):
         // Make this, work differently
@@ -78,6 +84,9 @@ export default class RopeSegment extends LivingEntity implements BarrelBase {
         if (typeof this.parent.onKill === 'function') this.parent.onKill(killedEntity);
     }
     public tick(tick: number) {
+        if(this.parent.canchain){
+            this.destroy()
+        }
         const statLevels = this.parent.cameraEntity.cameraData?.values.statLevels.values;
         const bodyDamage = statLevels ? statLevels[Stat.BodyDamage] : 0;
         if(this.parent!= null){
@@ -114,9 +123,18 @@ this.styleData.color =  Color.Barrel;
                 rotator2.styleData.values.flags |= StyleFlags.showsAboveParent
                 this.CanSpawn = false
             }
-        this.physicsData.pushFactor = 3
-                    this.damagePerTick = 5 + (bodyDamage)
+        this.physicsData.pushFactor = 8
+                    this.damagePerTick = 0
+                    this.bodyDamage = 5 + (bodyDamage)
                     this.physicsData.size = this.parent.physicsData.size * 1.5
+                    const collidedEntities = this.findCollisions();
+                    for (let i = 0; i < collidedEntities.length; ++i) {
+                        if(collidedEntities[i] instanceof TankBody || collidedEntities[i] instanceof AbstractShape ||collidedEntities[i] instanceof AbstractBoss){
+                            if (collidedEntities[i].relationsData.values.team !== this.relationsData.values.team) {
+                                LivingEntity.applyDamagealt(collidedEntities[i] as LivingEntity, this);
+                            }
+                        }
+                    }
 
         }else{
                         if(this.CanSpawn){

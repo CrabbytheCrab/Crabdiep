@@ -34,7 +34,7 @@ const SkimmerBarrelDefinition: BarrelDefinition = {
     size: 70,
     width: 42,
     delay: 0.25,
-    reload: 3,
+    reload: 4.5,
     droneCount: 200,
     recoil: 0,
     isTrapezoid: true,
@@ -43,12 +43,12 @@ const SkimmerBarrelDefinition: BarrelDefinition = {
     bullet: {
         
         type: "hive",
-        health: 0.4,
-        damage: 3 / 5,
-        speed: 1.4,
+        health: 1.5,
+        damage: 0.3,
+        speed: 1,
         scatterRate: 1,
-        lifeLength: -1,
-        sizeRatio: 0.7,
+        lifeLength: 1.25,
+        sizeRatio: 0.9,
         absorbtionFactor: 1
     }
 };

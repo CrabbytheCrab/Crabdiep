@@ -99,7 +99,7 @@ const MinionBarrelDefinition3: BarrelDefinition = {
 
  const MinionBarrelDefinition4: BarrelDefinition = {
     angle: 0,
-    offset: 0,
+    offset: -26,
     size: 90,
     width: 46.2,
     delay: 0,
@@ -110,8 +110,8 @@ const MinionBarrelDefinition3: BarrelDefinition = {
     addon: null,
     bullet: {
         type: "bullet",
-        health: 0.4,
-        damage: 0.325,
+        health: 0.35,
+        damage: 0.3,
         speed: 1,
         scatterRate: 1,
         lifeLength: 1,
@@ -121,9 +121,9 @@ const MinionBarrelDefinition3: BarrelDefinition = {
 };
 
 const MinionBarrelDefinition5: BarrelDefinition = {
-    angle: -0.39269908169872414,
-    offset: 0,
-    size: 80,
+    angle: 0,
+    offset: 26,
+    size: 90,
     width: 46.2,
     delay: 0.5,
     reload: 1,
@@ -133,8 +133,8 @@ const MinionBarrelDefinition5: BarrelDefinition = {
     addon: null,
     bullet: {
         type: "bullet",
-        health: 0.4,
-        damage: 0.325,
+        health: 0.35,
+        damage: 0.3,
         speed: 1,
         scatterRate: 1,
         lifeLength: 1,
@@ -204,7 +204,6 @@ export default class Minion extends Drone implements BarrelBase {
         this.sizeFactor = this.physicsData.values.size / 50;
         this.cameraEntity = tank.cameraEntity;
         if ( this.megaturret){
-                    this.minionBarrel = new Barrel(this, MinionBarrelDefinition6);
             this.minionBarrel = new Barrel(this, MinionBarrelDefinition5);
             this.minionBarrel = new Barrel(this, MinionBarrelDefinition4);
         }else{

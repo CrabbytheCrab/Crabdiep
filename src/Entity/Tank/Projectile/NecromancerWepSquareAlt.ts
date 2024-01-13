@@ -30,6 +30,7 @@ import ObjectEntity from "../../Object";
 import { Entity } from "../../../Native/Entity";
 import Bullet from "./Bullet";
 import { GuardObject } from "../Addons";
+import Minion from "./Minion";
 
 /**
  * The drone class represents the drone (projectile) entity in diep.
@@ -64,9 +65,9 @@ export default class NecromancerWepSquare extends Bullet implements BarrelBase{
         super(barrel, tank, tankDefinition, shootAngle);
 
         const bulletDefinition = barrel.definition.bullet;
-
-        this.usePosAngle = true;
-        
+        this.physicsData.values.size = 55 * Math.SQRT1_2;
+        this.usePosAngle = false;
+        this.tank.DroneCount += 1
         this.ai = new AI(this);
         this.ai.viewRange = 850 * tank.sizeFactor;
         this.ai.targetFilter = (targetPos) => (targetPos.x - this.tank.positionData.values.x) ** 2 + (targetPos.y - this.tank.positionData.values.y) ** 2 <= this.ai.viewRange ** 2; // (1000 ** 2) 1000 radius
@@ -117,48 +118,29 @@ export default class NecromancerWepSquare extends Bullet implements BarrelBase{
 
         this.baseSpeed /= 3;
 
-        barrel.droneCount += 1;
-
         this.ai.movementSpeed = this.ai.aimSpeed = this.baseAccel;
 
-        this.baseSpeed = 0;
-
-
-        const rotator = new GuardObject(this.game, this, 4, 1, 0, (Math.random() < .5 ? -1 : 1) * this.ai.passiveRotation * 5 )  as GuardObject & { joints: Barrel[]} ;
-        rotator.styleData.flags |= StyleFlags.showsAboveParent
-        rotator.styleData.color = Color.Barrel
-        rotator.physicsData.values.sides = 1
-        rotator.physicsData.values.size =  this.physicsData.values.size
-        const tickBase2 = rotator.tick;
-
-        rotator.tick = (tick: number) => {
-
-            tickBase2.call(rotator, tick);
-            rotator.physicsData.size =  this.physicsData.size * 0.75
-            //barr.positionData.values.angle = angle + rotator.positionData.values.angle;
-        }
         const skimmerBarrels: Barrel[] = this.skimmerBarrels =[];
         const SkimmerBarrelDefinition: BarrelDefinition = {
-            angle: Math.PI / 2,
+            angle: 0,
             offset: 0,
-            size: 72,
-            width: 36,
+            size: 70,
+            width: 42 * 1.1,
             delay: 0,
-            reload: 0.5,
-            recoil: 0,
+            reload: 1.5,
+            recoil: 1.35 * 1.5,
             isTrapezoid: false,
             trapezoidDirection: 0,
             addon: null,
             bullet: {
                 type: "bullet",
-                health: 0.8,
-                damage: 0.3,
-                speed: 1.2,
+                health: 0.4,
+                damage: 0.4,
+                speed: 0.8,
                 scatterRate: 1,
-                lifeLength: 0.25,
+                lifeLength: 1,
                 sizeRatio: 1,
-                absorbtionFactor: 1,
-                color: this.tank.styleData.color
+                absorbtionFactor: 1
             }
         };
         const s1 = new class extends Barrel {
@@ -168,19 +150,9 @@ export default class NecromancerWepSquare extends Bullet implements BarrelBase{
                this.physicsData.values.width = this.definition.width
                this.physicsData.size = this.definition.size
             }
-        }(rotator, {...SkimmerBarrelDefinition});
-        const s2Definition = {...SkimmerBarrelDefinition};
-        s2Definition.angle += Math.PI
-        const s2 = new class extends Barrel {
-            // Keep the width constant
-            protected resize() {
-                super.resize();
-                this.physicsData.width = this.definition.width
-                this.physicsData.size = this.definition.size
-            }
-        }(rotator, s2Definition);
+        }(this, {...SkimmerBarrelDefinition});
 
-        skimmerBarrels.push(s1, s2);
+        skimmerBarrels.push(s1);
     }
 
     /** Given a shape, it will create a necromancer square using stats from the shape */
@@ -191,7 +163,7 @@ export default class NecromancerWepSquare extends Bullet implements BarrelBase{
         wepsunchip.positionData.values.x = shape.positionData.values.x;
         wepsunchip.positionData.values.y = shape.positionData.values.y;
         wepsunchip.positionData.values.angle = shape.positionData.values.angle;
-        
+        wepsunchip.baseSpeed = 0;   
         const shapeDamagePerTick: number = shape['damagePerTick'];
 
         wepsunchip.damagePerTick *= shapeDamagePerTick / 8;
@@ -201,12 +173,32 @@ export default class NecromancerWepSquare extends Bullet implements BarrelBase{
 
 
     protected tickMixin(tick: number) {
+        this.sizeFactor = this.physicsData.values.size / 50;
+        this.reloadTime = this.tank.reloadTime;
+        const usingAI = !this.canControlDrones || !this.tank.inputs.attemptingShot() && !this.tank.inputs.attemptingRepel();
+        const inputs = !usingAI ? this.tank.inputs : this.ai.inputs;
+
+        if (usingAI && this.ai.state === AIState.idle) {
+            this.movementAngle = this.positionData.values.angle;
+        } else {
+            this.inputs.flags |= InputFlags.leftclick;
+
+            const dist = inputs.mouse.distanceToSQ(this.positionData.values);
+
+            if (dist < 850 ** 2 / 4) { // Half
+                this.movementAngle = this.positionData.values.angle + Math.PI;
+            } else if (dist < 850 ** 2) {
+                this.movementAngle = this.positionData.values.angle
+            } else this.movementAngle = this.positionData.values.angle;
+        }
+
         super.tick(tick);
     }
 
     public tick(tick: number) {
         const usingAI = !this.canControlDrones || this.tank.inputs.deleted || (!this.tank.inputs.attemptingShot() && !this.tank.inputs.attemptingRepel());
         const inputs = !usingAI ? this.tank.inputs : this.ai.inputs;
+        this.reloadTime = this.tank.reloadTime;
         if (usingAI && this.ai.state === AIState.idle) {
             if(this.inputs.flags && this.inputs.flags == InputFlags.leftclick) this.inputs.flags ^= InputFlags.leftclick;
             const delta = {
@@ -251,11 +243,10 @@ export default class NecromancerWepSquare extends Bullet implements BarrelBase{
 
         // So that switch tank works, as well as on death
         if (!Entity.exists(this.barrelEntity)) this.destroy();
-
         this.tickMixin(tick);
     }
     public destroy(animate=true) {
-        if (!animate) this.barrelEntity.droneCount -= 1;
+        if (!animate) this.tank.DroneCount -= 1;
 
         super.destroy(animate);
     }

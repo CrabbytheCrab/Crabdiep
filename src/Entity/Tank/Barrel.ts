@@ -61,7 +61,7 @@ import OrbitTrap from "./Projectile/OrbitTrap";
 import Block from "./Projectile/Block";
 import PillBox from "./Projectile/Block";
 import Explosion from "./Projectile/Explosion";
-import NecromancerWepSquare from "./Projectile/NecromancerWepSquare";
+import NecromancerWepSquare from "./Projectile/NecromancerWepSquareAlt";
 import HomingBullet from "./Projectile/HomingBullet";
 import Seakingrocket from "./Projectile/Seakingrocket";
 import Orbitrocket from "./Projectile/Orbitrocket";
@@ -85,6 +85,8 @@ import Bees from "./Projectile/Bees";
 import Bentbox from "./Projectile/Bentbox";
 import Tool from "./Projectile/Tool";
 import OrbitInverse from "./Projectile/OrbitInverse";
+import CrackShot from "./Projectile/CrackShot";
+import Vortex from "./Projectile/Vortex";
 /**
  * Class that determines when barrels can shoot, and when they can't.
  */
@@ -103,38 +105,18 @@ export class ShootCycle {
     }
 
     public tick() {
-        const reloadTime = this.barrelEntity.tank.reloadTime * this.barrelEntity.definition.reload;
-        const reloadTimeAlt = 15 * this.barrelEntity.definition.reload;
+        let reloadTime = this.barrelEntity.tank.reloadTime * this.barrelEntity.definition.reload;
+        const reloadTimeAlt = 1500 * this.barrelEntity.definition.reload;
 
         const alwaysShoot = (this.barrelEntity.definition.forceFire) ||this.barrelEntity.definition.bullet.type === 'ft'  ||this.barrelEntity.definition.bullet.type === 'os'  ||this.barrelEntity.definition.bullet.type === 'bentbox'  ||(this.barrelEntity.definition.bullet.type === 'multibox')||(this.barrelEntity.definition.bullet.type === 'dronenorep') ||(this.barrelEntity.definition.bullet.type === 'bombdrone')||(this.barrelEntity.definition.bullet.type === 'autodrone') || (this.barrelEntity.definition.bullet.type === 'pentadrone') || (this.barrelEntity.definition.bullet.type === 'domminion') || (this.barrelEntity.definition.bullet.type === 'megaminion') || (this.barrelEntity.definition.bullet.type === 'miniminion') || (this.barrelEntity.definition.bullet.type === 'minion') || (this.barrelEntity.definition.bullet.type === 'drone') || (this.barrelEntity.definition.bullet.type === 'necrodrone') || (this.barrelEntity.definition.bullet.type === 'wepnecrodrone') || (this.barrelEntity.definition.bullet.type === 'necropentadrone') || (this.barrelEntity.definition.bullet.type === 'necrotriangledrone');
         const necroShoot = (this.barrelEntity.definition.bullet.type === 'necrodrone') || (this.barrelEntity.definition.bullet.type === 'wepnecrodrone') || (this.barrelEntity.definition.bullet.type === 'necropentadrone') || (this.barrelEntity.definition.bullet.type === 'necrotriangledrone');
         const Orbshot = (this.barrelEntity.definition.bullet.type === 'typhoon1'|| this.barrelEntity.definition.bullet.type === 'orbit'||  this.barrelEntity.definition.bullet.type === 'orbit2' ||  this.barrelEntity.definition.bullet.type === 'orbit3'|| this.barrelEntity.definition.bullet.type === 'orbitrocket'||(this.barrelEntity.definition.bullet.type === 'orbittrap'))
         if(this.barrelEntity.definition.bullet.type === 'ft'  ||this.barrelEntity.definition.bullet.type === 'os'  ||this.barrelEntity.definition.bullet.type === 'bentbox'  ||this.barrelEntity.definition.bullet.type === 'bees'  ||this.barrelEntity.definition.bullet.type === 'multibox'  || this.barrelEntity.definition.bullet.type === 'stupid'){
-            if (reloadTimeAlt !== this.reloadTime) {
-                this.pos *= reloadTimeAlt / this.reloadTime;
-                this.reloadTime = reloadTimeAlt;
-            }
-            if (this.pos >= reloadTimeAlt) {
-                // When its not shooting dont shoot, unless its a drone
-                if (!this.barrelEntity.attemptingShot && !alwaysShoot) {
-                    this.pos = reloadTimeAlt;
-                    return;
-                }
-            }
-            if (!this.barrelEntity.attemptingShot && !alwaysShoot) {
-                this.pos = reloadTimeAlt;
-                return;
-            }
-            if (!necroShoot && typeof this.barrelEntity.definition.droneCount === 'number' && this.barrelEntity.droneCount >= this.barrelEntity.definition.droneCount) {
-                this.pos = reloadTime;
-                return;
-            }
-                if (this.pos >= reloadTimeAlt * (1 + this.barrelEntity.definition.delay)) {
-                    this.barrelEntity.barrelData.reloadTime = reloadTimeAlt;
-                    this.barrelEntity.shoot();
-                    this.pos = reloadTimeAlt * this.barrelEntity.definition.delay;
-                }
-        }else{
+            reloadTime = 15 * this.barrelEntity.definition.reload;
+        }
+        if(this.barrelEntity.definition.bullet.type === 'bullets'){
+            reloadTime = (this.barrelEntity.tank.reloadTime/this.barrelEntity.tank.reloadspeed) * this.barrelEntity.definition.reload;
+        }
             if (reloadTime !== this.reloadTime) {
                 this.pos *= reloadTime / this.reloadTime;
                 this.reloadTime = reloadTime;
@@ -163,13 +145,12 @@ export class ShootCycle {
                 return;
             }
         }
-            if (this.pos >= reloadTime * (1 + this.barrelEntity.definition.delay)) {
-                this.barrelEntity.barrelData.reloadTime = reloadTime;
-                this.barrelEntity.shoot();
-                this.pos = reloadTime * this.barrelEntity.definition.delay;
-            }
+        if (this.pos >= reloadTime * (1 + this.barrelEntity.definition.delay)) {
+            this.barrelEntity.barrelData.reloadTime = reloadTime;
+            this.barrelEntity.shoot();
+            this.pos = reloadTime * this.barrelEntity.definition.delay;
         }
-    
+        
         this.pos += 1;
     }
 }
@@ -286,6 +267,12 @@ export default class Barrel extends ObjectEntity {
                 if (tankDefinition && (tankDefinition.id === Tank.ArenaCloser || tankDefinition.id === DevTank.Squirrel)) bullet.positionData.flags |= PositionFlags.canMoveThroughWalls;
                 break;
             }
+            case 'bullets': {
+                const bullet = new Bullet(this, this.tank, tankDefinition, angle, this.rootParent);
+
+                if (tankDefinition && (tankDefinition.id === Tank.ArenaCloser || tankDefinition.id === DevTank.Squirrel)) bullet.positionData.flags |= PositionFlags.canMoveThroughWalls;
+                break;
+            }
             case 'pulsar': {
                 new Pulsar(this, this.tank, tankDefinition, angle, this.definition.angle);
                 break;
@@ -306,6 +293,16 @@ export default class Barrel extends ObjectEntity {
                 for (let i = 0; i < 4; ++i) {
                 const scatterAngle = (Math.PI / 180) * this.definition.bullet.scatterRate * (Math.random() - .5) * 10;
                 const bullet = new Shotgun(this, this.tank, tankDefinition, this.definition.angle + scatterAngle + this.tank.positionData.values.angle);
+                }
+                break;
+            }
+            case 'shotgun4trap': {
+                for (let i = 0; i < 4; ++i) {
+                const scatterAngle = (Math.PI / 180) * this.definition.bullet.scatterRate * (Math.random() - .5) * 10;
+                const bullet = new Trap(this, this.tank, tankDefinition, this.definition.angle + scatterAngle + this.tank.positionData.values.angle);
+                bullet.physicsData.size *= 1 + ((0.5 * Math.random()) -0.25)
+                bullet.baseSpeed *= 1 + ((0.4 * Math.random()) -0.2)
+                bullet.baseAccel *= 1 + ((0.5 * Math.random()) -0.25)
                 }
                 break;
             }
@@ -409,7 +406,7 @@ export default class Barrel extends ObjectEntity {
                     new OrbitTrap(this, this.tank, tankDefinition, angle,this.rootParent);
                     break;
             case 'pentadrone':
-                new Pentagon(this, this.tank, tankDefinition, angle);
+                const pent = new Pentagon(this, this.tank, tankDefinition, angle);
                 break;
             case 'necrodrone':
                 new NecromancerSquare(this, this.tank, tankDefinition, angle);
@@ -483,8 +480,11 @@ export default class Barrel extends ObjectEntity {
             case 'blunt':
                 new Blunt(this, this.tank, tankDefinition, angle);
                 break;
+            case 'vortex':
+                new Vortex(this, this.tank, tankDefinition, angle);
+                break;
             case 'homing':
-                new HomingBullet(this, this.tank, tankDefinition, angle);
+                new CrackShot(this, this.tank, tankDefinition, angle);
                 break;
             case 'homingrocket':
                 new Seakingrocket(this, this.tank, tankDefinition, angle);

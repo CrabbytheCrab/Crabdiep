@@ -15,70 +15,78 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program. If not, see <https://www.gnu.org/licenses/>
 */
-import LivingEntity from "../../Live";
+
 import Barrel from "../Barrel";
 import Bullet from "./Bullet";
-import Trap from "./Trap";
-import { Inputs } from "../../AI";
-import { PhysicsFlags, StyleFlags, InputFlags, Stat } from "../../../Const/Enums";
-import { TankDefinition } from "../../../Const/TankDefinitions";
-import { BarrelBase } from "../TankBody";
-import { DevTank } from "../../../Const/DevTankDefinitions";
-import { PI2 } from "../../../util";
-import { Addon } from "../Addons";
+
+import { InputFlags, PhysicsFlags, PositionFlags, Stat, Tank } from "../../../Const/Enums";
+import { BarrelDefinition, TankDefinition } from "../../../Const/TankDefinitions";
 import { Entity } from "../../../Native/Entity";
-import { GuardObject  } from "../Addons";
+import { Inputs } from "../../AI";
+import TankBody, { BarrelBase } from "../TankBody";
+import { GuardObject } from "../Addons";
+import MazeWall from "../../Misc/MazeWall";
+import AbstractShape from "../../Shape/AbstractShape";
+import AbstractBoss from "../../Boss/AbstractBoss";
+import LivingEntity from "../../Live";
 import * as util from "../../../util";
+import ObjectEntity from "../../Object";
+import { VectorAbstract } from "../../../Physics/Vector";
 
 /**
- * The trap class represents the trap (projectile) entity in diep.
+ * Barrel definition for the rocketeer rocket's barrel.
  */
-export default class BluntTrap extends Trap  implements BarrelBase {
-        public sizeFactor: number;
+
+/**
+ * Represents all rocketeer rockets in game.
+ */
+export default class Vortex extends Bullet implements BarrelBase{
+    /** The size ratio of the skimmer. */
+    public sizeFactor: number;
     /** The camera entity (used as team) of the croc skimmer. */
     public cameraEntity: Entity;
     /** The reload time of the skimmer's barrel. */
     public reloadTime = 15;
     /** The inputs for when to shoot or not. (croc skimmer) */
     public inputs: Inputs;
-    /** Number of ticks before the trap cant collide with its own team. */
-    protected collisionEnd = 0;
-    public push :number
-
+    public succrange: number
+    public targetFilter: (possibleTargetPos: VectorAbstract) => boolean;
     public constructor(barrel: Barrel, tank: BarrelBase, tankDefinition: TankDefinition | null, shootAngle: number) {
         super(barrel, tank, tankDefinition, shootAngle);
         this.cameraEntity = tank.cameraEntity;
         this.inputs = new Inputs()
         this.sizeFactor = this.physicsData.values.size / 50;
-        const smash = new GuardObject(this.game, this, 3, 2, this.positionData.angle, 0);
-        // smash.styleData.zIndex += 2;;
-        smash.styleData.flags |= StyleFlags.isStar
-        const bulletDefinition = barrel.definition.bullet;
-        const statLevels = tank.cameraEntity.cameraData?.values.statLevels.values;
-        const bulletDamage = statLevels ? statLevels[Stat.BulletDamage] : 0;
-        this.push =  ((7 / 3) + bulletDamage) * bulletDefinition.damage  * 2.5;
-        this.physicsData.values.pushFactor =  0;
-        this.tank = tank;
+        this.targetFilter = () => true;
+        this.succrange = this.physicsData.size * 6
     }
     
     public tick(tick: number) {
+        this.sizeFactor = this.physicsData.values.size / 50;
+        this.reloadTime = this.tank.reloadTime;
         super.tick(tick);
-        const entities = this.findCollisions()
+        const closestDistSq = (this.succrange * 2) ** 2;
+        const entities = this.game.entities.collisionManager.retrieve(this.positionData.x, this.positionData.y, this.succrange, this.succrange)
         for (let i = 0; i < entities.length; ++i) {
             const entity = entities[i];
-
             if (!(entity instanceof LivingEntity)) continue; // Check if the target is living
+
+            if (entity.physicsData.values.flags & PhysicsFlags.isBase) continue; // Check if the target is a base
+    
+            if (entity.relationsData.values.team === this.relationsData.values.team || entity.physicsData.values.sides === 0) continue;
+            if (!this.targetFilter(entity.positionData.values)) continue; // Custom check
+            const distSq = (entity.positionData.values.x - this.positionData.x) ** 2 + (entity.positionData.values.y - this.positionData.y) ** 2;
+
+            if (distSq < closestDistSq) {
                 let kbAngle: number;
                 let diffY = this.positionData.values.y - entity.positionData.values.y;
                 let diffX = this.positionData.values.x - entity.positionData.values.x;
-                // Prevents drone stacking etc
                 if (diffX === 0 && diffY === 0) kbAngle = Math.random() * util.PI2;
                 else {kbAngle = Math.atan2(diffY, diffX);
-                entity.addAcceleration( kbAngle, -this.push * entity.physicsData.absorbtionFactor);}
-        }
-        if (tick - this.spawnTick === this.collisionEnd) {
-            if (this.physicsData.values.flags & PhysicsFlags.onlySameOwnerCollision) this.physicsData.flags ^= PhysicsFlags.onlySameOwnerCollision;
-            this.physicsData.values.flags |= PhysicsFlags.noOwnTeamCollision;
+                entity.addAcceleration( kbAngle, this.physicsData.pushFactor)}
+                if(entity instanceof Bullet){
+                    entity.movementAngle = kbAngle;
+                }
+            }
         }
     }
 }

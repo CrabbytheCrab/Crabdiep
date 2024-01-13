@@ -142,6 +142,7 @@ export class AutoLauncherAddon extends BarrelAddon {
 export class AutoLauncher extends ObjectEntity {
     /** The barrel that this trap launcher is placed on. */
     public barrelEntity: Barrel;
+    public bar: ObjectEntity;
 
     /** Resizes the trap launcher; when its barrel owner gets bigger, the trap launcher must as well. */
     public constructor(barrel: Barrel) {
@@ -154,20 +155,42 @@ export class AutoLauncher extends ObjectEntity {
         this.styleData.values.color = Color.Barrel;
 
         this.physicsData.values.sides = 1;
-        this.physicsData.values.width = barrel.physicsData.values.width * (25 / 50);
-        this.physicsData.values.size = barrel.physicsData.values.width * (25 / 50);
+        this.physicsData.values.width = barrel.physicsData.values.width * (20 / 50);
+        this.physicsData.values.size = barrel.physicsData.values.width * (20 / 50);
         this.positionData.values.x = barrel.barrelData.trapezoidDirection == Math.PI ?
         (-barrel.physicsData.values.size + this.physicsData.values.size) / 1.5 :
         (barrel.physicsData.values.size - this.physicsData.values.size) / 1.5;
+
+        this.bar = new ObjectEntity(this.game)
+        this.bar.setParent(this);
+        this.bar.relationsData.values.team = barrel;
+        this.bar.physicsData.values.flags = PhysicsFlags._unknown;
+        this.bar.styleData.values.color = Color.Barrel;
+
+        this.bar.physicsData.values.sides = 2;
+        this.bar.physicsData.values.width = this.physicsData.values.size/25 * 42 * 0.7;
+        this.bar.physicsData.values.size = this.physicsData.values.size/25 * 55;
+        this.bar.positionData.x = Math.cos(this.positionData.angle) * (this.bar.physicsData.size / 2 + 0) - Math.sin(this.positionData.angle) * 0;
+        this.bar.positionData.y = Math.sin(this.positionData.angle) * (this.bar.physicsData.size / 2 + 0) - Math.cos(this.positionData.angle) * 0;
     }
 
     public resize() {
         this.physicsData.sides = 1;
-        this.physicsData.width = this.barrelEntity.physicsData.values.width * (25 / 50);
-        this.physicsData.size = this.barrelEntity.physicsData.values.width * (25 / 50);
+        this.physicsData.width = this.barrelEntity.physicsData.values.width * (20 / 50);
+        this.physicsData.size = this.barrelEntity.physicsData.values.width * (20 / 50); 
         this.positionData.x = this.barrelEntity.barrelData.trapezoidDirection == Math.PI ?
-        (-this.barrelEntity.physicsData.size + this.physicsData.size) / 1.5 :
+        (-this.barrelEntity.physicsData.size + this.physicsData.size) / 1.5:
         (this.barrelEntity.physicsData.size - this.physicsData.size) / 1.5;
+
+        this.bar.physicsData.sides = 2;
+        this.bar.positionData.angle = this.positionData.angle+  Math.PI
+        this.bar.physicsData.width = this.physicsData.size/25 * 42 * 0.75;
+        this.bar.physicsData.size = this.physicsData.size/25 * 55
+        this.bar.positionData.x = this.barrelEntity.barrelData.trapezoidDirection == Math.PI ? 
+        Math.cos(this.positionData.angle +  Math.PI) * (this.bar.physicsData.size / 2 + 0) - Math.sin(this.positionData.angle +  Math.PI) * 0 :
+        Math.cos(this.positionData.angle) * (this.bar.physicsData.size / 2 + 0) - Math.sin(this.positionData.angle) * 0
+
+        this.bar.positionData.y = Math.sin(this.positionData.angle) * (this.bar.physicsData.size / 2 + 0) - Math.cos(this.positionData.angle) * 0;
     }
 
 
@@ -342,16 +365,16 @@ export class MinionLauncher extends ObjectEntity {
         this.styleData.values.flags|= StyleFlags.showsAboveParent;
 
         this.physicsData.values.sides = 2;
-        this.physicsData.values.width = barrel.physicsData.values.width* 1.25;
-        this.physicsData.values.size = barrel.physicsData.values.size * (10 / 50);
-        this.positionData.values.x = (barrel.physicsData.values.size - this.physicsData.values.size) / 2;
+        this.physicsData.values.width = barrel.physicsData.values.width* 1.35;
+        this.physicsData.values.size = barrel.physicsData.values.size * (12.5 / 50);
+        this.positionData.values.x = (barrel.physicsData.values.size + this.physicsData.values.size) / 2;
     }
 
     public resize() {
         this.physicsData.sides = 2;
-        this.physicsData.width = this.barrelEntity.physicsData.values.width * 1.25;
-        this.physicsData.size = this.barrelEntity.physicsData.values.size * (10 / 50);
-        this.positionData.x = (this.barrelEntity.physicsData.values.size - this.physicsData.values.size) / 2;
+        this.physicsData.width = this.barrelEntity.physicsData.values.width * 1.35;
+        this.physicsData.size = this.barrelEntity.physicsData.values.size * (12.5 / 50);
+        this.positionData.x = (this.barrelEntity.physicsData.values.size + this.physicsData.values.size) / 2;
     }
 
 
@@ -378,16 +401,16 @@ export class MinionLauncher2 extends ObjectEntity {
         this.styleData.values.flags|= StyleFlags.showsAboveParent;
 
         this.physicsData.values.sides = 2;
-        this.physicsData.values.width = barrel.physicsData.values.width* 1.25;
-        this.physicsData.values.size = barrel.physicsData.values.size * (35 / 50);
+        this.physicsData.values.width = barrel.physicsData.values.width* 1.35;
+        this.physicsData.values.size = barrel.physicsData.values.size * (42.5 / 50);
         this.positionData.values.x = (-barrel.physicsData.values.size + this.physicsData.values.size) / 2;
 
     }
 
     public resize() {
         this.physicsData.sides = 2;
-        this.physicsData.width = this.barrelEntity.physicsData.values.width * 1.25;
-        this.physicsData.size = this.barrelEntity.physicsData.values.size * (35 / 50);
+        this.physicsData.width = this.barrelEntity.physicsData.values.width * 1.35;
+        this.physicsData.size = this.barrelEntity.physicsData.values.size * (42.5 / 50);
         this.positionData.x = (-this.barrelEntity.physicsData.size + this.physicsData.size) / 2;
 
     }
@@ -429,15 +452,15 @@ export class NecMinionLauncher extends ObjectEntity {
 
         this.physicsData.values.sides = 2;
         this.physicsData.values.width = barrel.physicsData.values.width* 2;
-        this.physicsData.values.size = barrel.physicsData.values.size * (10 / 50);
-        this.positionData.values.x = (barrel.physicsData.values.size - this.physicsData.values.size) / 2;
+        this.physicsData.values.size = barrel.physicsData.values.size * (12.5 / 50);
+        this.positionData.values.x = (barrel.physicsData.values.size + this.physicsData.values.size) / 2;
     }
 
     public resize() {
         this.physicsData.sides = 2;
-        this.physicsData.width = this.barrelEntity.physicsData.values.width * 2;
-        this.physicsData.size = this.barrelEntity.physicsData.values.size * (10 / 50);
-        this.positionData.x = (this.barrelEntity.physicsData.values.size - this.physicsData.values.size) / 2;
+        this.physicsData.width = this.barrelEntity.physicsData.values.width *2;
+        this.physicsData.size = this.barrelEntity.physicsData.values.size * (12.5 / 50);
+        this.positionData.x = (this.barrelEntity.physicsData.values.size + this.physicsData.values.size) / 2;
     }
 
 
@@ -464,16 +487,18 @@ export class NecMinionLauncher2 extends ObjectEntity {
         this.styleData.values.flags|= StyleFlags.showsAboveParent;
 
         this.physicsData.values.sides = 2;
-        this.physicsData.values.width = barrel.physicsData.values.width* 1.25;
-        this.physicsData.values.size = barrel.physicsData.values.size * (20 / 50);
-        this.positionData.values.x = 0;
+        this.physicsData.values.width = barrel.physicsData.values.width* 2;
+        this.physicsData.values.size = barrel.physicsData.values.size * (42.5 / 50);
+        this.positionData.values.x = (-barrel.physicsData.values.size + this.physicsData.values.size) / 2;
+
     }
 
     public resize() {
         this.physicsData.sides = 2;
         this.physicsData.width = this.barrelEntity.physicsData.values.width * 2;
-        this.physicsData.size = this.barrelEntity.physicsData.values.size * (20 / 50);
-        this.positionData.x = 0;
+        this.physicsData.size = this.barrelEntity.physicsData.values.size * (42.5 / 50);
+        this.positionData.x = (-this.barrelEntity.physicsData.size + this.physicsData.size) / 2;
+
     }
 
 
@@ -499,6 +524,7 @@ export class NecMinionLauncherAddon extends BarrelAddon {
 export class EngiTrapLauncher extends ObjectEntity {
     /** The barrel that this trap launcher is placed on. */
     public barrelEntity: Barrel;
+    public object2: ObjectEntity;
 
     /** Resizes the trap launcher; when its barrel owner gets bigger, the trap launcher must as well. */
     public constructor(barrel: Barrel) {
@@ -514,16 +540,32 @@ export class EngiTrapLauncher extends ObjectEntity {
         this.physicsData.values.sides = 2;
         this.physicsData.values.width = barrel.physicsData.values.width;
         this.physicsData.values.size = barrel.physicsData.values.width * (20 / 42);
-        this.positionData.values.x = (barrel.physicsData.values.size - this.physicsData.values.size) / 2;
+        this.positionData.values.x = (barrel.physicsData.values.size + this.physicsData.values.size) / 2;
+
+        this.object2 = new ObjectEntity(barrel.game)
+        this.object2.setParent(this);
+        this.object2.relationsData.values.team = barrel;
+        this.object2.styleData.values.flags |= StyleFlags.showsAboveParent;
+        this.object2.physicsData.values.flags = PhysicsFlags._unknown;
+        this.object2.styleData.values.color = Color.Barrel;
+
+        this.object2.physicsData.values.sides = 2;
+        this.object2.physicsData.values.width = barrel.physicsData.values.width * 1.75;
+        this.object2.physicsData.values.size = barrel.physicsData.values.width * (10 / 42);
+        this.object2.positionData.values.x = (this.physicsData.values.size + this.object2.physicsData.values.size) / 2;
     }
 
     public resize() {
         this.physicsData.sides = 2;
         this.physicsData.width = this.barrelEntity.physicsData.values.width;
         this.physicsData.size = this.barrelEntity.physicsData.values.width * (20 / 42);
-        this.positionData.x = (this.barrelEntity.physicsData.values.size - this.physicsData.values.size) / 2;
-    }
+        this.positionData.x = (this.barrelEntity.physicsData.values.size + this.physicsData.values.size) / 2;
 
+        this.object2.physicsData.sides = 2;
+        this.object2.physicsData.width = this.barrelEntity.physicsData.values.width * 1.75;
+        this.object2.physicsData.size = this.barrelEntity.physicsData.values.width * (10 / 42);
+        this.object2.positionData.x = (this.physicsData.values.size + this.object2.physicsData.values.size) / 2;
+    }
 
     public tick(tick: number) {
         super.tick(tick);
@@ -575,7 +617,6 @@ export class EngiTrapLauncherAddon extends BarrelAddon {
     public constructor(owner: Barrel) {
         super(owner);
         this.launcherEntity = new EngiTrapLauncher(owner);
-        this.launcherEntity = new EngiTrapLauncher2(owner);
     }
 }
 export class SwarmLauncher extends ObjectEntity {
@@ -1015,6 +1056,62 @@ export class StrikerAddon extends BarrelAddon {
         this.launcherEntity = new ReverseTrapLauncher(owner);
     }
 }
+
+export class NoScaleTrapLauncher extends ObjectEntity {
+    /** The barrel that this trap launcher is placed on. */
+    public barrelEntity: Barrel;
+
+    /** Resizes the trap launcher; when its barrel owner gets bigger, the trap launcher must as well. */
+    public constructor(barrel: Barrel) {
+        super(barrel.game);
+
+        this.barrelEntity = barrel;
+        this.setParent(barrel);
+        this.relationsData.values.team = barrel;
+        this.physicsData.values.flags = PhysicsFlags.isTrapezoid | PhysicsFlags._unknown;
+        this.styleData.values.color = Color.Barrel;
+
+        this.physicsData.values.sides = 2;
+        this.physicsData.values.width = barrel.physicsData.values.width;
+        this.physicsData.values.size = (42 * this.barrelEntity.tank.sizeFactor) * (20 / 42);
+        this.positionData.values.x = (barrel.physicsData.values.size + this.physicsData.values.size) / 2;
+    }
+
+    public resize() {
+        this.physicsData.sides = 2;
+        this.physicsData.width = this.barrelEntity.physicsData.values.width;
+        this.physicsData.size = (42 * this.barrelEntity.tank.sizeFactor) * (20 / 42);
+        this.positionData.x = (this.barrelEntity.physicsData.values.size + this.physicsData.values.size) / 2;
+    }
+
+
+    public tick(tick: number) {
+        super.tick(tick);
+
+        this.resize();
+    }
+}
+export class NoScaleTrapLauncherAddon extends BarrelAddon {
+    /** The actual trap launcher entity */
+    public launcherEntity: NoScaleTrapLauncher;
+
+    public constructor(owner: Barrel) {
+        super(owner);
+
+        //this.launcherEntity = new StrikerLauncher(owner);
+        this.launcherEntity = new NoScaleTrapLauncher(owner);
+    }
+}
+
+export class Extended extends BarrelAddon {
+    /** The actual trap launcher entity */
+
+    public constructor(owner: Barrel) {
+        super(owner);
+
+        owner.positionData.x = 10
+    }
+}
 /**
  * All barrel addons in the game by their ID.
  */
@@ -1033,6 +1130,7 @@ export class StrikerAddon extends BarrelAddon {
     growLauncher: GrowLauncherAddon,
     bounceLauncher: BounceLauncherAddon,
     NecLauncher : NecMinionLauncherAddon,
-    autoLauncher: AutoLauncherAddon
-
+    autoLauncher: AutoLauncherAddon,
+    noScale : NoScaleTrapLauncherAddon,
+    extended : Extended
 }
