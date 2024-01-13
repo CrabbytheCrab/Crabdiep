@@ -435,19 +435,15 @@ public Accend(){
 
          }
         if(this._currentTank == Tank.Spike){
-            if(this.altTank && Math.random() <= 0.01){
-            this.setTank(Tank.SPORN)
+            if(this.altTank){
+                if(Math.random() <= 0.01){
+                    this.setTank(Tank.SPORN)
+                }else{
+                    this.altTank = false
+                }
             }
-            this.altTank = false
-
          }
-        /* if(this._currentTank == Tank.SpreadShot){
-            if(this.altTank && Math.random() <= 0.02){
-            this.setTank(Tank.Disperse)
-            }
-            this.altTank = false
-
-         }*/
+         
         if(this._currentTank == Tank.PentaShot){
             if(this.altTank && Math.random() <= 0.1){
             this.setTank(Tank.ArrasPenta)
