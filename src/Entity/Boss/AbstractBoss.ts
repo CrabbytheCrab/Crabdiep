@@ -47,6 +47,7 @@ enum TargetShort{
 class BossMovementControl {
     /** Current target on the map. */
     public target: Target = Target.None;
+    public target2: VectorAbstract;
     public targetshort: TargetShort = TargetShort.None;
 
     /** The boss thats movement is being controlled. */
@@ -54,71 +55,96 @@ class BossMovementControl {
 
     public constructor(boss: AbstractBoss) {
         this.boss = boss;
+        this.target2 = this.boss.game.arena.findSpawnLocation()
     }
     
     public moveBoss() {
-        const { x, y } = this.boss.positionData.values;
-        if (this.target === Target.None) {
-            if (x >= 0 && y >= 0) {
-                this.target = Target.BottomRight;
-            } else if (x <= 0 && y >= 0) {
-                this.target = Target.BottomLeft;
-            } else if (x <= 0 && y <= 0) {
-                this.target = Target.TopLeft;
-            }else /*if (x >= 0 && y <= 0)*/ {
-                this.target = Target.TopRight;
+        if(this.boss.game.gamemode == "bossbash"){
+            const { x, y } = this.boss.positionData.values;
+            // Target becomes delta now
+    
+            const dist = (this.target2.x - x)** 2 + (this.target2.y - y )** 2;
+            if (dist < 90_000 /* 300 ** 2*/) this.target2 = this.boss.game.arena.findSpawnLocation();
+            else {
+                const angle = Math.atan2(this.target2.y - y, this.target2.x - x)
+                this.boss.inputs.movement.x = Math.cos(angle);
+                this.boss.inputs.movement.y = Math.sin(angle);
             }
-        }
+        }else{
+            const { x, y } = this.boss.positionData.values;
+            if (this.target === Target.None) {
+                if (x >= 0 && y >= 0) {
+                    this.target = Target.BottomRight;
+                } else if (x <= 0 && y >= 0) {
+                    this.target = Target.BottomLeft;
+                } else if (x <= 0 && y <= 0) {
+                    this.target = Target.TopLeft;
+                }else /*if (x >= 0 && y <= 0)*/ {
+                    this.target = Target.TopRight;
+                }
+            }
 
-        const target: VectorAbstract = this.target === Target.BottomRight ?
-            { x: 3 * this.boss.game.arena.arenaData.values.rightX / 4, y: 3 * this.boss.game.arena.arenaData.values.bottomY / 4} : this.target === Target.BottomLeft ?
-            { x: 3 * this.boss.game.arena.arenaData.values.leftX / 4, y: 3 * this.boss.game.arena.arenaData.values.bottomY / 4} : this.target === Target.TopLeft ? 
-            { x: 3 * this.boss.game.arena.arenaData.values.leftX / 4, y: 3 * this.boss.game.arena.arenaData.values.topY / 4} :
-            { x: 3 * this.boss.game.arena.arenaData.values.rightX / 4, y: 3 * this.boss.game.arena.arenaData.values.topY  / 4};
+            const target: VectorAbstract = this.target === Target.BottomRight ?
+                { x: 3 * this.boss.game.arena.arenaData.values.rightX / 4, y: 3 * this.boss.game.arena.arenaData.values.bottomY / 4} : this.target === Target.BottomLeft ?
+                { x: 3 * this.boss.game.arena.arenaData.values.leftX / 4, y: 3 * this.boss.game.arena.arenaData.values.bottomY / 4} : this.target === Target.TopLeft ? 
+                { x: 3 * this.boss.game.arena.arenaData.values.leftX / 4, y: 3 * this.boss.game.arena.arenaData.values.topY / 4} :
+                { x: 3 * this.boss.game.arena.arenaData.values.rightX / 4, y: 3 * this.boss.game.arena.arenaData.values.topY  / 4};
 
-        // Target becomes delta now
-        target.x = (target.x - x);
-        target.y = (target.y - y);
-        const dist = target.x ** 2 + target.y ** 2;
-        if (dist < 90_000 /* 300 ** 2*/) this.target = (this.target + 1) % 4;
-        else {
-            const angle = Math.atan2(target.y, target.x)
-            this.boss.inputs.movement.x = Math.cos(angle);
-            this.boss.inputs.movement.y = Math.sin(angle);
+            // Target becomes delta now
+            target.x = (target.x - x);
+            target.y = (target.y - y);
+            const dist = target.x ** 2 + target.y ** 2;
+            if (dist < 90_000 /* 300 ** 2*/) this.target = (this.target + 1) % 4;
+            else {
+                const angle = Math.atan2(target.y, target.x)
+                this.boss.inputs.movement.x = Math.cos(angle);
+                this.boss.inputs.movement.y = Math.sin(angle);
+            }
         }
     }
 
-    
-
     public moveBossShort() {
-        const { x, y } = this.boss.positionData.values;
-        if (this.targetshort === TargetShort.None) {
-            if (x >= 0 && y >= 0) {
-                this.targetshort = TargetShort.BottomRight;
-            } else if (x <= 0 && y >= 0) {
-                this.targetshort = TargetShort.BottomLeft;
-            } else if (x <= 0 && y <= 0) {
-                this.targetshort = TargetShort.TopLeft;
-            }else /*if (x >= 0 && y <= 0)*/ {
-                this.targetshort = TargetShort.TopRight;
+        if(this.boss.game.gamemode == "bossbash"){
+            const { x, y } = this.boss.positionData.values;
+            // Target becomes delta now
+    
+            const dist = (this.target2.x - x)** 2 + (this.target2.y - y )** 2;
+            if (dist < 90_000 /* 300 ** 2*/) this.target2 = this.boss.game.arena.findSpawnLocation();
+            else {
+                const angle = Math.atan2(this.target2.y - y, this.target2.x - x)
+                this.boss.inputs.movement.x = Math.cos(angle);
+                this.boss.inputs.movement.y = Math.sin(angle);
             }
-        }
+        }else{
+            const { x, y } = this.boss.positionData.values;
+            if (this.targetshort === TargetShort.None) {
+                if (x >= 0 && y >= 0) {
+                    this.targetshort = TargetShort.BottomRight;
+                } else if (x <= 0 && y >= 0) {
+                    this.targetshort = TargetShort.BottomLeft;
+                } else if (x <= 0 && y <= 0) {
+                    this.targetshort = TargetShort.TopLeft;
+                }else /*if (x >= 0 && y <= 0)*/ {
+                    this.targetshort = TargetShort.TopRight;
+                }
+            }
 
-        const target: VectorAbstract = this.targetshort === TargetShort.BottomRight ?
-            { x: 3 * this.boss.game.arena.arenaData.values.rightX / 20, y: 3 * this.boss.game.arena.arenaData.values.bottomY / 20} : this.targetshort === TargetShort.BottomLeft ?
-            { x: 3 * this.boss.game.arena.arenaData.values.leftX / 20, y: 3 * this.boss.game.arena.arenaData.values.bottomY / 20} : this.targetshort === TargetShort.TopLeft ? 
-            { x: 3 * this.boss.game.arena.arenaData.values.leftX / 20, y: 3 * this.boss.game.arena.arenaData.values.topY / 20} :
-            { x: 3 * this.boss.game.arena.arenaData.values.rightX / 20, y: 3 * this.boss.game.arena.arenaData.values.topY  / 20};
+            const target: VectorAbstract = this.targetshort === TargetShort.BottomRight ?
+                { x: 3 * this.boss.game.arena.arenaData.values.rightX / 20, y: 3 * this.boss.game.arena.arenaData.values.bottomY / 20} : this.targetshort === TargetShort.BottomLeft ?
+                { x: 3 * this.boss.game.arena.arenaData.values.leftX / 20, y: 3 * this.boss.game.arena.arenaData.values.bottomY / 20} : this.targetshort === TargetShort.TopLeft ? 
+                { x: 3 * this.boss.game.arena.arenaData.values.leftX / 20, y: 3 * this.boss.game.arena.arenaData.values.topY / 20} :
+                { x: 3 * this.boss.game.arena.arenaData.values.rightX / 20, y: 3 * this.boss.game.arena.arenaData.values.topY  / 20};
 
-        // Target becomes delta now
-        target.x = (target.x - x);
-        target.y = (target.y - y);
-        const dist = target.x ** 2 + target.y ** 2;
-        if (dist < 90_000 /* 300 ** 2*/) this.targetshort = (this.targetshort + 1) % 4;
-        else {
-            const angle = Math.atan2(target.y, target.x)
-            this.boss.inputs.movement.x = Math.cos(angle);
-            this.boss.inputs.movement.y = Math.sin(angle);
+            // Target becomes delta now
+            target.x = (target.x - x);
+            target.y = (target.y - y);
+            const dist = target.x ** 2 + target.y ** 2;
+            if (dist < 90_000 /* 300 ** 2*/) this.targetshort = (this.targetshort + 1) % 4;
+            else {
+                const angle = Math.atan2(target.y, target.x)
+                this.boss.inputs.movement.x = Math.cos(angle);
+                this.boss.inputs.movement.y = Math.sin(angle);
+            }
         }
     }
 }
@@ -141,7 +167,7 @@ export default class AbstractBoss extends LivingEntity {
     public ai: AI;
     /** The AI's inputs (for fullfilling BarrelBase typedef). */
     public inputs: Inputs;
-
+    public customMovement: boolean
     /** The boss's "camera entity" */
     public cameraEntity = this;
 
@@ -164,12 +190,11 @@ export default class AbstractBoss extends LivingEntity {
         this.positionData.values.y = y;
         
         this.relationsData.values.team = this.cameraEntity;
-
+        this.customMovement = false
         this.physicsData.values.absorbtionFactor = 0.05;
         this.positionData.values.flags |= PositionFlags.absoluteRotation;
         this.scoreReward = 30000 * this.game.arena.shapeScoreRewardMultiplier;
         this.damagePerTick = 60;
-        this.physicsData.values.flags |= PhysicsFlags.showsOnMap;
         this.ai = new AI(this);
         this.ai.viewRange = 2000;
         this.ai['_findTargetInterval'] = 0;
@@ -185,6 +210,8 @@ export default class AbstractBoss extends LivingEntity {
 
         this.sizeFactor = this.physicsData.values.size / 50;
         this.healthData.values.health = this.healthData.values.maxHealth = 3000;
+        this.styleData.flags |= StyleFlags._minimap
+        this.physicsData.flags |= PhysicsFlags.showsOnMap
     }
 
     // For map wide movement
@@ -228,10 +255,12 @@ export default class AbstractBoss extends LivingEntity {
 
             this.positionData.angle = Math.atan2(this.ai.inputs.mouse.y - y, this.ai.inputs.mouse.x - x);
         }
-        this.accel.add({
-            x: this.inputs.movement.x * this.movementSpeed,
-            y: this.inputs.movement.y * this.movementSpeed,
-        });
+        if(!this.customMovement){
+            this.accel.add({
+                x: this.inputs.movement.x * this.movementSpeed,
+                y: this.inputs.movement.y * this.movementSpeed,
+            });
+        }
         this.inputs.movement.set({
             x: 0,
             y: 0

@@ -43,6 +43,7 @@ const GuardianSpawnerDefinition: BarrelDefinition = {
     trapezoidDirection: 0,
     addon: null,
     droneCount: 2,
+    canControlDrones:true,
     bullet: {
         type: "drone",
         sizeRatio:1,
@@ -94,7 +95,7 @@ export default class WepTriangle extends Triangle implements BarrelBase {
     
         this.sizeFactor = this.physicsData.values.size / 50;
         this.ai = new AI(this);
-        this.ai.viewRange = 1800;
+        this.ai.viewRange = 2000;
         this.ai.aimSpeed = (this.ai.movementSpeed);
         this.ai['_findTargetInterval'] = tps;
         this.inputs = this.ai.inputs;
@@ -147,7 +148,7 @@ export default class WepTriangle extends Triangle implements BarrelBase {
                     color: Color.Neutral
                 }
             });
-            atuo.ai.viewRange = 900;
+            atuo.ai.viewRange = 2000;
             atuo.baseSize *= 1.15
             for (let i = 0; i < 3; ++i) {
                 // Add trap launcher

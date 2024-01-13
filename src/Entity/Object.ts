@@ -117,6 +117,7 @@ export default class ObjectEntity extends Entity {
     public deathanim: boolean
     public borscount = new Array(100);
     public cangoThroughRope: boolean;
+    public reloadspeed :number
     public constructor(game: GameServer) {
         super(game);
         this.deathanim = false
@@ -130,6 +131,7 @@ export default class ObjectEntity extends Entity {
         this.isAffectedByRope = false
         this.styleData.zIndex = game.entities.zIndex++;
         this.seg = 0
+        this.reloadspeed = 1
         this.cangoThroughRope = false
     }
 

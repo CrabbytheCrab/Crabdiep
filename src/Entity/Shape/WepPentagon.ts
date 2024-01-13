@@ -84,21 +84,22 @@ const GuardianSpawnerDefinition2: BarrelDefinition = {
 const GuardianSpawnerDefinition3: BarrelDefinition = {
     angle: 0,
     offset: 0,
-    size: 249.9,
-    width: 120,
-    delay: 0.5,
-    reload: 8,
+    size: 230,
+    width: 126,
+    delay: 2,
+    reload: 18,
     recoil: 0,
     isTrapezoid: false,
     trapezoidDirection: 0,
     addon: "minionLauncher",
-    droneCount: 1,
+    droneCount: 2,
+    canControlDrones: true,
     bullet: {
         type: "pentadrone",
         sizeRatio:1,
-        health: 2,
-        damage: 4,
-        speed: 3,
+        health: 6,
+        damage: 2,
+        speed: 1,
         scatterRate: 0,
         lifeLength: -1,
         absorbtionFactor: 1,
@@ -126,14 +127,15 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
     public constructor(game: GameServer, isAlpha=false, shiny=(Math.random() < 0.000001) && !isAlpha) {
         super(game);
         //this.arena = arena;
+        this.isAlpha = isAlpha;
         this.sizeFactor = this.physicsData.values.size/50;
         this.ai = new AI(this);
-        this.ai.viewRange = 1800;
+        this.ai.viewRange = this.isAlpha ? 2500 : 2000;
         this.ai.aimSpeed = (this.ai.movementSpeed);
         this.ai['_findTargetInterval'] = tps;
         this.inputs = this.ai.inputs;       
-        this.nameData.values.name = isAlpha ? "Penta Lord" : "Weaponized Pentagon";
-        if(isAlpha){
+        this.nameData.values.name = this.isAlpha ? "Penta Lord" : "Weaponized Pentagon";
+        if(this.isAlpha){
             if (this.nameData.values.flags & NameFlags.hiddenName) this.nameData.values.flags ^= NameFlags.hiddenName;
             
             if (!this.hasBeenWelcomed) {
@@ -164,7 +166,7 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
                 color: Color.Neutral
             }
         });
-        atuo.ai.viewRange = 1800;
+        atuo.ai.viewRange = 2500;
         //atuo.ai.passiveRotation = this.movementAngle
         atuo.styleData.values.flags |= StyleFlags.showsAboveParent;
         const MAX_ANGLE_RANGE = PI2 / 4; // keep within 90º each side
@@ -173,7 +175,7 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
              const base  = [new AutoTurret(this, GuardianSpawnerDefinition2)];
              base[0].influencedByOwnerInputs = true;
              base[0].baseSize = 80;
-             base[0].ai.viewRange = 1800;
+             base[0].ai.viewRange = 2500;
             const angle = base[0].ai.inputs.mouse.angle = PI2 * (i / 5);
             base[0].ai.passiveRotation = AI.PASSIVE_ROTATION;
             base[0].positionData.values.y = this.physicsData.values.size * Math.sin(angle) * 1.1;
@@ -205,7 +207,7 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
             }));
         }
     }
-        if(!isAlpha){
+        if(!this.isAlpha){
             const atuo = new AutoTurret(this, {
                 angle: 0,
                 offset: 0,
@@ -229,7 +231,7 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
                     color: Color.Neutral
                 }
             });
-            atuo.ai.viewRange = 800;
+            atuo.ai.viewRange = 2000;
             //atuo.ai.passiveRotation = this.movementAngle
             atuo.styleData.values.flags |= StyleFlags.showsAboveParent;
             atuo.baseSize = 35;
@@ -241,19 +243,18 @@ export default class WepPentagon extends Pentagon implements BarrelBase {
                 }));
             }
             }
-        this.healthData.values.health = this.healthData.values.maxHealth = (isAlpha ? 3000 : 1500);
-        this.physicsData.values.size = (isAlpha ? 225 : 93.75) * Math.SQRT1_2;
+        this.healthData.values.health = this.healthData.values.maxHealth = (this.isAlpha ? 3000 : 1500);
+        this.physicsData.values.size = (this.isAlpha ? 225 : 93.75) * Math.SQRT1_2;
         this.physicsData.values.sides = 5;
         this.styleData.values.color = shiny ? Color.Shiny : Color.EnemyPentagon;
 
-        this.physicsData.values.absorbtionFactor = isAlpha ? 0 : 0.1;
+        this.physicsData.values.absorbtionFactor = this.isAlpha ? 0 : 0.1;
         this.physicsData.values.pushFactor = 2;
 
-        this.isAlpha = isAlpha;
         this.isShiny = shiny;
 
-        this.damagePerTick = isAlpha ? 60 : 16;
-        this.scoreReward = isAlpha ? 30000 : 1500;
+        this.damagePerTick = this.isAlpha ? 60 : 16;
+        this.scoreReward = this.isAlpha ? 30000 : 1500;
         
         if (shiny) {
             this.scoreReward *= 20;

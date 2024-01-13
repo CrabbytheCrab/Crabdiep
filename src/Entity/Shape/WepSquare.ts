@@ -64,6 +64,7 @@ const GuardianSpawnerDefinition2: BarrelDefinition = {
     trapezoidDirection: 0,
     addon: null,
     droneCount: 1,
+    canControlDrones:true,
     bullet: {
         type: "drone",
         sizeRatio:1,
@@ -89,7 +90,7 @@ export default class WepSquare extends Square implements BarrelBase {
         const rand = Math.random();
         this.sizeFactor = this.physicsData.values.size / 50;
         this.ai = new AI(this);
-        this.ai.viewRange = 1500;
+        this.ai.viewRange = 2000;
         this.ai.aimSpeed = (this.ai.movementSpeed);
         this.ai['_findTargetInterval'] = tps;
         this.inputs = this.ai.inputs;

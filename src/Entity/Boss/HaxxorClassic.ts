@@ -21,13 +21,12 @@ import Barrel from "../Tank/Barrel";
 import TankDefinitions, { BarrelDefinition } from "../../Const/TankDefinitions";
 import AbstractBoss from "./AbstractBoss";
 
-import { Color, PositionFlags, State, StyleFlags, Tank } from "../../Const/Enums";
+import { Color, PositionFlags, StyleFlags, Tank } from "../../Const/Enums";
 import { AI, AIState } from "../AI";
 import { normalizeAngle, PI2 } from "../../util";
 import AiTank from "../Misc/AiTank";
 import ObjectEntity from "../Object";
 import AutoTurret, { AutoTurretDefinition } from "../Tank/AutoTurret";
-import TankBody from "../Tank/TankBody";
 
 /**
  * Class which represents the boss "Titan"
@@ -46,14 +45,14 @@ const MountedTurretDefinition: BarrelDefinition = {
         health: 3
     }
 };
-export default class Titan extends AbstractBoss {
+export default class HaxxorClassic extends AbstractBoss {
     /** The speed to maintain during movement. */
     public movementSpeed = 0;
     protected static BASE_ROTATION = AI.PASSIVE_ROTATION;
     /** Used to calculate the speed at which the shape orbits. Radians Per Tick. */
     protected static BASE_ORBIT = 0.005;
     /** The velocity of the shape's orbits. */
-    protected static BASE_VELOCITY = 3;
+    protected static BASE_VELOCITY = 1;
     
     protected doIdleRotate: boolean = true;
     /** The current direction of the shape's orbit. */
@@ -69,36 +68,33 @@ public timer = 60
     protected isTurning: number = 0;
     /** The destination for the angle of the shape's orbit - it slowly becomes this */
     protected targetTurningAngle: number = 0;
-
-    public timer2: number
-    public state: number
-    public attackAmount :number
-    public rand : number
-    public attacktimer:number
-    public angleX:number
-    public angleY:number
-    public posX:number
-    public posY:number
     public constructor(game: GameServer) {
         super(game);
         this.physicsData.values.size = 200 * Math.SQRT1_2;
         this.orbitAngle = this.positionData.values.angle = (Math.random() * PI2);
-        this.physicsData.sides = 8
-        this.styleData.color = Color.ScoreboardBar
-        this.nameData.values.name = 'H4XX0R';
-        this.attackAmount = 0
-        this.timer2 = 0
-        this.angleX = 0
-        this.angleY = 0
-        this.posX = 0
-        this.posY = 0
-        this.rand = 0
-        this.state = 0
-        this.attacktimer = 0
+this.physicsData.sides = 8
+this.styleData.color = Color.ScoreboardBar
+this.relationsData.values.team = this.game.arena;
+this.nameData.values.name = 'H4XX0R';
         this.physicsData.absorbtionFactor = 0
-        this.healthData.values.health = this.healthData.values.maxHealth = 4500;
+        this.healthData.values.health = this.healthData.values.maxHealth = 4000;
         this.scoreReward = 45000 * this.game.arena.shapeScoreRewardMultiplier;
-        this.physicsData.pushFactor = 0
+this.physicsData.pushFactor = 0
+       /* for (const barrelDefinition of TankDefinitions[Tank.Booster].barrels) {
+
+            const def = Object.assign({}, barrelDefinition, {});
+            def.bullet = Object.assign({}, def.bullet, { speed: 1.7, health: 6.25 });
+            this.barrels.push(new Barrel(this, def));
+        }*/
+
+
+
+
+
+
+
+
+
 
         const pronounce = new ObjectEntity(this.game);
         const size = this.physicsData.values.size;
@@ -162,6 +158,42 @@ public timer = 60
             pronounce3.physicsData.size = size * 0.75;
             tickBase3.call(pronounce3, tick);
         }
+
+
+
+
+
+
+        for (let i = 0; i < 8; ++i) {
+            // TODO:
+            // Maybe make this into a class of itself - DefenderAutoTurret
+            const base = new AutoTurret(this, MountedTurretDefinition);
+            base.influencedByOwnerInputs = true;
+            const MAX_ANGLE_RANGE = PI2 / 16; // keep within 90º each side
+base.baseSize *= 0.325
+            const angle = base.ai.inputs.mouse.angle = PI2 * (i / 8);
+            base.ai.targetFilter = (targetPos) => {
+                const pos = base.getWorldPosition();
+                const angleToTarget = Math.atan2(targetPos.y - pos.y, targetPos.x - pos.x);
+                
+                const deltaAngle = normalizeAngle(angleToTarget - ((angle + this.positionData.values.angle)));
+
+                return deltaAngle < MAX_ANGLE_RANGE || deltaAngle > (PI2 - MAX_ANGLE_RANGE);
+            }
+            base.positionData.values.y = this.physicsData.values.size * Math.sin(angle) * 1.35;
+            base.positionData.values.x = this.physicsData.values.size * Math.cos(angle) * 1.35;
+
+            base.physicsData.values.flags |= PositionFlags.absoluteRotation;
+
+            const tickBase = base.tick;
+            base.tick = (tick: number) => {
+                base.positionData.y = this.physicsData.values.size * Math.sin(angle) * 1.35;
+                base.positionData.x = this.physicsData.values.size * Math.cos(angle) * 1.35;
+
+                tickBase.call(base, tick);
+                if (base.ai.state === AIState.idle) base.positionData.angle = angle + this.positionData.values.angle;
+            }
+        }
     }
     protected turnTo(angle: number) {
         if (normalizeAngle(this.orbitAngle - angle) < 0.20) return;
@@ -197,113 +229,39 @@ public timer = 60
     
             // convert from angle to orbit angle: angle / (10 / 3)
             // convert from orbit angle to angle: orbitAngle * (10 / 3)
-            if(this.state == State.idle){
-                if(this.healthData.health <= this.healthData.maxHealth/5){
-                this.maintainVelocity(this.orbitAngle, this.shapeVelocity * 3);
-                }else{
-                    this.maintainVelocity(this.orbitAngle, this.shapeVelocity)
-                }
-            }
+            this.maintainVelocity(this.orbitAngle, this.shapeVelocity);
            // this.positionData.angle = Math.atan2(this.ai.inputs.mouse.y - y, this.ai.inputs.mouse.x - x)
     }
-    public Attack(){
-        this.timer2 ++
-        if(this.timer2 <= 45){
-            this.inputs.movement.x = Math.cos(Math.atan2(this.angleY - this.posY,this.angleX - this.posX));
-            this.inputs.movement.y = Math.sin(Math.atan2(this.angleY - this.posY,this.angleX - this.posX));
-            this.accel.add({
-                x: this.inputs.movement.x * 5,
-                y: this.inputs.movement.y * 5,
-            });
-        }
-        if(this.timer2 >= 45){
-            this.timer2 = 0
-            this.state = State.idle
-        }
-    }
 
-    public Attack2(){
-        this.timer2 ++
-        if(this.timer2 <= 45){
-            this.inputs.movement.x = Math.cos(Math.atan2(this.angleY - this.posY,this.angleX - this.posX));
-            this.inputs.movement.y = Math.sin(Math.atan2(this.angleY - this.posY,this.angleX - this.posX));
-            this.accel.add({
-                x: this.inputs.movement.x * 5,
-                y: this.inputs.movement.y * 5,
-            });
-        }
-        if(this.timer2 == 5 || this.timer2 == 10 || this.timer2 == 15 || this.timer2 == 20|| this.timer2 == 25|| this.timer2 == 30|| this.timer2 == 35|| this.timer2 == 40|| this.timer2 == 45){
-            const tonk = new AiTank(this.game,this)
-            tonk.positionData.values.x = this.rootParent.positionData.values.x
-            tonk.positionData.values.y = this.rootParent.positionData.values.y
-            tonk.relationsData = this.rootParent.relationsData
-            tonk.styleData.color = this.rootParent.styleData.color
-            tonk.super = false
-        }
-        if(this.timer2 >= 45){
-            this.timer2 = 0
-            this.state = State.idle
-        }
-    }
     public tick(tick: number) {
         super.tick(tick);
         this.styleData.zIndex = 1
         this.moveAroundMap()
         this.sizeFactor = this.physicsData.values.size / 50;
-        if(this.state == State.attack){
-            this.Attack()
-        }
-        if(this.state == State.attack2){
-            this.Attack2()
-        }
         if(this.ai.state == AIState.hasTarget) {
-            if(this.state == State.idle){
-                if(this.ai.target instanceof TankBody){
-                    this.timer2 ++
-                    if(this.healthData.health <= this.healthData.maxHealth/5){
-                        if(this.timer2 >= 150){
-                            this.angleX = this.ai.inputs.mouse.x
-                            this.angleY = this.ai.inputs.mouse.y
-                            this.posX = this.positionData.x
-                            this.posY = this.positionData.y
-                            this.state = State.attack2
-                            this.timer2 = 0
-                        }
-                    }else{
-                        if(this.timer2 >= 90){
-                            this.angleX = this.ai.inputs.mouse.x
-                            this.angleY = this.ai.inputs.mouse.y
-                            this.posX = this.positionData.x
-                            this.posY = this.positionData.y
-                            this.state = State.attack
-                            this.timer2 = 0
-                        }
-                    }
-                }
-                this.timer--
-                if(this.timer == 0){
-                    if(this.healthData.health <= this.healthData.maxHealth/5){
-                        this.timer = 150
-                        for(let i = 0; i < 3; i++){    
-                            setTimeout(() =>{
-                                const tonk = new AiTank(this.game,this)
-                                tonk.positionData.values.x = this.rootParent.positionData.values.x
-                                tonk.positionData.values.y = this.rootParent.positionData.values.y
-                                tonk.relationsData = this.rootParent.relationsData
-                                tonk.styleData.color = this.rootParent.styleData.color
-                                tonk.super = true
-                            }, 300 * i)
-                        }
-                    }else{
-                        this.timer = 30
-                        const tonk = new AiTank(this.game,this)
-                        tonk.positionData.values.x = this.rootParent.positionData.values.x
-                        tonk.positionData.values.y = this.rootParent.positionData.values.y
-                        tonk.relationsData = this.rootParent.relationsData
-                        tonk.styleData.color = this.rootParent.styleData.color
-                        tonk.super = false
-                    }
-                }
+        // this.positionData.angle = Math.atan2(this.ai.inputs.mouse.y - y, this.ai.inputs.mouse.x - x)
+        this.timer--
+         if(this.timer == 0){
+            if(this.healthData.health <= this.healthData.maxHealth/5){
+
+             const tonk = new AiTank(this.game,this)
+             tonk.positionData.values.x = this.rootParent.positionData.values.x
+             tonk.positionData.values.y = this.rootParent.positionData.values.y
+             tonk.relationsData = this.rootParent.relationsData
+             tonk.styleData.color = this.rootParent.styleData.color
+                tonk.super = true
+             //tonk.setParent(this)
+             this.timer = 60
+            }else{
+                const tonk = new AiTank(this.game,this)
+                tonk.positionData.values.x = this.rootParent.positionData.values.x
+                tonk.positionData.values.y = this.rootParent.positionData.values.y
+                tonk.relationsData = this.rootParent.relationsData
+                tonk.styleData.color = this.rootParent.styleData.color
+                   tonk.super = false
+                //tonk.setParent(this)
+                this.timer = 45
+            }
             }
         }
     }
