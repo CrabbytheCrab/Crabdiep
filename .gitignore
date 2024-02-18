@@ -1,4 +1,3 @@
-lib/
 node_modules/
 prev/
 build/
@@ -6,5 +5,4 @@ build/
 ext/
 .vscode/
 package/
-client/public/
 replit.nix
