@@ -19,9 +19,6 @@
     "docker:start": "docker run --pull never --rm --publish ${PORT:-8080}:8080 --env PORT=8080 --env ORIGIN_URL --env SERVER_INFO --env APP_KEY --env NODE_ENV --init --interactive --tty diep-local",
     "docker": "npm run docker:build && npm run docker:start"
   },
-  "engines": {
-    "node": "16.x"
-  },
   "dependencies": {
     "@types/node": "^16.4.0",
     "@types/ws": "^8.0.0",
