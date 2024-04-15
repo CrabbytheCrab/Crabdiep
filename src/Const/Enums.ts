@@ -395,6 +395,7 @@ export const enum Tank {
     Whirlygig     = 290,
     Rebounder     = 291,
     Inhaler       = 292,
+    Shielder      = 293,
 }
 
 /**

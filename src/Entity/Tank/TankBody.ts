@@ -337,6 +337,11 @@ public altTank: boolean
       
         this.isInvulnerable = invulnerable;
     }
+    public setSpawnProt() {
+        this.styleData.flags |= StyleFlags.isFlashing;
+        this.damageReduction = 0;
+        this.cameraEntity.cameraData.spawnTick = this.game.tick;
+    }
 public Accend(){
     this.damageReduction = 0;
     this.cameraEntity.cameraData.spawnTick = 0
@@ -646,7 +651,7 @@ else if (this._currentTank === Tank.SPORN){
 
         this.scoreData.score = this.cameraEntity.cameraData.values.score;
 
-        if ((this.styleData.values.flags & StyleFlags.isFlashing) && (this.game.tick >= this.cameraEntity.cameraData.values.spawnTick + 374 || this.inputs.attemptingShot())) {
+        if ((this.styleData.values.flags & StyleFlags.isFlashing) && (this.game.tick >= this.cameraEntity.cameraData.values.spawnTick + 374 || this.inputs.attemptingShot() && this._currentTank != Tank.Shielder)) {
             this.styleData.flags ^= StyleFlags.isFlashing;
             // Dont worry about invulnerability here - not gonna be invulnerable while flashing ever (see setInvulnerability)
             this.damageReduction = 1.0;

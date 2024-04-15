@@ -160,7 +160,7 @@ this.BlueScore = 0
         ball.styleData.flags |= StyleFlags.hasNoDmgIndicator
         ball.physicsData.values.size = 120;
         ball.physicsData.values.absorbtionFactor = 1.5;
-        ball.damagePerTick = 1000
+        ball.damagePerTick = 30;
         ball.physicsData.pushFactor = 4
         
         ball.damageReduction = 0

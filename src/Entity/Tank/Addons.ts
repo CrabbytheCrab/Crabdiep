@@ -2139,8 +2139,30 @@ class MegaSmasherAddon extends Addon {
 class BelphegorAddon extends Addon {
     public constructor(owner: BarrelBase) {
         super(owner);
-
         this.createGuard(12, 1.15, 0, .1);
+        const base = new AutoTurret(owner, {
+            angle: 0,
+            offset: 0,
+            size: 55,
+            width: 42 * 0.7,
+            delay: 0.01,
+            reload: 3,
+            recoil: 0,
+            isTrapezoid: true,
+            trapezoidDirection: 0,
+            addon: null,
+            bullet: {
+                type: "bullet",
+                health: 100,
+                damage: 10,
+                speed: 1.2,
+                scatterRate: 1,
+                lifeLength: 1,
+                sizeRatio: 1,
+                absorbtionFactor: 0.1
+            }
+        });
+        base.influencedByOwnerInputs = true
     }
 }
 
@@ -2706,6 +2728,79 @@ class TeleAddon extends Addon {
         }
     }
 }
+class ShiAddon extends Addon {
+    public constructor(owner: BarrelBase) {
+        super(owner);
+
+        const atuo = new AutoTurret(owner, {
+            angle: 0,
+            offset: 0,
+            size: 0,
+            width: 0,
+            delay: 0.01,
+            reload: 1.75,
+            recoil: 0,
+            isTrapezoid: false,
+            trapezoidDirection: 0,
+            addon: null,
+            droneCount: 0,
+            bullet: {
+                type: "drone",
+                sizeRatio: 1,
+                health: 0.75,
+                damage: 0.5,
+                speed: 1,
+                scatterRate: 1,
+                lifeLength: 0.75,
+                absorbtionFactor: 0.1
+            }
+        });
+        const atuo2 = new AutoTurret(owner, {
+            angle: 0,
+            offset: 0,
+            size: 0,
+            width: 0,
+            delay: 0.01,
+            reload: 1.75,
+            recoil: 0,
+            isTrapezoid: false,
+            trapezoidDirection: 0,
+            addon: null,
+            droneCount: 0,
+            bullet: {
+                type: "drone",
+                sizeRatio: 1,
+                health: 0.75,
+                damage: 0.5,
+                speed: 1,
+                scatterRate: 1,
+                lifeLength: 0.75,
+                absorbtionFactor: 0.1
+            }
+        });
+            atuo.baseSize *= 1
+            atuo2.baseSize *= 0.5
+        //atuo.ai.passiveRotation = this.movementAngle
+        atuo.ai.viewRange = 0
+        atuo2.ai.viewRange = 0
+        atuo.styleData.color = Color.Barrel
+        atuo2.styleData.color = Color.EnemyHexagon
+        const offsetRatio = -30 / 50;
+
+        atuo.tick = () => {
+            const size = this.owner.physicsData.values.size;
+            atuo.physicsData.size = size * 0.6;
+
+            atuo.positionData.x = offsetRatio * size;
+        }
+        atuo2.tick = () => {
+            const size = this.owner.physicsData.values.size;
+            atuo2.physicsData.size = size * 0.4;
+
+            atuo2.positionData.x = offsetRatio * size;
+        }
+    }
+}
 /**
  * All addons in the game by their ID.
  */
@@ -2724,6 +2819,7 @@ export const AddonById: Record<addonId, typeof Addon | null> = {
     // not part of diep
     microsmasher: SmasherAddon,
     tele: TeleAddon,
+    shi: ShiAddon,
     boost: BoostAddon,
     chainer: SmasherAddon,
     autoturret3: AutoTurretControllAddon,

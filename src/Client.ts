@@ -340,6 +340,14 @@ export default class Client {
                         this.notify("You can use your ability again");
                     },10000);
                 }
+                if ((flags & InputFlags.rightclick) && !(previousFlags & InputFlags.rightclick) && player.currentTank === Tank.Shielder && !player.coolDown) {
+                    player.setSpawnProt();
+                    player.coolDown = true;
+                    setTimeout(() =>{
+                        player.coolDown = false;
+                        this.notify("You can use your ability again");
+                    },70000);
+                }
                 if ((flags & InputFlags.rightclick) && !(previousFlags & InputFlags.rightclick) && player.currentTank === Tank.Rift && !player.coolDown) {
                     new Rift(this.game, player.positionData.x, player.positionData.y, player.inputs.mouse.x, player.inputs.mouse.y)
                     player.entityState |= EntityStateFlags.needsCreate | EntityStateFlags.needsDelete;

@@ -21,7 +21,7 @@ import DevTankDefinitions, { DevTank } from "./DevTankDefinitions";
 import { Tank, Color } from "./Enums";
 
 /** The types of post addons that exist in the game, by their id. */
-export type postAddonId = "belphegor"|"whirlygig"|"rotator"| "rotary"|"tool"|"bentbox"|"multiboxxer"|"bees"| "multibox"| "whirlwind"|"rift" | "boost" | "tele"| "chainer"|"microsmasher"|"dompronounced" | "auto5"| "sporn" | "vampire"| "autovamp"|"vampsmasher"|"autoauto3" |"cuck" | "spinner"| "chasm"| "void"|"comet"|"abyss"|"auto3" | "overdrive"| "psiEye" | "autosmasher" | "spike" | "pronounced"  | "rammer"| "bumper"|"smasher" | "landmine" |"autoturret3"| "autoturret"  | "joint3"  | "weirdspike" | "auto2" | "auto7" | "autorocket" | "spiesk" | "saw" | "megasmasher" | "mega3" | "stalker3" | "auto4" | "bigautoturret"| "droneturret";
+export type postAddonId = "belphegor"|"whirlygig"|"rotator"| "rotary"|"tool"|"bentbox"|"multiboxxer"|"bees"| "multibox"| "whirlwind"|"rift" | "boost" | "tele"|"shi"| "chainer"|"microsmasher"|"dompronounced" | "auto5"| "sporn" | "vampire"| "autovamp"|"vampsmasher"|"autoauto3" |"cuck" | "spinner"| "chasm"| "void"|"comet"|"abyss"|"auto3" | "overdrive"| "psiEye" | "autosmasher" | "spike" | "pronounced"  | "rammer"| "bumper"|"smasher" | "landmine" |"autoturret3"| "autoturret"  | "joint3"  | "weirdspike" | "auto2" | "auto7" | "autorocket" | "spiesk" | "saw" | "megasmasher" | "mega3" | "stalker3" | "auto4" | "bigautoturret"| "droneturret";
 
 /** The types of post addons that exist in the game, by their id. */
 export type preAddonId = "spinnerbarrel"|"dombase" | "launcher"| "launcheralt" | "glider" | "launchertall"| "pronounced2"|"laucher2"| "launchersmall";
@@ -901,7 +901,7 @@ const TankDefinitions = JSON.parse(`[
         "name": "Smasher",
         "upgradeMessage": "",
         "levelRequirement": 30,
-        "upgrades": [87,86,88,90,89,144,221,108,174,264,277],
+        "upgrades": [87,86,88,90,89,144,221,108,174,264],
         "flags": {
             "invisibility": false,
             "zoomAbility": false,
@@ -35518,6 +35518,7 @@ const TankDefinitions = JSON.parse(`[
             }
         ]
     },
+<<<<<<< Updated upstream
 	{
     "sides": 1,
     "preAddon": null,
@@ -35752,6 +35753,90 @@ const TankDefinitions = JSON.parse(`[
         }
     }]
 }
+=======
+    {
+        "id": 293,
+        "name": "Shielder",
+        "upgradeMessage": "",
+        "upgradeMessage": "Use your right mouse button to teleport",
+        "levelRequirement": 45,
+        "upgrades": [],
+        "flags": {
+            "invisibility": false,
+            "zoomAbility": false,
+            "devOnly": false
+        },
+        "visibilityRateShooting": 0.23,
+        "visibilityRateMoving": 0.08,
+        "invisibilityRate": 0.03,
+        "fieldFactor": 0.9,
+        "absorbtionFactor": 1,
+        "speed": 1,
+        "maxHealth": 50,
+        "preAddon": null,
+        "postAddon": "shi",
+        "sides": 1,
+        "borderWidth": 15,
+        "barrels": [
+            {
+                "angle": 0,
+                "offset": 0,
+                "size": 95,
+                "width": 42,
+                "delay": 0,
+                "reload": 1,
+                "recoil": 0.2,
+                "isTrapezoid": false,
+                "trapezoidDirection": 0,
+                "addon": null,
+                "bullet": {
+                    "type": "bullet",
+                    "sizeRatio": 1,
+                    "health": 1,
+                    "damage": 1,
+                    "speed": 1,
+                    "scatterRate": 1,
+                    "lifeLength": 1,
+                    "absorbtionFactor": 1
+                }
+            }
+        ],
+        "stats": [
+            {
+                "name": "Movement Speed",
+                "max": 7
+            },
+            {
+                "name": "Reload",
+                "max": 7
+            },
+            {
+                "name": "Bullet Damage",
+                "max": 7
+            },
+            {
+                "name": "Bullet Penetration",
+                "max": 7
+            },
+            {
+                "name": "Bullet Speed",
+                "max": 7
+            },
+            {
+                "name": "Body Damage",
+                "max": 7
+            },
+            {
+                "name": "Max Health",
+                "max": 7
+            },
+            {
+                "name": "Health Regen",
+                "max": 7
+            }
+        ]
+    }
+>>>>>>> Stashed changes
 ]`) as (TankDefinition | null)[] & Record<Tank, TankDefinition>;
 
 export default TankDefinitions;

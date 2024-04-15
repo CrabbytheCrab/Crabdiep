@@ -460,6 +460,31 @@ const CUSTOM_ADDONS = {
         socket2.styleData.color = 24;
         socket2.angle = 0
     },
+    "shi": entity => {
+        if(!(entity instanceof $Entity)) return;
+        const socket = entity.createChild(false);
+        socket.defaults();
+
+        socket.positionData.x = entity.physicsData.size * -0.6
+        socket.positionData.y = 0
+        socket.physicsData.size = entity.physicsData.size * 0.6;
+        // Color.Barrel
+        socket.sides = 1
+        socket.styleData.showsAboveParent = true
+        socket.styleData.color = 1;
+        socket.angle = 0
+        const socket2 = entity.createChild(false);
+        socket2.defaults();
+
+        socket2.positionData.x = entity.physicsData.size * -0.6
+        socket2.positionData.y = 0
+        socket2.physicsData.size = entity.physicsData.size * 0.4;
+        // Color.Barrel
+        socket2.sides = 1
+        socket2.styleData.showsAboveParent = true
+        socket2.styleData.color = 24;
+        socket2.angle = 0
+    },
     "bigautoturret": entity => {
         if(!(entity instanceof $Entity)) return;
         const socket = entity.createChild(false);
