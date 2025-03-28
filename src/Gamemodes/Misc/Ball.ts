@@ -83,7 +83,7 @@ this.BlueScore = 0
         this.updateBounds(15000, 5000);
        // new MazeWall(this.game, 0, 5000, 5000, 20000);
         //new MazeWall(this.game, 0, -5000, 5000, 20000);
-        new Belt(this.game, -1000, -1750, 500, 1000,0);
+       /* new Belt(this.game, -1000, -1750, 500, 1000,0);
         new Belt(this.game, 1000, 1750, 500, 1000,Math.PI);
 
 
@@ -116,7 +116,7 @@ this.BlueScore = 0
         new MazeWall(this.game, 1750, -500, 1000, 2500);
 
         new MazeWall(this.game, -1250, 2250, 500, 3500);
-        new MazeWall(this.game, 1250, -2250, 500, 3500);
+        new MazeWall(this.game, 1250, -2250, 500, 3500);*/
 
         this.blueTeamBase = new TeamBase(game, new TeamEntity(this.game, Color.TeamBlue), -7500 + 1250/2, 0, 5000, 1250);
         this.redTeamBase = new TeamBase(game, new TeamEntity(this.game, Color.TeamRed), 7500 - 1250/2, 0, 5000, 1250);
@@ -160,7 +160,7 @@ this.BlueScore = 0
         ball.styleData.flags |= StyleFlags.hasNoDmgIndicator
         ball.physicsData.values.size = 120;
         ball.physicsData.values.absorbtionFactor = 1.5;
-        ball.damagePerTick = 30;
+        ball.damagePerTick = 0;
         ball.physicsData.pushFactor = 4
         
         ball.damageReduction = 0
